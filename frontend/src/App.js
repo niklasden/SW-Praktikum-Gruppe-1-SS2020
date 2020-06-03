@@ -7,7 +7,11 @@ import {
   Switch,
   Route,
   Link
-} from "react-router-dom";
+} from 'react-router-dom';
+
+import { AboutPage } from './components/pages/AboutPage';
+import { HomePage } from './components/pages/HomePage';
+import { UsersPage } from './components/pages/UsersPage';
 
 function App() {
   return (
@@ -31,13 +35,13 @@ function App() {
               renders the first one that matches the current URL. */}
           <Switch>
             <Route path="/about">
-              <About />
+              <AboutPage />
             </Route>
             <Route path="/users">
-              <Users />
+              <UsersPage />
             </Route> 
             <Route path="/">
-              <Home />
+              <HomePage />
             </Route>
           </Switch>
         </div>
