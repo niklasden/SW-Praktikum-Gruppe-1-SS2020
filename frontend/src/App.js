@@ -17,6 +17,7 @@ function App() {
   return (
       <Router>
         <div>
+          {/* TODO: move to own header component */}
           <nav>
             <ul>
               <li>
