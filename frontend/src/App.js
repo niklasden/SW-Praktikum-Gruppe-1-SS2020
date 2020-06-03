@@ -25,7 +25,7 @@ import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
 
 class App extends React.Component {
 	/** The firebase config structure as provided by the firebase admin website.
-	 *  I was worried about exposing this on github, but from my understand and this thread it should be fine https://stackoverflow.com/questions/37482366/is-it-safe-to-expose-firebase-apikey-to-the-public/37484053#37484053 */
+	 *  I was worried about exposing this on github, but from my understanding and this thread it should be fine https://stackoverflow.com/questions/37482366/is-it-safe-to-expose-firebase-apikey-to-the-public/37484053#37484053 */
 	#firebaseConfig = {
     apiKey: "AIzaSyDU8V5EtAYwsu4w9hlPNdqnGlTJqlugSIg",
     authDomain: "sw-praktikum-gruppe-1-ss2020.firebaseapp.com",
