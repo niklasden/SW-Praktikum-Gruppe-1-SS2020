@@ -25,7 +25,8 @@ frontend/npm-debug.log*
 frontend/yarn-debug.log*
 frontend/yarn-error.log*
 
-
+#ignore node modules inside http-fake-backend
+frontend/node_modules/
 
 
 
