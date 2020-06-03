@@ -6,8 +6,6 @@ Dieses React-Projekt besteht aus den folgenden Komponenten:
 - Material-UI: UI Framework von Google, siehe https://material-ui.com/
 - Google Firebase Authentication: Für die Login-Authentication Services
 
-
-
 # Info von Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
