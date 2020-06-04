@@ -1,0 +1,10 @@
+{
+  "foo": 11,
+  "bar": 3,
+  "fooBar": {
+    "number": 5,
+    "object": {
+      "key": "value"
+    }
+  }
+}

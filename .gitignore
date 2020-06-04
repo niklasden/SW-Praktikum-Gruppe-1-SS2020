@@ -1,5 +1,6 @@
 ITP_env/
 .idea/
+.python.version
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
@@ -25,7 +26,8 @@ frontend/npm-debug.log*
 frontend/yarn-debug.log*
 frontend/yarn-error.log*
 
-
+#ignore node modules inside http-fake-backend
+frontend/node_modules/
 
 
 
