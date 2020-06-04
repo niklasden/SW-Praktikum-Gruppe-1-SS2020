@@ -33,7 +33,7 @@ function Header(){
                 <Toolbar>
                     <Menu />
                   <Typography variant="h6" className={classes.title}>
-                    Home
+                    ShoppingProject - SW-Praktikum: Gruppe 1 (SS2020)
                   </Typography>
                   <Link to="/users"><Button color="inherit" href="/users" variant="contained" color="primary" startIcon={<AccountCircleIcon />}>Login</Button></Link>
                 </Toolbar>
