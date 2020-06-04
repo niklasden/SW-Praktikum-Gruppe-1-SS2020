@@ -25,13 +25,13 @@ const useStyles = makeStyles((theme) => ({
  * @author [Kevin Eberhardt](https://github.com/kevin-eberhardt)
  */
 
-function Header(){
+function Header(props){
   const classes = useStyles();
     return (
         <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar>
-                    <Menu />
+                <Menu />
                   <Typography variant="h6" className={classes.title}>
                     ShoppingProject - SW-Praktikum: Gruppe 1 (SS2020)
                   </Typography>
