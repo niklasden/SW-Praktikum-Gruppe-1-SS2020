@@ -1,8 +1,9 @@
 import React from 'react';
 import './App.css';
 //** Start React Router Import **/
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 //** End React Router Import **/
+
 
 //** Start React Router Import **/
 import { Container, ThemeProvider, CssBaseline } from '@material-ui/core';
@@ -16,11 +17,16 @@ import "firebase/auth";
 //** End Firebase Import **/
 
 //** Start Layout Import **/
-import Header from './components/layout/Header';
+import Header from './components/pages/Header';
 import Theme from './Theme';
 import SignIn from './components/pages/SignIn';
 import LoadingProgress from './components/dialogs/LoadingProgress';
 import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
+import { AboutPage } from './components/pages/AboutPage';
+import { HomePage } from './components/pages/HomePage';
+import { UsersPage } from './components/pages/UsersPage';
+
+
 //** End Layout Import **/
 
 class App extends React.Component {
@@ -127,16 +133,24 @@ class App extends React.Component {
           <CssBaseline />
           <Router basename={process.env.PUBLIC_URL}>
             <Container maxWidth='md'>
-              <Header user={currentUser} />
+              <Header  />
               {
                 // Is a user signed in?
                 currentUser ?
                   <>
                     {/* Here should the redirects go */}
                     <Redirect from='/' to='' />
-                    <Route exact path='/'>
+                    <Switch>
+                    <Route path="/about">
+                      <AboutPage />
                     </Route>
-                
+                    <Route path="/users">
+                      <UsersPage />
+                    </Route> 
+                    <Route path="/">
+                      <HomePage />
+                    </Route>
+                  </Switch>
                   </>
                   :
                   // else show the sign in page
@@ -146,13 +160,13 @@ class App extends React.Component {
                   </>
               }
               <LoadingProgress show={authLoading} />
-              <ContextErrorMessage error={authError} contextErrorMsg={`Something went wrong during sighn in process.`} onReload={this.handleSignIn} />
+              <ContextErrorMessage error={authError} contextErrorMsg={`Something went wrong during sign in process.`} onReload={this.handleSignIn} />
               <ContextErrorMessage error={appError} contextErrorMsg={`Something went wrong inside the app. Please reload the page.`} />
             </Container>
           </Router>
         </ThemeProvider>
       );
     }
-}
+  }
 
 export default App;

@@ -1,3 +1,12 @@
+# Info
+
+Dieses React-Projekt besteht aus den folgenden Komponenten: 
+
+- React Router: Das sorgt dafür, dass die richtigen Components (Seiten) geladen werden je nach URL. Also zum Beispiel www.shopa.com/profile -> für eine Übersicht des Profils oder www.schopa.com/list -> für eine Ansicht aller Einkaufslisten
+- Material-UI: UI Framework von Google, siehe https://material-ui.com/
+- Google Firebase Authentication: Für die Login-Authentication Services
+
+# Info von Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
