@@ -24,6 +24,10 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
+  listItem: {
+    textDecoration: 'none',
+    color: '#37474f'
+  },
 }));
 
 /**
@@ -59,19 +63,19 @@ export default function Menu() {
           >
             <div onClick={toggleDrawer("left", false)} onKeyDown={toggleDrawer("left", false)}>
             <List>
-            <Link to="/">
+            <Link to="/" className={classes.listItem}>
               <ListItem button key="0">
                 <ListItemIcon><HomeIcon /></ListItemIcon>
                 <ListItemText primary="Home" />
               </ListItem>
             </Link>
-            <Link to="/about">
+            <Link to="/about" className={classes.listItem}>
               <ListItem button key="1">
                 <ListItemIcon><InfoIcon /></ListItemIcon>
                 <ListItemText primary="About" />
               </ListItem>
               </Link>
-              <Link to="/users">
+              <Link to="/users" className={classes.listItem}>
                 <ListItem button key="2">
                   <ListItemIcon><PermIdentityIcon /></ListItemIcon>
                   <ListItemText primary="Users" />

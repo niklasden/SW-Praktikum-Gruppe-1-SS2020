@@ -79,9 +79,8 @@ class ProfileDropDown extends Component {
             }}>
             <ClickAwayListener onClickAway={this.handleClose}>
               <Paper className={classes.profileBox}>
-                <Typography align='center'>Hello</Typography>
+                <Typography align='center'>Hi, {user.displayName}!</Typography>
                 <Divider className={classes.divider} />
-                <Typography align='center' variant='body2'>{user.displayName}</Typography>
                 <Typography align='center' variant='body2'>{user.email}</Typography>
                 <Divider className={classes.divider} />
                 <Grid container justify='center'>

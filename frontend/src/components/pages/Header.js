@@ -9,6 +9,7 @@ import Menu from './Menu'
 import {
     Link
   } from 'react-router-dom';
+import ProfileDropDown from '../dialogs/ProfileDropDown';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -27,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Header(props){
   const classes = useStyles();
+  const { user } = props;
     return (
         <div className={classes.root}>
             <AppBar position="static">
@@ -35,7 +37,12 @@ function Header(props){
                   <Typography variant="h6" className={classes.title}>
                     ShoppingProject - SW-Praktikum: Gruppe 1 (SS2020)
                   </Typography>
-                  <Link to="/users"><Button color="inherit" href="/users" variant="contained" color="primary" startIcon={<AccountCircleIcon />}>Login</Button></Link>
+                  {
+                    user ?
+                      <ProfileDropDown user={user} />
+                    :
+                    <div></div>
+                  }
                 </Toolbar>
             </AppBar>
         </div>

@@ -125,15 +125,14 @@ class App extends React.Component {
 		firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
 	}
     render(){
-      const { currentUser, appError, authError, authLoading } = this.state;
-
+	  const { currentUser, appError, authError, authLoading } = this.state;
       return (
         <ThemeProvider theme={Theme}>
           {/* Global CSS reset and browser normalization. CssBaseline kickstarts an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
           <Router basename={process.env.PUBLIC_URL}>
             <Container>
-              <Header  />
+              <Header  user={currentUser} />
               {
                 // Is a user signed in?
                 currentUser ?

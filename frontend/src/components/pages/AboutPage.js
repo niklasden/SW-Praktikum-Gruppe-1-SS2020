@@ -51,7 +51,7 @@ function AboutPage() {
                     <CardMedia
                       className={classes.media}
                       image={dev.image_url}
-                      title="Contemplative Reptile"
+                      title={dev.name}
                     />
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="h2">
