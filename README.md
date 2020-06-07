@@ -40,8 +40,8 @@ Install the requirements inside requirements.txt & run the application by launch
 You need to be inside the src folder to run the backend. <br>
 
 ```
-pip -r install requirements.txt
-python main.py 
+pip install -r requirements.txt     
+python main.py    
 ```
 
 
