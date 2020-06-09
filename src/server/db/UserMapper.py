@@ -11,22 +11,22 @@ class UserMapper(Mapper):
         cursor = self._cnx.cursor()
         cursor.execute("SELECT * from User")
         tuples = cursor.fetchall()
-        print(tuples)
-        """
-        for (id, name, mail, user_id) in tuples:
+                
+        for (id, mail, firebase_id, name) in tuples:
             user = User()
             user.set_id(id)
-            user.set_name(name)
             user.set_email(mail)
-            user.set_user_id(user_id)
+            user.set_firebase_id(firebase_id)
+            user.set_name(name)
             result.append(user)
-        """
+        
         self._cnx.commit()
         cursor.close()
 
-        return tuples
+        return result
 
     def delete(self):
+        
         pass
 
     def find_by_key(self):

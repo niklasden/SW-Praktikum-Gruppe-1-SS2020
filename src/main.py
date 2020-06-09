@@ -15,7 +15,7 @@ class Test(Resource):
     def get(self):
         with UserMapper() as usrmap:
             result = usrmap.find_all()
-        return result
+        return str(result)
 
 if __name__ == '__main__':
     app.run(debug=True)
