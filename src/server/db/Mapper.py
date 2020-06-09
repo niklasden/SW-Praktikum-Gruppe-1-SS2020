@@ -28,11 +28,13 @@ class Mapper (AbstractContextManager, ABC):
             """Wenn wir hier ankommen, dann handelt sich offenbar um die Ausführung des Codes in einer lokalen Umgebung,
             also auf einem Local Development Server. Hierbei stellen wir eine einfache Verbindung zu einer lokal
             installierten mySQL-Datenbank her."""
-
-            self._cnx = connector.connect(user='root', password='root',
+            
+            self._cnx = connector.connect(user='kevin', password='kevin',
                                   host='localhost',
                                   database='dev_shoppingproject')
 
+            
+             
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
