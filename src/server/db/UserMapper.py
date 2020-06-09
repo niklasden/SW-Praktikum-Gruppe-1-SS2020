@@ -1,12 +1,14 @@
 from server.bo.User import User
 from server.db.Mapper import Mapper 
 
-
+"""
+Niklas und Julius
+"""
 class UserMapper(Mapper):
     def __init__(self): 
         super().__init__()
 
-    def find_all(self):
+    def find_all(self):                     
         result = []
         cursor = self._cnx.cursor()
         cursor.execute("SELECT * from User")
@@ -24,19 +26,55 @@ class UserMapper(Mapper):
         cursor.close()
 
         return result
+    
+    """
+    Julius
+    """
+    def find_by_name(self,name):
+        pass 
+    
 
-    def delete(self):
-        
-        pass
-
+    """
+    Niklas
+    """
     def find_by_key(self):
         pass
+    
 
+    """
+    Julius
+    """
+    def find_by_email(self,mail_adress):
+        pass
+
+
+    """
+    Niklas
+    """
+    def find_by_firebase_id(self,firebase_id):
+        pass 
+
+
+    """
+    Julius
+    """
     def insert(self):
         pass
     
+    """
+    Niklas
+    """
     def update(self):
         pass
+
+
+    """
+    Julius
+    """
+    def delete(self):  
+        pass
+
+
 
 
 """
