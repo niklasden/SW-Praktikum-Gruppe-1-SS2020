@@ -26,10 +26,20 @@ class UserMapper(Mapper):
 
         return tuples
 
+    def delete(self):
+        pass
 
-"""Zu Testzwecken können wir diese Datei bei Bedarf auch ausführen, 
-um die grundsätzliche Funktion zu überprüfen.
+    def find_by_key(self):
+        pass
 
+    def insert(self):
+        pass
+    
+    def update(self):
+        pass
+
+
+"""
 Anmerkung: Nicht professionell aber hilfreich..."""
 if (__name__ == "__main__"):
     with UserMapper() as mapper:
