@@ -48,6 +48,13 @@ python main.py
 ## Database - tbf
 - MySQL Community Server 8.0.20
     - https://dev.mysql.com/downloads/mysql/
+- Google Cloud SQL
+    This requires the Google Cloud SDK & Google Cloud Proxy.
+    See Google Documentation for install methods.
+    Connection String for Proxy to get secure access to the Google Environment:
+    ```
+    ./cloud_sql_proxy -instances=sw-praktikum-gruppe-1-ss2020:europe-west3:swpraktikum-sql=tcp:3306
+    ```
 
 
 ## Deployment on Google Cloud - tbf
