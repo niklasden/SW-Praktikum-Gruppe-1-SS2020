@@ -29,7 +29,8 @@ frontend/yarn-error.log*
 #ignore node modules inside http-fake-backend
 frontend/node_modules/
 
-
+#pycache  
+src/server/db/__pycache__/
 
 
 
