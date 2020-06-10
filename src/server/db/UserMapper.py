@@ -64,7 +64,6 @@ class UserMapper(Mapper):
         """
         Julius
         """
-        
         res = None
         cursor = self._cnx.cursor()
         cursor.execute(r"SELECT ID, `e-mail`,`firebase-id`, name FROM User WHERE `e-mail` LIKE '{0}' ORDER BY name".format(mail_adress))  
@@ -97,13 +96,41 @@ class UserMapper(Mapper):
 
 
     
-    def insert(self):
+    def insert(self,user):
         """
         Julius
         """
-        pass
-    
-    
+        cursor = self._cnx.cursor()
+        cursor.execute("SELECT MAX(id) AS maxid FROM User")
+        tuples = cursor.fetchall()
+        for (maxid) in tuples:
+            """
+            tuples looks like [(1,)]
+            """
+            if maxid[0]:
+                """
+                if max id exists, adding +1 to it
+                """
+                user.set_id(maxid[0] + 1)
+            else:
+                """
+                if no max id returns from the db, setting it to 1
+                """
+                user.set_id(1)
+        
+        command = "INSERT INTO User (ID, `e-mail`, `firebase-id` , name) VALUES('{0}','{1}','{2}','{3}')".format(user.get_id(),user.get_email(),user.get_firebase_id(),user.get_name())
+        try:
+            cursor.execute(command)
+            self._cnx.commit()
+            cursor.close()
+            return user
+
+        except Exception as e:
+            cursor.close()
+            return "Error: "+str(e)
+            
+
+
     def update(self):
         """
         Niklas
@@ -112,15 +139,25 @@ class UserMapper(Mapper):
 
 
     
-    def delete(self):
+    def delete(self, user):
         """
         Julius
-        """ 
-        pass
+        """
+        usrstring = str(user)
+        try:
+            cursor = self._cnx.cursor()
+            command = "DELETE FROM User WHERE ID={0}".format(user.get_id())
+            cursor.execute(command)
 
+            self._cnx.commit()
+            cursor.close()
 
+            return "deleted "+ usrstring
 
-
+        except Exception as e:
+            print(e)
+            return None
+            
 """
 for test purposes only
 """

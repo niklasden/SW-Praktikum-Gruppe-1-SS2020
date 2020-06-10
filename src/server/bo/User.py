@@ -1,5 +1,7 @@
 from server.bo import BusinessObject as bo
 
+import random
+
 class User (bo.BusinessObject):
     def __init__(self):
         super().__init__()
@@ -7,6 +9,19 @@ class User (bo.BusinessObject):
         self.__email = "" 
         self.__firebase_id = ""   
     
+    def randomize(self):
+        """
+        testing only
+        creating attributes for self Userobject
+        atm not checking if usermail etc exists in db!!!
+        """
+
+        chars = "abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890" 
+
+        self.set_name(''.join(random.sample(chars,8)))
+        self.set_email(str(self.get_name())+"@testmail.de")
+        self.set_firebase_id(self.get_name() + str(random.randint(2001,3000)))
+
 
     def get_name(self):
         return self.__name
@@ -27,7 +42,7 @@ class User (bo.BusinessObject):
         self.__firebase_id = val
     
     def __str__(self):
-        return "User: {}, {}, {}, {}".format(self.get_id(), self.__name, self.__email, self.__firebase_id)
+        return "Userobject:  ID: {}, Name: {}, Mail: {}, FirebaseID: {}".format(self.get_id(), self.__name, self.__email, self.__firebase_id)
     
     @staticmethod
     def from_dict(dictionary=dict()):
