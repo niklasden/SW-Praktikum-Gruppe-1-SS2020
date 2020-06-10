@@ -62,6 +62,8 @@ Google App Engine Standard Envoirnment is on Python Version 3.7.2. <br>
 Google Cloud SQL is on MySQL 5.7, access is provided via sqlconnector. <br>
 See .yaml for extra config.
 To update deployed version of python code see commands below.<br>
+There is a connection between the Github Repo and the Google App Engine, which allows as to auto deploy the application. <br>
+This happens everytime something new is being pushed to the deploy branch.<b>
 
 Commands of use:
 ```
