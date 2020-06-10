@@ -26,7 +26,7 @@ class Test(Resource):
 
 
             #find by name test
-            result_find_by_name = usrmap.find_by_name("bg5KpSLu")
+            result_find_by_name = usrmap.find_by_name("bg5KpSLu") 
             result.update({"Find by name result ": [str(i) for i in result_find_by_name]})
 
 
