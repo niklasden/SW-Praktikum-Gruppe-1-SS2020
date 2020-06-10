@@ -25,6 +25,7 @@ import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
 import AboutPage from './components/pages/AboutPage';
 import { HomePage } from './components/pages/HomePage';
 import { UsersPage } from './components/pages/UsersPage';
+import ProductsPage from './components/pages/ProductsPage';
 
 
 //** End Layout Import **/
@@ -146,6 +147,9 @@ class App extends React.Component {
                     <Route path="/users">
                       <UsersPage />
                     </Route> 
+					<Route path="/products">
+                      <ProductsPage />
+                    </Route>
                     <Route path="/">
                       <HomePage />
                     </Route>

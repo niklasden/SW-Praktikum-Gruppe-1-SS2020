@@ -10,6 +10,8 @@ import HomeIcon from '@material-ui/icons/Home';
 import MenuIcon from '@material-ui/icons/Menu';
 import InfoIcon from '@material-ui/icons/Info';
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
+import CodeIcon from '@material-ui/icons/Code';
+import ArchiveIcon from '@material-ui/icons/Archive';
 import {
   Link
 } from 'react-router-dom';
@@ -81,6 +83,18 @@ export default function Menu() {
                   <ListItemText primary="Users" />
                 </ListItem>
               </Link>
+              <Link to="/products" className={classes.listItem}>
+                <ListItem button key="2">
+                  <ListItemIcon><ArchiveIcon /></ListItemIcon>
+                  <ListItemText primary="Products" />
+                </ListItem>
+              </Link>
+              <a href="http://localhost:8081" className={classes.listItem} target="_blank" rel="noopener noreferrer">
+                <ListItem button key="2">
+                  <ListItemIcon><CodeIcon /></ListItemIcon>
+                  <ListItemText primary="API" />
+                </ListItem>
+              </a>
             </List>
             </div>
           </SwipeableDrawer>
