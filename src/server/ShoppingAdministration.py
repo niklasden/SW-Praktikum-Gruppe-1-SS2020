@@ -13,12 +13,12 @@ class ShoppingAdministration (object):
         pass
 
     
-    def create_user(self, name, email, google_user_id):
+    def create_user(self, name, email, firebase_id):
         """Um einen User anzulegen"""
         user = User()
         user.set_name(name)
         user.set_email(email)
-        user.set_firebase_id(google_user_id)
+        user.set_firebase_id(firebase_id)
         user.set_id(1)
 
         with UserMapper() as mapper:
