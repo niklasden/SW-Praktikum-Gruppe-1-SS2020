@@ -9,6 +9,8 @@ Hochschule der Medien - Modul Software Praktikum (335138b) - Gruppe 1 - Sommerse
 - Einkaufen gehen -> Pascal, Pia
 - Planung durchführen -> Pascal, Pia
 
+Arbeitspakte umfassen möglichst immer Backend-Code (Mapper Klassen, Klassen) und Frontend-Code
+
 ## Frontend - tbf
 All code is located under /frontend. <br>
 As advised per the project requirements we used React & Material-UI.<br>
