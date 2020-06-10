@@ -18,7 +18,7 @@ class ShoppingAdministration (object):
         user = User()
         user.set_name(name)
         user.set_email(email)
-        user.set_user_id(google_user_id)
+        user.set_firebase_id(google_user_id)
         user.set_id(1)
 
         with UserMapper() as mapper:
