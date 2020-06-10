@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Grid from '@material-ui/core/Grid';
 
 /**
  * Renders a Product object.
@@ -7,13 +8,12 @@ import React, { useState } from 'react';
  */
 
 
-function ProductItem(props) {
-    const [product, setProduct] = useState(props.product);
-    console.log("ProductItem:", product);
+export default function ProductItem(props) {
+    const [product] = useState(props.p);
+    console.log("P", product);
     return(
-        <div>
+        <Grid>
             Hi
-        </div>
+        </Grid>
     )
 }
-export default ProductItem;

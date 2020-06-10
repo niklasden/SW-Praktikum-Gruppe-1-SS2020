@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import Grid from '@material-ui/core/Grid';
-import ProductItem from './ProductItem';
+import React from 'react';
+import { Grid, Typography } from '@material-ui/core';
 
 /**
  * Renders a list of Product objects.
@@ -8,16 +7,11 @@ import ProductItem from './ProductItem';
  * @author [Kevin Eberhardt](https://github.com/kevin-eberhardt)
  */
 export default function ProductList(props) {
-  const [products, setProducts] = useState(props.products);
-  console.log("ProductList:", products);
   return (
     <Grid>
-      HI
-      {
-        products.map((product) =>
-          <ProductItem product={product} />
-        )
-      }
+      <Typography variant="h6">
+        ProductList
+      </Typography>
     </Grid>
-      )
+  )
 }
