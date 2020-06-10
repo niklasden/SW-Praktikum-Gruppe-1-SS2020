@@ -35,12 +35,35 @@ class UserMapper(Mapper):
     
 
     """
-    Niklas
+    Niklas - Noch nicht getestet
     """
-    def find_by_key(self):
-        pass
+    def find_by_key(self, key):
+        result = None
+        cursor = self._cnx.cursor()
+        #Select Anweisung muss noch mit Werten aus DB angepasst werden
+        command = "SELECT id, name, email, google_user_id FROM users WHERE id={}".format(key)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
     
+    try:
+        (id, name, mail, firebase_id) = tuples[0]
+        user = User()
+        user.set_name(name)
+        user.set_email(mail)
+        user.set_firebase_id(firebase_id)
+        result = user
+    """Wenn Tupel leer, da kein Objekt mit dieser ID in DB /
+        Führt zu IndexError, dann Ergebnis leer ergo nicht vorhanden
+    """
+    except IndexError:
+        result = None
+    
+    self._cnx.commit()
+    cursor.close()
 
+    return result
+    
+    
     """
     Julius
     """
