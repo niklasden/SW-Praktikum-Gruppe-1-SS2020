@@ -23,3 +23,31 @@ class ShoppingAdministration (object):
 
         with UserMapper() as mapper:
                 return mapper.insert(user)
+    
+    def get_user_by_name(self, name):
+        with UserMapper() as mapper:
+            return mapper.find_by_name(name)
+    
+    def get_user_by_id(self, key):
+        with UserMapper() as mapper:
+            return mapper.find_by_key(key)
+
+    def get_user_by_email(self, email):
+        with UserMapper() as mapper:
+            return mapper.find_by_email(email)
+    
+    def get_user_by_firebase_id(self, id):
+        with UserMapper() as mapper:
+            return mapper.find_by_firebase_id(id)
+    
+    def get_all_user(self):
+        with UserMapper() as mapper:
+            return mapper.find_all()
+    
+    def save_user(self, user):
+        with UserMapper() as mapper:
+            mapper.update(user)
+    
+    def delele_user(self, user):
+        with UserMapper() as mapper:
+            mapper.delete(user)

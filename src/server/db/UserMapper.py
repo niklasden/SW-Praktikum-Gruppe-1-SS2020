@@ -52,13 +52,30 @@ class UserMapper(Mapper):
         
 
     
-    def find_by_key(self):
+    def find_by_key(self, key):
         """
         Niklas
         """
-        pass
-    
+        result = None
+        cursor = self._cnx.cursor()
+        command = "SELECT id, name, e-mail, firebase-id FROM users WHERE id={}".format(key)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
 
+        try:
+            (id, name, email, user_id) = tuples[0]
+            user = User()
+            user.set_id(id)
+            user.set_name(name)
+            user.set_email(email)
+            user.set_user_id(user_id)
+            result = user
+        except IndexError:
+            result = None
+        
+        self._cnx.commit()
+        cursor.close()
+        return result
     
     def find_by_email(self,mail_adress):
         """
@@ -66,7 +83,7 @@ class UserMapper(Mapper):
         """
         res = None
         cursor = self._cnx.cursor()
-        cursor.execute(r"SELECT ID, `e-mail`,`firebase-id`, name FROM User WHERE `e-mail` LIKE '{0}' ORDER BY name".format(mail_adress))  
+        cursor.execute("SELECT ID, `e-mail`,`firebase-id`, name FROM User WHERE `e-mail` LIKE '{0}' ORDER BY name".format(mail_adress))  
         tuples = cursor.fetchall()
         
         try:
@@ -88,14 +105,32 @@ class UserMapper(Mapper):
         
         
     
-    def find_by_firebase_id(self,firebase_id):
+    def find_by_firebase_id(self, firebase_id):
         """
         Niklas
         """
-        pass 
+        result = None
+        cursor = self.__cnx.cursor()
+        command = "SELECT id, name, email, firebase-id FROM users WHERE firebase_id='{}'".format(firebase_id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
 
+        try:
+            (id, name, email, firebase_id) = tuples[0]
+            user = User()
+            user.set_id(id)
+            user.set_name(name)
+            user.set_email(email)
+            user.set_user_id(firebase_id)
+            result = user
 
-    
+        except IndexError:
+            result = None
+
+        self._cnx.commit()
+        cursor.close()
+        return result
+
     def insert(self,user):
         """
         Julius
@@ -135,9 +170,14 @@ class UserMapper(Mapper):
         """
         Niklas
         """
-        pass
+        cursor = self._cnx.cursor()
+        command = "UPDATE User " + "SET name=%s, e-mail=%s WHERE firebase-id=%s"
+        data = (user.get_id(), user.get_name(), user.get_email(), user.get_user_id())
+        cursor.execute(command, data)
+        self._cnx.commit()
+        cursor.close()
 
-
+        return user
     
     def delete(self, user):
         """
