@@ -26,7 +26,7 @@ import AboutPage from './components/pages/AboutPage';
 import { HomePage } from './components/pages/HomePage';
 import { UsersPage } from './components/pages/UsersPage';
 import ProductsPage from './components/pages/ProductsPage';
-
+import { RetailerPage } from './components/pages/RetailerPage'
 
 //** End Layout Import **/
 
@@ -147,9 +147,13 @@ class App extends React.Component {
                     <Route path="/users">
                       <UsersPage />
                     </Route> 
-					<Route path="/products">
+										<Route path="/products">
                       <ProductsPage />
                     </Route>
+										<Route path="/retailers">
+											<RetailerPage />
+										</Route>
+										{/* this must always be the last route */}
                     <Route path="/">
                       <HomePage />
                     </Route>
