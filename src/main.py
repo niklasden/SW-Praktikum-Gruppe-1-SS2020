@@ -23,7 +23,6 @@ class Test(Resource):
         result = {}
         adm = ShoppingAdministration() 
 
-
         #find all result test
         result_find_all = adm.get_all_user()
         if result_find_all[0]:
