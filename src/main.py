@@ -4,12 +4,15 @@ from flask_cors import CORS
 from server.db.UserMapper import UserMapper
 from server.bo.User import User
 
+from SecurityDecorator import secured
+
 from server.ShoppingAdministration import ShoppingAdministration
 
 import json
 
 
 app = Flask(__name__)
+#CORS(app, resources=r'/bank/*')
 api = Api(app)
 
 @api.route('/hello')
@@ -17,8 +20,17 @@ class HelloWorld(Resource):
     def get(self):
         return {'hello': 'world'}
 
+@api.route('/testSecured')
+class testSecured(Resource):
+    
+    @secured
+    def get(self):
+        
+        return "if you can see this without beeing logged in.. backend dev has got a problem."
+
+
 @api.route('/testUser')
-class Test(Resource):
+class testUser(Resource):
     def get(self):
         result = {}
         adm = ShoppingAdministration() 
