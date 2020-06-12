@@ -5,7 +5,7 @@ import google.oauth2.id_token
 from server.ShoppingAdministration import ShoppingAdministration
 
 
-def secured():
+def secured(function):
     """
     Julius
     """

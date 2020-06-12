@@ -12,24 +12,33 @@ import json
 
 
 app = Flask(__name__)
-#CORS(app, resources=r'/bank/*')
+#CORS(app, resources=r'/shopping/*')
 api = Api(app)
 
-@api.route('/hello')
+
+"""
+Namespaces:
+"""
+shopping_v1 = api.namespace('shopping', description='iShopping App V1')     
+testing = api.namespace('testing',description='Namespace for testing')
+
+
+
+@shopping_v1.route('/hello')
+@shopping_v1.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class HelloWorld(Resource):
     def get(self):
         return {'hello': 'world'}
 
-@api.route('/testSecured')
+@testing.route('/testSecured')
 class testSecured(Resource):
-    
     @secured
     def get(self):
-        
-        return "if you can see this without beeing logged in.. backend dev has got a problem."
+        res = "if you can see this without beeing logged in.. backend dev has got a problem."
+        return res
 
 
-@api.route('/testUser')
+@testing.route('/testUser')
 class testUser(Resource):
     def get(self):
         result = {}
