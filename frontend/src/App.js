@@ -18,6 +18,7 @@ import "firebase/auth";
 
 //** Start Layout Import **/
 import Header from './components/pages/Header';
+import BottomNavigation from './components/pages/BottomNavigation';
 import Theme from './Theme';
 import SignIn from './components/pages/SignIn';
 import LoadingProgress from './components/dialogs/LoadingProgress';
@@ -26,6 +27,7 @@ import AboutPage from './components/pages/AboutPage';
 import { HomePage } from './components/pages/HomePage';
 import { UsersPage } from './components/pages/UsersPage';
 import ProductsPage from './components/pages/ProductsPage';
+import SettingsPage from './components/pages/SettingsPage';
 
 
 //** End Layout Import **/
@@ -132,8 +134,7 @@ class App extends React.Component {
           {/* Global CSS reset and browser normalization. CssBaseline kickstarts an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
           <Router basename={process.env.PUBLIC_URL}>
-            <Container>
-              <Header  user={currentUser} />
+		  <Header user={currentUser} />
               {
                 // Is a user signed in?
                 currentUser ?
@@ -150,8 +151,8 @@ class App extends React.Component {
 					<Route path="/products">
                       <ProductsPage />
                     </Route>
-                    <Route path="/">
-                      <HomePage />
+                    <Route path="/settings">
+                      <SettingsPage />
                     </Route>
                   </Switch>
                   </>
@@ -162,10 +163,12 @@ class App extends React.Component {
                     <SignIn onSignIn={this.handleSignIn} />
                   </>
               }
+			<Container>
               <LoadingProgress show={authLoading} />
               <ContextErrorMessage error={authError} contextErrorMsg={`Something went wrong during sign in process.`} onReload={this.handleSignIn} />
               <ContextErrorMessage error={appError} contextErrorMsg={`Something went wrong inside the app. Please reload the page.`} />
-            </Container>
+			</Container>
+			<BottomNavigation/>
           </Router>
         </ThemeProvider>
       );

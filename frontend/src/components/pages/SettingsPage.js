@@ -1,0 +1,70 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Grid, Typography, withStyles, Checkbox, FormControlLabel, Button, Avatar, Box } from '@material-ui/core';
+import avatar from '../img/avatar.jpg';
+
+
+/** 
+ * Renders a landing page for users who are not signed in. Provides a sign in button 
+ * for using an existing google account to sign in. The component uses firebase to 
+ * do redirect based signin process.
+ * 
+ * @see See Googles [firebase authentication](https://firebase.google.com/docs/web/setup)
+ * @see See Googles [firebase API reference](https://firebase.google.com/docs/reference/js)
+ * 
+ */
+
+
+class Settings extends Component {
+
+
+	/** 
+	 * Handles the click event of the sign in button an calls the prop onSignIn handler
+	 */
+	handleSignInButtonClicked = () => {
+		this.props.onSignIn();
+	}
+
+	render() {
+		const { classes } = this.props;
+
+		return (
+			<div>
+				<Typography className={classes.root} align='center' variant='h6'>Your Settings</Typography>
+				<Grid container justify='center'>
+					<Grid item xs={3}>
+					<Box align-items="center" display="flex">
+					<Avatar alt="Sabine Mustermann" src={avatar} className={classes.large.AvatarPadding}/>
+					<Typography>Sabine Mustermann</Typography>
+					</Box>
+					<FormControlLabel
+					control={<Checkbox defaultChecked color="default" inputProps={{ 'aria-label': 'checkbox with default color' }}/>} label="Dark Mode"
+					/>
+					</Grid>
+					<Grid item xs={3}>
+					<Button variant="contained">Delete Account</Button>
+					</Grid>
+				</Grid>
+			</div>
+		);
+	}
+}
+
+/** Component specific styles */
+const styles = theme => ({
+	root: {
+		margin: theme.spacing(2)
+	},
+	AvatarPadding: {    
+		marginRight: '25px' 
+	  }
+});
+
+/** PropTypes */
+Settings.propTypes = {
+	/** @ignore */
+	classes: PropTypes.object.isRequired,
+	
+}
+
+export default withStyles(styles)(Settings)
