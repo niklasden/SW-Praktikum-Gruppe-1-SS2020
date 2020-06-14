@@ -37,6 +37,6 @@
   }
 }
 
-.BottomNavigation {
-  
+.Mui-selected, .Mui-selected svg{
+  color: white;
 }

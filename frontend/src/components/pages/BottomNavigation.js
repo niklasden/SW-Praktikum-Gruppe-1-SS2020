@@ -9,6 +9,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import ListIcon from '@material-ui/icons/List';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import SettingsIcon from '@material-ui/icons/Settings';
+import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 
 import {
   Link
@@ -27,13 +28,15 @@ const useStyles = makeStyles((theme) => ({
     "&$selected": {
       color: "red"
     }
-  },
-  
+  }
 }));
 
 /**
  * Bottom Menu
- * 
+ * Current issues: 
+ * For now the Styling is done via a override via CSS, there should be a more elegant solution to do this.
+ * The Icons need to be replaced by custom svgs too. So they look like the figma template.
+ * Routing needs to be added
  * @author Niklas Denneler
  */
 
@@ -41,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 export default function BottomNavbar() {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
-    const actionClasses = "";
+   
 
   return (
     <ThemeProvider theme={Theme}>
@@ -53,11 +56,11 @@ export default function BottomNavbar() {
     showLabels
     className={classes.root}
     >
-    <BottomNavigationAction label="Groups" icon={<PeopleAltIcon />} classes={actionClasses} />
-    <BottomNavigationAction label="Recents" icon={<RestoreIcon />} classes={actionClasses} />
-    <BottomNavigationAction label="Home" icon={<HomeIcon />} classes={actionClasses} />
-    <BottomNavigationAction label="Lists" icon={<ListIcon />} classes={actionClasses} />
-    <BottomNavigationAction label="Settings" icon={<SettingsIcon />} classes={actionClasses} />
+    <BottomNavigationAction icon={<ImportContactsIcon />}/>
+    <BottomNavigationAction icon={<PeopleAltIcon />}/>
+    <BottomNavigationAction icon={<HomeIcon />}/>
+    <BottomNavigationAction icon={<ListIcon />}/>
+    <BottomNavigationAction icon={<SettingsIcon />}/>
   </BottomNavigation>
   </ThemeProvider>
   );
