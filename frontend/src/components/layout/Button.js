@@ -16,6 +16,8 @@ const styles = theme => ({
  * Displays an icon button as designed in figma
  * 
  * @author [Christopher Böhm](https://github.com/christopherboehm1)
+ * 
+ * @property icon (string): the icon name to display, can be either: add, shopping_cart, shopping_cart_outline, shopping_list, shopping_list_outline, checkmark, people
  */
 class Button extends Component {
   render(){
