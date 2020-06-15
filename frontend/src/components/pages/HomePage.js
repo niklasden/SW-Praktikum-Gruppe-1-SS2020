@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Button from '../layout/Button'
+import Button from '../layout/IconButton'
 
 export class HomePage extends Component {
   render(){

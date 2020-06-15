@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
-import IconButton from '@material-ui/core/IconButton';
+import MaterialIconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/icons/Add';
 import { withStyles } from '@material-ui/styles';
 import Box from '@material-ui/core/Box'
@@ -19,7 +19,7 @@ const styles = theme => ({
  * 
  * @property icon (string): the icon name to display, can be either: add, shopping_cart, shopping_cart_outline, shopping_list, shopping_list_outline, checkmark, people
  */
-class Button extends Component {
+class IconButton extends Component {
   render(){
     const { classes } = this.props;
 
@@ -30,7 +30,7 @@ class Button extends Component {
         borderRadius={5}
         style={{display: 'inline-block'}}
       >
-        <IconButton 
+        <MaterialIconButton 
           className={classes.root}
           style={{padding: 9}}
         >
@@ -38,15 +38,15 @@ class Button extends Component {
             style={{ color: '#00BCD4'}}
             fontSize="large" 
           />
-        </IconButton>
+        </MaterialIconButton>
       </Box>
 
     )
   }
 }
 
-Button.propTypes = {
+IconButton.propTypes = {
   icon: PropTypes.string,
 }
 
-export default withStyles(styles)(Button);
+export default withStyles(styles)(IconButton);
