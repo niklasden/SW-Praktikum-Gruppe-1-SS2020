@@ -6,7 +6,6 @@ import Typography from '@material-ui/core/Typography';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
-
 const styles = theme => ({
   root: {
     maxWidth: 350,
@@ -29,7 +28,7 @@ const styles = theme => ({
     color: '#fff'
   },
   subHeading: {
-    color: '#fff',
+    color: '#fcfcfc',
   },
   button1: {
     backgroundColor: '#fafafa', 
