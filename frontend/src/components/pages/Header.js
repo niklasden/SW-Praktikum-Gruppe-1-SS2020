@@ -26,7 +26,7 @@ function Header(props){
         <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar>
-                <Menu />
+                <Menu user={user} />
                   {
                     user ?
                       <Grid container direction="row" justify="center" alignItems="center">
