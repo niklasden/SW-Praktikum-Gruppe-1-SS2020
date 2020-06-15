@@ -47,15 +47,30 @@ const theme = createMuiTheme({
     },
     text: {
       primary: colors.blueGrey[800],
-      secondary: colors.blueGrey[600],
+      secondary: white,
       link: colors.blue[600]
     },
     background: {
       default: '#F4F6F8',
-      paper: white
+      paper: white,
+      blue: '#00BCD4',
     },
     icon: colors.blueGrey[600],
-    divider: colors.grey[200]
-  }, 
+    divider: colors.grey[200],
+    },
+    typography: {
+      fontFamily: [
+        '-apple-system',
+        'BlinkMacSystemFont',
+        '"Segoe UI"',
+        'Roboto',
+        '"Helvetica Neue"',
+        'Arial',
+        'sans-serif',
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',
+      ].join(','),
+    } 
 });
 export default theme;

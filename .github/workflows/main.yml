@@ -1,6 +1,0 @@
-steps:
-- id: Deploy
-  uses: GoogleCloudPlatform/github-actions/appengine-deploy@master
-  with:
-    credentials: ${{ secrets.GCP_SA_KEY }}
-

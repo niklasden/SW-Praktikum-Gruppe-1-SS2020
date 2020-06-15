@@ -11,6 +11,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import InfoIcon from '@material-ui/icons/Info';
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import CodeIcon from '@material-ui/icons/Code';
+import SettingsIcon from '@material-ui/icons/Settings';
 import ArchiveIcon from '@material-ui/icons/Archive';
 import {
   Link
@@ -106,6 +107,12 @@ export default function Menu(props) {
                   </a>
                 </div>
                 : <div /> }
+              <Link to="/settings" className={classes.listItem}>
+                <ListItem button key="2">
+                  <ListItemIcon><SettingsIcon /></ListItemIcon>
+                  <ListItemText primary="Settings" />
+                </ListItem>
+              </Link>
             </List>
             </div>
           </SwipeableDrawer>

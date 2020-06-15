@@ -10,6 +10,7 @@ import ProfileDropDown from '../dialogs/ProfileDropDown';
 const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
+      width: '100%',
     },
   }));
 
