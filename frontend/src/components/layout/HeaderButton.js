@@ -33,12 +33,19 @@ const styles = theme => ({
   subHeading: {
     color: '#fff',
   },
-  button: {
+  button1: {
     backgroundColor: '#fafafa', 
     color: '#00BCD4',
-    margin: theme.spacing(1),
+    marginLeft: theme.spacing(4),
+    marginBottom: theme.spacing(1),
     borderRadius: 5,
-  }
+  },
+  button2: {
+    backgroundColor: '#fafafa', 
+    color: '#00BCD4',
+    marginLeft: 0,
+    borderRadius: 5,
+  },
 });
 /**
  * Displays an icon button as designed in figma
@@ -53,11 +60,11 @@ class HeaderButton extends Component {
       return (
         <Grid container className={classes.root} alignItems="center">
             <Grid item md={4} className={classes.iconsItem} style={{borderRight: '1px solid #ccc'}}>
-              <IconButton className={classes.button}>
-                <ShoppingCartIcon />
-              </IconButton>
-              <IconButton className={classes.button}>
+              <IconButton className={classes.button1}>
                 <FormatListBulletedIcon />
+              </IconButton>
+              <IconButton className={classes.button2}>
+                <ShoppingCartIcon />
               </IconButton>
               {/* <IconButton>
                 <ShoppingCartIcon />
