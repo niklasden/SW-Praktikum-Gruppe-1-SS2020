@@ -90,6 +90,12 @@ export default function Menu() {
                   <ListItemText primary="Products" />
                 </ListItem>
               </Link>
+              <Link to="/retailers" className={classes.listItem}>
+                <ListItem button key="2">
+                  <ListItemIcon><ArchiveIcon /></ListItemIcon>
+                  <ListItemText primary="Einzelhändler verwalten" />
+                </ListItem>
+              </Link>
               <a href="http://localhost:8081" className={classes.listItem} target="_blank" rel="noopener noreferrer">
                 <ListItem button key="2">
                   <ListItemIcon><CodeIcon /></ListItemIcon>

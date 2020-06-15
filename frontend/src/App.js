@@ -27,7 +27,9 @@ import AboutPage from './components/pages/AboutPage';
 import { HomePage } from './components/pages/HomePage';
 import { UsersPage } from './components/pages/UsersPage';
 import ProductsPage from './components/pages/ProductsPage';
+
 import SettingsPage from './components/pages/SettingsPage';
+import { RetailerPage } from './components/pages/RetailerPage'
 
 
 //** End Layout Import **/
@@ -151,8 +153,12 @@ class App extends React.Component {
 					<Route path="/products">
                       <ProductsPage />
                     </Route>
-                    <Route path="/settings">
-                      <SettingsPage />
+					<Route path="/retailers">
+						<RetailerPage />
+					</Route>
+					{/* this must always be the last route */}
+                    <Route path="/">
+                      <HomePage />
                     </Route>
                   </Switch>
                   </>
