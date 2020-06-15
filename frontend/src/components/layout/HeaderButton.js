@@ -6,7 +6,6 @@ import Typography from '@material-ui/core/Typography';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
-
 const styles = theme => ({
   root: {
     maxWidth: 350,
