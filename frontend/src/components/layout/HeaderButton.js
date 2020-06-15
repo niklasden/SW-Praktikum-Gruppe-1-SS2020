@@ -28,7 +28,7 @@ const styles = theme => ({
     color: '#fff'
   },
   subHeading: {
-    color: '#fcfcfc',
+    color: '#fff',
   },
   button1: {
     backgroundColor: '#fafafa', 
