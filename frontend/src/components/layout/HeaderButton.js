@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/styles';
 import Grid from '@material-ui/core/Grid';
-import IconButton from './IconButton';
+// import IconButton from './IconButton';
+import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
@@ -20,10 +21,6 @@ const styles = theme => ({
     padding: theme.spacing(3),
     margin: 'auto',
   },
-  button: {
-    width: '100%',
-    padding: theme.spacing(3)
-  },
   item: {
     padding: theme.spacing(1),
     textAlign: 'center',
@@ -36,6 +33,12 @@ const styles = theme => ({
   subHeading: {
     color: '#fff',
   },
+  button: {
+    backgroundColor: '#fafafa', 
+    color: '#00BCD4',
+    margin: theme.spacing(1),
+    borderRadius: 5,
+  }
 });
 /**
  * Displays an icon button as designed in figma
@@ -56,6 +59,12 @@ class HeaderButton extends Component {
               <IconButton className={classes.button}>
                 <FormatListBulletedIcon />
               </IconButton>
+              {/* <IconButton>
+                <ShoppingCartIcon />
+              </IconButton>
+              <IconButton>
+                <FormatListBulletedIcon />
+              </IconButton> */}
             </Grid>
             <Grid item md={8} className={classes.item} >
               <Typography variant="h5" className={classes.heading}>iKaufa</Typography>
