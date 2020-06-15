@@ -40,8 +40,9 @@ const useStyles = makeStyles((theme) => ({
  */
 
 
-export default function Menu() {
+export default function Menu(props) {
   const classes = useStyles();
+  const user = props.user;
   const [state, setState] = React.useState({
     open: false,
   });
@@ -78,30 +79,34 @@ export default function Menu() {
                 <ListItemText primary="About" />
               </ListItem>
               </Link>
-              <Link to="/users" className={classes.listItem}>
-                <ListItem button key="2">
-                  <ListItemIcon><PermIdentityIcon /></ListItemIcon>
-                  <ListItemText primary="Users" />
-                </ListItem>
-              </Link>
-              <Link to="/products" className={classes.listItem}>
-                <ListItem button key="2">
-                  <ListItemIcon><ArchiveIcon /></ListItemIcon>
-                  <ListItemText primary="Products" />
-                </ListItem>
-              </Link>
-              <Link to="/retailers" className={classes.listItem}>
-                <ListItem button key="2">
-                  <ListItemIcon><ArchiveIcon /></ListItemIcon>
-                  <ListItemText primary="Einzelhändler verwalten" />
-                </ListItem>
-              </Link>
-              <a href="http://localhost:8081" className={classes.listItem} target="_blank" rel="noopener noreferrer">
-                <ListItem button key="2">
-                  <ListItemIcon><CodeIcon /></ListItemIcon>
-                  <ListItemText primary="API" />
-                </ListItem>
-              </a>
+              { user ?
+                <div>
+                  <Link to="/users" className={classes.listItem}>
+                    <ListItem button key="2">
+                      <ListItemIcon><PermIdentityIcon /></ListItemIcon>
+                      <ListItemText primary="Users" />
+                    </ListItem>
+                  </Link>
+                  <Link to="/products" className={classes.listItem}>
+                    <ListItem button key="2">
+                      <ListItemIcon><ArchiveIcon /></ListItemIcon>
+                      <ListItemText primary="Products" />
+                    </ListItem>
+                  </Link>
+                  <Link to="/retailers" className={classes.listItem}>
+                    <ListItem button key="2">
+                      <ListItemIcon><ArchiveIcon /></ListItemIcon>
+                      <ListItemText primary="Einzelhändler verwalten" />
+                    </ListItem>
+                  </Link>
+                  <a href="http://localhost:8081" className={classes.listItem} target="_blank" rel="noopener noreferrer">
+                    <ListItem button key="2">
+                      <ListItemIcon><CodeIcon /></ListItemIcon>
+                      <ListItemText primary="API" />
+                    </ListItem>
+                  </a>
+                </div>
+                : <div /> }
               <Link to="/settings" className={classes.listItem}>
                 <ListItem button key="2">
                   <ListItemIcon><SettingsIcon /></ListItemIcon>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
+import Grid from '@material-ui/core/Grid';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Menu from './Menu'
@@ -10,9 +11,6 @@ const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
       width: '100%',
-    },
-    title: {
-      flexGrow: 1,
     },
   }));
 
@@ -29,15 +27,23 @@ function Header(props){
         <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar>
-                <Menu />
-                  <Typography variant="h6" className={classes.title}>
-                    ShoppingProject - SW-Praktikum: Gruppe 1 (SS2020)
-                  </Typography>
+                <Menu user={user} />
                   {
                     user ?
-                      <ProfileDropDown user={user} />
+                      <Grid container direction="row" justify="center" alignItems="center">
+                        <Grid item md={10}>
+                          <Typography variant="h6" className={classes.title}>
+                              Willkommen, {user.displayName} !
+                          </Typography>
+                        </Grid>
+                        <Grid item md={2}>
+                          <ProfileDropDown user={user} />
+                        </Grid>
+                      </Grid>
                     :
-                    <div></div>
+                      <Typography variant="h6" className={classes.title}>
+                        ShoppingProject - SW-Praktikum: Gruppe 1 (SS2020)
+                      </Typography>
                   }
                 </Toolbar>
             </AppBar>
