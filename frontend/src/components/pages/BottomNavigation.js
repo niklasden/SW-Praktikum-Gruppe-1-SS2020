@@ -4,7 +4,6 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import Theme from '../../Theme';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import RestoreIcon from '@material-ui/icons/Restore';
 import HomeIcon from '@material-ui/icons/Home';
 import ListIcon from '@material-ui/icons/List';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
@@ -25,9 +24,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.white,
     // backgroundColor + fontcolor should be done via Theme.js file, this is not clean code
-    "&$selected": {
-      color: "red"
-    }
   }
 }));
 
