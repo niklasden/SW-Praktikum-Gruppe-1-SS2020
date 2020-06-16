@@ -30,12 +30,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const devs = [
-  {name: "Kevin Eberhardt", matrikelnr: 37152, init: "KE", image_url: "https://avatars0.githubusercontent.com/u/47750689?v=4"},
-  {name: "Niklas Denneler", matrikelnr: 0, init: "ND", image_url: "https://avatars0.githubusercontent.com/u/43001868?s=460&u=7108a00a3d9e8bd273ab9bf039e4be72c943bc68&v=4"},
-  {name: "Pascal Illg", matrikelnr: 0, init: "PI", image_url: "https://avatars3.githubusercontent.com/u/60141744?s=460&v=4"},
-  {name: "Christopher Böhm", matrikelnr: 0, init: "CB", image_url: "https://avatars1.githubusercontent.com/u/59896385?s=460&v=4"},
-  {name: "Julius Jacobitz", matrikelnr: 0, init: "JJ", image_url: "https://avatars0.githubusercontent.com/u/47418007?s=460&u=190ad7155139683b7ed2656b9ad3be8c16b9c81c&v=4"},
-  {name: "Pia Schmid", matrikelnr: 0, init: "PS", image_url: "https://avatars1.githubusercontent.com/u/60093069?s=460&u=db2c8079b5ff6ce8e0986d0dfac7d168635e3f88&v=4"},
+  {name: "Kevin Eberhardt", matrikelnr: 37152, init: "KE",github_url:"https://github.com/kevin-eberhardt", image_url: "https://avatars0.githubusercontent.com/u/47750689?v=4",},
+  {name: "Niklas Denneler", matrikelnr: 0, init: "ND",github_url: "https://github.com/niklasden", image_url: "https://avatars0.githubusercontent.com/u/43001868?s=460&u=7108a00a3d9e8bd273ab9bf039e4be72c943bc68&v=4"},
+  {name: "Pascal Illg", matrikelnr: 0, init: "PI",github_url: "https://github.com/pasillg", image_url: "https://avatars3.githubusercontent.com/u/60141744?s=460&v=4"},
+  {name: "Christopher Böhm", matrikelnr: 0, init: "CB",github_url: "https://github.com/christopherboehm1", image_url: "https://avatars1.githubusercontent.com/u/59896385?s=460&v=4"},
+  {name: "Julius Jacobitz", matrikelnr: 0, init: "JJ",github_url: "https://github.com/JuliusJacobitz", image_url: "https://avatars0.githubusercontent.com/u/47418007?s=460&u=190ad7155139683b7ed2656b9ad3be8c16b9c81c&v=4"},
+  {name: "Pia Schmid", matrikelnr: 0, init: "PS",github_url: "https://github.com/PiaSchmid", image_url: "https://avatars1.githubusercontent.com/u/60093069?s=460&u=db2c8079b5ff6ce8e0986d0dfac7d168635e3f88&v=4"},
 ]
   
 function AboutPage() {
@@ -52,6 +52,7 @@ function AboutPage() {
                       className={classes.media}
                       image={dev.image_url}
                       title={dev.name}
+                      
                     />
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="h2">
@@ -63,7 +64,7 @@ function AboutPage() {
                     </CardContent>
                   </CardActionArea>
                   <CardActions>
-                    <Button size="small" color="primary">
+                    <Button size="small" color="primary" onClick={() => {window.open(dev.github_url) }}>
                       See GitHub Profile
                     </Button>
                     <Button size="small" color="primary">
