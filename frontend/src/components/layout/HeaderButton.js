@@ -8,7 +8,6 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
 const styles = theme => ({
   root: {
-    maxWidth: 350,
     backgroundColor: '#00BCD4',
     borderRadius: 5,
     marginTop: theme.spacing(1),

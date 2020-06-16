@@ -6,6 +6,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Menu from './Menu'
 import ProfileDropDown from '../dialogs/ProfileDropDown';
+import { useLocation } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -23,6 +24,15 @@ const useStyles = makeStyles((theme) => ({
 function Header(props){
   const classes = useStyles();
   const { user } = props;
+  const paths = {
+    "/": "HOME",
+    "/about": "ABOUT",
+    "/users": "BENUTZER",
+    "/products": "ARTIKEL",
+    "/retailers": "EINZELHÄNDLER",
+    "/settings": "EINSTELLUNGEN"
+  };
+  let location = useLocation();
     return (
         <div className={classes.root}>
             <AppBar position="static">
@@ -33,7 +43,7 @@ function Header(props){
                       <Grid container direction="row" justify="center" alignItems="center">
                         <Grid item md={10}>
                           <Typography variant="h6" className={classes.title}>
-                              Willkommen, {user.displayName} !
+                                {paths[location.pathname]}
                           </Typography>
                         </Grid>
                         <Grid item md={2}>
