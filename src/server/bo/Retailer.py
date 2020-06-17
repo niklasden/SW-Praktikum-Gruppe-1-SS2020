@@ -5,7 +5,7 @@ from server.bo import BusinessObject as bo
 """
 class Retailer (bo.BusinessObject):
     def __init__(self):
-        super().__init__(self)
+        super().__init__()
         self._name = None
         self._location = None
 
