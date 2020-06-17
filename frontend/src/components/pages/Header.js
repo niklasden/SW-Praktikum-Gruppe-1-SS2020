@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
       flexGrow: 1,
       width: '100%',
     },
+    title: {
+      textAlign: 'left'
+    }
   }));
 
 /**
@@ -40,13 +43,13 @@ function Header(props){
                 <Menu user={user} />
                   {
                     user ?
-                      <Grid container direction="row" justify="center" alignItems="center">
-                        <Grid item md={10}>
+                      <Grid container direction="row" alignItems="center">
+                        <Grid item xs={10}>
                           <Typography variant="h6" className={classes.title}>
                                 {paths[location.pathname]}
                           </Typography>
                         </Grid>
-                        <Grid item md={2}>
+                        <Grid item xs={2}>
                           <ProfileDropDown user={user} />
                         </Grid>
                       </Grid>

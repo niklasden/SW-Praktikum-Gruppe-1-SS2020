@@ -47,7 +47,7 @@ const theme = createMuiTheme({
     },
     text: {
       primary: colors.blueGrey[800],
-      secondary: white,
+      secondary: colors.grey[500],
       link: colors.blue[600]
     },
     background: {

@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    marginBottom: theme.spacing(3)
   },
   title: {
     fontSize: 14,
@@ -25,7 +26,9 @@ const useStyles = makeStyles((theme) => ({
     height: 200,
   },
   card: {
-    maxWidth: 400,
+    maxWidth: 450,
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
   }
 }));
 
@@ -41,9 +44,9 @@ const devs = [
 function AboutPage() {
   const classes = useStyles();
   return (
-    <Grid container spacing={3} className={classes.root}>
+    <Grid container className={classes.root}>
           <h2>About</h2>
-        <GridList cols={3} cellHeight={350}>
+        <GridList cols={1} cellHeight={350} cellWidth={450}>
           {
               devs.map(dev => (
                 <Card className={classes.card}>
@@ -52,7 +55,6 @@ function AboutPage() {
                       className={classes.media}
                       image={dev.image_url}
                       title={dev.name}
-                      
                     />
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="h2">
