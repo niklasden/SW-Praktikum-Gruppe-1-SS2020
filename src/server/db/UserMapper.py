@@ -109,7 +109,7 @@ class UserMapper(Mapper):
         Niklas
         """
         result = None
-        cursor = self.__cnx.cursor()
+        cursor = self._cnx.cursor()
         command = "SELECT id, name, email, firebase-id FROM users WHERE firebase_id='{}'".format(firebase_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
