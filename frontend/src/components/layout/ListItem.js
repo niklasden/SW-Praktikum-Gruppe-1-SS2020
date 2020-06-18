@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
+import PropTypes from 'prop-types';
 import Checkbox from "@material-ui/core/Checkbox"
 import { withStyles } from "@material-ui/styles";
 import Box from '@material-ui/core/Box'
+import MaterialIconButton from '@material-ui/core/IconButton';
 
 /**
  * Displays an list item as designed in figma
@@ -14,61 +16,45 @@ import Box from '@material-ui/core/Box'
 
 const styles = theme => ({
   root: {
-    backgroundColor: "#fafafa",
-    borderRadius: 10,
-    width: "292px",
-    height: "48px"
+    backgroundColor: '#F2F2F2',
+    width: 'auto',
+    height: "35px",
+    display: 'flex',
+    alignItems: 'center'
   },
 
-  ListItem: {
-    paddingLeft: "16px",
-    paddingTop: "12px",
-    position: "absolute",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center"
+  checkbox: {
+    marginLeft: '210px'
   },
-
-  Checkbox: {
-    paddingLeft: "64px",
-    paddingTop: "15px",
-    fontSize: '18px',
-    fontFamily: 'Roboto'
-    
-  }
 });
 
 class ListItem extends Component {
   render() {
     return (
-      <Box 
+     <Box
         border={1}
-        borderColor='#F2F2F2'
+        borderColor='#BDBDBD'
         borderRadius={10}
-        style={{display: 'inline-block'}}
+        style={{margin: '10px'}}
       >
 
-  
-      <div>
         <div className={this.props.classes.root}>
-          <div className={this.props.classes.ListItem}>
-            <SearchIcon style={{ color: "#00BCD4" }} fontSize="medium" />
-          </div>
 
-          <p>{this.props.itemname}</p>
+          <img style={{height:25, width: 25, marginLeft: '15px'}} src={this.props.imgsrc}></img>
 
-          <Checkbox className={this.props.classes.Checkbox} checked='false'></Checkbox>
+          <p style={{color: '#000000', marginLeft: '20px', fontSize: 18}}>{this.props.itemname}</p>
 
-         
+          <Checkbox className={this.props.classes.checkbox}></Checkbox>
+
         </div>
-      </div>
     </Box>
 
     );
   }
 }
 
-Article.propTypes = {
+ListItem.propTypes = {
+  imgsrc: PropTypes.string.isRequired,
   itemname: PropTypes.string.isRequired,
 }
 
