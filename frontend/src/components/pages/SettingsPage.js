@@ -25,16 +25,22 @@ class Settings extends Component {
 		this.props.onSignIn();
 	}
 
+	componentDidMount(){
+		this.setState({
+			isNavHidden: false
+		});
+	}
+
 	render() {
 		const { classes } = this.props;
-
 		return (
 			<div>
 				<Typography className={classes.root} align='center' variant='h6'>Your Settings</Typography>
 				<Grid container justify='center'>
 					<Grid item xs={3}>
 					<Box align-items="center" display="flex">
-					<Avatar alt="Sabine Mustermann" src={avatar} className={classes.large.AvatarPadding}/>
+					<Avatar alt="Sabine Mustermann" src={avatar} //className={classes.large.AvatarPadding}
+					/>
 					<Typography>Sabine Mustermann</Typography>
 					</Box>
 					<FormControlLabel

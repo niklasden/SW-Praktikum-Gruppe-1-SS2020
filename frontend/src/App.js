@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 //** Start React Router Import **/
-import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect, Switch, withRouter } from 'react-router-dom';
 //** End React Router Import **/
 
 
@@ -54,7 +54,8 @@ class App extends React.Component {
       currentUser: null,
       appError: null,
       authError: null,
-      authLoading: false
+	  authLoading: false,
+	  isNavHidden: true,
     };
   }
   /** 
@@ -130,7 +131,7 @@ class App extends React.Component {
 		firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
 	}
     render(){
-	  const { currentUser, appError, authError, authLoading } = this.state;
+	  const { currentUser, appError, authError, authLoading,isNavHidden } = this.state;
       return (
         <ThemeProvider theme={Theme}>
           {/* Global CSS reset and browser normalization. CssBaseline kickstarts an elegant, consistent, and simple baseline to build upon. */}
@@ -142,7 +143,7 @@ class App extends React.Component {
                 currentUser ?
                   <>
                     {/* Here should the redirects go */}
-                    <Redirect from='/' to='' />
+                    <Redirect from='/' to=''/>
                     <Switch>
                     <Route path="/about">
                       <AboutPage />
@@ -155,6 +156,9 @@ class App extends React.Component {
                     </Route>
 					<Route path="/retailers">
 						<RetailerPage />
+					</Route>
+					<Route path="/settings">
+						<SettingsPage />
 					</Route>
 					{/* this must always be the last route */}
                     <Route path="/">
@@ -174,7 +178,10 @@ class App extends React.Component {
               <ContextErrorMessage error={authError} contextErrorMsg={`Something went wrong during sign in process.`} onReload={this.handleSignIn} />
               <ContextErrorMessage error={appError} contextErrorMsg={`Something went wrong inside the app. Please reload the page.`} />
 			</Container>
-			<BottomNavigation/>
+			
+			{(this.state.isNavHidden) ? null : <BottomNavigation /> } 
+			{/* <BottomNavigation/>  */}
+			{/* Prüfen ob User auf home-page dann menü nicht rendern */}
           </Router>
         </ThemeProvider>
       );
