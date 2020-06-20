@@ -173,11 +173,16 @@ class App extends React.Component {
 					<Route path="/Groups">
 						<Groups></Groups>
 					</Route>
+
+					<Route path="/settings" >
 					<Route path="/GroupShoppingList">
 						<GroupShoppingList/>
           			</Route> 
 					<Route path="/settings">
 						<SettingsPage />
+						</Route>
+					<Route path="/statistics">
+						<StatisticPage />
 					</Route>
 					{/* this must always be the last route */}
 					<Route path="/statistics">
@@ -189,6 +194,8 @@ class App extends React.Component {
           			</Route> 
 					{/* this must always be the last route */}
                     <Route path="/">
+                      <StatisticPage />
+                    </Route>
                       <CreateRetailerPage />
 					</Route>
                   </Switch>
