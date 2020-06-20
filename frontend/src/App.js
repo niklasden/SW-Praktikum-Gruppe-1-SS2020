@@ -31,6 +31,8 @@ import ProductsPage from './components/pages/ProductsPage';
 import SettingsPage from './components/pages/SettingsPage';
 import { RetailerPage } from './components/pages/RetailerPage'
 
+import SpecificGroup from './components/pages/SpecificGroup.js';
+import Groups from './components/pages/Groups.js'
 
 //** End Layout Import **/
 
@@ -156,6 +158,13 @@ class App extends React.Component {
 					<Route path="/retailers">
 						<RetailerPage />
 					</Route>
+					<Route path="/specificgroup">
+						<SpecificGroup/>
+					</Route>
+					<Route path="/Groups">
+						<Groups></Groups>
+					</Route>
+
 					{/* this must always be the last route */}
                     <Route path="/">
                       <HomePage />
