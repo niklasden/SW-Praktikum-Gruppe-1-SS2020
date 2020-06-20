@@ -169,21 +169,9 @@ class App extends React.Component {
 					<Route path="/specificgroup">
 						<SpecificGroup/>
 					</Route>
-<<<<<<< HEAD
-					<Route path="/Groups">
-						<Groups></Groups>
-					</Route>
-					<Route path="/settings" >
-
-					<Route path="/GroupShoppingList">
-						<GroupShoppingList/>
-          </Route> 
-					
-=======
 					<Route path="/GroupShoppingList">
 						<GroupShoppingList/>
           			</Route> 
->>>>>>> b6103f952cc0da96d9720d5483f41101aa51c00d
 					<Route path="/settings">
 						<SettingsPage/>
 					</Route>
@@ -201,8 +189,8 @@ class App extends React.Component {
           			</Route>  
 
 					{/* this must always be the last route */}
-                    <Route path="/">
-                      <ProductsPage />
+                    <Route path="">
+                      <GroupShoppingList />
                     </Route>
                   </Switch>
                   </>

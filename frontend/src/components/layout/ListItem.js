@@ -4,8 +4,6 @@ import InputBase from "@material-ui/core/InputBase";
 import PropTypes from 'prop-types';
 import Checkbox from "@material-ui/core/Checkbox"
 import { withStyles } from "@material-ui/styles";
-import Box from '@material-ui/core/Box'
-import MaterialIconButton from '@material-ui/core/IconButton';
 import { Grid } from "@material-ui/core";
 
 /**
@@ -18,9 +16,15 @@ import { Grid } from "@material-ui/core";
 const styles = theme => ({
   root: {
     backgroundColor: '#F2F2F2',
+    borderWidth: 1,
+    borderColor: '#BDBDBD',
+    borderRadius: 10,
+    borderColor: '#BDBDBD',
+    borderStyle: 'solid',
     width: 'auto',
-    corderRadius: 10,
-    border: 1
+    height: 35,
+    marginLeft: 5,
+    marginRight: 8,
   },
 });
 
@@ -34,15 +38,15 @@ class ListItem extends Component {
       alignItems='center'
       className={this.props.classes.root}
        >
-        <Grid item xs={3}>
-          <img style={{height:'25px', width: '25px'}} src={this.props.imgsrc}></img>
+        <Grid item xs={2}>
+          <img style={{height:'25px', width: '25px', marginLeft: 10}} src={this.props.imgsrc}></img>
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={8}>
           <p style={{color: '#000000', fontSize: 18}}>{this.props.itemname}</p>
         </Grid>
 
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           <Checkbox className={this.props.classes.checkbox}></Checkbox>
         </Grid>
     </Grid>
