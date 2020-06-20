@@ -190,7 +190,7 @@ class App extends React.Component {
 
 					{/* this must always be the last route */}
                     <Route path="/">
-                      <ProductsPage />
+                      <RetailerPage />
                     </Route>
                   </Switch>
                   </>

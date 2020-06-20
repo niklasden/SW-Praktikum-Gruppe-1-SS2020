@@ -7,11 +7,7 @@ import Box from '@material-ui/core/Box'
 
 
 const styles = theme => ({
-  root: {
-    backgroundColor: '#fafafa', 
-    borderRadius: 5, 
-    height: "48px"
-  },
+  
 });
 
 /**
@@ -28,28 +24,34 @@ class IconButton extends Component {
     return (
       <Box 
         border={1} 
-        borderColor='#e0e0e0'
+        borderColor='#bdbdbd'
         borderRadius={5}
-        style={{display: 'grid'}}
+        style={{
+          display: 'inline-block', 
+          height: '48px', 
+          width: '48px', 
+          backgroundColor: '#fafafa',
+          ...this.props.style
+        }}
       >
-        <MaterialIconButton 
-          className={classes.root}
-          style={{padding: 9}}
-          onClick={this.props.onClick}
-        >
+        <div style={{
+          justifyContent: 'center', 
+          alignItems: 'center',
+          display: 'flex',
+          height: '100%',
+        }}>
           <Icon 
             style={{ color: '#00BCD4'}}
-            fontSize="large" 
+            fontSize="medium" 
           />
-        </MaterialIconButton>
+        </div>
       </Box>
-
     )
   }
 }
 
 IconButton.propTypes = {
-  icon: PropTypes.string,
+  icon: PropTypes.string, 
 }
 
 export default withStyles(styles)(IconButton);

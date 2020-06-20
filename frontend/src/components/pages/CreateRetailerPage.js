@@ -30,15 +30,18 @@ class CreateRetailerPage extends Component {
 
       <div>
         {/* TODO: change searchbar to textinput */}
-        <Searchbar />
+        <div style={{margin: 12}}>
+          <Searchbar />
+        </div>
+        
 
         <MultilineTextInput 
           placeholder='Ort des Einzelhändler' 
-          style={{margin: 12}}  
+          style={{margin: 12, marginTop: 0}}  
         />
 
         <div style={{margin: 24}}>
-          <Icon>info</Icon>
+          <Icon size='small'>info</Icon>
           <text>Beim Ort kann es sich um eine Adresse oder um eine zusätzliche Bezeichnung handeln, hauptsache du und die Mitglieder deiner Gruppe wissen, was damit gemeint ist</text>
         </div>
 
