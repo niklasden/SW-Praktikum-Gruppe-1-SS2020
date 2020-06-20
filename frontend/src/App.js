@@ -1,7 +1,8 @@
 import React from 'react';
 import './App.css';
 //** Start React Router Import **/
-import { BrowserRouter as Router, Route, Redirect, Switch, withRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect, Switch, withRouter, useLocation } from 'react-router-dom';
+
 //** End React Router Import **/
 
 
@@ -32,7 +33,7 @@ import SettingsPage from './components/pages/SettingsPage';
 import { RetailerPage } from './components/pages/RetailerPage'
 import CreateRetailerPage from './components/pages/CreateRetailerPage'
 import StatisticPage from './components/pages/StatisticPage';
-
+import ShowStatisticPage from './components/pages/ShowStatisticPage';
 import SpecificGroup from './components/pages/SpecificGroup.js';
 import Groups from './components/pages/SettingsPage.js'
 
@@ -136,6 +137,7 @@ class App extends React.Component {
 	}
     render(){
 	  const { currentUser, appError, authError, authLoading,isNavHidden } = this.state;
+	
       return (
         <ThemeProvider theme={Theme}>
           {/* Global CSS reset and browser normalization. CssBaseline kickstarts an elegant, consistent, and simple baseline to build upon. */}
@@ -150,7 +152,6 @@ class App extends React.Component {
                 true ?
                   <>
                     {/* Here should the redirects go */}
-                    <Redirect from='/' to=''/>
                     <Switch>
                     <Route path="/about">
                       <AboutPage />
@@ -179,9 +180,11 @@ class App extends React.Component {
 					<Route path="/settings">
 						<SettingsPage />
 					</Route>
-					{/* this must always be the last route */}
 					<Route path="/statistics">
 						<StatisticPage />
+					</Route>
+					<Route exact path="/show-statistic">
+						<ShowStatisticPage />
 					</Route>
 					{/* this must always be the last route */}
 					<Route path="/GroupShoppingList">
