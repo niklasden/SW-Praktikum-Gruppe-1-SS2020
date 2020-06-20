@@ -54,7 +54,7 @@ const styles = theme => ({
         <MaterialIconButton 
           
           className={classes.root}
-          style={{padding: '9px' , width:'100px',height:'100px'}}
+          style={{padding: '9px' , width:'60px',height:'60px'}}
         >
         <div style={{height:'100%',width:'100%',margin:'9px'}}>
         

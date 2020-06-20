@@ -34,7 +34,6 @@ import CreateRetailerPage from './components/pages/CreateRetailerPage'
 import StatisticPage from './components/pages/StatisticPage';
 
 import SpecificGroup from './components/pages/SpecificGroup.js';
-import Groups from './components/pages/SettingsPage.js'
 
 //** End Layout Import **/
 
@@ -170,27 +169,29 @@ class App extends React.Component {
 					<Route path="/specificgroup">
 						<SpecificGroup/>
 					</Route>
-					<Route path="/Groups">
-						<Groups></Groups>
-					</Route>
-					<Route path="/GroupShoppingList">
-						<GroupShoppingList/>
-          </Route> 
-					<Route path="/settings">
-						<SettingsPage />
-					</Route>
-					{/* this must always be the last route */}
-					<Route path="/statistics">
-						<StatisticPage />
-					</Route>
-					{/* this must always be the last route */}
 					<Route path="/GroupShoppingList">
 						<GroupShoppingList/>
           			</Route> 
+					<Route path="/settings">
+						<SettingsPage/>
+					</Route>
+					<Route path="/statistics">
+						<StatisticPage/>
+					</Route>
+					<Route path="/GroupShoppingList">
+						<GroupShoppingList/>
+          			</Route>  
+					<Route path="/createGroup">
+						{/* Insert Import create Group  */}
+          			</Route>
+					  <Route path="/specificGroup">
+						<SpecificGroup></SpecificGroup>
+          			</Route>  
+
 					{/* this must always be the last route */}
                     <Route path="/">
-                      <CreateRetailerPage />
-					</Route>
+                      <ProductsPage />
+                    </Route>
                   </Switch>
                   </>
                   :

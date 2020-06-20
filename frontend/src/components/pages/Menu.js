@@ -68,13 +68,13 @@ export default function Menu(props) {
           >
             <div onClick={toggleDrawer("left", false)} onKeyDown={toggleDrawer("left", false)}>
             <List>
-            <Link to="/" className={classes.listItem}>
-              <ListItem button key="0">
-                <ListItemIcon><HomeIcon /></ListItemIcon>
-                <ListItemText primary="Home" />
-              </ListItem>
-            </Link>
-            <Link to="/about" className={classes.listItem}>
+              <Link to="/" className={classes.listItem}>
+                <ListItem button key="0">
+                  <ListItemIcon><HomeIcon /></ListItemIcon>
+                  <ListItemText primary="Home" />
+                </ListItem>
+              </Link>
+             <Link to="/about" className={classes.listItem}>
               <ListItem button key="1">
                 <ListItemIcon><InfoIcon /></ListItemIcon>
                 <ListItemText primary="About" />
@@ -104,6 +104,12 @@ export default function Menu(props) {
                       <ListItemText primary="Einzelhändler verwalten" />
                     </ListItem>
                   </Link>
+                  <Link to="/statistics" className={classes.listItem}>
+                    <ListItem button key="2">
+                      <ListItemIcon><TimelineIcon /></ListItemIcon>
+                      <ListItemText primary="Statistik verwalten" />
+                      </ListItem>
+                  </Link>
                   <Link to="/groups" className={classes.listItem}>
                     <ListItem button key="2">
                       <ListItemIcon><ArchiveIcon /></ListItemIcon>
@@ -120,6 +126,18 @@ export default function Menu(props) {
                     <ListItem button key="2">
                       <ListItemIcon><ArchiveIcon/></ListItemIcon>
                       <ListItemText primary="GroupShoppingList" />
+                    </ListItem>
+                  </Link>
+                  <Link to="/createGroup" className={classes.listItem}>
+                    <ListItem button key="2">
+                      <ListItemIcon><ArchiveIcon/></ListItemIcon>
+                      <ListItemText primary="Create Group" />
+                    </ListItem>
+                  </Link>
+                  <Link to="/specificGroup" className={classes.listItem}>
+                    <ListItem button key="2">
+                      <ListItemIcon><ArchiveIcon/></ListItemIcon>
+                      <ListItemText primary="Specific Group" />
                     </ListItem>
                   </Link>
                   <a href="http://localhost:8081" className={classes.listItem} target="_blank" rel="noopener noreferrer">
