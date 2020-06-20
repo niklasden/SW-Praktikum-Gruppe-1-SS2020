@@ -139,7 +139,7 @@ class App extends React.Component {
 		  <Header user={currentUser} />
               {
                 // Is a user signed in?
-                currentUser ?
+                true ?
                   <>
                     {/* Here should the redirects go */}
                     <Redirect from='/' to='' />
@@ -158,7 +158,7 @@ class App extends React.Component {
 					</Route>
 					{/* this must always be the last route */}
                     <Route path="/">
-                      <HomePage />
+                      <ProductsPage />
                     </Route>
                   </Switch>
                   </>

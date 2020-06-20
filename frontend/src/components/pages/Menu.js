@@ -79,7 +79,7 @@ export default function Menu(props) {
                 <ListItemText primary="About" />
               </ListItem>
               </Link>
-              { user ?
+              { true ?
                 <div>
                   <Link to="/users" className={classes.listItem}>
                     <ListItem button key="2">
