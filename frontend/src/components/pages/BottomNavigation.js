@@ -61,18 +61,10 @@ class BottomNavi extends React.Component {
       >
       
       <BottomNavigationAction component={Link} icon={<ImportContactsIcon />} to="/"/>
-      <Link>
       <BottomNavigationAction component={Link} icon={<PeopleAltIcon />} to="/groups"/>
-      </Link>
-      <Link>
       <BottomNavigationAction component={Link} icon={<HomeIcon />} to="/home"/>
-      </Link>
-      <Link>
       <BottomNavigationAction component={Link} icon={<ListIcon />} to="/lists"/>
-      </Link>
-      <Link>
       <BottomNavigationAction component={Link} icon={<SettingsIcon />} to="/settings"/>
-      </Link>
     </BottomNavigation>
     </ThemeProvider>
     );

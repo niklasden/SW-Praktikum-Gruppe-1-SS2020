@@ -55,7 +55,7 @@ class App extends React.Component {
       appError: null,
       authError: null,
 	  authLoading: false,
-	  isNavHidden: true,
+	  isNavHidden: false,
     };
   }
   /** 
