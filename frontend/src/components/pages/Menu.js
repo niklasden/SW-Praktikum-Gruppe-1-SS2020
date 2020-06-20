@@ -80,6 +80,10 @@ export default function Menu(props) {
                 <ListItemText primary="About" />
               </ListItem>
               </Link>
+              {/* 
+                geändert von chris, um im dev prozess den signin zu umgehen, muss wieder 
+                TODO: true muss wieder in user umbenannt werden 
+              */}
               { true ?
                 <div>
                   <Link to="/users" className={classes.listItem}>
