@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 //** Start React Router Import **/
-import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect, Switch, withRouter } from 'react-router-dom';
 //** End React Router Import **/
 
 
@@ -27,10 +27,14 @@ import AboutPage from './components/pages/AboutPage';
 import { HomePage } from './components/pages/HomePage';
 import { UsersPage } from './components/pages/UsersPage';
 import ProductsPage from './components/pages/ProductsPage';
-
+import GroupShoppingList from './components/pages/GroupShoppingList';
 import SettingsPage from './components/pages/SettingsPage';
 import { RetailerPage } from './components/pages/RetailerPage'
+import CreateRetailerPage from './components/pages/CreateRetailerPage'
+import StatisticPage from './components/pages/StatisticPage';
 
+import SpecificGroup from './components/pages/SpecificGroup.js';
+import Groups from './components/pages/SettingsPage.js'
 
 //** End Layout Import **/
 
@@ -54,7 +58,8 @@ class App extends React.Component {
       currentUser: null,
       appError: null,
       authError: null,
-      authLoading: false
+	  authLoading: false,
+	  isNavHidden: false,
     };
   }
   /** 
@@ -130,7 +135,7 @@ class App extends React.Component {
 		firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
 	}
     render(){
-	  const { currentUser, appError, authError, authLoading } = this.state;
+	  const { currentUser, appError, authError, authLoading,isNavHidden } = this.state;
       return (
         <ThemeProvider theme={Theme}>
           {/* Global CSS reset and browser normalization. CssBaseline kickstarts an elegant, consistent, and simple baseline to build upon. */}
@@ -138,11 +143,14 @@ class App extends React.Component {
           <Router basename={process.env.PUBLIC_URL}>
 		  <Header user={currentUser} />
               {
+								// Is a user signed in?
+								// geändert von chris, um im dev prozess den signin zu umgehen, muss wieder 
+								// TODO: muss wieder in currentUser umbenannt werden
                 // Is a user signed in?
                 true ?
                   <>
                     {/* Here should the redirects go */}
-                    <Redirect from='/' to='' />
+                    <Redirect from='/' to=''/>
                     <Switch>
                     <Route path="/about">
                       <AboutPage />
@@ -156,10 +164,40 @@ class App extends React.Component {
 					<Route path="/retailers">
 						<RetailerPage />
 					</Route>
+					<Route path="/create_retailer">
+						<CreateRetailerPage />
+					</Route>
+					<Route path="/specificgroup">
+						<SpecificGroup/>
+					</Route>
+					<Route path="/Groups">
+						<Groups></Groups>
+					</Route>
+
+					<Route path="/settings" >
+					<Route path="/GroupShoppingList">
+						<GroupShoppingList/>
+          </Route> 
+					<Route path="/settings">
+						<SettingsPage />
+						</Route>
+					<Route path="/statistics">
+						<StatisticPage />
+					</Route>
+					{/* this must always be the last route */}
+					<Route path="/statistics">
+						<StatisticPage />
+					</Route>
+					{/* this must always be the last route */}
+					<Route path="/GroupShoppingList">
+						<GroupShoppingList/>
+          			</Route> 
 					{/* this must always be the last route */}
                     <Route path="/">
                       <ProductsPage />
                     </Route>
+                      <CreateRetailerPage />
+					</Route>
                   </Switch>
                   </>
                   :
@@ -174,7 +212,10 @@ class App extends React.Component {
               <ContextErrorMessage error={authError} contextErrorMsg={`Something went wrong during sign in process.`} onReload={this.handleSignIn} />
               <ContextErrorMessage error={appError} contextErrorMsg={`Something went wrong inside the app. Please reload the page.`} />
 			</Container>
-			<BottomNavigation/>
+			
+			{(this.state.isNavHidden) ? null : <BottomNavigation /> } 
+			{/* <BottomNavigation/>  */}
+			{/* Prüfen ob User auf home-page dann menü nicht rendern */}
           </Router>
         </ThemeProvider>
       );

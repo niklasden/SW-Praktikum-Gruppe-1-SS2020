@@ -6,6 +6,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import TimelineIcon from '@material-ui/icons/Timeline';
 import HomeIcon from '@material-ui/icons/Home';
 import MenuIcon from '@material-ui/icons/Menu';
 import InfoIcon from '@material-ui/icons/Info';
@@ -67,18 +68,22 @@ export default function Menu(props) {
           >
             <div onClick={toggleDrawer("left", false)} onKeyDown={toggleDrawer("left", false)}>
             <List>
-            <Link to="/" className={classes.listItem}>
-              <ListItem button key="0">
-                <ListItemIcon><HomeIcon /></ListItemIcon>
-                <ListItemText primary="Home" />
-              </ListItem>
-            </Link>
-            <Link to="/about" className={classes.listItem}>
+              <Link to="/" className={classes.listItem}>
+                <ListItem button key="0">
+                  <ListItemIcon><HomeIcon /></ListItemIcon>
+                  <ListItemText primary="Home" />
+                </ListItem>
+              </Link>
+             <Link to="/about" className={classes.listItem}>
               <ListItem button key="1">
                 <ListItemIcon><InfoIcon /></ListItemIcon>
                 <ListItemText primary="About" />
               </ListItem>
               </Link>
+              {/* 
+                geändert von chris, um im dev prozess den signin zu umgehen, muss wieder 
+                TODO: true muss wieder in user umbenannt werden 
+              */}
               { true ?
                 <div>
                   <Link to="/users" className={classes.listItem}>
@@ -97,6 +102,30 @@ export default function Menu(props) {
                     <ListItem button key="2">
                       <ListItemIcon><ArchiveIcon /></ListItemIcon>
                       <ListItemText primary="Einzelhändler verwalten" />
+                    </ListItem>
+                  </Link>
+                  <Link to="/statistics" className={classes.listItem}>
+                    <ListItem button key="2">
+                      <ListItemIcon><TimelineIcon /></ListItemIcon>
+                      <ListItemText primary="Statistik verwalten" />
+                      </ListItem>
+                  </Link>
+                  <Link to="/groups" className={classes.listItem}>
+                    <ListItem button key="2">
+                      <ListItemIcon><ArchiveIcon /></ListItemIcon>
+                      <ListItemText primary="Gruppen anzeigen" />
+                    </ListItem>
+                  </Link>
+                  <Link to="/statistics" className={classes.listItem}>
+                    <ListItem button key="2">
+                      <ListItemIcon><TimelineIcon /></ListItemIcon>
+                      <ListItemText primary="Statistik verwalten" />
+                    </ListItem>
+                  </Link>
+                  <Link to="/GroupShoppingList" className={classes.listItem}>
+                    <ListItem button key="2">
+                      <ListItemIcon><ArchiveIcon/></ListItemIcon>
+                      <ListItemText primary="GroupShoppingList" />
                     </ListItem>
                   </Link>
                   <a href="http://localhost:8081" className={classes.listItem} target="_blank" rel="noopener noreferrer">

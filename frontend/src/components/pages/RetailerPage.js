@@ -4,6 +4,12 @@ import Grid from '@material-ui/core/Grid/Grid'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Container from '@material-ui/core/Container/Container'
+import Searchbar from '../layout/Searchbar'
+import IconButton from '../layout/IconButton'
+import RetailerListEntry from '../layout/RetailerListEntry'
+import {
+  Link
+} from 'react-router-dom';
 
 const RETAILERS = [
   {
@@ -26,17 +32,20 @@ const RETAILERS = [
 export class RetailerPage extends Component {
   render(){
     return (
-      <Grid container spacing={3}>
-        <Grid item>
-          <RetailerList />
+      <div style={{margin: 16}}>
+        <Grid container spacing={3}>
+          <Grid item>
+            <Searchbar />
+          </Grid>
+          <Grid item>
+            <Link to="/create_retailer" >
+              <IconButton />
+            </Link>
+          </Grid>
         </Grid>
-        <Grid item>
-          <TextField id="standard-basic" label="Standard" />
-          <div>
-            <Button variant="contained">Default</Button>
-          </div>
-        </Grid>
-      </Grid>
+        <RetailerList />
+      </div>
+
     ) 
   }
 }
@@ -75,7 +84,7 @@ class RetailerList extends Component {
         loadingRetailersError: null, 
         retailers: RETAILERS
       })
-    }, 2000)
+    }, 10)
   }
 
   renderRetailers(){
@@ -84,6 +93,7 @@ class RetailerList extends Component {
         id={retailer.id}
         name={retailer.name}
         address={retailer.address}
+        style={{marginBottom: 12}}
       /> 
     ))
   }
@@ -101,25 +111,3 @@ class RetailerList extends Component {
   }
 }
 
-/**
- * Renders a list of RetailerEntry objects
- * 
- * @see RetailerEntry
- * 
- * @author [Christopher Böhm](https://github.com/christopherboehm1)
- * 
- * @prop id: string with retailer id
- * @prop name: string with retailer name
- * @prop address: string with retailer address
- */
-class RetailerListEntry extends Component {
-  render(){
-    return (
-      <div>
-        <p>{this.props.id}</p>
-        <p>{this.props.name}</p>
-        <p>{this.props.address}</p>
-      </div>
-    )
-  }
-}
