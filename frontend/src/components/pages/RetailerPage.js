@@ -13,7 +13,7 @@ import {
 
 const RETAILERS = [
   {
-    id: 'retailer1', 
+    id: 'retailer0', 
     name: 'REWE',
     address: 'Esslingen',  
   },
@@ -27,6 +27,11 @@ const RETAILERS = [
     name: 'Aldi',  
     address: 'neben Pigspoint'
   },
+  {
+    id: 'retailer3', 
+    name: 'Edeka',
+    address: ''
+  }
 ]
 
 /**
@@ -37,39 +42,6 @@ const RETAILERS = [
  * @author [Christopher Böhm](https://github.com/christopherboehm1)
  */
 export class RetailerPage extends Component {
-  render(){
-    return (
-      <div style={{width: '100%'}}>
-        <div style={{flex: 1, flexDirection: 'row', display: 'flex', margin: 12}}>
-          {/* <text style={{flexGrow: 1}}>hello</text> */}
-
-          <Searchbar />
-
-          <Link to="/create_retailer" >
-            <IconButton style={{marginLeft: 12}}  />
-          </Link>
-        </div>
-        
-
-
-        <div style={{margin: 12}}>
-          <RetailerList />
-        </div>
-
-      </div>
-
-    ) 
-  }
-}
-
-/**
- * Renders a list of RetailerEntry objects
- * 
- * @see RetailerEntry
- * 
- * @author [Christopher Böhm](https://github.com/christopherboehm1)
- */
-class RetailerList extends Component {
   state = {
     retailers: [], 
     loadingInProgress: false, 
@@ -112,14 +84,30 @@ class RetailerList extends Component {
 
   render(){
     return (
-      <div>
-        {this.state.loadingInProgress ?
-          <CircularProgress />
-        : 
-          this.renderRetailers()
-        }
+      <div style={{width: '100%'}}>
+        <div style={{flex: 1, flexDirection: 'row', display: 'flex', margin: 12}}>
+          {/* <text style={{flexGrow: 1}}>hello</text> */}
+          <Searchbar />
+
+          <Link to="/create_retailer" >
+            <IconButton style={{marginLeft: 12}}  />
+          </Link>
+        </div>
+        
+
+
+        <div style={{margin: 12}}>
+          <div>
+            {this.state.loadingInProgress ?
+              <CircularProgress />
+            : 
+              this.renderRetailers()
+            }
+          </div>
+        </div>
+
       </div>
-    )
+
+    ) 
   }
 }
-

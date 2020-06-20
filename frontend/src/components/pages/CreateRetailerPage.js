@@ -28,24 +28,24 @@ class CreateRetailerPage extends Component {
   render(){
     return (
 
-      <div>
+      <div style={{height: 'auto'}}>
         {/* TODO: change searchbar to textinput */}
-        <div style={{margin: 12}}>
-          <Searchbar />
-        </div>
-        
+          <div style={{margin: 12}}>
+            <Searchbar />
+          </div>
 
-        <MultilineTextInput 
-          placeholder='Ort des Einzelhändler' 
-          style={{margin: 12, marginTop: 0}}  
-        />
+      
+          <MultilineTextInput 
+            placeholder='Ort des Einzelhändlers' 
+            style={{margin: 12, marginTop: 0}}  
+          />
 
-        <div style={{margin: 24}}>
-          <Icon size='small'>info</Icon>
-          <text>Beim Ort kann es sich um eine Adresse oder um eine zusätzliche Bezeichnung handeln, hauptsache du und die Mitglieder deiner Gruppe wissen, was damit gemeint ist</text>
-        </div>
+          <div style={{margin: 24}}>
+            <Icon size='small'>info</Icon>
+            <text>Beim Ort kann es sich um eine Adresse oder um eine zusätzliche Bezeichnung handeln, hauptsache du und die Mitglieder deiner Gruppe wissen, was damit gemeint ist</text>
+          </div>
 
-        <MainButton>Specihern</MainButton>
+          <MainButton>Specihern</MainButton>
       </div>
     )
   }
