@@ -173,11 +173,12 @@ class App extends React.Component {
 					<Route path="/Groups">
 						<Groups></Groups>
 					</Route>
-
 					<Route path="/settings" >
+
 					<Route path="/GroupShoppingList">
 						<GroupShoppingList/>
           </Route> 
+					
 					<Route path="/settings">
 						<SettingsPage />
 						</Route>
