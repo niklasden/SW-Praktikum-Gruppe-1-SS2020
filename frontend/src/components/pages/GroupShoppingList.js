@@ -13,7 +13,6 @@ export default class GroupShoppingList extends Component {
   render(){
     return (
       <Grid 
-        style={{marginLeft: 2}}
         container
         direction='column'
         justify='space-between'
@@ -26,11 +25,11 @@ export default class GroupShoppingList extends Component {
         </Grid>
 
         <Grid item>
-          <ListItem imgsrc='../img/avatar.jpg' itemname='Apfel'></ListItem>
+          <ListItem itemname='Apfel' amount='3 ' unit='Stk.'></ListItem>
         </Grid>
         
         <Grid item>
-          <ListItem imgsrc='../img/avatar.jpg' itemname='Birne'></ListItem>
+          <ListItem itemname='Birne' amount='3 ' unit='Stk.'></ListItem>
         </Grid>
 
         <Grid item>
@@ -38,27 +37,27 @@ export default class GroupShoppingList extends Component {
         </Grid>
 
         <Grid item>
-          <ListItem imgsrc='../img/avatar.jpg' itemname='Test'></ListItem>
+          <ListItem itemname='Erdbeerkäse' amount='3 ' unit='Stk.'></ListItem>
         </Grid>
 
         <Grid item>
-          <ListItem imgsrc='../img/avatar.jpg' itemname='Test'></ListItem>
+          <ListItem itemname='Test' amount='3 ' unit='Stk.'></ListItem>
         </Grid>
 
         <Grid item>
-          <ListItem imgsrc='../img/avatar.jpg' itemname='Test'></ListItem>
+          <ListItem itemname='Test' amount='3 ' unit='Stk.'></ListItem>
         </Grid>
 
         <Grid item>
-          <ListItem imgsrc='../img/avatar.jpg' itemname='Test'></ListItem>
+          <ListItem itemname='Test' amount='3 ' unit='Stk.'></ListItem>
         </Grid>
 
         <Grid item>
-          <ListItem imgsrc='../img/avatar.jpg' itemname='Test'></ListItem>
+          <ListItem itemname='Test' amount='3 ' unit='Stk.'></ListItem>
         </Grid>
 
         <Grid item>
-          <ListItem imgsrc='../img/avatar.jpg' itemname='Test'></ListItem>
+          <ListItem itemname='Test' amount='3 ' unit='Stk.'></ListItem>
         </Grid>
       </Grid>
     ) 
