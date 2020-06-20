@@ -33,7 +33,8 @@ function Header(props){
     "/users": "BENUTZER",
     "/products": "ARTIKEL",
     "/retailers": "EINZELHÄNDLER",
-    "/settings": "EINSTELLUNGEN"
+    "/settings": "EINSTELLUNGEN",
+    "/statistics": "EINKAUFSVERHALTEN"
   };
   let location = useLocation();
     return (

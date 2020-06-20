@@ -1,6 +1,7 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 import { colors } from '@material-ui/core';
 
+
 const white = '#FFFFFF';
 const black = '#000000';
 
@@ -51,8 +52,6 @@ const theme = createMuiTheme({
       link: colors.blue[600]
     },
     background: {
-      // default: '#F4F6F8',
-      // geändert von chris, damit das generelle background weiß ist, (ist der farbcode richtig?)
       default: '#FFFFFF',
       paper: white,
       blue: '#00BCD4',
@@ -61,18 +60,7 @@ const theme = createMuiTheme({
     divider: colors.grey[200],
     },
     typography: {
-      fontFamily: [
-        '-apple-system',
-        'BlinkMacSystemFont',
-        '"Segoe UI"',
-        'Roboto',
-        '"Helvetica Neue"',
-        'Arial',
-        'sans-serif',
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-      ].join(','),
+      fontFamily: "'Montserrat', sans-serif;"
     } 
 });
 export default theme;
