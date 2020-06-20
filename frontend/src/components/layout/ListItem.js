@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import SearchIcon from "@material-ui/icons/Search";
-import InputBase from "@material-ui/core/InputBase";
+import Icon from "@material-ui/core/Icon";
 import PropTypes from 'prop-types';
 import Checkbox from "@material-ui/core/Checkbox"
 import { withStyles } from "@material-ui/styles";
-import Box from '@material-ui/core/Box'
-import MaterialIconButton from '@material-ui/core/IconButton';
 import { Grid } from "@material-ui/core";
 
 /**
@@ -18,9 +16,15 @@ import { Grid } from "@material-ui/core";
 const styles = theme => ({
   root: {
     backgroundColor: '#F2F2F2',
+    borderWidth: 1,
+    borderColor: '#BDBDBD',
+    borderRadius: 10,
+    borderColor: '#BDBDBD',
+    borderStyle: 'solid',
     width: 'auto',
-    corderRadius: 10,
-    border: 1
+    marginLeft: 5,
+    height: 35,
+    marginRight: 8,
   },
 });
 
@@ -30,21 +34,22 @@ class ListItem extends Component {
     <Grid 
       container 
       direction='row'
-      justify='space-between'
+      justify='center'
       alignItems='center'
       className={this.props.classes.root}
-       >
-        <Grid item xs={3}>
-          <img style={{height:'25px', width: '25px'}} src={this.props.imgsrc}></img>
+    >
+        <Grid item xs={2}>
+          <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 3}}>fastfood</Icon>
         </Grid>
 
-        <Grid item xs={6}>
-          <p style={{color: '#000000', fontSize: 18}}>{this.props.itemname}</p>
+        <Grid item xs={8}>
+          <t style={{color: '#000000', fontSize: 18}}>{this.props.itemname}</t>
         </Grid>
 
-        <Grid item xs={3}>
-          <Checkbox className={this.props.classes.checkbox}></Checkbox>
+        <Grid item xs={2}>
+          <Checkbox style={{padding:0}}></Checkbox>
         </Grid>
+      
     </Grid>
     );
   }

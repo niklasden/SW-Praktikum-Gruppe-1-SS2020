@@ -13,7 +13,7 @@ export default class GroupShoppingList extends Component {
   render(){
     return (
       <Grid 
-        style={{marginLeft: 0}}
+        style={{marginLeft: 2}}
         container
         direction='column'
         justify='space-between'
