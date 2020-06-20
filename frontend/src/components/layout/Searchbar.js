@@ -41,9 +41,8 @@ class Searchbar extends Component {
     return (
       <Box 
         border={1} 
-        borderColor='#F2F2F2'
+        borderColor='#bdbdbd'
         borderRadius={10}
-        style={{display: 'inline-block'}}
       >
       <div>
         <div className={this.props.classes.root}>
