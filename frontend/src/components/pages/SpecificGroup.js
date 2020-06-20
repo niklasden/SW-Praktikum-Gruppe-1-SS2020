@@ -91,7 +91,7 @@ return ShoppingLists
         <div className={classes.accordion}>
         {/*<div className={classes.Groupnameheader}>{"Gruppenname"}</div>*/}
 
-        <ExpansionPanel>
+        <ExpansionPanel style={{border:"1px solid #5a5a5a", margin:4}}>
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -127,7 +127,7 @@ return ShoppingLists
 {/* Members: ---------------------------------------------------------*/}
 
 
-        <ExpansionPanel>
+        <ExpansionPanel style={{border:"1px solid #5a5a5a", margin:4}}>
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
