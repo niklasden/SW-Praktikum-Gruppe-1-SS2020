@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid/Grid'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Container from '@material-ui/core/Container/Container'
-import Searchbar from '../layout/Searchbar'
+import TextInputBar from '../layout/TextInputBar'
 import IconButton from '../layout/IconButton'
 import RetailerListEntry from '../layout/RetailerListEntry'
 import {
@@ -35,7 +35,7 @@ export class RetailerPage extends Component {
       <div style={{margin: 16}}>
         <Grid container spacing={3}>
           <Grid item>
-            <Searchbar />
+            <TextInputBar />
           </Grid>
           <Grid item>
             <Link to="/create_retailer" >

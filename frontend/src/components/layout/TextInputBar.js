@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import SearchIcon from "@material-ui/icons/Search";
+import Icon from "@material-ui/core/Icon";
 import InputBase from "@material-ui/core/InputBase";
 import { withStyles } from "@material-ui/styles";
 import Box from '@material-ui/core/Box'
@@ -19,7 +19,7 @@ const styles = theme => ({
     height: "48px"
   },
 
-  searchIcon: {
+  icon: {
     paddingLeft: "16px",
     paddingTop: "12px",
     position: "absolute",
@@ -36,7 +36,7 @@ const styles = theme => ({
   }
 });
 
-class Searchbar extends Component {
+class TextInputBar extends Component {
   render() {
     return (
       <Box 
@@ -46,16 +46,18 @@ class Searchbar extends Component {
       >
       <div>
         <div className={this.props.classes.root}>
-          <div className={this.props.classes.searchIcon}>
-            <SearchIcon style={{ color: "#00BCD4" }} fontSize="medium" />
+          <div className={this.props.classes.icon}>
+            <Icon style={{ color: "#00BCD4" }} fontSize="medium" >{this.props.icon}</Icon>
           </div>
 
           <InputBase
-            placeholder="search…"
+            placeholder={this.props.placeholder}
             classes={{
               input: this.props.classes.inputInput
             }}
             inputProps={{ "aria-label": "search" }}
+            value={this.props.value}
+            onChange={this.props.onChange}
           />
         </div>
       </div>
@@ -65,4 +67,4 @@ class Searchbar extends Component {
   }
 }
 
-export default withStyles(styles)(Searchbar);
+export default withStyles(styles)(TextInputBar);

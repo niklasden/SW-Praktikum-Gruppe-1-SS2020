@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/styles';
-import Searchbar from '../layout/Searchbar'
+import TextInputBar from '../layout/TextInputBar'
 import MultilineTextInput from '../layout/MultilineTextInput'
 import Icon from '@material-ui/core/Icon'
 
@@ -15,8 +15,7 @@ class CreateRetailerPage extends Component {
   render(){
     return (
       <div>
-        {/* TODO: change searchbar to textinput */}
-        <Searchbar />
+        <TextInputBar />
 
         <MultilineTextInput 
           placeholder='Ort des Einzelhändler' 
