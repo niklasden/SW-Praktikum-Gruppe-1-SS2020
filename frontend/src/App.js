@@ -30,6 +30,7 @@ import ProductsPage from './components/pages/ProductsPage';
 
 import SettingsPage from './components/pages/SettingsPage';
 import { RetailerPage } from './components/pages/RetailerPage'
+import StatisticPage from './components/pages/StatisticPage';
 
 import SpecificGroup from './components/pages/SpecificGroup.js';
 import Groups from './components/pages/Groups.js'
@@ -142,7 +143,7 @@ class App extends React.Component {
 		  <Header user={currentUser} />
               {
                 // Is a user signed in?
-                currentUser ?
+                true ?
                   <>
                     {/* Here should the redirects go */}
                     <Redirect from='/' to=''/>
@@ -166,12 +167,15 @@ class App extends React.Component {
 						<Groups></Groups>
 					</Route>
 
-					<Route path="/settings">
+					<Route path="/settings" >
 						<SettingsPage />
+						</Route>
+					<Route path="/statistics">
+						<StatisticPage />
 					</Route>
 					{/* this must always be the last route */}
                     <Route path="/">
-                      <HomePage />
+                      <StatisticPage />
                     </Route>
                   </Switch>
                   </>
