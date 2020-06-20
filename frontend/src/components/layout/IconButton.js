@@ -28,7 +28,7 @@ class IconButton extends Component {
         border={1} 
         borderColor='#e0e0e0'
         borderRadius={5}
-        style={{display: 'inline-block'}}
+        style={{display: 'grid'}}
       >
         <MaterialIconButton 
           className={classes.root}

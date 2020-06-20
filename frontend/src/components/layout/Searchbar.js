@@ -44,7 +44,6 @@ class Searchbar extends Component {
         border={1} 
         borderColor='#bdbdbd'
         borderRadius={10}
-        style={{display: 'inline-block'}}
       >
       <div>
         <div className={this.props.classes.root}>
