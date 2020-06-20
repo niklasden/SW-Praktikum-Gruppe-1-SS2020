@@ -32,7 +32,7 @@ class StatisticPage extends Component {
                     return <StatisticItem article number={article.nr} name={article.name} amount={article.amount} />
                 })}
             </Grid>
-            <Link to="/statistics/show">
+            <Link to="show-statistic">
                 <MainButton>STATISTIK ANZEIGEN</MainButton>
             </Link>
             </>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/styles';
-import Searchbar from '../layout/Searchbar'
+import TextInputBar from '../layout/TextInputBar'
 import MultilineTextInput from '../layout/MultilineTextInput'
 import Icon from '@material-ui/core/Icon'
 import MainButton from '../layout/MainButton'
@@ -28,11 +28,12 @@ class CreateRetailerPage extends Component {
   render(){
     return (
 
-      <div style={{height: 'auto'}}>
-        {/* TODO: change searchbar to textinput */}
-          <div style={{margin: 12}}>
-            <Searchbar />
-          </div>
+      <div>
+        <TextInputBar 
+          Icon='storefront'
+          placeholder='Name'
+          onChange={(text) => alert(text)}
+        />
 
       
           <MultilineTextInput 
@@ -45,7 +46,7 @@ class CreateRetailerPage extends Component {
             <text>Beim Ort kann es sich um eine Adresse oder um eine zusätzliche Bezeichnung handeln, hauptsache du und die Mitglieder deiner Gruppe wissen, was damit gemeint ist</text>
           </div>
 
-          <MainButton>Specihern</MainButton>
+          <MainButton>Speichern</MainButton>
       </div>
     )
   }
