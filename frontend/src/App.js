@@ -32,6 +32,8 @@ import SettingsPage from './components/pages/SettingsPage';
 import { RetailerPage } from './components/pages/RetailerPage'
 import CreateRetailerPage from './components/pages/CreateRetailerPage'
 
+import SpecificGroup from './components/pages/SpecificGroup.js';
+import Groups from './components/pages/Groups.js'
 
 //** End Layout Import **/
 
@@ -163,6 +165,13 @@ class App extends React.Component {
 					<Route path="/create_retailer">
 						<CreateRetailerPage />
 					</Route>
+					<Route path="/specificgroup">
+						<SpecificGroup/>
+					</Route>
+					<Route path="/Groups">
+						<Groups></Groups>
+					</Route>
+
 					<Route path="/settings">
 						<SettingsPage />
 					</Route>
