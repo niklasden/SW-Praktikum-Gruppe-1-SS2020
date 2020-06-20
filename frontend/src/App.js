@@ -27,13 +27,13 @@ import AboutPage from './components/pages/AboutPage';
 import { HomePage } from './components/pages/HomePage';
 import { UsersPage } from './components/pages/UsersPage';
 import ProductsPage from './components/pages/ProductsPage';
-
+import GroupShoppingList from './components/pages/GroupShoppingList';
 import SettingsPage from './components/pages/SettingsPage';
 import { RetailerPage } from './components/pages/RetailerPage'
 import CreateRetailerPage from './components/pages/CreateRetailerPage'
 
 import SpecificGroup from './components/pages/SpecificGroup.js';
-import Groups from './components/pages/Groups.js'
+import Groups from './components/pages/SettingsPage.js'
 
 //** End Layout Import **/
 
@@ -145,6 +145,7 @@ class App extends React.Component {
 								// Is a user signed in?
 								// geändert von chris, um im dev prozess den signin zu umgehen, muss wieder 
 								// TODO: muss wieder in currentUser umbenannt werden
+                // Is a user signed in?
                 true ?
                   <>
                     {/* Here should the redirects go */}
@@ -171,14 +172,16 @@ class App extends React.Component {
 					<Route path="/Groups">
 						<Groups></Groups>
 					</Route>
-
+					<Route path="/GroupShoppingList">
+						<GroupShoppingList/>
+          </Route> 
 					<Route path="/settings">
 						<SettingsPage />
 					</Route>
 					{/* this must always be the last route */}
                     <Route path="/">
                       <CreateRetailerPage />
-                    </Route>
+					</Route>
                   </Switch>
                   </>
                   :
