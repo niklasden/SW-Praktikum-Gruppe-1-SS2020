@@ -9,7 +9,7 @@ class Heading extends Component {
     }
     render() { 
         return (
-            <Typography variant={this.props.variant ? this.props.variant : 'h4'} color="primary">{this.props.children}</Typography>
+            <Typography variant={this.props.variant ? this.props.variant : 'h6'} color="primary">{this.props.children}</Typography>
         );
     }
 }
