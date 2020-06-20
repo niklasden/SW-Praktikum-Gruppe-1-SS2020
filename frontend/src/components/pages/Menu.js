@@ -68,13 +68,13 @@ export default function Menu(props) {
           >
             <div onClick={toggleDrawer("left", false)} onKeyDown={toggleDrawer("left", false)}>
             <List>
-            <Link to="/" className={classes.listItem}>
-              <ListItem button key="0">
-                <ListItemIcon><HomeIcon /></ListItemIcon>
-                <ListItemText primary="Home" />
-              </ListItem>
-            </Link>
-            <Link to="/about" className={classes.listItem}>
+              <Link to="/" className={classes.listItem}>
+                <ListItem button key="0">
+                  <ListItemIcon><HomeIcon /></ListItemIcon>
+                  <ListItemText primary="Home" />
+                </ListItem>
+              </Link>
+             <Link to="/about" className={classes.listItem}>
               <ListItem button key="1">
                 <ListItemIcon><InfoIcon /></ListItemIcon>
                 <ListItemText primary="About" />
@@ -102,6 +102,18 @@ export default function Menu(props) {
                     <ListItem button key="2">
                       <ListItemIcon><ArchiveIcon /></ListItemIcon>
                       <ListItemText primary="Einzelhändler verwalten" />
+                    </ListItem>
+                  </Link>
+                  <Link to="/statistics" className={classes.listItem}>
+                    <ListItem button key="2">
+                      <ListItemIcon><TimelineIcon /></ListItemIcon>
+                      <ListItemText primary="Statistik verwalten" />
+                      </ListItem>
+                  </Link>
+                  <Link to="/groups" className={classes.listItem}>
+                    <ListItem button key="2">
+                      <ListItemIcon><ArchiveIcon /></ListItemIcon>
+                      <ListItemText primary="Gruppen anzeigen" />
                     </ListItem>
                   </Link>
                   <Link to="/statistics" className={classes.listItem}>

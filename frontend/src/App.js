@@ -30,8 +30,8 @@ import ProductsPage from './components/pages/ProductsPage';
 import GroupShoppingList from './components/pages/GroupShoppingList';
 import SettingsPage from './components/pages/SettingsPage';
 import { RetailerPage } from './components/pages/RetailerPage'
-import StatisticPage from './components/pages/StatisticPage';
 import CreateRetailerPage from './components/pages/CreateRetailerPage'
+import StatisticPage from './components/pages/StatisticPage';
 
 import SpecificGroup from './components/pages/SpecificGroup.js';
 import Groups from './components/pages/SettingsPage.js'
@@ -184,6 +184,14 @@ class App extends React.Component {
 					<Route path="/statistics">
 						<StatisticPage />
 					</Route>
+					{/* this must always be the last route */}
+					<Route path="/statistics">
+						<StatisticPage />
+					</Route>
+					{/* this must always be the last route */}
+					<Route path="/GroupShoppingList">
+						<GroupShoppingList/>
+          			</Route> 
 					{/* this must always be the last route */}
                     <Route path="/">
                       <StatisticPage />
