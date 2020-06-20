@@ -15,7 +15,8 @@ const styles = theme => ({
   root: {
     backgroundColor: "#fafafa",
     borderRadius: 10,
-    width: "292px",
+    // width: "292px",
+    // width: 'auto', 
     height: "48px"
   },
 
@@ -30,7 +31,7 @@ const styles = theme => ({
 
   inputInput: {
     paddingLeft: "64px",
-    paddingTop: "15px",
+    paddingTop: "12px",
     fontSize: '18px',
     fontFamily: 'Roboto'
   }
@@ -43,24 +44,22 @@ class Searchbar extends Component {
         border={1} 
         borderColor='#bdbdbd'
         borderRadius={10}
+        style={{flexGrow: 1}}
       >
-      <div>
-        <div className={this.props.classes.root}>
-          <div className={this.props.classes.searchIcon}>
-            <SearchIcon style={{ color: "#00BCD4" }} fontSize="medium" />
+          <div className={this.props.classes.root}>
+            <div className={this.props.classes.searchIcon}>
+              <SearchIcon style={{ color: "#00BCD4" }} fontSize="medium" />
+            </div>
+
+            <InputBase
+              placeholder="search…"
+              classes={{
+                input: this.props.classes.inputInput
+              }}
+              inputProps={{ "aria-label": "search" }}
+            />
           </div>
-
-          <InputBase
-            placeholder="search…"
-            classes={{
-              input: this.props.classes.inputInput
-            }}
-            inputProps={{ "aria-label": "search" }}
-          />
-        </div>
-      </div>
-    </Box>
-
+      </Box>
     );
   }
 }

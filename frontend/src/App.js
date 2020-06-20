@@ -189,8 +189,8 @@ class App extends React.Component {
           			</Route>  
 
 					{/* this must always be the last route */}
-                    <Route path="">
-                      <GroupShoppingList />
+                    <Route path="/">
+                      <RetailerPage />
                     </Route>
                   </Switch>
                   </>

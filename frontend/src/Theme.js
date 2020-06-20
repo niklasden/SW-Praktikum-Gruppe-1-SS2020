@@ -14,7 +14,7 @@ const theme = createMuiTheme({
       contrastText: white,
       dark: colors.indigo[900],
       main: '#00BCD4',
-      light: colors.indigo[100]
+      light: colors.indigo[100],
     },
     secondary: {
       contrastText: white,
@@ -62,7 +62,7 @@ const theme = createMuiTheme({
     divider: colors.grey[200],
     },
     typography: {
-      fontFamily: "'Montserrat', sans-serif;"
+      // fontFamily: "'Montserrat', sans-serif;"
     } 
 });
 export default theme;

@@ -4,6 +4,9 @@ import { withStyles } from '@material-ui/styles';
 import IconButton from './IconButton'
 import Box from '@material-ui/core/Box'
 import SettingsIcon from '@material-ui/icons/Settings';
+import {
+  Link
+} from 'react-router-dom';
 
 const styles = theme => ({
   root: {
@@ -55,21 +58,24 @@ class RetailerListEntry extends Component {
             <text 
               className={classes.character}
               style={{
-                marginRight: 12
+                marginRight: 12,
+                marginLeft: 8, 
               }}
             >{this.props.name.substr(0, 1).toUpperCase()}</text>
           </Grid>
           <Grid item>
             <text style={{display: 'block'}}>{this.props.name.toUpperCase()}</text>
-            {/* <text>{this.props.address}</text> */}
+            <text style={{fontSize: 10}}>{this.props.address}</text>
           </Grid>
         </Grid>
 
         <Grid container xs={3} justify='flex-end'>
-          <SettingsIcon 
-            style={{ color: '#00BCD4' }} 
-            onClick={() => alert('hello')}
-          />
+          <Link to='retailer'>
+            <SettingsIcon 
+              style={{ color: '#00BCD4' }} 
+              // onClick={() => alert('hello')}
+            />
+          </Link>
         </Grid>
       </Grid> 
     )
