@@ -3,6 +3,9 @@ from server.bo import BusinessObject as bo
 import random
 
 class User (bo.BusinessObject):
+    """
+    author: Julius and Niklas
+    """
     def __init__(self):
         super().__init__()
         self.__name = ""
@@ -14,6 +17,7 @@ class User (bo.BusinessObject):
         testing only
         creating attributes for self Userobject
         atm not checking if usermail etc exists in db!!!
+        julius
         """
 
         chars = "abcdefghijklmnopqrstuvxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890" 

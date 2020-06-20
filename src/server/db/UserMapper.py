@@ -68,7 +68,7 @@ class UserMapper(Mapper):
             user.set_id(id)
             user.set_name(name)
             user.set_email(email)
-            user.set_user_id(user_id)
+            user.set_firebase_id(user_id)
             result = user
         except IndexError:
             result = None
@@ -109,7 +109,7 @@ class UserMapper(Mapper):
         Niklas
         """
         result = None
-        cursor = self.__cnx.cursor()
+        cursor = self._cnx.cursor()
         command = "SELECT id, name, email, firebase-id FROM users WHERE firebase_id='{}'".format(firebase_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
@@ -120,7 +120,7 @@ class UserMapper(Mapper):
             user.set_id(id)
             user.set_name(name)
             user.set_email(email)
-            user.set_user_id(firebase_id)
+            user.set_firebase_id(firebase_id)
             result = user
 
         except IndexError:
@@ -171,7 +171,7 @@ class UserMapper(Mapper):
         """
         cursor = self._cnx.cursor()
         command = "UPDATE User " + "SET name=%s, e-mail=%s WHERE firebase-id=%s"
-        data = (user.get_id(), user.get_name(), user.get_email(), user.get_user_id())
+        data = (user.get_id(), user.get_name(), user.get_email(), user.get_firebase_id())
         cursor.execute(command, data)
         self._cnx.commit()
         cursor.close()

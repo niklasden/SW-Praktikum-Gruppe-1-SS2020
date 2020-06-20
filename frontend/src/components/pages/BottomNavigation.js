@@ -1,5 +1,5 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, {Component} from 'react';
+import { withStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/core/styles';
 import Theme from '../../Theme';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
@@ -14,7 +14,7 @@ import {
   Link
 } from 'react-router-dom';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = (theme) => ({
   root: {
     flexGrow: 1,
     bottom: 0,
@@ -24,8 +24,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.white,
     // backgroundColor + fontcolor should be done via Theme.js file, this is not clean code
-  }
-}));
+  },
+});
 
 /**
  * Bottom Menu
@@ -37,28 +37,38 @@ const useStyles = makeStyles((theme) => ({
  */
 
 
-export default function BottomNavbar() {
-    const classes = useStyles();
-    const [value, setValue] = React.useState(0);
-   
+class BottomNavi extends React.Component {
+    state = {
+      value: '0'
+    }
 
-  return (
-    <ThemeProvider theme={Theme}>
-    <BottomNavigation
-    value={value}
-    onChange={(event, newValue) => {
-      setValue(newValue);
-    }}
-    showLabels
-    className={classes.root}
-    >
-    <BottomNavigationAction icon={<ImportContactsIcon />}/>
-    <BottomNavigationAction icon={<PeopleAltIcon />}/>
-    <BottomNavigationAction icon={<HomeIcon />}/>
-    <BottomNavigationAction icon={<ListIcon />}/>
-    <BottomNavigationAction icon={<SettingsIcon />}/>
-  </BottomNavigation>
-  </ThemeProvider>
-  );
+    changeValue(e, newValue) {
+      this.setState({value: newValue});
+    }
+    
+    constructor(props){
+      super(props)
+      this.changeValue = this.changeValue.bind(this)
+    }   
+  render(){
+    const { classes } = this.props;
+    return (
+      <ThemeProvider theme={Theme}>
+      <BottomNavigation
+      value={this.state.value}
+      onChange={this.changeValue}
+      className={classes.root}
+      >
+      
+      <BottomNavigationAction component={Link} icon={<ImportContactsIcon />} to="/"/>
+      <BottomNavigationAction component={Link} icon={<PeopleAltIcon />} to="/groups"/>
+      <BottomNavigationAction component={Link} icon={<HomeIcon />} to="/home"/>
+      <BottomNavigationAction component={Link} icon={<ListIcon />} to="/lists"/>
+      <BottomNavigationAction component={Link} icon={<SettingsIcon />} to="/settings"/>
+    </BottomNavigation>
+    </ThemeProvider>
+    );
+  } 
 }
+export default withStyles(useStyles, { withTheme: true})(BottomNavi)
 
