@@ -92,6 +92,12 @@ export default function Menu(props) {
                       <ListItemText primary="Users" />
                     </ListItem>
                   </Link>
+                  <Link to="/allGroups" className={classes.listItem}>
+                    <ListItem button key="2">
+                      <ListItemIcon><PermIdentityIcon /></ListItemIcon>
+                      <ListItemText primary="All Groups" />
+                    </ListItem>
+                  </Link>
                   <Link to="/products" className={classes.listItem}>
                     <ListItem button key="2">
                       <ListItemIcon><ArchiveIcon /></ListItemIcon>
@@ -140,6 +146,7 @@ export default function Menu(props) {
                       <ListItemText primary="Specific Group" />
                     </ListItem>
                   </Link>
+                  
                   <a href="http://localhost:8081" className={classes.listItem} target="_blank" rel="noopener noreferrer">
                     <ListItem button key="2">
                       <ListItemIcon><CodeIcon /></ListItemIcon>

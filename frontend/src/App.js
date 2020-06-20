@@ -36,6 +36,8 @@ import StatisticPage from './components/pages/StatisticPage';
 import ShowStatisticPage from './components/pages/ShowStatisticPage';
 import SpecificGroup from './components/pages/SpecificGroup.js';
 
+import Groups from './components/pages/Groups';
+
 //** End Layout Import **/
 
 class App extends React.Component {
@@ -191,8 +193,11 @@ class App extends React.Component {
           			</Route>
 					  <Route path="/specificGroup">
 						<SpecificGroup></SpecificGroup>
-          			</Route>  
-
+          			</Route>
+					  <Route path="/allGroups">
+						<Groups></Groups>
+					
+          			</Route>
 					{/* this must always be the last route */}
                     <Route path="/">
                       <HomePage />
