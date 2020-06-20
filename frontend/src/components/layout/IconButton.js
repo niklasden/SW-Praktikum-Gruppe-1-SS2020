@@ -5,10 +5,12 @@ import Icon from '@material-ui/icons/Add';
 import { withStyles } from '@material-ui/styles';
 import Box from '@material-ui/core/Box'
 
+
 const styles = theme => ({
   root: {
     backgroundColor: '#fafafa', 
     borderRadius: 5, 
+    height: "48px"
   },
 });
 
@@ -33,6 +35,7 @@ class IconButton extends Component {
         <MaterialIconButton 
           className={classes.root}
           style={{padding: 9}}
+          onClick={this.props.onClick}
         >
           <Icon 
             style={{ color: '#00BCD4'}}

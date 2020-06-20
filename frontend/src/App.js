@@ -27,13 +27,14 @@ import AboutPage from './components/pages/AboutPage';
 import { HomePage } from './components/pages/HomePage';
 import { UsersPage } from './components/pages/UsersPage';
 import ProductsPage from './components/pages/ProductsPage';
-
+import GroupShoppingList from './components/pages/GroupShoppingList';
 import SettingsPage from './components/pages/SettingsPage';
 import { RetailerPage } from './components/pages/RetailerPage'
 import StatisticPage from './components/pages/StatisticPage';
+import CreateRetailerPage from './components/pages/CreateRetailerPage'
 
 import SpecificGroup from './components/pages/SpecificGroup.js';
-import Groups from './components/pages/Groups.js'
+import Groups from './components/pages/SettingsPage.js'
 
 //** End Layout Import **/
 
@@ -142,6 +143,9 @@ class App extends React.Component {
           <Router basename={process.env.PUBLIC_URL}>
 		  <Header user={currentUser} />
               {
+								// Is a user signed in?
+								// geändert von chris, um im dev prozess den signin zu umgehen, muss wieder 
+								// TODO: muss wieder in currentUser umbenannt werden
                 // Is a user signed in?
                 true ?
                   <>
@@ -160,6 +164,9 @@ class App extends React.Component {
 					<Route path="/retailers">
 						<RetailerPage />
 					</Route>
+					<Route path="/create_retailer">
+						<CreateRetailerPage />
+					</Route>
 					<Route path="/specificgroup">
 						<SpecificGroup/>
 					</Route>
@@ -168,6 +175,10 @@ class App extends React.Component {
 					</Route>
 
 					<Route path="/settings" >
+					<Route path="/GroupShoppingList">
+						<GroupShoppingList/>
+          </Route> 
+					<Route path="/settings">
 						<SettingsPage />
 						</Route>
 					<Route path="/statistics">
@@ -177,6 +188,8 @@ class App extends React.Component {
                     <Route path="/">
                       <StatisticPage />
                     </Route>
+                      <CreateRetailerPage />
+					</Route>
                   </Switch>
                   </>
                   :
