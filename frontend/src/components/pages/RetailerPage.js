@@ -29,21 +29,33 @@ const RETAILERS = [
   },
 ]
 
+/**
+ * Renders the retailer page
+ * 
+ * @see RetailerPage
+ * 
+ * @author [Christopher Böhm](https://github.com/christopherboehm1)
+ */
 export class RetailerPage extends Component {
   render(){
     return (
-      <div style={{margin: 16}}>
-        <Grid container spacing={3}>
-          <Grid item>
-            <Searchbar />
-          </Grid>
-          <Grid item>
-            <Link to="/create_retailer" >
-              <IconButton />
-            </Link>
-          </Grid>
-        </Grid>
-        <RetailerList />
+      <div style={{width: '100%'}}>
+        <div style={{flex: 1, flexDirection: 'row', display: 'flex', margin: 12}}>
+          {/* <text style={{flexGrow: 1}}>hello</text> */}
+
+          <Searchbar />
+
+          <Link to="/create_retailer" >
+            <IconButton style={{marginLeft: 12}}  />
+          </Link>
+        </div>
+        
+
+
+        <div style={{margin: 12}}>
+          <RetailerList />
+        </div>
+
       </div>
 
     ) 
