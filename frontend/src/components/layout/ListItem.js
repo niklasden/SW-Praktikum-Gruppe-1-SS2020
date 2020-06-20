@@ -39,8 +39,7 @@ class ListItem extends Component {
       className={this.props.classes.root}
     >
         <Grid item xs={2}>
-          <Icon>fastfood</Icon>
-          
+          <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 3}}>fastfood</Icon>
         </Grid>
 
         <Grid item xs={8}>
@@ -48,7 +47,7 @@ class ListItem extends Component {
         </Grid>
 
         <Grid item xs={2}>
-          <Checkbox></Checkbox>
+          <Checkbox style={{padding:0}}></Checkbox>
         </Grid>
       
     </Grid>
