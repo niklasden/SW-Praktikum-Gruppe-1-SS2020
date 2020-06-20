@@ -80,6 +80,10 @@ export default function Menu(props) {
                 <ListItemText primary="About" />
               </ListItem>
               </Link>
+              {/* 
+                geändert von chris, um im dev prozess den signin zu umgehen, muss wieder 
+                TODO: true muss wieder in user umbenannt werden 
+              */}
               { true ?
                 <div>
                   <Link to="/users" className={classes.listItem}>
@@ -100,10 +104,22 @@ export default function Menu(props) {
                       <ListItemText primary="Einzelhändler verwalten" />
                     </ListItem>
                   </Link>
+                  <Link to="/groups" className={classes.listItem}>
+                    <ListItem button key="2">
+                      <ListItemIcon><ArchiveIcon /></ListItemIcon>
+                      <ListItemText primary="Gruppen anzeigen" />
+                    </ListItem>
+                  </Link>
                   <Link to="/statistics" className={classes.listItem}>
                     <ListItem button key="2">
                       <ListItemIcon><TimelineIcon /></ListItemIcon>
                       <ListItemText primary="Statistik verwalten" />
+                    </ListItem>
+                  </Link>
+                  <Link to="/GroupShoppingList" className={classes.listItem}>
+                    <ListItem button key="2">
+                      <ListItemIcon><ArchiveIcon/></ListItemIcon>
+                      <ListItemText primary="GroupShoppingList" />
                     </ListItem>
                   </Link>
                   <a href="http://localhost:8081" className={classes.listItem} target="_blank" rel="noopener noreferrer">

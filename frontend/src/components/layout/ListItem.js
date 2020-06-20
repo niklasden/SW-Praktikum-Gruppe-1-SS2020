@@ -6,6 +6,7 @@ import Checkbox from "@material-ui/core/Checkbox"
 import { withStyles } from "@material-ui/styles";
 import Box from '@material-ui/core/Box'
 import MaterialIconButton from '@material-ui/core/IconButton';
+import { Grid } from "@material-ui/core";
 
 /**
  * Displays an list item as designed in figma
@@ -18,37 +19,33 @@ const styles = theme => ({
   root: {
     backgroundColor: '#F2F2F2',
     width: 'auto',
-    height: "35px",
-    display: 'flex',
-    alignItems: 'center'
-  },
-
-  checkbox: {
-    marginLeft: '210px'
+    corderRadius: 10,
+    border: 1
   },
 });
 
 class ListItem extends Component {
   render() {
     return (
-     <Box
-        border={1}
-        borderColor='#BDBDBD'
-        borderRadius={10}
-        style={{margin: '10px'}}
-      >
+    <Grid 
+      container 
+      direction='row'
+      justify='space-between'
+      alignItems='center'
+      className={this.props.classes.root}
+       >
+        <Grid item xs={3}>
+          <img style={{height:'25px', width: '25px'}} src={this.props.imgsrc}></img>
+        </Grid>
 
-        <div className={this.props.classes.root}>
+        <Grid item xs={6}>
+          <p style={{color: '#000000', fontSize: 18}}>{this.props.itemname}</p>
+        </Grid>
 
-          <img style={{height:25, width: 25, marginLeft: '15px'}} src={this.props.imgsrc}></img>
-
-          <p style={{color: '#000000', marginLeft: '20px', fontSize: 18}}>{this.props.itemname}</p>
-
+        <Grid item xs={3}>
           <Checkbox className={this.props.classes.checkbox}></Checkbox>
-
-        </div>
-    </Box>
-
+        </Grid>
+    </Grid>
     );
   }
 }

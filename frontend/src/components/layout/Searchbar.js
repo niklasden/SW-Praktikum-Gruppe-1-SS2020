@@ -33,7 +33,6 @@ const styles = theme => ({
     paddingTop: "15px",
     fontSize: '18px',
     fontFamily: 'Roboto'
-    
   }
 });
 
