@@ -54,7 +54,10 @@ const styles = theme => ({
         <MaterialIconButton 
           
           className={classes.root}
-          style={{padding: '9px' , width:'60px',height:'60px'}}
+          style={{padding: '1px' , width:'60px',height:'60px' }}
+          /**
+            @pia changed padding to 1px, damit die Artikelbezeichnung über die ganze Länge des Buttons geht
+           */
         >
         <div style={{height:'100%',width:'100%',margin:'9px'}}>
         
@@ -66,7 +69,10 @@ const styles = theme => ({
         </Icon>
         
         
-        <p style={{fontSize: "12px" ,color: "black"}}>{this.props.itemname}</p>
+        <p style={{fontSize: "12px" ,color: "black", overflowWrap: "break-word"}}>{this.props.itemname}</p>
+        {/**
+         * @pia added overflowWrap, für eine automatische Worttrennung 
+         */}
         
         </div>
         </MaterialIconButton>
