@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import SearchIcon from "@material-ui/icons/Search";
-import InputBase from "@material-ui/core/InputBase";
+import Icon from "@material-ui/core/Icon";
 import PropTypes from 'prop-types';
 import Checkbox from "@material-ui/core/Checkbox"
 import { withStyles } from "@material-ui/styles";
@@ -22,8 +22,8 @@ const styles = theme => ({
     borderColor: '#BDBDBD',
     borderStyle: 'solid',
     width: 'auto',
-    height: 35,
     marginLeft: 5,
+    height: 35,
     marginRight: 8,
   },
 });
@@ -34,21 +34,23 @@ class ListItem extends Component {
     <Grid 
       container 
       direction='row'
-      justify='space-between'
+      justify='center'
       alignItems='center'
       className={this.props.classes.root}
-       >
+    >
         <Grid item xs={2}>
-          <img style={{height:'25px', width: '25px', marginLeft: 10}} src={this.props.imgsrc}></img>
+          <Icon>fastfood</Icon>
+          
         </Grid>
 
         <Grid item xs={8}>
-          <p style={{color: '#000000', fontSize: 18}}>{this.props.itemname}</p>
+          <t style={{color: '#000000', fontSize: 18}}>{this.props.itemname}</t>
         </Grid>
 
         <Grid item xs={2}>
-          <Checkbox className={this.props.classes.checkbox}></Checkbox>
+          <Checkbox></Checkbox>
         </Grid>
+      
     </Grid>
     );
   }
