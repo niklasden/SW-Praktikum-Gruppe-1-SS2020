@@ -8,7 +8,8 @@ const styles = theme => ({
     backgroundColor: "#fafafa",
     borderRadius: 10,
     width: "292px",
-    height: "48px"
+    // height: "48px"
+    padding: 12
   },
 });
 
@@ -19,7 +20,7 @@ class MultilineTextInput extends Component {
         border={1} 
         borderColor='#BDBDBD'
         borderRadius={10}
-        style={{display: 'inline-block'}}
+        style={{display: 'inline-block', ...this.props.style}}
       >
         <InputBase
           placeholder={this.props.placeholder}
@@ -28,6 +29,8 @@ class MultilineTextInput extends Component {
           }}
           inputProps={{ "aria-label": "search" }}
           fullWidth
+          multiline
+          rows={8}
         />
       </Box>
     )
