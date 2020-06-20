@@ -30,6 +30,7 @@ import ProductsPage from './components/pages/ProductsPage';
 
 import SettingsPage from './components/pages/SettingsPage';
 import { RetailerPage } from './components/pages/RetailerPage'
+import CreateRetailerPage from './components/pages/CreateRetailerPage'
 
 
 //** End Layout Import **/
@@ -139,7 +140,7 @@ class App extends React.Component {
 		  <Header user={currentUser} />
               {
                 // Is a user signed in?
-                currentUser ?
+                true ?
                   <>
                     {/* Here should the redirects go */}
                     <Redirect from='/' to='' />
@@ -156,9 +157,12 @@ class App extends React.Component {
 					<Route path="/retailers">
 						<RetailerPage />
 					</Route>
+					<Route path="/create_retailer">
+						<CreateRetailerPage />
+					</Route>
 					{/* this must always be the last route */}
                     <Route path="/">
-                      <HomePage />
+                      <RetailerPage />
                     </Route>
                   </Switch>
                   </>

@@ -51,7 +51,9 @@ const theme = createMuiTheme({
       link: colors.blue[600]
     },
     background: {
-      default: '#F4F6F8',
+      // default: '#F4F6F8',
+      // geändert von chris, damit das generelle background weiß ist, (ist der farbcode richtig?)
+      default: '#FFFFFF',
       paper: white,
       blue: '#00BCD4',
     },
