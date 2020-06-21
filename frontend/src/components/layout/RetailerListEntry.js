@@ -70,7 +70,7 @@ class RetailerListEntry extends Component {
         </Grid>
 
         <Grid container xs={3} justify='flex-end'>
-          <Link to='retailer'>
+          <Link to='create_retailer'>
             <SettingsIcon 
               style={{ color: '#00BCD4' }} 
               // onClick={() => alert('hello')}

@@ -8,6 +8,9 @@ import {
   Link
 } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid'
+import Snackbar from '@material-ui/core/Snackbar';
+import Slide from '@material-ui/core/Slide';
+import Button from '@material-ui/core/Button'
 
 const styles = theme => ({
   root: {
@@ -26,7 +29,21 @@ const styles = theme => ({
  * 
  */
 class CreateRetailerPage extends Component {
+  state = { 
+    snackbarOpen: false
+  }
+
+  onClickSave(){
+    this.setState({ snackbarOpen: true })
+    setTimeout(() => {
+      this.setState({ snackbarOpen: false })
+    }, 2000)
+  }
+
   render(){
+    // const transition = (props) => (
+    //   <Slide {...props} direction="left" />
+    // )
     return (
 
       <div>
@@ -54,9 +71,25 @@ class CreateRetailerPage extends Component {
             alignItems="flex-end"
           >
             <Grid item  >
-              <MainButton>Speichern</MainButton>
-
+              <MainButton onClick={this.onClickSave.bind(this)}>Speichern</MainButton>
             </Grid>
+
+            <Snackbar
+              open={this.state.snackbarOpen}
+              onClose={() => this.setState({snackbarOpen: false})}
+              // TransitionComponent={transition}
+              message="Keine Netzwerkverbindung"
+              // key={transition ? transition.name : ''}
+              action={
+                <Button 
+                  color="inherit" 
+                  size="small"
+                  onClick={() => this.setState({ snackbarOpen: false })}
+                >
+                  Undo
+                </Button>
+              }
+            />
           </Grid>
  
       </div>
