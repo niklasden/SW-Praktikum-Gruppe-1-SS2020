@@ -9,10 +9,8 @@ import { Grid, } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-import MakeSelectable from '@material-ui/core/List';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
@@ -43,20 +41,9 @@ const useStyles = (theme) => ({
   }
 });
 
-var userArray = [0,1,2];
-function generate(element) {
-    return userArray.map((value, index) =>
-      React.cloneElement(element, {
-        key: index, 
-      }),
-    console.log(element)
-    );
-  }
-
-
-
 /**
  * ToDo: Outline around Icon
+ *       Avatar Image from Google, instead of hardcoded
  * 
  * @author [Niklas Denneler](https://github.com/)
  * @author [Julius Jacobitz]()
@@ -69,7 +56,22 @@ class CreateGroup extends Component {
         this.state = {
         dense: 'false',
         open: false,
-        groupMembers: [0,1,2]
+        groupMembers: [
+            {
+              id: 'a',
+              firstname: 'Robin',
+              lastname: 'Wieruch',
+              
+            },
+            {
+              id: 'b',
+              firstname: 'Dave',
+              lastname: 'Davidds',
+              
+            },
+          ],
+          inputval: '',
+          fetchuser: ''
       }
       this.deleteMember = this.deleteMember.bind(this);
     }
@@ -80,6 +82,10 @@ class CreateGroup extends Component {
             groupMembers: prevState.groupMembers.filter(item => item !== id)
        }))
     };
+
+    addMember(id) {
+        this.setState({groupMembers: [...this.state.groupMembers, {firstname: this.state.inputval, } ]})
+    }
 
   render(){
     const { classes } = this.props;
@@ -95,14 +101,17 @@ class CreateGroup extends Component {
         this.setState({open:false})
     };
 
-    const fetchUser = () => {
-        alert("added User")
+    const fetchUser = async () =>{
+        try {
+            let response = await fetch(`http://localhost:8081/api/shoppa/groupmembers/$email`);
+            let data = await response.json()
+            this.setState({groupMembers: this.state.groupMembers.concat(data)}) 
+        }
+        catch (error) {
+            console.log(error)
+        }
     };
     
-    const add = () => {
-        alert("niklas")
-    };
-
     return (
         <Container maxWidth="sm" style={{justifyContent: 'center'}}>
             <Grid container style={{ marginTop: "40px", justifyContent: 'center'}}>
@@ -139,27 +148,28 @@ class CreateGroup extends Component {
                                 label="Email Address"
                                 type="email"
                                 fullWidth
+                                onChange={(e) => this.setState({inputval: e.target.value })}
                               />
                             </DialogContent>
                             <DialogActions>
                               <Button onClick={handleClose} color="primary">
                                 CANCEL
                               </Button>
-                              <Button onClick={() => {handleClose(); fetchUser();}} color="primary">
+                              <Button onClick={() => {fetchUser(); handleClose();}} color="primary">
                                 ADD
                               </Button>
                             </DialogActions>
                           </Dialog>
                         
                           {groupMembers.map((item) => (
-                            <ListItem key={item.id}>
+                            <ListItem key={item}>
                             <ListItemAvatar>
                                 <Avatar>
                                 <Avatar alt="Sabine Mustermann" src={avatar}/>
                                 </Avatar>
                             </ListItemAvatar>
                             <ListItemText
-                                primary="Sabine Mustermann"
+                                primary={item.firstname +" "+ item.lastname}
                             />
                             <ListItemSecondaryAction>
                                 <IconButton edge="end" aria-label="delete">
@@ -172,7 +182,7 @@ class CreateGroup extends Component {
                     </div>
             </Grid>
             <Grid item xs="12" style={{}}>
-                    <MainButton className={classes.CreateButton} onclick={() => {} }>Create Group</MainButton>
+                    <MainButton className={classes.CreateButton} onclick={() => {alert("group saved")} }>Create Group</MainButton>
             </Grid>
         </Grid>
         </Container>

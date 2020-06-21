@@ -32,7 +32,7 @@ module.exports = SetupEndpoint({
             method: ['PUT'],
             response: '/response-files/products.json'
         }, {
-            method: 'DELETE',
+            method: ['DELETE'],
             response: '/response-files/products.json'
         }]
     }, 
@@ -65,10 +65,17 @@ module.exports = SetupEndpoint({
         }],
     } ,
     {
-        params: '/groupmembers',
+        params: '/groupmembers/{email}',
         requests: [{
-            method: ['GET'],
+            method: 'GET',
             response: '/response-files/groupmembers.json'
+        }],
+    } ,
+    {
+        params: '/specificGroupMembers',
+        requests: [{
+            method: 'GET',
+            response: '/response-files/SpecificGroupMembers.json'
         }],
     } ,
     ]
