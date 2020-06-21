@@ -62,7 +62,7 @@ class GroupMember extends Component {
 
         <Grid item xs={2}>
           
-            <IconButton </Grid></Grid>aria-label="delete" className={this.props.classes.margin} style={{padding:0}}>
+            <IconButton onClick aria-label="delete" className={this.props.classes.margin} style={{padding:0}}>
               <DeleteIcon fontSize="small" />
           </IconButton>
         </Grid>
