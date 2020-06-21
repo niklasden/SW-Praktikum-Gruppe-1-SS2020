@@ -23,7 +23,7 @@ class StatisticPage extends Component {
         }
     }
 
-    fetchTopProducts() {
+    async fetchTopProducts() {
         try {
             const res = await fetch("http://localhost:8081/api/shoppa/products/top");
             const json = await res.json();
@@ -50,24 +50,29 @@ class StatisticPage extends Component {
     const { error } = this.state;
         return (
             <>
-          <ContextErrorMessage error={error} contextErrorMsg={`Data could not be loaded. Check if server is running.`} />
-          <Heading>MEISTBESUCHTE EINZELHÄNDLER</Heading>
-            <MainBarChart data={this.state.retailers} />
-            <Grid item xs={12} container spacing={1}>
-                {this.state.retailers.map(retailer => {
-                    return <StatisticItem retailer key={retailer.nr} number={retailer.nr} name={retailer.name} amount={retailer.amount} />
-                })}
-            </Grid>
-            <Heading>MEISTGEKAUFTE ARTIKEL</Heading>
-            <MainBarChart data={this.state.products} />
-            <Grid item xs={12} container spacing={1}>
-                {this.state.products.map(article => {
-                    return <StatisticItem article key={article.nr} number={article.nr} name={article.name} amount={article.amount} />
-                })}
-            </Grid>
-            <Link to="/show">
-                <MainButton>STATISTIK ANZEIGEN</MainButton>
-            </Link>
+            {error ?
+                <ContextErrorMessage error={error} contextErrorMsg={`Data could not be loaded. Check if server is running.`} />
+            :
+                <>
+                    <Heading>MEISTBESUCHTE EINZELHÄNDLER</Heading>
+                        <MainBarChart data={this.state.retailers} />
+                        <Grid item xs={12} container spacing={1}>
+                            {this.state.retailers.map(retailer => {
+                                return <StatisticItem retailer key={retailer.nr} number={retailer.nr} name={retailer.name} amount={retailer.amount} />
+                            })}
+                        </Grid>
+                        <Heading>MEISTGEKAUFTE ARTIKEL</Heading>
+                        <MainBarChart data={this.state.products} />
+                        <Grid item xs={12} container spacing={1}>
+                            {this.state.products.map(article => {
+                                return <StatisticItem article key={article.nr} number={article.nr} name={article.name} amount={article.amount} />
+                            })}
+                        </Grid>
+                        <Link to="/show">
+                            <MainButton>STATISTIK ANZEIGEN</MainButton>
+                        </Link>
+                    </>
+                }
             </>
         );
     }

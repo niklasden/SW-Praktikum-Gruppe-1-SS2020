@@ -101,8 +101,13 @@ class ShowStatisticPage extends Component {
         const { error } = this.state; 
         return (
             <Grid container xs={12} style={{padding: '1em'}} spacing={1}>
-                <ContextErrorMessage error={error} contextErrorMsg={`Data could not be loaded. Check if server is running.`} />
-            <Link to="/">
+                { error ?
+                    <Grid item xs={12}>
+                        <ContextErrorMessage error={error} contextErrorMsg={`Data could not be loaded. Check if server is running.`} />
+                    </Grid>
+                :
+                <>
+                <Link to="/">
                 <ArrowBackIosIcon fontSize="large" color="primary" />
             </Link>
                 <Grid item xs={12}>
@@ -170,6 +175,8 @@ class ShowStatisticPage extends Component {
                     </Grid>
                 </Grid>
                 <Statistic id="test-chart" retailer={this.state.selectedRetailer} category={this.state.selectedCategory} article={this.state.selectedArticle} startTime={this.state.selectedStartTime} endTime={this.state.selectedEndTime} />
+                </>
+                }
             </Grid>
         );
     }
