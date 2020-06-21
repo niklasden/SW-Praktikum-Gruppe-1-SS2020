@@ -112,6 +112,10 @@ return ShoppingLists
         {/*<div className={classes.Groupnameheader}>{"Gruppenname"}</div>*/}
 
         {/*
+
+          //commented, because we don't need multiple lists per group
+
+
         <ExpansionPanel style={{border:"1px solid #5a5a5a", margin:4}}>
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
