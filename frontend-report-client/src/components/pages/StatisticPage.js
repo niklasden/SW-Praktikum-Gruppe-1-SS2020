@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Heading from '../layout/Heading'
+import Heading from '../layout/Heading';
+import MainButton from '../layout/MainButton';
 import StatisticItem from '../layout/StatisticItem';
 import { Grid } from '@material-ui/core';
-import MainButton from '../layout/MainButton';
 import { Link } from 'react-router-dom';
 
 const Top3RETAILER = [
@@ -33,12 +33,12 @@ class StatisticPage extends Component {
                 })}
             </Grid>
             <Heading>MEISTGEKAUFTE ARTIKEL</Heading>
-            <Grid container spacing={1}>
+            <Grid item xs={12} container spacing={1}>
                 {Top3ARTICLES.map(article => {
                     return <StatisticItem article number={article.nr} name={article.name} amount={article.amount} />
                 })}
             </Grid>
-            <Link to="show-statistic">
+            <Link to="/show">
                 <MainButton>STATISTIK ANZEIGEN</MainButton>
             </Link>
             </>

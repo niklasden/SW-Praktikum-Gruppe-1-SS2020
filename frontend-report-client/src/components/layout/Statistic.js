@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
 import { Grid } from '@material-ui/core';
-import CanvasJSReact from './statistic/canvasjs.react';
+import CanvasJSReact from './statistic/canvasjs.react'
 import { withStyles } from '@material-ui/core/styles';
 
-
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
-var CanvasJS = CanvasJSReact.CanvasJS;
 const styles = theme => ({
   chart: {
     position: 'relative',
@@ -14,9 +12,6 @@ const styles = theme => ({
 });
 
 class Statistic extends Component {
-  constructor(props) {
-    super(props);
-  }
   state = {
     time: this.props.time,
     options: {
@@ -28,7 +23,7 @@ class Statistic extends Component {
         type: "spline",
         retailer: "DM",
         category: "fruits",
-        yValueFormatString: "#0.## °C",
+        yValueFormatString: "#0.## Stk.",
         showInLegend: true,
         dataPoints: [
           { x: new Date(2020,5,24), y: 4 },
@@ -45,7 +40,7 @@ class Statistic extends Component {
         retailer: "ALDI",
         category: "groceries",
         type: "spline",
-        yValueFormatString: "#0.## °C",
+        yValueFormatString: "#0.## Stk.",
         showInLegend: true,
         dataPoints: [
           { x: new Date(2020,5,24), y: 2 },
@@ -62,7 +57,7 @@ class Statistic extends Component {
         type: "spline",
         retailer: "ALDI",
         category: "groceries",
-        yValueFormatString: "#0.## °C",
+        yValueFormatString: "#0.## Stk.",
         showInLegend: true,
         dataPoints: [
           { x: new Date(2020,5,24), y: 1 },
@@ -76,9 +71,19 @@ class Statistic extends Component {
       }]
     }
   }
+  isDateBeforeTimeProp(date) {
+    return date.valueOf() <= new Date(this.props.endTime).valueOf();
+}
+isDateAfterTimeProp(date) {
+  return date.valueOf() >= new Date(this.props.startTime).valueOf();
+}
   getOptions() {
-    var newList = {...this.state.options}
-      if(this.props.retailer !== "Alle") {
+    var newList = {...this.state.options, data: [...this.state.options.data]}
+      newList.data.forEach((data, index) => {
+          newList.data[index] = {...data}
+          newList.data[index].dataPoints = [...data.dataPoints]
+        })
+        if(this.props.retailer !== "Alle") {
         newList = {...newList, data: newList.data.filter(d => d.retailer === this.props.retailer)};
       }
       if(this.props.category !== "Alle") {
@@ -86,6 +91,11 @@ class Statistic extends Component {
       }
       if(this.props.article !== "Alle") {
         newList = {...newList, data: newList.data.filter(d => d.name === this.props.article)};
+      }
+      if(this.props.startTime && this.props.endTime) {
+        newList.data.map(d => {
+          d.dataPoints = d.dataPoints.filter(dd => this.isDateBeforeTimeProp(dd.x) && this.isDateAfterTimeProp(dd.x));
+        })
       }
       return newList;
     }

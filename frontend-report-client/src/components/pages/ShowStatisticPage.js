@@ -7,21 +7,24 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import { Link } from 'react-router-dom';
+
+
 const styles = theme => ({
     formControl: {
       margin: theme.spacing(1),
       minWidth: '75%',
     }
 });
-const todaysDay = new Date().getDate();
-const todaysMonth = new Date().getMonth() + 1;
-if(todaysMonth < 10) {
-    var clearedTodaysMonth = "0" + todaysMonth
-}else {
-    var clearedTodaysMonth = todaysMonth;
-}
-const todaysYear = new Date().getFullYear();
-const todaysDate = todaysYear + "-" + clearedTodaysMonth + "-" + todaysDay;
+const initStartDate = new Date().getDate();
+const initStartDateMonth = new Date().getMonth() + 1;
+var clearedStartDateMonth = 0;
+initStartDateMonth < 10 ? clearedStartDateMonth = "0" + initStartDateMonth : clearedStartDateMonth = initStartDateMonth;
+const initStartDateYear = new Date().getFullYear();
+const todaysDateinOneWeek = initStartDateYear + "-" + clearedStartDateMonth + "-" + parseInt(initStartDate + 7)
+const todaysDate = initStartDateYear + "-" + clearedStartDateMonth + "-" + initStartDate;
+console.log(todaysDateinOneWeek);
 class ShowStatisticPage extends Component {
     constructor(props) {
         super(props);
@@ -29,32 +32,38 @@ class ShowStatisticPage extends Component {
             selectedCategory: "Alle",
             selectedRetailer: "Alle",
             selectedArticle: "Alle",
-            selectedTime: todaysDate
+            selectedStartTime: todaysDate,
+            selectedEndTime: todaysDateinOneWeek
         }
         this.handleChangeArticle = this.handleChangeArticle.bind(this);
         this.handleChangeCategory = this.handleChangeCategory.bind(this);
         this.handleChangeRetailer = this.handleChangeRetailer.bind(this);
-        this.handleChangeTime = this.handleChangeTime.bind(this);
+        this.handleChangeStartTime = this.handleChangeStartTime.bind(this);
+        this.handleChangeEndTime = this.handleChangeEndTime.bind(this);
     }
     handleChangeCategory(event) {
         this.setState({selectedCategory: event.target.value})
     }
     handleChangeRetailer(event) {
-        console.log(event.target.value);
         this.setState({selectedRetailer: event.target.value})
     }
     handleChangeArticle(event) {
         this.setState({selectedArticle: event.target.value})
     }
-    handleChangeTime(event) {
-        this.setState({selectedTime: event.target.value})
-        console.log(event.target.value)
+    handleChangeStartTime(event) {
+        this.setState({selectedStartTime: event.target.value})
+    }
+    handleChangeEndTime(event) {
+        this.setState({selectedEndTime: event.target.value})
     }
 
     render() { 
         const classes = this.props.classes;
         return (
-            <Grid container xs={12} style={{padding: '1em'}}>
+            <Grid container xs={12} style={{padding: '1em'}} spacing={1}>
+            <Link to="/">
+                <ArrowBackIosIcon fontSize="large" color="primary" />
+            </Link>
                 <Grid item xs={12}>
                     <Heading>KATEGORIE AUSWÄHLEN</Heading>
                     <FormControl className={classes.formControl}>
@@ -92,20 +101,35 @@ class ShowStatisticPage extends Component {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12}>
-                    <Heading>ZEITRAUM AUSWÄHLEN</Heading>
-                        <TextField
-                            id="date"
-                            type="date"
-                            defaultValue={this.state.selectedTime}
-                            style={{minWidth: '75%'}}
-                            InputLabelProps={{
-                            shrink: true,
-                            }}
-                            onChange={this.handleChangeTime}
-                        />
+                <Grid container xs={12} direction="row" justify="space-evenly">
+                    <Grid item xs={6}>
+                        <Heading>STARTDATUM AUSWÄHLEN</Heading>
+                            <TextField
+                                id="date"
+                                type="date"
+                                defaultValue={this.state.selectedStartTime}
+                                style={{minWidth: '100%'}}
+                                InputLabelProps={{
+                                shrink: true,
+                                }}
+                                onChange={this.handleChangeStartTime}
+                            />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Heading>ENDDATUM AUSWÄHLEN</Heading>
+                            <TextField
+                                id="date"
+                                type="date"
+                                defaultValue={this.state.selectedEndTime}
+                                style={{minWidth: '100%'}}
+                                InputLabelProps={{
+                                shrink: true,
+                                }}
+                                onChange={this.handleChangeEndTime}
+                            />
+                    </Grid>
                 </Grid>
-                <Statistic id="test-chart" retailer={this.state.selectedRetailer} category={this.state.selectedCategory} article={this.state.selectedArticle} time={this.state.selectedTime} />
+                <Statistic id="test-chart" retailer={this.state.selectedRetailer} category={this.state.selectedCategory} article={this.state.selectedArticle} startTime={this.state.selectedStartTime} endTime={this.state.selectedEndTime} />
             </Grid>
         );
     }
