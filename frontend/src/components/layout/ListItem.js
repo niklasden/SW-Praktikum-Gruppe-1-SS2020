@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-import SearchIcon from "@material-ui/icons/Search";
 import Icon from "@material-ui/core/Icon";
 import PropTypes from 'prop-types';
-import Checkbox from "@material-ui/core/Checkbox"
 import { withStyles } from "@material-ui/styles";
 import { Grid } from "@material-ui/core";
 
@@ -22,13 +20,19 @@ const styles = theme => ({
     borderColor: '#BDBDBD',
     borderStyle: 'solid',
     width: 'auto',
-    marginLeft: 5,
+    marginLeft: 13,
     height: 35,
-    marginRight: 8,
+    marginRight: 0,
   },
 });
 
 class ListItem extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      item: this.props.item
+    }
+  }
   render() {
     return (
     <Grid 
@@ -42,19 +46,14 @@ class ListItem extends Component {
           <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 3}}>fastfood</Icon>
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={7}>
           <t style={{color: '#000000', fontSize: 18}}>{this.props.itemname}</t>
-        </Grid>
+        </Grid>         
 
-         <Grid item xs={2}>
+        <Grid item xs={3}>
           <t style={{color: '#000000', fontSize: 18}}>{this.props.amount}</t>
           <t style={{color: '#000000', fontSize: 18}}>{this.props.unit}</t>
         </Grid>
-
-        <Grid item xs={2}>
-          <Checkbox style={{padding:0, marginLeft: 15}}></Checkbox>
-        </Grid>
-      
     </Grid>
     );
   }
@@ -65,8 +64,6 @@ ListItem.propTypes = {
   itemname: PropTypes.string.isRequired,
   amount: PropTypes.string.isRequired,
   unit: PropTypes.string.isRequired
-
-
 }
 
 export default withStyles(styles)(ListItem);

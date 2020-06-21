@@ -28,7 +28,7 @@ const styles = theme => ({
   },
 });
 
-class ListItem extends Component {
+class ListItemCheckbox extends Component {
   render() {
     return (
     <Grid 
@@ -65,8 +65,6 @@ ListItem.propTypes = {
   itemname: PropTypes.string.isRequired,
   amount: PropTypes.string.isRequired,
   unit: PropTypes.string.isRequired
-
-
 }
 
-export default withStyles(styles)(ListItem);
+export default withStyles(styles)(ListItemCheckbox);
