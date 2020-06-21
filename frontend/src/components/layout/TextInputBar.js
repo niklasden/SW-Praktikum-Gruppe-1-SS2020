@@ -15,7 +15,7 @@ const styles = theme => ({
   root: {
     backgroundColor: "#fafafa",
     borderRadius: 10,
-    width: "292px",
+    width: "auto",
     height: "48px"
   },
 
@@ -32,7 +32,6 @@ const styles = theme => ({
     paddingLeft: "64px",
     paddingTop: "15px",
     fontSize: '18px',
-    fontFamily: 'Roboto'
   }
 });
 
@@ -43,6 +42,7 @@ class TextInputBar extends Component {
         border={1} 
         borderColor='#bdbdbd'
         borderRadius={10}
+        boxShadow={0}
       >
       <div>
         <div className={this.props.classes.root}>
