@@ -12,6 +12,10 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress'
+import { withRouter } from "react-router";
+
+import { Redirect } from 'react-router';
+
 
 const styles = theme => ({
   root: {
@@ -32,7 +36,8 @@ const styles = theme => ({
 class CreateRetailerPage extends Component {
   state = { 
     snackbarOpen: false, 
-    isSaving: false 
+    isSaving: false, 
+    redirectToRetailerPage: false, 
   }
 
   onClickSave(){
@@ -44,6 +49,11 @@ class CreateRetailerPage extends Component {
     }, 1000)
   }
 
+  onClickDelete(){
+    this.setState({redirectToRetailerPage: true});
+    console.log(this.props.location)
+  }
+
   showErrorSnackBar(){
     this.setState({ snackbarOpen: true })
     setTimeout(() => {
@@ -51,10 +61,26 @@ class CreateRetailerPage extends Component {
     }, 2000)
   }
 
+  componentDidMount(){
+    let address = ''
+    let name = ''
+    // checks if there has been a redirect from retailer page to this page with a selected retailer
+    // if yes it takes name and address from there
+    if (this.props.location.state != undefined){
+      address = this.props.location.state.address
+      name = this.props.location.state.name
+    }
+    this.setState({
+      name: name, 
+      address: address
+    })
+  }
+
   render(){
-    // const transition = (props) => (
-    //   <Slide {...props} direction="left" />
-    // )
+    if (this.state.redirectToRetailerPage) {
+      return <Redirect push to="/retailers" />;
+    }
+
     return (
 
       <div>
@@ -62,12 +88,15 @@ class CreateRetailerPage extends Component {
           <TextInputBar 
             icon='storefront'
             placeholder='Name'
-            onChange={(text) => alert(text)}
+            onChange={(e) => this.setState({name: e.target.value})}
+            value={this.state.name}
           />
         </div>      
           <MultilineTextInput 
             placeholder='Ort des Einzelhändlers' 
             style={{margin: 12, marginTop: 0}}  
+            value={this.state.address}
+            onChange={(e) => this.setState({address: e.target.value})}
           />
 
           <div style={{margin: 24}}>
@@ -81,8 +110,14 @@ class CreateRetailerPage extends Component {
             justify="center"
             alignItems="flex-end"
           >
-            <Grid item  >
-              <MainButton onclick={this.onClickSave.bind(this)}>Speichern</MainButton>
+            <Grid item>
+              <div style={{display: 'flex', flexDirection: 'row'}}>
+                <MainButton onclick={this.onClickSave.bind(this)}>Speichern</MainButton>
+                <div style={{marginLeft: 12}}>
+                  <MainButton onclick={this.onClickDelete.bind(this)}>Löschen</MainButton>
+                </div>
+              </div>
+  
               {this.state.isSaving &&
                 <div style={{display: 'flex', justifyContent: 'center', marginTop: 12}}>
                   <CircularProgress size={20} />
@@ -113,4 +148,4 @@ class CreateRetailerPage extends Component {
   }
 } 
 
-export default withStyles(styles)(CreateRetailerPage);
+export default withRouter(withStyles(styles)(CreateRetailerPage));

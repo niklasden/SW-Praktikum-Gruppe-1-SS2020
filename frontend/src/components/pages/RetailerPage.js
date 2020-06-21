@@ -70,7 +70,7 @@ export class RetailerPage extends Component {
         loadingRetailersError: null, 
         retailers: RETAILERS
       })
-    }, 2000)
+    }, 1000)
   }
 
   renderRetailers(){
