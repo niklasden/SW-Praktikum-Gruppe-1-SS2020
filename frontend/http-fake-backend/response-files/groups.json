@@ -1,6 +1,22 @@
-{
+[{
+    
     "id":1,
     "name":"niklas wg",
     "members":"",
     "description": "Niklas WG"
-}
+
+},
+{
+    "id":2,
+    "name":"kevin wg",
+    "members":"",
+    "description": "Kev WG"
+
+},
+{
+    "id":3,
+    "name":"julius wg",
+    "members":"",
+    "description": "julius WG"
+
+}]

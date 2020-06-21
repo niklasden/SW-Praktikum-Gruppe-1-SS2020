@@ -32,9 +32,9 @@ import GroupShoppingList from './components/pages/GroupShoppingList';
 import SettingsPage from './components/pages/SettingsPage';
 import { RetailerPage } from './components/pages/RetailerPage'
 import CreateRetailerPage from './components/pages/CreateRetailerPage'
+import CreateArticlePage from './components/pages/CreateArticlePage'
 import SpecificGroup from './components/pages/SpecificGroup.js';
 import CreateGroup from './components/pages/CreateGroup.js';
-
 import Groups from './components/pages/Groups';
 
 //** End Layout Import **/
@@ -162,6 +162,9 @@ class App extends React.Component {
 					<Route path="/products">
                       <ProductsPage />
                     </Route>
+					<Route path="/create_article">
+						<CreateArticlePage />
+					</Route>
 					<Route path="/retailers">
 						<RetailerPage />
 					</Route>
@@ -171,6 +174,10 @@ class App extends React.Component {
 					<Route path="/specificgroup">
 						<SpecificGroup/>
 					</Route>
+					<Route path="/Groups">
+						<Groups></Groups>
+					</Route>
+
 					<Route path="/GroupShoppingList">
 						<GroupShoppingList/>
           			</Route> 

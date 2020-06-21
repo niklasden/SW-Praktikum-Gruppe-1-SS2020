@@ -13,7 +13,7 @@ import {
 
 const RETAILERS = [
   {
-    id: 'retailer1', 
+    id: 'retailer0', 
     name: 'REWE',
     address: 'Esslingen',  
   },
@@ -27,6 +27,11 @@ const RETAILERS = [
     name: 'Aldi',  
     address: 'neben Pigspoint'
   },
+  {
+    id: 'retailer3', 
+    name: 'Edeka',
+    address: ''
+  }
 ]
 
 /**
@@ -37,39 +42,13 @@ const RETAILERS = [
  * @author [Christopher Böhm](https://github.com/christopherboehm1)
  */
 export class RetailerPage extends Component {
-  render(){
-    return (
-      <div style={{margin: 16}}>
-        <Grid container spacing={3}>
-          <Grid item>
-            <TextInputBar />
-          </Grid>
-          <Grid item>
-            <Link to="/create_retailer" >
-              <IconButton />
-            </Link>
-          </Grid>
-        </Grid>
-        <RetailerList />
-      </div>
-
-    ) 
-  }
-}
-
-/**
- * Renders a list of RetailerEntry objects
- * 
- * @see RetailerEntry
- * 
- * @author [Christopher Böhm](https://github.com/christopherboehm1)
- */
-class RetailerList extends Component {
   state = {
     retailers: [], 
     loadingInProgress: false, 
     loadingRetailersError: null, 
     addingRetailerError: null, 
+
+    searchValue: '',
   }
 
   componentDidMount(){
@@ -95,7 +74,14 @@ class RetailerList extends Component {
   }
 
   renderRetailers(){
-    return this.state.retailers.map(retailer => (
+    let retailers = this.state.retailers
+    if(this.state.searchValue != ''){
+      retailers = retailers.filter((retailer) => retailer.name.toLowerCase().includes(this.state.searchValue.toLowerCase()))
+    }
+
+    console.log(retailers)
+
+    return retailers.map(retailer => (
       <RetailerListEntry 
         id={retailer.id}
         name={retailer.name}
@@ -107,14 +93,34 @@ class RetailerList extends Component {
 
   render(){
     return (
-      <div>
-        {this.state.loadingInProgress ?
-          <CircularProgress />
-        : 
-          this.renderRetailers()
-        }
+      <div style={{width: '100%'}}>
+        <div style={{flex: 1, flexDirection: 'row', display: 'flex', margin: 12}}>
+          {/* <text style={{flexGrow: 1}}>hello</text> */}
+          <TextInputBar
+            placeholder='search'
+            icon='search'
+            onChange={(elem) => this.setState({ searchValue: elem.target.value})}
+          /> 
+
+          <Link to="/create_retailer" >
+            <IconButton style={{marginLeft: 12}} icon='add'  />
+          </Link>
+        </div>
+        
+
+
+        <div style={{margin: 12}}>
+          <div>
+            {this.state.loadingInProgress ?
+              <CircularProgress />
+            : 
+              this.renderRetailers()
+            }
+          </div>
+        </div>
+
       </div>
-    )
+
+    ) 
   }
 }
-

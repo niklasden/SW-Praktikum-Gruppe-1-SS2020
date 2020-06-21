@@ -12,6 +12,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
+import MakeSelectable from '@material-ui/core/List';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
@@ -44,16 +45,15 @@ const useStyles = (theme) => ({
 
 var userArray = [0,1,2];
 function generate(element) {
-    return userArray.map((value) =>
+    return userArray.map((value, index) =>
       React.cloneElement(element, {
-        key: value,
+        key: index, 
       }),
+    console.log(element)
     );
   }
 
-function del(item) {
-    // tbd
-};
+
 
 /**
  * ToDo: Outline around Icon
@@ -64,14 +64,28 @@ function del(item) {
  * @property icon (string): the icon name to display, can be either: add, shopping_cart, shopping_cart_outline, shopping_list, shopping_list_outline, checkmark, people
  */
 class CreateGroup extends Component {
-    state = {
+    constructor(props) {
+        super(props);
+        this.state = {
         dense: 'false',
         open: false,
+        groupMembers: [0,1,2]
       }
+      this.deleteMember = this.deleteMember.bind(this);
+    }
+
+    deleteMember(id) {
+        //array kopieren, element löschen, neues array als state setzen
+        this.setState(prevState => ({
+            groupMembers: prevState.groupMembers.filter(item => item !== id)
+       }))
+    };
+
   render(){
     const { classes } = this.props;
     var dense = this.state.dense;
     var open = this.state.open;
+    var groupMembers = this.state.groupMembers;
     
     const handleClickOpen = () => {
         this.setState({open:true});
@@ -84,6 +98,11 @@ class CreateGroup extends Component {
     const fetchUser = () => {
         alert("added User")
     };
+    
+    const add = () => {
+        alert("niklas")
+    };
+
     return (
         <Container maxWidth="sm" style={{justifyContent: 'center'}}>
             <Grid container style={{ marginTop: "40px", justifyContent: 'center'}}>
@@ -131,8 +150,9 @@ class CreateGroup extends Component {
                               </Button>
                             </DialogActions>
                           </Dialog>
-                        {generate(
-                            <ListItem>
+                        
+                          {groupMembers.map((item) => (
+                            <ListItem key={item.id}>
                             <ListItemAvatar>
                                 <Avatar>
                                 <Avatar alt="Sabine Mustermann" src={avatar}/>
@@ -143,11 +163,11 @@ class CreateGroup extends Component {
                             />
                             <ListItemSecondaryAction>
                                 <IconButton edge="end" aria-label="delete">
-                                <DeleteIcon onClick={() => { del() }}/>
+                                <DeleteIcon onClick={this.deleteMember.bind(this, item)}/>
                                 </IconButton>
                             </ListItemSecondaryAction>
-                            </ListItem>,
-                        )}
+                            </ListItem>
+                        ))}
                         </List>
                     </div>
             </Grid>

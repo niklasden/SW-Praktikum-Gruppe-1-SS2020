@@ -1,13 +1,19 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import MaterialIconButton from '@material-ui/core/IconButton';
-import Icon from '@material-ui/icons/Add';
+import Icon from '@material-ui/core/Icon';
 import { withStyles } from '@material-ui/styles';
 import Box from '@material-ui/core/Box'
 
 
 const styles = theme => ({
   
+  root: {
+    backgroundColor: '#fafafa', 
+    borderRadius: 5, 
+    height: "48px",
+    width: "48px"
+  },
 });
 
 /**
@@ -43,7 +49,7 @@ class IconButton extends Component {
           <Icon 
             style={{ color: '#00BCD4'}}
             fontSize="medium" 
-          />
+          >{this.props.icon}</Icon>
         </div>
       </Box>
     )
