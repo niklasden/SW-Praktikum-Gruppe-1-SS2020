@@ -140,12 +140,22 @@ export default function Menu(props) {
                       <ListItemText primary="Create Group" />
                     </ListItem>
                   </Link>
+
                   <Link to="/specificGroup" className={classes.listItem}>
                     <ListItem button key="2">
                       <ListItemIcon><ArchiveIcon/></ListItemIcon>
                       <ListItemText primary="Specific Group" />
                     </ListItem>
                   </Link>
+
+                  {/* Link to Page PersonalShoppingList @Pascal*/}
+                  <Link to="/PersonalShoppingList" className={classes.listItem}>
+                    <ListItem button key="2">
+                      <ListItemIcon><ArchiveIcon/></ListItemIcon>
+                      <ListItemText primary="My SoppingList" />
+                    </ListItem>
+                  </Link>
+                  
                   
                   <a href="http://localhost:8081" className={classes.listItem} target="_blank" rel="noopener noreferrer">
                     <ListItem button key="2">

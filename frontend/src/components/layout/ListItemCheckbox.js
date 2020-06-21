@@ -60,7 +60,7 @@ class ListItemCheckbox extends Component {
   }
 }
 
-ListItem.propTypes = {
+ListItemCheckbox.propTypes = {
   imgsrc: PropTypes.string.isRequired,
   itemname: PropTypes.string.isRequired,
   amount: PropTypes.string.isRequired,
