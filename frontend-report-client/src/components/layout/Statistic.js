@@ -22,9 +22,6 @@ class Statistic extends Component {
   state = {
     time: this.props.time,
     options: {
-      title: {
-        text: "Diagramm"
-      },
       data: [{
         name: "Apfel",
         type: "spline",

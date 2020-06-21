@@ -4,6 +4,8 @@ import MainButton from '../layout/MainButton';
 import StatisticItem from '../layout/StatisticItem';
 import { Grid } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import MainBarChart from '../layout/MainBarChart';
+import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 
 /**
  * Displays the statistic page
@@ -16,41 +18,51 @@ class StatisticPage extends Component {
         super(props);
         this.state = {
             retailers: [],
-            products: []
+            products: [],
+            error: null
         }
     }
 
     fetchTopProducts() {
-        fetch("http://localhost:8081/api/shoppa/products/top")
-        .then(res => res.json())
-        .then(json => {
+        try {
+            const res = await fetch("http://localhost:8081/api/shoppa/products/top");
+            const json = await res.json();
             this.setState({products: json})
-        })
+        }catch(exception) {
+            this.setState({error: exception});
+        }
+        
     }
-    fetchTopRetailers() {
-        fetch("http://localhost:8081/api/shoppa/retailers/top")
-        .then(res => res.json())
-        .then(json => {
+    async fetchTopRetailers() {
+        try {
+            const res = await fetch("http://localhost:8081/api/shoppa/retailers/top");
+            const json = await res.json();
             this.setState({retailers: json})
-        })
+        }catch(exception) {
+            this.setState({error: exception});
+        }
     }
     componentDidMount() {
         this.fetchTopProducts();
         this.fetchTopRetailers();
     }
     render() { 
+    const { error } = this.state;
         return (
             <>
-            <Heading>MEISTBESUCHTE EINZELHÄNDLER</Heading>
+          <ContextErrorMessage error={error} contextErrorMsg={`Data could not be loaded. Check if server is running.`} />
+          <Heading>MEISTBESUCHTE EINZELHÄNDLER</Heading>
+            <MainBarChart data={this.state.retailers} />
             <Grid item xs={12} container spacing={1}>
                 {this.state.retailers.map(retailer => {
-                    return <StatisticItem retailer number={retailer.nr} name={retailer.name} amount={retailer.amount} />
+                    return <StatisticItem retailer key={retailer.nr} number={retailer.nr} name={retailer.name} amount={retailer.amount} />
                 })}
             </Grid>
             <Heading>MEISTGEKAUFTE ARTIKEL</Heading>
+            <MainBarChart data={this.state.products} />
             <Grid item xs={12} container spacing={1}>
                 {this.state.products.map(article => {
-                    return <StatisticItem article number={article.nr} name={article.name} amount={article.amount} />
+                    return <StatisticItem article key={article.nr} number={article.nr} name={article.name} amount={article.amount} />
                 })}
             </Grid>
             <Link to="/show">
