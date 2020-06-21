@@ -32,7 +32,15 @@ import GroupShoppingList from './components/pages/GroupShoppingList';
 import SettingsPage from './components/pages/SettingsPage';
 import { RetailerPage } from './components/pages/RetailerPage'
 import CreateRetailerPage from './components/pages/CreateRetailerPage'
+<<<<<<< HEAD
 import CreateArticlePage from './components/pages/CreateArticlePage'
+=======
+import StatisticPage from './components/pages/StatisticPage';
+import ShowStatisticPage from './components/pages/ShowStatisticPage';
+import CreateArticlePage from './components/pages/CreateArticlePage'
+
+
+>>>>>>> pia
 import SpecificGroup from './components/pages/SpecificGroup.js';
 import CreateGroup from './components/pages/CreateGroup.js';
 import Groups from './components/pages/Groups';
