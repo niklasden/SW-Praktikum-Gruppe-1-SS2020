@@ -34,6 +34,7 @@ import CreateRetailerPage from './components/pages/CreateRetailerPage'
 import StatisticPage from './components/pages/StatisticPage';
 
 import SpecificGroup from './components/pages/SpecificGroup.js';
+import CreateGroup from './components/pages/CreateGroup.js';
 
 //** End Layout Import **/
 
@@ -149,7 +150,7 @@ class App extends React.Component {
                 true ?
                   <>
                     {/* Here should the redirects go */}
-                    <Redirect from='/' to=''/>
+                    {/* <Redirect from='/' to=''/> */}
                     <Switch>
                     <Route path="/about">
                       <AboutPage />
@@ -182,7 +183,7 @@ class App extends React.Component {
 						<GroupShoppingList/>
           			</Route>  
 					<Route path="/createGroup">
-						{/* Insert Import create Group  */}
+						<CreateGroup/>
           			</Route>
 					  <Route path="/specificGroup">
 						<SpecificGroup></SpecificGroup>
