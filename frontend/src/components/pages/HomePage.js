@@ -16,19 +16,23 @@ import {Link} from 'react-router-dom'
 
 const styles = theme => ({
   root: {
-  
-  
+    backgroundColor: '#fafafa', 
+    borderRadius: 5, 
   }
   })
 
-  
+  /** Homepage of iKaufa
+  *
+  *  @author [Julius Jacobitz](https://github.com/JuliusJacobitz)
+  *  @author [Kevin Eberhardt](https://github.com/kevin-eberhardt)
+  *  
+  */
 export class HomePage extends Component {
 
   render(){
     return (
       <>       
         <HeaderButton/>
-        
         
         <Grid
           container
@@ -78,21 +82,8 @@ export class HomePage extends Component {
           </MainButton>
           </Link>
         </Grid>
-
-
-        <CustomIcon iconName='apple' />
-
-        <CustomIcon iconName='milk' />
-
-        <CustomIcon iconName='bread' />
-
-
-
-          
+         
         </Grid>
-
-
-
         
  {/*    <Button />
         {this.renderStatistics()}
