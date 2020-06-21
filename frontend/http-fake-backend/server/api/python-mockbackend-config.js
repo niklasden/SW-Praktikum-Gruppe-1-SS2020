@@ -35,13 +35,35 @@ module.exports = SetupEndpoint({
             method: 'DELETE',
             response: '/response-files/products.json'
         }]
-    }, {
+    }, 
+    {
+        params: '/products/top',
+        requests: [{
+            method: ['GET'],
+            response: '/response-files/topArticles.json'
+        }]
+    },
+    {
         params: '/groups',
         requests: [{
             method: ['GET'],
             response: '/response-files/groups.json'
         }],
-    } 
+    },
+    {
+        params: '/retailers',
+        requests: [{
+            method: ['GET'],
+            response: '/response-files/retailers.json'
+        }],
+    },
+    {
+        params: '/retailers/top',
+        requests: [{
+            method: ['GET'],
+            response: '/response-files/topRetailers.json'
+        }],
+    }
     ]
 });
 

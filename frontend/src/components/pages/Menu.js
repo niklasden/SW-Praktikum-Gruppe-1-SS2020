@@ -122,12 +122,6 @@ export default function Menu(props) {
                       <ListItemText primary="Gruppen anzeigen" />
                     </ListItem>
                   </Link>
-                  <Link to="/statistics" className={classes.listItem}>
-                    <ListItem button key="2">
-                      <ListItemIcon><TimelineIcon /></ListItemIcon>
-                      <ListItemText primary="Statistik verwalten" />
-                    </ListItem>
-                  </Link>
                   <Link to="/GroupShoppingList" className={classes.listItem}>
                     <ListItem button key="2">
                       <ListItemIcon><ArchiveIcon/></ListItemIcon>

@@ -5,36 +5,51 @@ import StatisticItem from '../layout/StatisticItem';
 import { Grid } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
-const Top3RETAILER = [
-    {nr: 1, name: 'ALDI', amount: 5},
-    {nr: 2, name: 'EDEKA', amount: 3},
-    {nr: 3, name: 'DM', amount: 2}
-];
-const Top3ARTICLES = [
-    {nr: 1, name: 'BIER', amount: 31},
-    {nr: 2, name: 'PIZZA', amount: 19},
-    {nr: 3, name: 'PESTO', amount: 12}
-];
-
+/**
+ * Displays the statistic page
+ * 
+ * @author [Kevin Eberhardt](https://github.com/kevin-eberhardt)
+ * 
+ */
 class StatisticPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            retailers: [],
+            products: []
         }
+    }
+
+    fetchTopProducts() {
+        fetch("http://localhost:8081/api/shoppa/products/top")
+        .then(res => res.json())
+        .then(json => {
+            this.setState({products: json})
+        })
+    }
+    fetchTopRetailers() {
+        fetch("http://localhost:8081/api/shoppa/retailers/top")
+        .then(res => res.json())
+        .then(json => {
+            this.setState({retailers: json})
+        })
+    }
+    componentDidMount() {
+        this.fetchTopProducts();
+        this.fetchTopRetailers();
     }
     render() { 
         return (
             <>
             <Heading>MEISTBESUCHTE EINZELHÄNDLER</Heading>
             <Grid item xs={12} container spacing={1}>
-                {Top3RETAILER.map(retailer => {
+                {this.state.retailers.map(retailer => {
                     return <StatisticItem retailer number={retailer.nr} name={retailer.name} amount={retailer.amount} />
                 })}
             </Grid>
             <Heading>MEISTGEKAUFTE ARTIKEL</Heading>
             <Grid item xs={12} container spacing={1}>
-                {Top3ARTICLES.map(article => {
+                {this.state.products.map(article => {
                     return <StatisticItem article number={article.nr} name={article.name} amount={article.amount} />
                 })}
             </Grid>

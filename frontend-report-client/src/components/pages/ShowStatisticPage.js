@@ -10,6 +10,12 @@ import Select from '@material-ui/core/Select';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { Link } from 'react-router-dom';
 
+/**
+ * Displays the statistic page
+ * 
+ * @author [Kevin Eberhardt](https://github.com/kevin-eberhardt)
+ * 
+ */
 
 const styles = theme => ({
     formControl: {
@@ -24,11 +30,13 @@ initStartDateMonth < 10 ? clearedStartDateMonth = "0" + initStartDateMonth : cle
 const initStartDateYear = new Date().getFullYear();
 const todaysDateinOneWeek = initStartDateYear + "-" + clearedStartDateMonth + "-" + parseInt(initStartDate + 7)
 const todaysDate = initStartDateYear + "-" + clearedStartDateMonth + "-" + initStartDate;
-console.log(todaysDateinOneWeek);
+
 class ShowStatisticPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            retailer: [],
+            products: [],
             selectedCategory: "Alle",
             selectedRetailer: "Alle",
             selectedArticle: "Alle",
@@ -56,8 +64,32 @@ class ShowStatisticPage extends Component {
     handleChangeEndTime(event) {
         this.setState({selectedEndTime: event.target.value})
     }
-
+    fetchProducts() {
+        fetch("http://localhost:8081/api/shoppa/products")
+        .then(res => res.json())
+        .then(json => {
+            this.setState({products: json})
+        })
+    }
+    fetchRetailers() {
+        fetch("http://localhost:8081/api/shoppa/retailers")
+        .then(res => res.json())
+        .then(json => {
+            this.setState({retailer: json})
+        })
+    }
+    componentDidMount() {
+        this.fetchRetailers();
+        this.fetchProducts();
+    }
     render() { 
+        var categoryTemp = [];
+        this.state.retailer.map(r => {
+            if(!categoryTemp.includes(r.category)) {
+                categoryTemp.push(r.category)
+            }
+        })
+        const retailerCategories = categoryTemp;
         const classes = this.props.classes;
         return (
             <Grid container xs={12} style={{padding: '1em'}} spacing={1}>
@@ -70,10 +102,9 @@ class ShowStatisticPage extends Component {
                         <InputLabel>Kategorie</InputLabel>
                         <Select value={this.state.selectedCategory} onChange={this.handleChangeCategory}>
                             <MenuItem value={"Alle"}>Alle</MenuItem>
-                            <MenuItem value={"Lebensmittelläden"}>Lebensmittelläden</MenuItem>
-                            <MenuItem value={"Drogeriemärkte"}>Drogeriemärkte</MenuItem>
-                            <MenuItem value={"Baumärkte"}>Baumärkte</MenuItem>
-                            <MenuItem value={"Elektronikfachhandel"}>Elektronikfachhandel</MenuItem>
+                            {retailerCategories.map(rC => (
+                                <MenuItem value={rC}>{rC}</MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>
@@ -83,9 +114,9 @@ class ShowStatisticPage extends Component {
                         <InputLabel>Einzelhändler</InputLabel>
                         <Select value={this.state.selectedRetailer} onChange={this.handleChangeRetailer}>
                             <MenuItem value={"Alle"}>Alle</MenuItem>
-                            <MenuItem value={"ALDI"}>ALDI</MenuItem>
-                            <MenuItem value={"DM"}>DM</MenuItem>
-                            <MenuItem value={"EDEKA"}>EDEKA</MenuItem>
+                            {this.state.retailer.map(r => (
+                                <MenuItem value={r.name}>{r.name}</MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>
@@ -95,9 +126,9 @@ class ShowStatisticPage extends Component {
                         <InputLabel>Artikel</InputLabel>
                         <Select value={this.state.selectedArticle} onChange={this.handleChangeArticle}>
                             <MenuItem value={"Alle"}>Alle</MenuItem>
-                            <MenuItem value={"Apfel"}>Apfel</MenuItem>
-                            <MenuItem value={"Birne"}>Birne</MenuItem>
-                            <MenuItem value={"Bier"}>Bier</MenuItem>
+                            {this.state.products.map(p=> (
+                                <MenuItem value={p.name}>{p.name}</MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Grid>
