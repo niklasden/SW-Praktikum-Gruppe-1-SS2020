@@ -41,7 +41,7 @@ module.exports = SetupEndpoint({
             method: ['GET'],
             response: '/response-files/groups.json'
         }],
-    } 
+    } ,
     ]
 });
 
