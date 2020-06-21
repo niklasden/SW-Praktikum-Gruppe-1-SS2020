@@ -28,11 +28,22 @@ import garlicIcon from '../../icons/garlic.svg'
 import ketchupIcon from '../../icons/ketchup.svg'
 import mustardIcon from '../../icons/mustard.svg'
 import pizzaIcon from '../../icons/pizza.svg'
-
-
-
-
-
+import orangeIcon from '../../icons/orange.svg'
+import strawberryIcon from '../../icons/strawberry.svg'
+import bananaIcon from '../../icons/banane.svg'
+import grapeIcon from '../../icons/grape.svg'
+import cucumberIcon from '../../icons/cucumber.svg'
+import tomatoIcon from '../../icons/tomato.svg'
+import lettuceIcon from '../../icons/lettuce.svg'
+import meatIcon from '../../icons/meat.svg'
+import fishIcon from '../../icons/fish.svg'
+import cheeseIcon from '../../icons/cheese.svg'
+import eggIcon from '../../icons/egg.svg'
+import noodlesIcon from '../../icons/noodles.svg'
+import lipstickIcon from '../../icons/lipstick.svg'
+import yoghurtIcon from '../../icons/yoghurt.svg'
+import chickenIcon from '../../icons/chicken.svg'
+import soapIcon from '../../icons/soap.svg'
 
 // add your icon here, you can then call it by <CustomIcon name='iconname' />
 // place the file in icons and import it the same way the appleIcon has been imported
@@ -63,14 +74,23 @@ const icons = {
   ketchup:ketchupIcon,
   mustard:mustardIcon,
   pizza:pizzaIcon,
-  
-
-
-
-
-
-
-  
+  bread: breadIcon, 
+  orange: orangeIcon, 
+  strawberyy: strawberryIcon, 
+  banana: bananaIcon, 
+  grape: grapeIcon, 
+  cucumber: cucumberIcon, 
+  tomato: tomatoIcon, 
+  lettuce: lettuceIcon, 
+  meat: meatIcon, 
+  chicken: chickenIcon, 
+  fish: fishIcon, 
+  cheese: cheeseIcon, 
+  egg: eggIcon, 
+  noodles: noodlesIcon, 
+  lipstick: lipstickIcon,
+  yoghurt: yoghurtIcon, 
+  soap: soapIcon, 
 }
 
 /**
