@@ -35,6 +35,7 @@ import CreateRetailerPage from './components/pages/CreateRetailerPage'
 import StatisticPage from './components/pages/StatisticPage';
 import ShowStatisticPage from './components/pages/ShowStatisticPage';
 import SpecificGroup from './components/pages/SpecificGroup.js';
+import CreateGroup from './components/pages/CreateGroup.js';
 
 import Groups from './components/pages/Groups';
 
@@ -189,7 +190,7 @@ class App extends React.Component {
 						<GroupShoppingList/>
           			</Route>  
 					<Route path="/createGroup">
-						{/* Insert Import create Group  */}
+						<CreateGroup/>
           			</Route>
 					  <Route path="/specificGroup">
 						<SpecificGroup></SpecificGroup>
