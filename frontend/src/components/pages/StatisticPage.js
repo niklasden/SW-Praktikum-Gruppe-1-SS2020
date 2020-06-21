@@ -17,11 +17,17 @@ const Top3ARTICLES = [
 ];
 
 class StatisticPage extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+
+        }
+    }
     render() { 
         return (
             <>
             <Heading>MEISTBESUCHTE EINZELHÄNDLER</Heading>
-            <Grid xs={12} container spacing={1}>
+            <Grid item xs={12} container spacing={1}>
                 {Top3RETAILER.map(retailer => {
                     return <StatisticItem retailer number={retailer.nr} name={retailer.name} amount={retailer.amount} />
                 })}

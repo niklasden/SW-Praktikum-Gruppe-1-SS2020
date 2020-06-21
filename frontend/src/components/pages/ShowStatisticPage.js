@@ -13,17 +13,44 @@ const styles = theme => ({
       minWidth: '75%',
     }
 });
-
+const todaysDay = new Date().getDate();
+const todaysMonth = new Date().getMonth() + 1;
+if(todaysMonth < 10) {
+    var clearedTodaysMonth = "0" + todaysMonth
+}else {
+    var clearedTodaysMonth = todaysMonth;
+}
+const todaysYear = new Date().getFullYear();
+const todaysDate = todaysYear + "-" + clearedTodaysMonth + "-" + todaysDay;
 class ShowStatisticPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedCategory: null,
-            selectedRetailer: null,
-            selectedArticle: null,
-            selectedTime: null
+            selectedCategory: "Alle",
+            selectedRetailer: "Alle",
+            selectedArticle: "Alle",
+            selectedTime: todaysDate
         }
+        this.handleChangeArticle = this.handleChangeArticle.bind(this);
+        this.handleChangeCategory = this.handleChangeCategory.bind(this);
+        this.handleChangeRetailer = this.handleChangeRetailer.bind(this);
+        this.handleChangeTime = this.handleChangeTime.bind(this);
     }
+    handleChangeCategory(event) {
+        this.setState({selectedCategory: event.target.value})
+    }
+    handleChangeRetailer(event) {
+        console.log(event.target.value);
+        this.setState({selectedRetailer: event.target.value})
+    }
+    handleChangeArticle(event) {
+        this.setState({selectedArticle: event.target.value})
+    }
+    handleChangeTime(event) {
+        this.setState({selectedTime: event.target.value})
+        console.log(event.target.value)
+    }
+
     render() { 
         const classes = this.props.classes;
         return (
@@ -32,11 +59,12 @@ class ShowStatisticPage extends Component {
                     <Heading>KATEGORIE AUSWÄHLEN</Heading>
                     <FormControl className={classes.formControl}>
                         <InputLabel>Kategorie</InputLabel>
-                        <Select value={this.state.selectedCategory}>
-                            <MenuItem value={1}>Lebensmittelläden</MenuItem>
-                            <MenuItem value={2}>Drogeriemärkte</MenuItem>
-                            <MenuItem value={3}>Baumärkte</MenuItem>
-                            <MenuItem value={4}>Elektronikfachhandel</MenuItem>
+                        <Select value={this.state.selectedCategory} onChange={this.handleChangeCategory}>
+                            <MenuItem value={"Alle"}>Alle</MenuItem>
+                            <MenuItem value={"Lebensmittelläden"}>Lebensmittelläden</MenuItem>
+                            <MenuItem value={"Drogeriemärkte"}>Drogeriemärkte</MenuItem>
+                            <MenuItem value={"Baumärkte"}>Baumärkte</MenuItem>
+                            <MenuItem value={"Elektronikfachhandel"}>Elektronikfachhandel</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>
@@ -44,23 +72,23 @@ class ShowStatisticPage extends Component {
                     <Heading>EINZELHÄNDLER AUSWÄHLEN</Heading>
                     <FormControl className={classes.formControl}>
                         <InputLabel>Einzelhändler</InputLabel>
-                        <Select value={this.state.selectedRetailer}>
-                            <MenuItem value={1}>Alle</MenuItem>
-                            <MenuItem value={2}>ALDI</MenuItem>
-                            <MenuItem value={3}>DM</MenuItem>
-                            <MenuItem value={4}>EDEKA</MenuItem>
+                        <Select value={this.state.selectedRetailer} onChange={this.handleChangeRetailer}>
+                            <MenuItem value={"Alle"}>Alle</MenuItem>
+                            <MenuItem value={"ALDI"}>ALDI</MenuItem>
+                            <MenuItem value={"DM"}>DM</MenuItem>
+                            <MenuItem value={"EDEKA"}>EDEKA</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>
                 <Grid item xs={12}>
                     <Heading>ARTIKEL AUSWÄHLEN</Heading>
-                    <FormControl className={classes.formControl}>
-                        <InputLabel>Einzelhändler</InputLabel>
-                        <Select value={this.state.selectedArticle}>
-                            <MenuItem value={1}>Alle</MenuItem>
-                            <MenuItem value={2}>Apfel</MenuItem>
-                            <MenuItem value={3}>Birne</MenuItem>
-                            <MenuItem value={4}>Bier</MenuItem>
+                    <FormControl className={classes.formControl} >
+                        <InputLabel>Artikel</InputLabel>
+                        <Select value={this.state.selectedArticle} onChange={this.handleChangeArticle}>
+                            <MenuItem value={"Alle"}>Alle</MenuItem>
+                            <MenuItem value={"Apfel"}>Apfel</MenuItem>
+                            <MenuItem value={"Birne"}>Birne</MenuItem>
+                            <MenuItem value={"Bier"}>Bier</MenuItem>
                         </Select>
                     </FormControl>
                 </Grid>
@@ -69,14 +97,15 @@ class ShowStatisticPage extends Component {
                         <TextField
                             id="date"
                             type="date"
-                            defaultValue="2020-06-20"
+                            defaultValue={this.state.selectedTime}
                             style={{minWidth: '75%'}}
                             InputLabelProps={{
                             shrink: true,
                             }}
+                            onChange={this.handleChangeTime}
                         />
                 </Grid>
-                <Statistic id="test-chart" />
+                <Statistic id="test-chart" retailer={this.state.selectedRetailer} category={this.state.selectedCategory} article={this.state.selectedArticle} time={this.state.selectedTime} />
             </Grid>
         );
     }
