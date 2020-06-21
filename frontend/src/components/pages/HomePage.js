@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Button from '../layout/IconButton';
 import HeaderButton from '../layout/HeaderButton';
-import StatisticsDashboardItem from '../layout/StatisticsDashboardItem'
+// import StatisticsDashboardItem from '../layout/StatisticsDashboardItem'
 import Article from '../layout/Article'
 import ListItem from '../layout/ListItem'
 import MainButton from '../layout/MainButton'
@@ -22,23 +22,6 @@ const styles = theme => ({
 
   
 export class HomePage extends Component {
-  /*
-  renderStatistics(){
-    const components = []
-
-    statistics.forEach(item => {
-      components.push(
-        <StatisticsDashboardItem
-          number={item.number}
-          bought={item.bought}
-          article={item.article}
-        />
-      )
-    })
-
-    return components
-  }
-*/
 
   render(){
     return (
