@@ -42,6 +42,13 @@ module.exports = SetupEndpoint({
             response: '/response-files/groups.json'
         }],
     } ,
+    {
+        params: '/groupmembers',
+        requests: [{
+            method: ['GET'],
+            response: '/response-files/groupmembers.json'
+        }],
+    } ,
     ]
 });
 

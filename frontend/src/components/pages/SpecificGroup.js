@@ -55,8 +55,11 @@ const ShoppingLs=[
   {id:"2",name:"list 2.4"}
 ]
 const mem=[
-  {id:"2",imgsrc: "", name:"Niklas"}]
+  {id:"2",imgsrc: "", name:"Niklas"}];
 
+
+    
+  
 /**
  * Bildet eine Spezifische, editierbare Gruppe ab
  * 
@@ -65,9 +68,25 @@ const mem=[
  * @author [Julius Jacobitz]()
  * 
  */
-
-
 class SpecificGroup extends Component {
+  constructor(props){
+    super(props);
+
+    this.state ={
+      groupmembers: [],
+    };
+  }
+  async fetchGroupMembers(){
+    const res = await fetch('http://jj-surface:8081/api/shoppa/groupmembers')
+    const resjson = await res.json()
+    console.log( resjson)
+    this.setState({groupmembers:resjson})}
+  
+  
+  componentDidMount(){
+    this.fetchGroupMembers()
+  }
+  
   renderShoppinglists(){
   const ShoppingLists = []
   ShoppingLs.forEach( elem => {
@@ -78,7 +97,7 @@ return ShoppingLists
 
   renderGroupMembers(){
     const GroupMembers = []
-    mem.forEach( elem => {
+    this.state.groupmembers.forEach( elem => {
       GroupMembers.push(<GroupMember key={elem.id} imgsrc={elem.imgsrc} membername={elem.name}></GroupMember>)
     })
     return GroupMembers
