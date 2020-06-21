@@ -105,7 +105,7 @@ class ProductsPage extends Component {
         </Grid>
         <Grid item xs={2}>
           <Link to="/create_article">
-            <IconButton />
+            <IconButton icon='add' />
           </Link>
         </Grid>
 

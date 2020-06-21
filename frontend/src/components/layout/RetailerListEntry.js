@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Grid from '@material-ui/core/Grid/Grid'
 import { withStyles } from '@material-ui/styles';
-import IconButton from './IconButton'
 import Box from '@material-ui/core/Box'
 import SettingsIcon from '@material-ui/icons/Settings';
 import {
@@ -70,7 +69,7 @@ class RetailerListEntry extends Component {
         </Grid>
 
         <Grid container xs={3} justify='flex-end'>
-          <Link to='retailer'>
+          <Link to='create_retailer'>
             <SettingsIcon 
               style={{ color: '#00BCD4' }} 
               // onClick={() => alert('hello')}
