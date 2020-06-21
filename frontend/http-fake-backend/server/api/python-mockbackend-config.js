@@ -32,21 +32,50 @@ module.exports = SetupEndpoint({
             method: ['PUT'],
             response: '/response-files/products.json'
         }, {
-            method: 'DELETE',
+            method: ['DELETE'],
             response: '/response-files/products.json'
         }]
-    }, {
+    }, 
+    {
+        params: '/products/top',
+        requests: [{
+            method: ['GET'],
+            response: '/response-files/topArticles.json'
+        }]
+    },
+    {
         params: '/groups',
         requests: [{
             method: ['GET'],
             response: '/response-files/groups.json'
         }],
-    } ,
+    },
     {
-        params: '/groupmembers',
+        params: '/retailers',
         requests: [{
             method: ['GET'],
+            response: '/response-files/retailers.json'
+        }],
+    },
+    {
+        params: '/retailers/top',
+        requests: [{
+            method: ['GET'],
+            response: '/response-files/topRetailers.json'
+        }],
+    } ,
+    {
+        params: '/groupmembers/{email}',
+        requests: [{
+            method: 'GET',
             response: '/response-files/groupmembers.json'
+        }],
+    } ,
+    {
+        params: '/specificGroupMembers',
+        requests: [{
+            method: 'GET',
+            response: '/response-files/SpecificGroupMembers.json'
         }],
     } ,
     ]

@@ -3,6 +3,13 @@ import { Grid } from '@material-ui/core';
 import CanvasJSReact from './statistic/canvasjs.react'
 import { withStyles } from '@material-ui/core/styles';
 
+/**
+ * Displays the timeline chat for the statistic page
+ * 
+ * @author [Kevin Eberhardt](https://github.com/kevin-eberhardt)
+ * 
+ */
+
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 const styles = theme => ({
   chart: {
@@ -15,9 +22,6 @@ class Statistic extends Component {
   state = {
     time: this.props.time,
     options: {
-      title: {
-        text: "Diagramm"
-      },
       data: [{
         name: "Apfel",
         type: "spline",

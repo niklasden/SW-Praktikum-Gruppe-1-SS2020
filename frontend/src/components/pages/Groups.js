@@ -9,8 +9,6 @@ import Grid from '@material-ui/core/Grid';
 
 import GroupButton from '../layout/GroupButton.js'
 
-
-
 const styles = theme => ({
   root: {
     backgroundColor: '#fafafa', 
@@ -19,10 +17,9 @@ const styles = theme => ({
 });
 
 /**
- * Displays all Groups
+ * Displays all Groups specific for one user 
  * 
- * @author [Julius Jacobitz]()
- * 
+* @author [Julius Jacobitz](https://github.com/JuliusJacobitz) * 
  * @property icon (string): the icon name to display, can be either: add, shopping_cart, shopping_cart_outline, shopping_list, shopping_list_outline, checkmark, people
  */
 class Groups extends Component {
@@ -69,18 +66,15 @@ class Groups extends Component {
    
     return (
     <>
+      <Grid container spacing={3} direction="column" justify="center" alignItems="center">
+      {this.renderGroups()}
 
-<Grid container spacing={3} direction="column" justify="center" alignItems="center">
-{this.renderGroups()}
-
-
-</Grid>
+      </Grid>
 
         </>
     )
   }
 }
-
 Groups.propTypes = {
   icon: PropTypes.string,
 }

@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "name": "ALDI",
+        "category": "Grocery Store",
+        "standort": "irgendwo"
+    },
+    {
+        "id": 2,
+        "name": "DM",
+        "category": "Cosmetics Store",
+        "standort": "irgendwo"
+    },
+    {
+        "id": 3,
+        "name": "EDEKA",
+        "category": "Grocery Store",
+        "standort": "irgendwo"
+    }
+]
