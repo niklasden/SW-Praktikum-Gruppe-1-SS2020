@@ -10,7 +10,8 @@ const styles = theme => ({
   root: {
     backgroundColor: '#fafafa', 
     borderRadius: 5, 
-    height: "48px"
+    height: "48px",
+    width: "48px"
   },
 });
 

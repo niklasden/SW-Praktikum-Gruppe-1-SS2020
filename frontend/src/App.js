@@ -32,6 +32,8 @@ import SettingsPage from './components/pages/SettingsPage';
 import { RetailerPage } from './components/pages/RetailerPage'
 import CreateRetailerPage from './components/pages/CreateRetailerPage'
 import StatisticPage from './components/pages/StatisticPage';
+import CreateArticlePage from './components/pages/CreateArticlePage'
+
 
 import SpecificGroup from './components/pages/SpecificGroup.js';
 import Groups from './components/pages/SettingsPage.js'
@@ -161,6 +163,9 @@ class App extends React.Component {
 					<Route path="/products">
                       <ProductsPage />
                     </Route>
+					<Route path="/create_article">
+						<CreateArticlePage />
+					</Route>
 					<Route path="/retailers">
 						<RetailerPage />
 					</Route>
@@ -174,7 +179,6 @@ class App extends React.Component {
 						<Groups></Groups>
 					</Route>
 
-					<Route path="/settings" >
 					<Route path="/GroupShoppingList">
 						<GroupShoppingList/>
           </Route> 
@@ -196,8 +200,6 @@ class App extends React.Component {
                     <Route path="/">
                       <ProductsPage />
                     </Route>
-                      <CreateRetailerPage />
-					</Route>
                   </Switch>
                   </>
                   :
