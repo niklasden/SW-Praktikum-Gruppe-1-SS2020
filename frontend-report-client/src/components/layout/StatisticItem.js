@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Grid, Card, CardContent, Typography } from '@material-ui/core';
+import { Grid, Card, CardContent } from '@material-ui/core';
 import Heading from './Heading';
+/**
+ * Displays one statistic item
+ * 
+ * @author [Kevin Eberhardt](https://github.com/kevin-eberhardt)
+ * 
+ */
 
 const styles = theme => ({
     item: {

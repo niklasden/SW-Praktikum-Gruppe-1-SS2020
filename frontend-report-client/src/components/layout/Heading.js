@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
  * @author [Kevin Eberhardt](https://github.com/kevin-eberhardt)
  * 
  */
+
 class Heading extends Component {
     render() { 
         return (

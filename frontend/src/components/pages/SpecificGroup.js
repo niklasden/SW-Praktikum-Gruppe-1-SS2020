@@ -74,8 +74,15 @@ class SpecificGroup extends Component {
 
     this.state ={
       groupmembers: [],
-    };
+    }
+    this.deleteMember = this.deleteMember.bind(this);
   }
+  deleteMember(id) {
+    //array kopieren, element löschen, neues array als state setzen
+    this.setState(prevState => ({
+        groupmembers: prevState.groupmembers.filter(item => item !== id)
+   }))
+};
   async fetchGroupMembers(){
     const res = await fetch('http://jj-surface:8081/api/shoppa/groupmembers')
     const resjson = await res.json()
@@ -98,7 +105,7 @@ return ShoppingLists
   renderGroupMembers(){
     const GroupMembers = []
     this.state.groupmembers.forEach( elem => {
-      GroupMembers.push(<GroupMember key={elem.id} imgsrc={elem.imgsrc} membername={elem.name}></GroupMember>)
+      GroupMembers.push(<GroupMember onclick={ this.deleteMember.bind(this, elem)} key={elem.id} imgsrc={elem.imgsrc} membername={elem.name}></GroupMember>)
     })
     return GroupMembers
   }
@@ -112,6 +119,10 @@ return ShoppingLists
         {/*<div className={classes.Groupnameheader}>{"Gruppenname"}</div>*/}
 
         {/*
+
+          //commented, because we don't need multiple lists per group
+
+
         <ExpansionPanel style={{border:"1px solid #5a5a5a", margin:4}}>
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}

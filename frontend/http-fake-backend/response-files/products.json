@@ -1,7 +1,16 @@
-{
+[{
     "id":1,
-    "name":"apfel",
+    "name":"Apfel",
+    "category": "Fruits",
     "menge": 1,
     "einheit": "kg",
     "description": "a grüner apfel hald"
-}
+},
+{
+    "id":2,
+    "name":"Bier",
+    "category": "Groceries",
+    "menge": 1,
+    "einheit": "l",
+    "description": "a bierle hald"
+}]
