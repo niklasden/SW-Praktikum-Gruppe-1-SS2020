@@ -98,7 +98,7 @@ class ShowStatisticPage extends Component {
         })
         const retailerCategories = categoryTemp;
         const classes = this.props.classes;
-        const { error } = this.state; 
+        const { error } = this.state;
         return (
             <Grid container xs={12} style={{padding: '1em'}} spacing={1}>
                 { error ?

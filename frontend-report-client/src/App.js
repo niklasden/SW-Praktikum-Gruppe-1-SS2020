@@ -5,18 +5,88 @@ import Header from './components/pages/Header';
 import Theme from './Theme';
 import StatisticPage from './components/pages/StatisticPage';
 import ShowStatisticPage from './components/pages/ShowStatisticPage';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
+import SignIn from "./components/pages/SignIn";
+import BottomNavigation from "./components/layout/BottomNavigation";
+import LoadingProgress from "./components/dialogs/LoadingProgress";
 
+
+
+//** Start Firebase Import **/
+// Firebase App (the core Firebase SDK) is always required and must be listed first
+import * as firebase from "firebase/app";
+// Add the Firebase products that you want to use
+import "firebase/auth";
+//** End Firebase Import **/
 
 class App extends React.Component {
+  #firebaseConfig = {
+    apiKey: "AIzaSyDU8V5EtAYwsu4w9hlPNdqnGlTJqlugSIg",
+    authDomain: "sw-praktikum-gruppe-1-ss2020.firebaseapp.com",
+    databaseURL: "https://sw-praktikum-gruppe-1-ss2020.firebaseio.com",
+    projectId: "sw-praktikum-gruppe-1-ss2020",
+    storageBucket: "sw-praktikum-gruppe-1-ss2020.appspot.com",
+    messagingSenderId: "958039771079",
+    appId: "1:958039771079:web:3fdba7615bc4ca25b93be2"
+  };
   constructor(props) {
     super(props);
     this.state = {
       appError: null,
       authError: null,
+      currentUser: null,
     }
   }
+  handleAuthStateChange = user => {
+		if (user) {
+			this.setState({
+				authLoading: true
+			});
+			// The user is signed in
+			user.getIdToken().then(token => {
+				// Add the token to the browser's cookies. The server will then be
+				// able to verify the token against the API.
+				// SECURITY NOTE: As cookies can easily be modified, only put the
+				// token (which is verified server-side) in a cookie; do not add other
+				// user information.
+				document.cookie = `token=${token};path=/`;
+
+				// Set the user not before the token arrived 
+				this.setState({
+					currentUser: user,
+					authError: null,
+					authLoading: false
+				});
+			}).catch(e => {
+				this.setState({
+					authError: e,
+					authLoading: false
+				});
+			});
+		} else {
+			// User has logged out, so clear the id token
+			document.cookie = 'token=;path=/';
+
+			// Set the logged out user to null
+			this.setState({
+				currentUser: null,
+				authLoading: false
+			});
+		}
+  }
+  handleSignIn = () => {
+		this.setState({
+			authLoading: true
+		});
+		const provider = new firebase.auth.GoogleAuthProvider();
+		firebase.auth().signInWithRedirect(provider);
+  }
+  componentDidMount() {
+		firebase.initializeApp(this.#firebaseConfig);
+		firebase.auth().languageCode = 'en';
+		firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
+	}
   /** 
 	 * Create an error boundary for this app and recieve all errors from below the component tree.
 	 * 
@@ -27,21 +97,31 @@ class App extends React.Component {
 		return { appError: error };
   }
   render() {
-	  const { appError, authError } = this.state;
+	  const { appError, authError, currentUser, authLoading } = this.state;
     return (
       <ThemeProvider theme={Theme}>
         <Router basename={process.env.PUBLIC_URL}>
-        <Header />
-          <Switch>
-            <Route path="/show">
-              <ShowStatisticPage />
-            </Route> 
-            <Route path="/">
-              <StatisticPage />
-            </Route> 
-          </Switch>
+        <Header user={currentUser} />
+          {currentUser ?
+            <>
+            <Switch>
+              <Route path="/show">
+                <ShowStatisticPage />
+              </Route> 
+              <Route path="/">
+                <StatisticPage />
+              </Route> 
+            </Switch>
+            </>
+          : <>
+          <Redirect to='/' />
+          <SignIn onSignIn={this.handleSignIn} />
+        </>
+    }
+    <BottomNavigation />
         </Router>
         <Container>
+          <LoadingProgress show={authLoading} />
           <ContextErrorMessage error={appError} contextErrorMsg={`Something went wrong inside the app. Please reload the page.`} />
         </Container>
       </ThemeProvider>
