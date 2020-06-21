@@ -7,8 +7,6 @@ import AddCircleItem from '@material-ui/icons/AddCircle'
 import { withStyles } from '@material-ui/styles';
 import TextField from '@material-ui/core/TextField';
 
-import IconButton from '@material-ui/core/IconButton';
-
 import createPalette from '@material-ui/core/styles/createPalette';
 import { Grid, Typography } from '@material-ui/core';
 
@@ -20,14 +18,12 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import GroupMember from '../layout/GroupMember.js'
 import GroupListItem from '../layout/GroupListItem.js'
-
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
-
 
 
 const styles = theme => ({
@@ -61,18 +57,13 @@ const ShoppingLs=[
   {id:"1",name:"liste 2"},
   {id:"2",name:"list 2.4"}
 ]
-const mem=[
-  {id:"2",imgsrc: "", name:"Niklas"}];
-
-
-    
   
 /**
  * Bildet eine Spezifische, editierbare Gruppe ab
  * 
  * Beim Aufruf der Specific group muss der name auf den Gruppennamen gesetzt werden
  * 
- * @author [Julius Jacobitz]()
+ * @author [Julius Jacobitz](https://github.com/JuliusJacobitz)
  * 
  */
 class SpecificGroup extends Component {
@@ -117,14 +108,11 @@ addMember(id) {
     const resjson = await res.json()
     console.log( resjson)
     this.setState({groupmembers:resjson})}
-  
     
-  
+
   componentDidMount(){
     this.fetchGroupMembers()
   }
-
-  
   
   renderShoppinglists(){
   const ShoppingLists = []
@@ -172,8 +160,7 @@ return ShoppingLists
 
         {/*
 
-          //commented, because we don't need multiple lists per group
-
+          //commented out, because we don't need multiple lists per group
 
         <ExpansionPanel style={{border:"1px solid #5a5a5a", margin:4}}>
         <ExpansionPanelSummary
@@ -202,8 +189,6 @@ return ShoppingLists
            {this.renderShoppinglists()}
            </Grid>
 
-
-
         </>
         </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -211,7 +196,6 @@ return ShoppingLists
         */}
 
 {/* Members: ---------------------------------------------------------*/}
-
 
         <ExpansionPanel style={{border:"1px solid #5a5a5a", margin:4}}>
         <ExpansionPanelSummary
@@ -223,8 +207,6 @@ return ShoppingLists
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
          <> 
-
-
         <Grid 
           style={{marginLeft: 2}}
           container
@@ -261,16 +243,13 @@ return ShoppingLists
                             </DialogActions>
                           </Dialog>
 
-
         <AddCircleItem style={{alignSelf:"center", margin: 12,fontSize:"40px" }} onClick={() => { handleClickOpen() }}></AddCircleItem>
           
               {this.renderGroupMembers()}
         </Grid>
-          
-          
           </>
 
-        </ExpansionPanelDetails>
+          </ExpansionPanelDetails>
         </ExpansionPanel>
 
         </div>
@@ -278,7 +257,6 @@ return ShoppingLists
     )
   }
 }
-
 SpecificGroup.propTypes = {
   icon: PropTypes.string,
 }

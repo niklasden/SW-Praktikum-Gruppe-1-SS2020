@@ -1,20 +1,11 @@
 import React, { Component } from "react";
-import SearchIcon from "@material-ui/icons/Search";
-import InputBase from "@material-ui/core/InputBase";
+
 import PropTypes from 'prop-types';
 
 import { withStyles } from "@material-ui/styles";
-import Box from '@material-ui/core/Box';
 import MaterialIconButton from '@material-ui/core/IconButton';
 import { Grid,Avatar} from "@material-ui/core";
 import Icon from "@material-ui/core/Icon";
-
-/**
- * Displays a list item in a specific group
- * 
- * @author [Julius Jacobitz](https://github.com/JuliusJacobitz)
- * 
-*/
 
 const styles = theme => ({
     root: {
@@ -34,6 +25,12 @@ const styles = theme => ({
       },
 });
 
+/**
+ * Displays a list item of a specific group for Specific Group
+ * 
+ * @author [Julius Jacobitz](https://github.com/JuliusJacobitz)
+ * 
+*/
 class GroupListItem extends Component {
   render() {
     return (
@@ -56,9 +53,6 @@ class GroupListItem extends Component {
         <Grid item xs={8}>
         <t style={{color: '#000000', fontSize: 18}}>{this.props.Listname}</t>
         </Grid>
-
-        
-
         
     </Grid>
     </div>
