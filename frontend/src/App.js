@@ -34,7 +34,13 @@ import { RetailerPage } from './components/pages/RetailerPage'
 import CreateRetailerPage from './components/pages/CreateRetailerPage'
 import StatisticPage from './components/pages/StatisticPage';
 import ShowStatisticPage from './components/pages/ShowStatisticPage';
+import CreateArticlePage from './components/pages/CreateArticlePage'
+
+
 import SpecificGroup from './components/pages/SpecificGroup.js';
+import CreateGroup from './components/pages/CreateGroup.js';
+
+import Groups from './components/pages/Groups';
 
 //** End Layout Import **/
 
@@ -161,6 +167,9 @@ class App extends React.Component {
 					<Route path="/products">
                       <ProductsPage />
                     </Route>
+					<Route path="/create_article">
+						<CreateArticlePage />
+					</Route>
 					<Route path="/retailers">
 						<RetailerPage />
 					</Route>
@@ -170,6 +179,10 @@ class App extends React.Component {
 					<Route path="/specificgroup">
 						<SpecificGroup/>
 					</Route>
+					<Route path="/Groups">
+						<Groups></Groups>
+					</Route>
+
 					<Route path="/GroupShoppingList">
 						<GroupShoppingList/>
           			</Route> 
@@ -187,12 +200,15 @@ class App extends React.Component {
 						<GroupShoppingList/>
           			</Route>  
 					<Route path="/createGroup">
-						{/* Insert Import create Group  */}
+						<CreateGroup/>
           			</Route>
 					  <Route path="/specificGroup">
 						<SpecificGroup></SpecificGroup>
-          			</Route>  
-
+          			</Route>
+					  <Route path="/allGroups">
+						<Groups></Groups>
+					
+          			</Route>
 					{/* this must always be the last route */}
                     <Route path="/">
                       <HomePage />

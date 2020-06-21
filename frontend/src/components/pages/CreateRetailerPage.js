@@ -71,7 +71,7 @@ class CreateRetailerPage extends Component {
             alignItems="flex-end"
           >
             <Grid item  >
-              <MainButton onClick={this.onClickSave.bind(this)}>Speichern</MainButton>
+              <MainButton onclick={this.onClickSave.bind(this)}>Speichern</MainButton>
             </Grid>
 
             <Snackbar

@@ -5,13 +5,17 @@ import AddIcon from '@material-ui/icons/Add';
 import GroupIcon from '@material-ui/icons/PeopleAlt'
 import { withStyles } from '@material-ui/styles';
 import TextField from '@material-ui/core/TextField';
-
+import IconButton from '@material-ui/core/IconButton' 
 import Box from '@material-ui/core/Box'
+import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
   root: {
     backgroundColor: '#fafafa', 
     borderRadius: 5, 
+  },
+  margin: {
+    margin: theme.spacing(1),
   },
 });
 
@@ -29,21 +33,20 @@ class GroupButton extends Component {
     
 
     return (
-        <MaterialIconButton 
-          className={classes.root}
-          style={{padding: '9px' , width:'100px',height:'100px', alignSelf: 'center'}}
-        >
-        <div style={{height:'100%',width:'100%',margin:'9px'}}>
-        
-        <GroupIcon 
-        classes={{root: classes.iconRoot}}
-        style={{height:'80%',width:'80%'}}> 
-        <img className={classes.imageIcon} style={{margin:'3px',height:'100%',width:'100%'}} src={this.props.imgsrc}/>
-        </GroupIcon>
+              <>
+         {/** 
+         <IconButton size="large" aria-label="GoToGroup" className={this.props.classes.margin} style={{padding:5}}>  
+        <GroupIcon/>
         <p style={{fontSize: "12px" ,color: "black"}}>{this.props.groupname}</p>
-        </div>
+        </IconButton>
+*/}
+        <Button size="large" >
+          
+          <GroupIcon fontSize="large"/>
+          {this.props.groupname}
+        </Button>
 
-        </MaterialIconButton>
+        </>
     )
   }
 }

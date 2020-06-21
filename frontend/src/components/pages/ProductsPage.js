@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import TextInputBar from '../layout/TextInputBar';
-import IconButton from '../layout/IconButton'
-import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress'
-import ProductListEntry from '../layout/ProductListEntry'
-
+import IconButton from '../layout/IconButton';
+import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress';
+import ProductListEntry from '../layout/ProductListEntry';
+import { Link } from 'react-router-dom';
 
 const styles = theme => ({
     root: {
@@ -99,13 +99,16 @@ class ProductsPage extends Component {
         className={classes.root} xs={12}
         style={{marginLeft:3, marginRight:5}}>
 
-        <Grid container xs={12}>
-        <Grid item xs={9}>
+        <Grid container xs={12} spacing={2}>
+        <Grid item xs={10}>
           <TextInputBar placeholder="search..." icon="search"/>
         </Grid>
-        <Grid item xs={3}>
-          <IconButton icon='add' />
+        <Grid item xs={2}>
+          <Link to="/create_article">
+            <IconButton icon='add' />
+          </Link>
         </Grid>
+
         </Grid> 
         <div>
           <ProductListEntry category="fruits" articles={FRUITS}></ProductListEntry>
@@ -133,7 +136,8 @@ class ArticleList extends Component {
   state = {
     articles:[], 
     loadingInProgress: false, 
-    loadingArticlesError: null, 
+    loadingArticlesError: null,
+    addingArticleError: null,  
   }
 
   componentDidMount(){

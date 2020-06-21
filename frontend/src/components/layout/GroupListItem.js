@@ -37,8 +37,9 @@ const styles = theme => ({
 class GroupListItem extends Component {
   render() {
     return (
-        <>
-    <Grid 
+        <div >
+    <Grid onClick = {() => {alert("Clicked")}}
+    
     style={{marginBottom:5}}
       container 
       direction='row'
@@ -60,7 +61,7 @@ class GroupListItem extends Component {
 
         
     </Grid>
-    </>
+    </div>
     );
   }
 }
