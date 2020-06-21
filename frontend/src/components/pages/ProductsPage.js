@@ -104,7 +104,7 @@ class ProductsPage extends Component {
           <TextInputBar placeholder="search..." icon="search"/>
         </Grid>
         <Grid item xs={3}>
-          <IconButton />
+          <IconButton icon='add' />
         </Grid>
         </Grid> 
         <div>

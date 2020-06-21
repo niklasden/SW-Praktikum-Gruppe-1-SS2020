@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Grid from '@material-ui/core/Grid/Grid'
 import { withStyles } from '@material-ui/styles';
-import IconButton from './IconButton'
 import Box from '@material-ui/core/Box'
 import SettingsIcon from '@material-ui/icons/Settings';
 import {

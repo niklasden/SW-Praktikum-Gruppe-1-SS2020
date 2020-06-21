@@ -103,7 +103,7 @@ export class RetailerPage extends Component {
           /> 
 
           <Link to="/create_retailer" >
-            <IconButton style={{marginLeft: 12}}  />
+            <IconButton style={{marginLeft: 12}} icon='add'  />
           </Link>
         </div>
         
