@@ -1,0 +1,17 @@
+[
+    {
+        "nr": 1, 
+        "name": "ALDI", 
+        "amount": 5
+    },
+    {
+        "nr": 2,
+         "name": "EDEKA", 
+         "amount": 3
+    },
+    {
+        "nr": 3, 
+        "name": "DM", 
+        "amount": 2
+    }
+]

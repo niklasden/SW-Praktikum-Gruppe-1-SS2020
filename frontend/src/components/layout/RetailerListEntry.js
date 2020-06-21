@@ -69,7 +69,14 @@ class RetailerListEntry extends Component {
         </Grid>
 
         <Grid container xs={3} justify='flex-end'>
-          <Link to='create_retailer'>
+          <Link 
+            to='create_retailer?query=hello'
+            query='hello'
+            to={{
+              pathname: 'create_retailer', 
+              state: { name: this.props.name, address: this.props.address }
+            }}
+          >
             <SettingsIcon 
               style={{ color: '#00BCD4' }} 
               // onClick={() => alert('hello')}

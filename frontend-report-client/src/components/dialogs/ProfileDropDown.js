@@ -1,7 +1,7 @@
 import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { Popover, IconButton, Avatar, ClickAwayListener, withStyles, Typography, Paper, Button, Grid, Divider } from '@material-ui/core';
-// import firebase from 'firebase/app';
+import firebase from 'firebase/app';
 
 /**
  * Shows a drop down list for the account infos and a possibility to log out. For closing the pop up menu if 
@@ -51,10 +51,10 @@ class ProfileDropDown extends Component {
 	 * 
 	 * @see See Google [firebase.auth](https://firebase.google.com/docs/reference/js/firebase.auth.Auth)
 	 * @see See Google [firebase.auth().signOut](https://firebase.google.com/docs/reference/js/firebase.auth.Auth#signout)
-	//  */
-  // handleSignOutButtonClicked = () => {
-  //   firebase.auth().signOut();
-  // }
+	 */
+  handleSignOutButtonClicked = () => {
+    firebase.auth().signOut();
+  }
 
   /** Renders the profile drop down if a loggin user is given as a prop */
   render() {

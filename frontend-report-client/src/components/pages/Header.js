@@ -24,13 +24,28 @@ const useStyles = makeStyles((theme) => ({
 
 function Header(props){
   const classes = useStyles();
+  const { user } = props;
     return (
         <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar>
-                      <Typography variant="h6" className={classes.title}>
-                        Report Client
-                      </Typography>
+                      {
+                      user ?
+                        <Grid container direction="row" alignItems="center">
+                          <Grid item xs={10}>
+                            <Typography variant="h6" className={classes.title}>
+                                  Report Client
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={2}>
+                            <ProfileDropDown user={user} />
+                          </Grid>
+                        </Grid>
+                      :
+                        <Typography variant="h6" className={classes.title}>
+                          ShoppingProject - SW-Praktikum: Gruppe 1 (SS2020)
+                        </Typography>
+                        }
                 </Toolbar>
             </AppBar>
         </div>

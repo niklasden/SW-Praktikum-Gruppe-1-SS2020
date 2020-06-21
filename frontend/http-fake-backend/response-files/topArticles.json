@@ -1,0 +1,14 @@
+[
+    {
+        "nr": 1, 
+        "name": "BIER", 
+        "amount": 31
+    },
+    {
+        "nr": 2, 
+        "name": "PIZZA", "amount": 19
+    },
+    {
+        "nr": 3, "name": "PESTO", "amount": 12
+    }
+]

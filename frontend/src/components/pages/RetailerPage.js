@@ -70,7 +70,7 @@ export class RetailerPage extends Component {
         loadingRetailersError: null, 
         retailers: RETAILERS
       })
-    }, 10)
+    }, 1000)
   }
 
   renderRetailers(){
@@ -78,8 +78,6 @@ export class RetailerPage extends Component {
     if(this.state.searchValue != ''){
       retailers = retailers.filter((retailer) => retailer.name.toLowerCase().includes(this.state.searchValue.toLowerCase()))
     }
-
-    console.log(retailers)
 
     return retailers.map(retailer => (
       <RetailerListEntry 
@@ -107,13 +105,13 @@ export class RetailerPage extends Component {
           </Link>
         </div>
         
-
-
         <div style={{margin: 12}}>
           <div>
             {this.state.loadingInProgress ?
-              <CircularProgress />
-            : 
+              <div style={{display: 'flex', justifyContent: 'center'}}>
+                <CircularProgress size={25} />
+              </div>
+            :  
               this.renderRetailers()
             }
           </div>
