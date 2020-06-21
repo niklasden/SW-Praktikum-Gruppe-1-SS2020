@@ -34,7 +34,8 @@ function Header(props){
     "/products": "ARTIKEL",
     "/retailers": "EINZELHÄNDLER",
     "/settings": "EINSTELLUNGEN",
-    "/statistics": "EINKAUFSVERHALTEN"
+    "/statistics": "EINKAUFSVERHALTEN",
+    "/createGroup": "CREATE A GROUP",
   };
   let location = useLocation();
     return (
