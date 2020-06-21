@@ -7,16 +7,7 @@ import Box from '@material-ui/core/Box'
 
 
 const styles = theme => ({
-<<<<<<< HEAD
   
-=======
-  root: {
-    backgroundColor: '#fafafa', 
-    borderRadius: 5, 
-    height: "48px",
-    width: "48px"
-  },
->>>>>>> pia
 });
 
 /**

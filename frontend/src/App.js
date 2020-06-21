@@ -33,13 +33,10 @@ import SettingsPage from './components/pages/SettingsPage';
 import { RetailerPage } from './components/pages/RetailerPage'
 import CreateRetailerPage from './components/pages/CreateRetailerPage'
 import StatisticPage from './components/pages/StatisticPage';
-<<<<<<< HEAD
 import ShowStatisticPage from './components/pages/ShowStatisticPage';
-=======
 import CreateArticlePage from './components/pages/CreateArticlePage'
 
 
->>>>>>> pia
 import SpecificGroup from './components/pages/SpecificGroup.js';
 import CreateGroup from './components/pages/CreateGroup.js';
 
@@ -182,13 +179,10 @@ class App extends React.Component {
 					<Route path="/specificgroup">
 						<SpecificGroup/>
 					</Route>
-<<<<<<< HEAD
-=======
 					<Route path="/Groups">
 						<Groups></Groups>
 					</Route>
 
->>>>>>> pia
 					<Route path="/GroupShoppingList">
 						<GroupShoppingList/>
           			</Route> 
