@@ -11,6 +11,7 @@ import Grid from '@material-ui/core/Grid'
 import Snackbar from '@material-ui/core/Snackbar';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button'
+import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress'
 
 const styles = theme => ({
   root: {
@@ -30,10 +31,20 @@ const styles = theme => ({
  */
 class CreateRetailerPage extends Component {
   state = { 
-    snackbarOpen: false
+    snackbarOpen: false, 
+    isSaving: false 
   }
 
   onClickSave(){
+    this.setState({ isSaving: true })
+
+    setTimeout(() => {
+      this.setState({ isSaving: false })
+      this.showErrorSnackBar()
+    }, 1000)
+  }
+
+  showErrorSnackBar(){
     this.setState({ snackbarOpen: true })
     setTimeout(() => {
       this.setState({ snackbarOpen: false })
@@ -72,6 +83,11 @@ class CreateRetailerPage extends Component {
           >
             <Grid item  >
               <MainButton onclick={this.onClickSave.bind(this)}>Speichern</MainButton>
+              {this.state.isSaving &&
+                <div style={{display: 'flex', justifyContent: 'center', marginTop: 12}}>
+                  <CircularProgress size={20} />
+                </div>
+              }
             </Grid>
 
             <Snackbar
