@@ -11,6 +11,8 @@ import { Icon } from '@material-ui/core';
 
 import {Link} from 'react-router-dom'
 
+
+
 const styles = theme => ({
   root: {
   
@@ -42,6 +44,8 @@ export class HomePage extends Component {
     return (
       <>       
         <HeaderButton/>
+        
+        
         <Grid
           container
           direction="row"
