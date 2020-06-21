@@ -51,6 +51,8 @@ export default class GroupShoppingList extends Component {
         xs={12}
         spacing={1}        
       >
+        <Grid container xs={12}>
+        </Grid>
         <Grid item>
           <Heading>Fruits</Heading>
         </Grid>

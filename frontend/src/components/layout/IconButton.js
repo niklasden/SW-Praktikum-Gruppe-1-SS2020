@@ -26,16 +26,21 @@ const styles = theme => ({
 class IconButton extends Component {
   render(){
     const { classes } = this.props;
+    let size = '48px' 
+    if(this.props.size == 'small'){
+      size = '35px'
+    }
 
     return (
+    
       <Box 
         border={1} 
         borderColor='#bdbdbd'
         borderRadius={5}
         style={{
           display: 'inline-block', 
-          height: '48px', 
-          width: '48px', 
+          height: size, 
+          width: size, 
           backgroundColor: '#fafafa',
           ...this.props.style
         }}
