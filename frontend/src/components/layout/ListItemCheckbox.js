@@ -7,7 +7,7 @@ import { withStyles } from "@material-ui/styles";
 import { Grid } from "@material-ui/core";
 
 /**
- * Displays an list item as designed in figma
+ * Displays an list item with a checkbox as designed in figma
  * 
  * @author [Pascal Illg](https://github.com/pasillg)
  * 
