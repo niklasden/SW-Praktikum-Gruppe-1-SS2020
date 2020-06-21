@@ -9,6 +9,9 @@ import MaterialIconButton from '@material-ui/core/IconButton';
 import { Grid,Avatar } from "@material-ui/core";
 import IconButton from '@material-ui/core/IconButton';
 import avatar from '../img/avatar.jpg';
+
+import SpecificGroup from '../pages/SpecificGroup'
+
 /**
  * Displays a group member item in a specific group
  * 
@@ -62,8 +65,9 @@ class GroupMember extends Component {
 
         <Grid item xs={2}>
           
-            <IconButton onClick aria-label="delete" className={this.props.classes.margin} style={{padding:0}}>
-              <DeleteIcon fontSize="small" />
+            <IconButton  aria-label="delete" className={this.props.classes.margin} style={{padding:0}}>
+              <DeleteIcon onClick={this.props.onclick} fontSize="small" />
+              {this.props.children}
           </IconButton>
         </Grid>
         
