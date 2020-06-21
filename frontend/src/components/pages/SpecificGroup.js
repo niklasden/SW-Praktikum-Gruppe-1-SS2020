@@ -21,6 +21,13 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import GroupMember from '../layout/GroupMember.js'
 import GroupListItem from '../layout/GroupListItem.js'
 
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
+
 
 
 const styles = theme => ({
@@ -74,6 +81,23 @@ class SpecificGroup extends Component {
 
     this.state ={
       groupmembers: [],
+      dense: 'false',
+        open: false,
+        groupMembers: [
+            {
+              id: 'a',
+              firstname: 'Robin',
+              lastname: 'Wieruch',
+              
+            },
+            {
+              id: 'b',
+              firstname: 'Dave',
+              lastname: 'Davidds',
+              
+            },
+          ],
+          inputval: ''
     }
     this.deleteMember = this.deleteMember.bind(this);
   }
@@ -83,16 +107,24 @@ class SpecificGroup extends Component {
         groupmembers: prevState.groupmembers.filter(item => item !== id)
    }))
 };
+
+
+addMember(id) {
+  this.setState({groupMembers: [...this.state.groupMembers, {firstname: this.state.inputval, } ]})
+}
   async fetchGroupMembers(){
-    const res = await fetch('http://jj-surface:8081/api/shoppa/groupmembers')
+    const res = await fetch('http://jj-surface:8081/api/shoppa/specificGroupMembers')
     const resjson = await res.json()
     console.log( resjson)
     this.setState({groupmembers:resjson})}
   
+    
   
   componentDidMount(){
     this.fetchGroupMembers()
   }
+
+  
   
   renderShoppinglists(){
   const ShoppingLists = []
@@ -112,7 +144,27 @@ return ShoppingLists
 
   render(){
     const { classes } = this.props;
+    var dense = this.state.dense;
+    var open = this.state.open;
+    var groupMembers = this.state.groupMembers;
     
+    const handleClickOpen = () => {
+        this.setState({open:true});
+    };
+    const handleClose = () => {
+      this.setState({open:false})
+  };
+  async function fetchspecificUser(email){
+    try {
+        let response = await fetch(`http://localhost:8081/api/shoppa/groupmembers/{$email}`);
+        let data = await response.json().then(console.log(data))
+        return data;
+    //getUserAsync('yourUsernameHere').then(data => console.log(data)); 
+    }
+    catch (error) {
+        console.log(error)
+    }
+};
 
     return (
         <div className={classes.accordion}>
@@ -183,9 +235,35 @@ return ShoppingLists
           spacing={1}        
       >
 
-<IconButton aria-label="add" className={this.props.classes.margin} style={{padding:0}}>
-        <AddCircleItem style={{alignSelf:"center", margin: 12}}></AddCircleItem>
-          </IconButton>
+<Dialog onClose={handleClose} aria-labelledby="form-dialog-title" style={{display: 'inline-block'}} open={open}>
+                            <DialogTitle id="form-dialog-title">Add Member</DialogTitle>
+                            <DialogContent>
+                              <DialogContentText>
+                                Please put in the email address, which the user used to signup for our app.
+                              </DialogContentText>
+                              <TextField
+                                autoFocus
+                                margin="dense"
+                                id="name"
+                                label="Email Address"
+                                type="email"
+                                fullWidth
+                                onChange={(e) => this.setState({inputval: e.target.value })}
+                              />
+                            </DialogContent>
+                            <DialogActions>
+                              <Button onClick={handleClose} color="primary">
+                                CANCEL
+                              </Button>
+                              <Button onClick={() => {fetchspecificUser();  handleClose(); this.addMember();}} color="primary">
+                                ADD
+                              </Button>
+                            </DialogActions>
+                          </Dialog>
+
+
+        <AddCircleItem style={{alignSelf:"center", margin: 12,fontSize:"40px" }} onClick={() => { handleClickOpen() }}></AddCircleItem>
+          
               {this.renderGroupMembers()}
         </Grid>
           
