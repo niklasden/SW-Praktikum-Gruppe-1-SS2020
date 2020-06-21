@@ -57,6 +57,7 @@ function generate(element) {
 
 /**
  * ToDo: Outline around Icon
+ *       Avatar Image from Google, instead of hardcoded
  * 
  * @author [Niklas Denneler](https://github.com/)
  * @author [Julius Jacobitz]()
@@ -69,7 +70,21 @@ class CreateGroup extends Component {
         this.state = {
         dense: 'false',
         open: false,
-        groupMembers: [0,1,2]
+        groupMembers: [
+            {
+              id: 'a',
+              firstname: 'Robin',
+              lastname: 'Wieruch',
+              
+            },
+            {
+              id: 'b',
+              firstname: 'Dave',
+              lastname: 'Davidds',
+              
+            },
+          ],
+          inputval: ''
       }
       this.deleteMember = this.deleteMember.bind(this);
     }
@@ -80,6 +95,10 @@ class CreateGroup extends Component {
             groupMembers: prevState.groupMembers.filter(item => item !== id)
        }))
     };
+
+    addMember(id) {
+        this.setState({groupMembers: [...this.state.groupMembers, {firstname: this.state.inputval, } ]})
+    }
 
   render(){
     const { classes } = this.props;
@@ -95,8 +114,16 @@ class CreateGroup extends Component {
         this.setState({open:false})
     };
 
-    const fetchUser = () => {
-        alert("added User")
+    async function fetchUser(email){
+        try {
+            let response = await fetch(`http://localhost:8081/api/shoppa/groupmembers/{$email}`);
+            let data = await response.json().then(console.log(data))
+            return data;
+        //getUserAsync('yourUsernameHere').then(data => console.log(data)); 
+        }
+        catch (error) {
+            console.log(error)
+        }
     };
     
     const add = () => {
@@ -139,27 +166,28 @@ class CreateGroup extends Component {
                                 label="Email Address"
                                 type="email"
                                 fullWidth
+                                onChange={(e) => this.setState({inputval: e.target.value })}
                               />
                             </DialogContent>
                             <DialogActions>
                               <Button onClick={handleClose} color="primary">
                                 CANCEL
                               </Button>
-                              <Button onClick={() => {handleClose(); fetchUser();}} color="primary">
+                              <Button onClick={() => {fetchUser();  handleClose(); this.addMember();}} color="primary">
                                 ADD
                               </Button>
                             </DialogActions>
                           </Dialog>
                         
                           {groupMembers.map((item) => (
-                            <ListItem key={item.id}>
+                            <ListItem key={item}>
                             <ListItemAvatar>
                                 <Avatar>
                                 <Avatar alt="Sabine Mustermann" src={avatar}/>
                                 </Avatar>
                             </ListItemAvatar>
                             <ListItemText
-                                primary="Sabine Mustermann"
+                                primary={item.firstname +" "+ item.lastname}
                             />
                             <ListItemSecondaryAction>
                                 <IconButton edge="end" aria-label="delete">
@@ -172,7 +200,7 @@ class CreateGroup extends Component {
                     </div>
             </Grid>
             <Grid item xs="12" style={{}}>
-                    <MainButton className={classes.CreateButton} onclick={() => {} }>Create Group</MainButton>
+                    <MainButton className={classes.CreateButton} onclick={() => {alert("group saved")} }>Create Group</MainButton>
             </Grid>
         </Grid>
         </Container>

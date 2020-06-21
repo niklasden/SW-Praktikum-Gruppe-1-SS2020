@@ -1,10 +1,8 @@
 [{
     "id":"1",
-    "name":"niklas",
+    "firstname":"niklas",
+    "lastname": "denneler",
+    "email": "niklasdenneler@gmail.com",
     "imgsrc":""
-},
-{
-    "id":"2",
-    "name":"Julius",
-    "imgsrc":""
-}]
+}
+]
