@@ -11,6 +11,7 @@ const styles = theme => ({
     backgroundColor: '#00BCD4',
     borderRadius: 5,
     margin: 'auto',
+    marginTop: 20,
     padding: theme.spacing(3),
     maxWidth: 400,
   },
