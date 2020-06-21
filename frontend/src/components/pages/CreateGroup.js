@@ -9,10 +9,8 @@ import { Grid, } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-import MakeSelectable from '@material-ui/core/List';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
@@ -43,18 +41,6 @@ const useStyles = (theme) => ({
   }
 });
 
-var userArray = [0,1,2];
-function generate(element) {
-    return userArray.map((value, index) =>
-      React.cloneElement(element, {
-        key: index, 
-      }),
-    console.log(element)
-    );
-  }
-
-
-
 /**
  * ToDo: Outline around Icon
  *       Avatar Image from Google, instead of hardcoded
@@ -84,7 +70,8 @@ class CreateGroup extends Component {
               
             },
           ],
-          inputval: ''
+          inputval: '',
+          fetchuser: ''
       }
       this.deleteMember = this.deleteMember.bind(this);
     }
@@ -114,22 +101,17 @@ class CreateGroup extends Component {
         this.setState({open:false})
     };
 
-    async function fetchUser(email){
+    const fetchUser = async () =>{
         try {
-            let response = await fetch(`http://localhost:8081/api/shoppa/groupmembers/{$email}`);
-            let data = await response.json().then(console.log(data))
-            return data;
-        //getUserAsync('yourUsernameHere').then(data => console.log(data)); 
+            let response = await fetch(`http://localhost:8081/api/shoppa/groupmembers/$email`);
+            let data = await response.json()
+            this.setState({groupMembers: this.state.groupMembers.concat(data)}) 
         }
         catch (error) {
             console.log(error)
         }
     };
     
-    const add = () => {
-        alert("niklas")
-    };
-
     return (
         <Container maxWidth="sm" style={{justifyContent: 'center'}}>
             <Grid container style={{ marginTop: "40px", justifyContent: 'center'}}>
@@ -173,7 +155,7 @@ class CreateGroup extends Component {
                               <Button onClick={handleClose} color="primary">
                                 CANCEL
                               </Button>
-                              <Button onClick={() => {fetchUser();  handleClose(); this.addMember();}} color="primary">
+                              <Button onClick={() => {fetchUser(); handleClose();}} color="primary">
                                 ADD
                               </Button>
                             </DialogActions>
