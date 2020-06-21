@@ -47,6 +47,8 @@ export class RetailerPage extends Component {
     loadingInProgress: false, 
     loadingRetailersError: null, 
     addingRetailerError: null, 
+
+    searchValue: '',
   }
 
   componentDidMount(){
@@ -72,7 +74,14 @@ export class RetailerPage extends Component {
   }
 
   renderRetailers(){
-    return this.state.retailers.map(retailer => (
+    let retailers = this.state.retailers
+    if(this.state.searchValue != ''){
+      retailers = retailers.filter((retailer) => retailer.name.toLowerCase().includes(this.state.searchValue.toLowerCase()))
+    }
+
+    console.log(retailers)
+
+    return retailers.map(retailer => (
       <RetailerListEntry 
         id={retailer.id}
         name={retailer.name}
@@ -87,7 +96,11 @@ export class RetailerPage extends Component {
       <div style={{width: '100%'}}>
         <div style={{flex: 1, flexDirection: 'row', display: 'flex', margin: 12}}>
           {/* <text style={{flexGrow: 1}}>hello</text> */}
-          <TextInputBar />
+          <TextInputBar
+            placeholder='search'
+            icon='search'
+            onChange={(elem) => this.setState({ searchValue: elem.target.value})}
+          /> 
 
           <Link to="/create_retailer" >
             <IconButton style={{marginLeft: 12}}  />

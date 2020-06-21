@@ -7,6 +7,7 @@ import MainButton from '../layout/MainButton'
 import {
   Link
 } from 'react-router-dom';
+import Grid from '@material-ui/core/Grid'
 
 const styles = theme => ({
   root: {
@@ -29,13 +30,13 @@ class CreateRetailerPage extends Component {
     return (
 
       <div>
-        <TextInputBar 
-          Icon='storefront'
-          placeholder='Name'
-          onChange={(text) => alert(text)}
-        />
-
-      
+        <div style={{margin: 12}}>
+          <TextInputBar 
+            icon='storefront'
+            placeholder='Name'
+            onChange={(text) => alert(text)}
+          />
+        </div>      
           <MultilineTextInput 
             placeholder='Ort des Einzelhändlers' 
             style={{margin: 12, marginTop: 0}}  
@@ -46,7 +47,18 @@ class CreateRetailerPage extends Component {
             <text>Beim Ort kann es sich um eine Adresse oder um eine zusätzliche Bezeichnung handeln, hauptsache du und die Mitglieder deiner Gruppe wissen, was damit gemeint ist</text>
           </div>
 
-          <MainButton>Speichern</MainButton>
+          <Grid
+            container
+            direction="row"
+            justify="center"
+            alignItems="flex-end"
+          >
+            <Grid item  >
+              <MainButton>Speichern</MainButton>
+
+            </Grid>
+          </Grid>
+ 
       </div>
     )
   }
