@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Heading from '../layout/Heading';
 import { Grid, TextField, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import Statistic from '../layout/Statistic';
@@ -24,14 +23,15 @@ const styles = theme => ({
       minWidth: '75%',
     }
 });
-const initStartDate = new Date().getDate();
-const initStartDateMonth = new Date().getMonth() + 1;
-var clearedStartDateMonth = 0;
-initStartDateMonth < 10 ? clearedStartDateMonth = "0" + initStartDateMonth : clearedStartDateMonth = initStartDateMonth;
-const initStartDateYear = new Date().getFullYear();
-const todaysDateinOneWeek = initStartDateYear + "-" + clearedStartDateMonth + "-" + parseInt(initStartDate + 7)
-const todaysDate = initStartDateYear + "-" + clearedStartDateMonth + "-" + initStartDate;
+const initStartDate = new Date();
+const initStartDateMonth = initStartDate.getMonth() < 10 ? "0" + initStartDate.getMonth() : initStartDate.getMonth();
+const initStartDateDay = initStartDate.getDate() < 10 ? "0" + initStartDate.getDate() : initStartDate.getDate();
+const initStartDateFullDate = initStartDate.getFullYear() + "-" + initStartDateMonth + "-" + initStartDateDay;
 
+const initEndDate = new Date(initStartDate.setDate(initStartDate.getDate() + 7));
+const initEndDateMonth = initEndDate.getMonth() < 10 ? "0" + (initEndDate.getMonth() + 1) : initEndDate.getMonth();
+const initEndDateDay = initEndDate.getDate() < 10 ? "0" + initEndDate.getDate() : initEndDate.getDate();
+const initEndDateFullDate = initEndDate.getFullYear() + "-" + initEndDateMonth + "-" + initEndDateDay;
 class ShowStatisticPage extends Component {
     constructor(props) {
         super(props);
@@ -41,8 +41,8 @@ class ShowStatisticPage extends Component {
             selectedCategory: "Alle",
             selectedRetailer: "Alle",
             selectedArticle: "Alle",
-            selectedStartTime: todaysDate,
-            selectedEndTime: todaysDateinOneWeek,
+            selectedStartTime: initStartDateFullDate,
+            selectedEndTime: initEndDateFullDate,
             error: null
         }
         this.handleChangeArticle = this.handleChangeArticle.bind(this);
@@ -68,7 +68,7 @@ class ShowStatisticPage extends Component {
     }
     async fetchProducts() {
        try {
-            const res = await fetch("http://localhost:8081/api/shoppa/products")
+            const res = await fetch("http://localhost:8081/api/shoppa/products/shopped")
             const json = await res.json();
             this.setState({products: json})
        }catch(exception) {
@@ -91,37 +91,37 @@ class ShowStatisticPage extends Component {
     }
     render() { 
         var categoryTemp = [];
-        this.state.retailer.map(r => {
+        this.state.retailer.forEach(r => {
             if(!categoryTemp.includes(r.category)) {
                 categoryTemp.push(r.category)
             }
         })
-        const retailerCategories = categoryTemp;
+        // const retailerCategories = categoryTemp;
         const classes = this.props.classes;
         const { error } = this.state;
         return (
-            <Grid container xs={12} style={{padding: '1em'}} spacing={1}>
+            <Grid container style={{padding: '1em'}}>
                 { error ?
                     <Grid item xs={12}>
-                        <ContextErrorMessage error={error} contextErrorMsg={`Data could not be loaded. Check if server is running.`} />
+                        <ContextErrorMessage error={error} contextErrorMsg={`Data could not be loaded. Check if database server is running.`} />
                     </Grid>
                 :
                 <>
                 <Link to="/">
                 <ArrowBackIosIcon fontSize="large" color="primary" />
             </Link>
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                     <Typography color="primary">KATEGORIE AUSWÄHLEN</Typography>
                     <FormControl className={classes.formControl}>
                         <InputLabel>Kategorie</InputLabel>
                         <Select value={this.state.selectedCategory} onChange={this.handleChangeCategory}>
                             <MenuItem value={"Alle"}>Alle</MenuItem>
                             {retailerCategories.map(rC => (
-                                <MenuItem value={rC}>{rC}</MenuItem>
+                                <MenuItem key={rC} value={rC}>{rC}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12}>
                     <Typography color="primary">EINZELHÄNDLER AUSWÄHLEN</Typography>
                     <FormControl className={classes.formControl}>
@@ -129,7 +129,7 @@ class ShowStatisticPage extends Component {
                         <Select value={this.state.selectedRetailer} onChange={this.handleChangeRetailer}>
                             <MenuItem value={"Alle"}>Alle</MenuItem>
                             {this.state.retailer.map(r => (
-                                <MenuItem value={r.name}>{r.name}</MenuItem>
+                                <MenuItem key={r.id} value={r.name}>{r.name}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>
@@ -141,12 +141,12 @@ class ShowStatisticPage extends Component {
                         <Select value={this.state.selectedArticle} onChange={this.handleChangeArticle}>
                             <MenuItem value={"Alle"}>Alle</MenuItem>
                             {this.state.products.map(p=> (
-                                <MenuItem value={p.name}>{p.name}</MenuItem>
+                                <MenuItem key={p.id} value={p.name}>{p.name}</MenuItem>
                             ))}
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid container xs={12} direction="row" spacing={2}>
+                <Grid container direction="row">
                     <Grid item xs={6}>
                         <Typography color="primary">START AUSWÄHLEN</Typography>
                             <TextField

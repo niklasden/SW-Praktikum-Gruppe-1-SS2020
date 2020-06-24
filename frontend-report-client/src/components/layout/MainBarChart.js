@@ -7,7 +7,7 @@ export default class MainBarChart extends Component {
 	render() {
         const data = this.props.data;
         var itemList = [];
-        data.map(d => {
+        data.forEach(d => {
             var item = {
                 label: d.name,
                 y: d.amount

@@ -21,59 +21,44 @@ const styles = theme => ({
 class Statistic extends Component {
   state = {
     time: this.props.time,
+    test: [],
     options: {
-      data: [{
-        name: "Apfel",
-        type: "spline",
-        retailer: "DM",
-        category: "fruits",
-        yValueFormatString: "#0.## Stk.",
-        showInLegend: true,
-        dataPoints: [
-          { x: new Date(2020,5,24), y: 4 },
-          { x: new Date(2020,5,25), y: 0 },
-          { x: new Date(2020,5,26), y: 0 },
-          { x: new Date(2020,5,27), y: 0 },
-          { x: new Date(2020,5,28), y: 4 },
-          { x: new Date(2020,5,29), y: 2 },
-          { x: new Date(2020,5,30), y: 1 }
-        ]
-      },
-      {
-        name: "Pesto",
-        retailer: "ALDI",
-        category: "groceries",
-        type: "spline",
-        yValueFormatString: "#0.## Stk.",
-        showInLegend: true,
-        dataPoints: [
-          { x: new Date(2020,5,24), y: 2 },
-          { x: new Date(2020,5,25), y: 2 },
-          { x: new Date(2020,5,26), y: 2 },
-          { x: new Date(2020,5,27), y: 1 },
-          { x: new Date(2020,5,28), y: 2 },
-          { x: new Date(2020,5,29), y: 2 },
-          { x: new Date(2020,5,30), y: 2 }
-        ]
-      },
-      {
-        name: "Bier",
-        type: "spline",
-        retailer: "ALDI",
-        category: "groceries",
-        yValueFormatString: "#0.## Stk.",
-        showInLegend: true,
-        dataPoints: [
-          { x: new Date(2020,5,24), y: 1 },
-          { x: new Date(2020,5,25), y: 3 },
-          { x: new Date(2020,5,26), y: 3 },
-          { x: new Date(2020,5,27), y: 2 },
-          { x: new Date(2020,5,28), y: 10 },
-          { x: new Date(2020,5,29), y: 7 },
-          { x: new Date(2020,5,30), y: 4 }
-        ]
-      }]
+      data: []
     }
+  }
+  async getBoughtProducts() {
+    try {
+      const res = await fetch("http://localhost:8081/api/shoppa/products/shopped");
+      const json = await res.json();
+      var newItem, productList = [];
+      json.forEach(item => {
+        newItem = {
+          type: "spline",
+          yValueFormatString: "#0.## Stk.",
+          showInLegend: true,
+          name: item.name,
+          category: item.category,
+          retailer: item.retailer,
+          dataPoints: []
+        };
+        item.purchases.forEach(purchase => {
+          var dataPoint = 
+          {
+            x: new Date(purchase.bought),
+            y: purchase.amount
+          };
+          newItem.dataPoints.push(dataPoint);
+        })
+      productList.push(newItem);
+      })
+      this.setState({options: {data: [...productList]}})
+    }catch(exception) {
+        this.setState({error: exception})
+    }
+  }
+  componentDidMount() {
+    this.getBoughtProducts();
+
   }
   isDateBeforeTimeProp(date) {
     return date.valueOf() <= new Date(this.props.endTime).valueOf();
@@ -97,7 +82,7 @@ isDateAfterTimeProp(date) {
         newList = {...newList, data: newList.data.filter(d => d.name === this.props.article)};
       }
       if(this.props.startTime && this.props.endTime) {
-        newList.data.map(d => {
+        newList.data.forEach(d => {
           d.dataPoints = d.dataPoints.filter(dd => this.isDateBeforeTimeProp(dd.x) && this.isDateAfterTimeProp(dd.x));
         })
       }
@@ -108,10 +93,16 @@ isDateAfterTimeProp(date) {
   }
     render() {
       const classes = this.props.classes;
+      const chartItems = this.getOptions();
       return (
-        <Grid item>
-          <CanvasJSChart options = {this.getOptions()} className={classes.chart} />
-      </Grid>
+        chartItems.data.length > 0 ?
+          <Grid item>
+            <CanvasJSChart options = {this.getOptions()} className={classes.chart} />
+          </Grid>
+        :
+          <Grid item>
+            <p>No items to show.</p>
+          </Grid>
       )
     }
 }

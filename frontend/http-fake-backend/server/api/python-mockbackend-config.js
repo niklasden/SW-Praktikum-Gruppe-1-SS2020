@@ -44,6 +44,13 @@ module.exports = SetupEndpoint({
         }]
     },
     {
+        params: '/products/shopped',
+        requests: [{
+            method: ['GET'],
+            response: '/response-files/boughtProducts.json'
+        }]
+    },
+    {
         params: '/groups',
         requests: [{
             method: ['GET'],

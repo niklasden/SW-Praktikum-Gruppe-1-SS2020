@@ -34,8 +34,8 @@ class App extends React.Component {
     super(props);
     this.state = {
       appError: null,
-      authError: null,
       currentUser: null,
+      authLoading: false,
     }
   }
   handleAuthStateChange = user => {
@@ -55,12 +55,10 @@ class App extends React.Component {
 				// Set the user not before the token arrived 
 				this.setState({
 					currentUser: user,
-					authError: null,
 					authLoading: false
 				});
 			}).catch(e => {
 				this.setState({
-					authError: e,
 					authLoading: false
 				});
 			});
@@ -83,6 +81,9 @@ class App extends React.Component {
 		firebase.auth().signInWithRedirect(provider);
   }
   componentDidMount() {
+    this.setState({
+			authLoading: true
+		});
 		firebase.initializeApp(this.#firebaseConfig);
 		firebase.auth().languageCode = 'en';
 		firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
@@ -97,7 +98,7 @@ class App extends React.Component {
 		return { appError: error };
   }
   render() {
-	  const { appError, authError, currentUser, authLoading } = this.state;
+	  const { appError, currentUser, authLoading } = this.state;
     return (
       <ThemeProvider theme={Theme}>
         <Router basename={process.env.PUBLIC_URL}>

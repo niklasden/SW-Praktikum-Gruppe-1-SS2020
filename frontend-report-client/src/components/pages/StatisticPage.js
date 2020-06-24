@@ -6,6 +6,7 @@ import { Grid } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import MainBarChart from '../layout/MainBarChart';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
+import LoadingProgress from '../dialogs/LoadingProgress';
 
 /**
  * Displays the statistic page
@@ -19,7 +20,8 @@ class StatisticPage extends Component {
         this.state = {
             retailers: [],
             products: [],
-            error: null
+            error: null,
+            dataLoading: false,
         }
     }
 
@@ -43,17 +45,24 @@ class StatisticPage extends Component {
         }
     }
     componentDidMount() {
+        this.setState({
+			dataLoading: true
+		});
         this.fetchTopProducts();
         this.fetchTopRetailers();
+        this.setState({
+			dataLoading: false
+		});
     }
     render() { 
-    const { error } = this.state;
+    const { error, dataLoading } = this.state;
         return (
             <>
             {error ?
-                <ContextErrorMessage error={error} contextErrorMsg={`Data could not be loaded. Check if server is running.`} />
-            :
+                    <ContextErrorMessage error={error} contextErrorMsg={`Data could not be loaded. Check if database server is running.`} />
+                        :
                 <>
+                    <LoadingProgress show={dataLoading} />
                     <Heading>MEISTBESUCHTE EINZELHÄNDLER</Heading>
                         <MainBarChart data={this.state.retailers} />
                         <Grid item xs={12} container spacing={1}>
