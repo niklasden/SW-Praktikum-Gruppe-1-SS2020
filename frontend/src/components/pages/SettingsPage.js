@@ -1,23 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Typography, withStyles, Checkbox, FormControlLabel, Button, Avatar, Box } from '@material-ui/core';
+import { Grid, Typography, withStyles, Checkbox, FormControlLabel, Button, Avatar, Box, Icon } from '@material-ui/core';
 import avatar from '../img/avatar.jpg';
+import ListEntry from '../layout/ListEntry'
+import CustomIcon from '../layout/CustomIcon'
 
 
 /** 
- * Renders a landing page for users who are not signed in. Provides a sign in button 
- * for using an existing google account to sign in. The component uses firebase to 
- * do redirect based signin process.
- * 
- * @see See Googles [firebase authentication](https://firebase.google.com/docs/web/setup)
- * @see See Googles [firebase API reference](https://firebase.google.com/docs/reference/js)
+ * @author Christopher Boehm
  * 
  */
 
 
 class Settings extends Component {
-
-
 	/** 
 	 * Handles the click event of the sign in button an calls the prop onSignIn handler
 	 */
@@ -34,23 +29,29 @@ class Settings extends Component {
 	render() {
 		const { classes } = this.props;
 		return (
-			<div>
-				<Typography className={classes.root} align='center' variant='h6'>Your Settings</Typography>
-				<Grid container justify='center'>
-					<Grid item xs={3}>
-					<Box align-items="center" display="flex">
-					<Avatar alt="Sabine Mustermann" src={avatar} //className={classes.large.AvatarPadding}
-					/>
-					<Typography>Sabine Mustermann</Typography>
-					</Box>
-					<FormControlLabel
-					control={<Checkbox defaultChecked color="default" inputProps={{ 'aria-label': 'checkbox with default color' }}/>} label="Dark Mode"
-					/>
-					</Grid>
-					<Grid item xs={3}>
-					<Button variant="contained">Delete Account</Button>
-					</Grid>
-				</Grid>
+			<div style={{marginLeft: 12, marginRight: 12}}>
+				<ListEntry 
+					text='Gruppe verwalten'
+					iconName='people_outline'
+					style={{marginTop: 12}}
+				/>
+				<ListEntry 
+					text='Einzelhändler verwalten'
+					iconName='shopping_cart_outline'
+					style={{marginTop: 12}}
+				/>
+				<ListEntry 
+					text='Account verwalten'
+					iconName='person_outline'
+					style={{marginTop: 12}}
+				/>
+
+				<div className={classes.advertisementBlock}>
+					<img src={require('../../icons/advertisingIcon.png')} />
+					<p>HIER KÖNNTE IHRE</p>
+					<p>WERBUNG</p>
+					<p>STEHEN!</p>
+				</div>
 			</div>
 		);
 	}
@@ -63,7 +64,16 @@ const styles = theme => ({
 	},
 	AvatarPadding: {    
 		marginRight: '25px' 
-	  }
+	}, 
+	advertisementBlock: {
+		backgroundColor: '#F2F2F2',
+    borderWidth: 1,
+    borderColor: '#BDBDBD',
+    borderStyle: 'solid',
+    borderRadius: 5,
+		padding: 5,
+		marginTop: 20, 
+	},
 });
 
 /** PropTypes */

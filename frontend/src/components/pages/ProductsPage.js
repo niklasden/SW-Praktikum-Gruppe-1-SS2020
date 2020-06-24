@@ -96,8 +96,7 @@ class ProductsPage extends Component {
     const classes = this.props.classes
     return(
       <Grid container 
-        className={classes.root} xs={12}
-        style={{marginLeft:3, marginRight:5}}>
+        className={classes.root} xs={12}>
 
         <Grid container xs={12} spacing={2}>
         <Grid item xs={10}>

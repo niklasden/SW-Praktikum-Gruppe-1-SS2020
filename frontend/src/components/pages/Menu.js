@@ -156,6 +156,13 @@ export default function Menu(props) {
                   </ListItem>
                 </Link>
 
+                <Link to="/settings-accounts" className={classes.listItem}>
+                  <ListItem button key="2">
+                    <ListItemIcon><SettingsIcon /></ListItemIcon>
+                    <ListItemText primary="Accounts" />
+                  </ListItem>
+                </Link>
+
                 <a href="http://localhost:8081" className={classes.listItem} target="_blank" rel="noopener noreferrer">
                   <ListItem button key="2">
                     <ListItemIcon><CodeIcon /></ListItemIcon>
