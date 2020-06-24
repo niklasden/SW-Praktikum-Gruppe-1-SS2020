@@ -179,6 +179,9 @@ class App extends React.Component {
 									<Route path="/create_retailer">
 										<CreateRetailerPage />
 									</Route>
+									<Route path="/create_article">
+										<CreateArticlePage />
+									</Route>
 									<Route path="/specificgroup">
 										<SpecificGroup/>
 									</Route>
