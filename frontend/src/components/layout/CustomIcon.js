@@ -44,6 +44,7 @@ import lipstickIcon from '../../icons/lipstick.svg'
 import yoghurtIcon from '../../icons/yoghurt.svg'
 import chickenIcon from '../../icons/chicken.svg'
 import soapIcon from '../../icons/soap.svg'
+import advertisingIcon from '../../icons/advertising.svg'
 
 // add your icon here, you can then call it by <CustomIcon name='iconname' />
 // place the file in icons and import it the same way the appleIcon has been imported
@@ -91,6 +92,9 @@ const icons = {
   lipstick: lipstickIcon,
   yoghurt: yoghurtIcon, 
   soap: soapIcon, 
+
+  // non food related icons
+  advertising: advertisingIcon, 
 }
 
 /**

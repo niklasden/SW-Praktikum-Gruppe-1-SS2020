@@ -6,6 +6,8 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import {
   Link
 } from 'react-router-dom';
+import Icon from '@material-ui/core/Icon'
+import Button from '@material-ui/core/Button'
 
 const styles = theme => ({
   root: {
@@ -21,7 +23,6 @@ const styles = theme => ({
     color: '#00BCD4',
   },
 });
-
 
 /**
  * Renders a list of ListEntry objects
@@ -44,6 +45,7 @@ class ListEntry extends Component {
         style={this.props.style} 
         justify='space-between'
         direction='row'
+        component={Button}
       >
         <Grid 
           container 
@@ -52,10 +54,12 @@ class ListEntry extends Component {
           direction='row'
         >
           <Grid item  >
-            <p>h</p>
+            <Icon
+              style={{ color: '#00BCD4', marginRight: 12 }}
+            >{this.props.iconName}</Icon>
           </Grid>
           <Grid item>
-            <text style={{display: 'block'}}>{this.props.text}</text>
+            <text style={{display: 'block', fontWeight: 'normal', textTransform: 'none'}}>{this.props.text}</text>
           </Grid>
         </Grid>
       </Grid> 
