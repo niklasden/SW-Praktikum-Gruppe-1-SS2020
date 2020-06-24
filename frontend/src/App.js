@@ -32,15 +32,7 @@ import GroupShoppingList from './components/pages/GroupShoppingList';
 import SettingsPage from './components/pages/SettingsPage';
 import { RetailerPage } from './components/pages/RetailerPage'
 import CreateRetailerPage from './components/pages/CreateRetailerPage'
-<<<<<<< HEAD
 import CreateArticlePage from './components/pages/CreateArticlePage'
-=======
-import StatisticPage from './components/pages/StatisticPage';
-import ShowStatisticPage from './components/pages/ShowStatisticPage';
-import CreateArticlePage from './components/pages/CreateArticlePage'
-
-
->>>>>>> pia
 import SpecificGroup from './components/pages/SpecificGroup.js';
 import CreateGroup from './components/pages/CreateGroup.js';
 import Groups from './components/pages/Groups';
@@ -149,98 +141,6 @@ class App extends React.Component {
     render(){
 	  const { currentUser, appError, authError, authLoading,isNavHidden } = this.state;
 	
-<<<<<<< HEAD
-      return (
-        <ThemeProvider theme={Theme}>
-          {/* Global CSS reset and browser normalization. CssBaseline kickstarts an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          <Router basename={process.env.PUBLIC_URL}>
-		  <Header user={currentUser} />
-              {
-								// Is a user signed in?
-								// geändert von chris, um im dev prozess den signin zu umgehen, muss wieder 
-								// TODO: muss wieder in currentUser umbenannt werden
-                // Is a user signed in?
-                true ?
-                  <>
-                    {/* Here should the redirects go */}
-                    <Switch>
-                    <Route path="/about">
-                      <AboutPage />
-                    </Route>
-                    <Route path="/users">
-                      <UsersPage />
-                    </Route> 
-					<Route path="/products">
-                      <ProductsPage />
-                    </Route>
-					<Route path="/create_article">
-						<CreateArticlePage />
-					</Route>
-					<Route path="/retailers">
-						<RetailerPage />
-					</Route>
-					<Route path="/create_retailer">
-						<CreateRetailerPage />
-					</Route>
-					<Route path="/specificgroup">
-						<SpecificGroup/>
-					</Route>
-					<Route path="/Groups">
-						<Groups></Groups>
-					</Route>
-
-					<Route path="/GroupShoppingList">
-						<GroupShoppingList/>
-          			</Route> 
-					<Route path="/settings">
-						<SettingsPage/>
-					</Route>
-					{/* this must always be the last route */}
-					<Route path="/GroupShoppingList">
-						<GroupShoppingList/>
-          			</Route>  
-					<Route path="/createGroup">
-						<CreateGroup/>
-          			</Route>
-					  <Route path="/specificGroup">
-						<SpecificGroup></SpecificGroup>
-          			</Route>
-					  <Route path="/allGroups">
-						<Groups></Groups>
-          			</Route>
-						{/* New Route to Page PersonalShoppingList @Pascal*/}
-						<Route path="/PersonalShoppingList">
-							<PersonalShoppingList></PersonalShoppingList>
-          	</Route>
-					{/* this must always be the last route */}
-                    <Route path="/">
-                      <HomePage />
-                    </Route>
-                  </Switch>
-                  </>
-                  :
-                  // else show the sign in page
-                  <>
-                    <Redirect to='/index.html' />
-                    <SignIn onSignIn={this.handleSignIn} />
-                  </>
-              }
-			<Container>
-              <LoadingProgress show={authLoading} />
-              <ContextErrorMessage error={authError} contextErrorMsg={`Something went wrong during sign in process.`} onReload={this.handleSignIn} />
-              <ContextErrorMessage error={appError} contextErrorMsg={`Something went wrong inside the app. Please reload the page.`} />
-			</Container>
-			
-			{(this.state.isNavHidden) ? null : <BottomNavigation /> } 
-			{/* <BottomNavigation/>  */}
-			{/* Prüfen ob User auf home-page dann menü nicht rendern */}
-          </Router>
-        </ThemeProvider>
-      );
-    }
-  }
-=======
 		return (
 			<ThemeProvider theme={Theme}>
 				{/* Global CSS reset and browser normalization. CssBaseline kickstarts an elegant, consistent, and simple baseline to build upon. */}
@@ -273,6 +173,9 @@ class App extends React.Component {
 									</Route>
 									<Route path="/create_retailer">
 										<CreateRetailerPage />
+									</Route>
+									<Route path="/create_article">
+										<CreateArticlePage />
 									</Route>
 									<Route path="/specificgroup">
 										<SpecificGroup/>
@@ -326,6 +229,5 @@ class App extends React.Component {
 		);
 	}
 }
->>>>>>> d74ae78b7c86265905a56035c8ef9e5fbd3e609a
 
 export default App;

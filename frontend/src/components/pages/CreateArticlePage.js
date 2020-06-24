@@ -57,6 +57,9 @@ class CreateArticlePage extends Component {
             xs={12} 
             style={{padding: "1em"}}>
                 <Grid item xs={12}>
+                    <h2>create a new article</h2>
+                </Grid>
+                <Grid item xs={12}>
                     <TextInputBar icon="playlist_add" placeholder="article name"/>
                 </Grid>
                 <Grid container 
