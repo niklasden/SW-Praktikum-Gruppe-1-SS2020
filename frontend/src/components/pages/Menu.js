@@ -115,6 +115,7 @@ export default function Menu(props) {
                     <ListItemIcon><TimelineIcon /></ListItemIcon>
                     <ListItemText primary="Statistik verwalten" />
                     </ListItem>
+<<<<<<< HEAD
                 </Link>
                 <Link to="/groups" className={classes.listItem}>
                   <ListItem button key="2">
@@ -163,6 +164,52 @@ export default function Menu(props) {
                 </a>
               </div>
             }
+=======
+                  </Link>
+                  <Link to="/GroupShoppingList" className={classes.listItem}>
+                    <ListItem button key="2">
+                      <ListItemIcon><ArchiveIcon/></ListItemIcon>
+                      <ListItemText primary="GroupShoppingList" />
+                    </ListItem>
+                  </Link>
+                  <Link to="/createGroup" className={classes.listItem}>
+                    <ListItem button key="2">
+                      <ListItemIcon><ArchiveIcon/></ListItemIcon>
+                      <ListItemText primary="Create Group" />
+                    </ListItem>
+                  </Link>
+
+                  <Link to="/specificGroup" className={classes.listItem}>
+                    <ListItem button key="2">
+                      <ListItemIcon><ArchiveIcon/></ListItemIcon>
+                      <ListItemText primary="Specific Group" />
+                    </ListItem>
+                  </Link>
+
+                  {/* Link to Page PersonalShoppingList @Pascal*/}
+                  <Link to="/PersonalShoppingList" className={classes.listItem}>
+                    <ListItem button key="2">
+                      <ListItemIcon><ArchiveIcon/></ListItemIcon>
+                      <ListItemText primary="My SoppingList" />
+                    </ListItem>
+                  </Link>
+                  
+                  
+                  <a href="http://localhost:8081" className={classes.listItem} target="_blank" rel="noopener noreferrer">
+                    <ListItem button key="2">
+                      <ListItemIcon><CodeIcon /></ListItemIcon>
+                      <ListItemText primary="API" />
+                    </ListItem>
+                  </a>
+                </div>
+              }
+              <Link to="/settings" className={classes.listItem}>
+                <ListItem button key="2">
+                  <ListItemIcon><SettingsIcon /></ListItemIcon>
+                  <ListItemText primary="Settings" />
+                </ListItem>
+              </Link>
+>>>>>>> pascal
             </List>
           </div>
         </SwipeableDrawer>
