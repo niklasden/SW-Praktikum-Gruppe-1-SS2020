@@ -191,8 +191,8 @@ class App extends React.Component {
 										<SettingsPage/>
 									</Route>
 									{/* this must always be the last route */}
-									<Route path="/GroupShoppingList">
-										<GroupShoppingList/>
+									<Route path="/PersonalShoppingList">
+										<PersonalShoppingList/>
 									</Route>  
 									<Route path="/createGroup">
 										<CreateGroup/>
