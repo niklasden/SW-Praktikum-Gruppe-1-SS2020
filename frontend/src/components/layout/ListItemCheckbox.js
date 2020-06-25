@@ -53,7 +53,7 @@ class ListItemCheckbox extends Component {
         </Grid>
 
         <Grid item xs={2}>
-          <Checkbox defaultChecked={this.props.Checked} onChange={this.props.handleChange} checked={this.props.checked} style={{padding:0, marginLeft: 15}}></Checkbox>
+          <Checkbox defaultChecked={this.props.Checked} onChange={this.props.handleChange} style={{padding:0, marginLeft: 15}}></Checkbox>
         </Grid>
       
     </Grid>
@@ -66,7 +66,6 @@ ListItemCheckbox.propTypes = {
   itemname: PropTypes.string.isRequired,
   amount: PropTypes.string.isRequired,
   unit: PropTypes.string.isRequired,
-  checked: PropTypes.string.isRequired,
   handleChange: PropTypes.string.isRequired,
   Checked: PropTypes.bool.isRequired,
 }

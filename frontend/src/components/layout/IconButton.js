@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import MaterialIconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 import { withStyles } from '@material-ui/styles';
-import Box from '@material-ui/core/Box'
+import Box from '@material-ui/core/Box';
+
 
 
 const styles = theme => ({
@@ -32,7 +33,6 @@ class IconButton extends Component {
     }
 
     return (
-    
       <Box 
         border={1} 
         borderColor='#bdbdbd'
@@ -51,10 +51,12 @@ class IconButton extends Component {
           display: 'flex',
           height: '100%',
         }}>
+          <MaterialIconButton onClick={this.props.onclick}>
           <Icon 
             style={{ color: '#00BCD4'}}
             fontSize="medium" 
           >{this.props.icon}</Icon>
+          </MaterialIconButton>
         </div>
       </Box>
     )
@@ -63,6 +65,7 @@ class IconButton extends Component {
 
 IconButton.propTypes = {
   icon: PropTypes.string, 
+  onclick: PropTypes.func,
 }
 
 export default withStyles(styles)(IconButton);

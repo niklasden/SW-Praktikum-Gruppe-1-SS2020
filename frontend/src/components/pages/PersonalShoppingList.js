@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import { Grid,Button } from '@material-ui/core';
+import { Grid,Button, FormControl, InputLabel, Select } from '@material-ui/core';
 import IconButton from '../layout/IconButton'
 import CategoryDropDown from '../layout/CategoryDropDown';
+import MenuItem from '@material-ui/core/MenuItem';
+
 
 
 /**
@@ -15,13 +17,15 @@ export default class PersonalShoppingList extends Component {
 
   state={
     items: [
-      {id: 1, name: "Apfel", category: "fruits", amount: "3", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: false, retailer: 'Aldi'},
+      {id: 1, name: "Apfel", category: "fruits", amount: "5", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: false, retailer: 'Aldi'},
       {id: 2, name: "Birne", category: "fruits", amount: "2", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: false, retailer: 'Edeka' },
       {id: 3, name: "Erdbeerkäse", category: "vegetables", amount: "2", unit: "Stk.", person: 'Herbert', userID: 2, checkbox: false, retailer: 'Lidl' },
-      {id: 2, name: "Mango", category: "vegetables", amount: "2", unit: "g", person: 'Manfred', userID: 1, checkbox: true, retailer: 'Aldi' },
-      {id: 3, name: "Lyoner", category: "vegetables", amount: "2", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: true, retailer: 'Edeka' },
+      {id: 4, name: "Mango", category: "vegetables", amount: "2", unit: "g", person: 'Manfred', userID: 1, checkbox: true, retailer: 'Aldi' },
+      {id: 5, name: "Lyoner", category: "vegetables", amount: "2", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: true, retailer: 'Edeka' },
   ],
-  selectedRetailer : null
+  selectedRetailer : null,
+  market : null,
+  flag : 'unclicked'
 }
 
 getUserItems(){
@@ -43,6 +47,13 @@ getCategorys(){
   });
   return ArrCategory
 }
+/* 
+abc(){
+  if (flag === unchecked){
+    return this.renderCategoryArticles()
+  }
+
+} */
 
 
 renderCategoryArticles(){
@@ -52,7 +63,7 @@ renderCategoryArticles(){
   console.log('ArrCategory  ' + ArrCategory)
   for (let item in ArrCategory){
     renderdArticles.push( 
-      <CategoryDropDown Useritems={Useritems} ArrCategory={ArrCategory} item={item}></CategoryDropDown>
+      <CategoryDropDown handleChange={this.handleChangeCheckbox.bind(this)} Useritems={Useritems} ArrCategory={ArrCategory} item={item}></CategoryDropDown>
     )}
   return renderdArticles
 };
@@ -61,6 +72,7 @@ renderCategoryArticles(){
 renderReatailer(){
   let retailer = []
   let Useritems = this.getUserItems()
+  retailer.push('All')
   Useritems.map(item => {
     if(!retailer.includes(item.retailer)) {
       retailer.push(item.retailer)
@@ -122,13 +134,36 @@ getArticleOfRetailer(){
   return ArrSelectedRetailer
 }
 
+handleChangeRetailer = e =>{
+  this.setState({market: e.target.value})
+}
 
+NameRetailer=() =>{
+  this.state.market()
+}
+
+handleChangeCheckbox(id){
+  let Useritems = this.getUserItems()
+  Useritems.map( item => {
+    if(item.id === id){
+      if(item.checkbox === true){
+        item.checkbox = false
+      }
+      if(item.checkbox === false){
+        item.checkbox = true
+      }
+    }
+  })
+  console.log(this.state.items)
+  return 
+}
 
 render(){
 
   console.log(this.state.selectedRetailer)
   let shops = this.renderReatailer()
   let all = 'ALL'
+
 
   return (
     <Grid 
@@ -148,24 +183,41 @@ render(){
       height= '20px'
       xs={12}
     >
-      <Grid container xs={12}>
-
-          <Grid item xs={2}>
-          <Button style={{width: '50px'}} onClick={() => <Grid>{this.renderCategoryArticles()}</Grid>}>{all}</Button>
+      <Grid 
+        container 
+        xs={12}
+        direction= 'row'
+        alignItems='center'
+        justify="space-between"
+        >
+        
+          <Grid item xs={6} style={{marginTop: 10, marginBottom: 10}}>
+            <FormControl style={{width: '170px', height: 35, marginLeft: 10, marginBottom: 10}}>
+                <InputLabel>Retailer</InputLabel>
+                <Select
+                  value={this.NameRetailer}
+                  onChange={this.handleChangeRetailer}
+                >
+                  <MenuItem value= "" disabled>Retailer</MenuItem>
+                  {shops.map(element =>{
+                    return <MenuItem value={element}>{element}</MenuItem>
+                  })}
+                </Select>
+            </FormControl>
           </Grid>
 
-          {shops.map(element => {
-                return <Grid item xs={2} style={{width:'50px'}}><Button onClick={() => this.setState({selectedRetailer : element})}>{element}</Button></Grid>
-              })}
-
-          <Grid item xs={6}> 
-            <IconButton style={{margin: 5}} size='small' icon='shoppingcart' ></IconButton> 
-            <IconButton style={{margin: 5}} size='small' icon='list' onclick={this.onClickList.bind(this)}></IconButton> 
-            <IconButton style={{margin: 5}} size='small' icon='done'></IconButton> 
+          <Grid item xs={6}
+          container
+          justify= 'flex-end'
+          > 
+            <IconButton style={{marginLeft: 10}} size='small' icon='list' onclick={() => this.setState({flag : 'unclicked'})}></IconButton> 
+            <IconButton style={{marginLeft: 10}} size='small' icon='euro' onclick={this.onClickList.bind(this)}></IconButton> 
+            <IconButton style={{marginLeft: 10, marginRight: 10}} size='small' icon='done'></IconButton> 
           </Grid>
       </Grid>
     </Grid>
-    <Grid>
+    <Grid id='test'>
+      {this.renderCategoryArticles()}
     </Grid>
     </Grid>
 )}}

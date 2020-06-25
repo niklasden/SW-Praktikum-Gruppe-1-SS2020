@@ -7,7 +7,11 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Grid, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
-
+/**
+ * 
+ * @author [Pascal Illg](https://github.com/pasillg)
+ * 
+*/
 
 class CategoryDropDown extends Component {
 
@@ -31,7 +35,7 @@ class CategoryDropDown extends Component {
               {this.props.Useritems.map(element => {
               if(element.category === this.props.ArrCategory[this.props.item]){
               return <Grid item xs={12}>
-              <ListItemCheckbox checked={this.props.checked} handleChange={this.props.handleChange} itemname={element.name} amount={element.amount} unit={element.unit} ></ListItemCheckbox>
+              <ListItemCheckbox Checked={element.checkbox} handleChange={()=>this.props.handleChange(element.id)} itemname={element.name} amount={element.amount} unit={element.unit}></ListItemCheckbox>
               </Grid>
             }
           })}
@@ -48,7 +52,6 @@ CategoryDropDown.propTypes = {
   ArrCategory: PropTypes.array.isRequired,
   item: PropTypes.string.isRequired,
   handleChange: PropTypes.string.isRequired,
-  checked: PropTypes.bool.isRequired,
 }
 
 export default (CategoryDropDown);
