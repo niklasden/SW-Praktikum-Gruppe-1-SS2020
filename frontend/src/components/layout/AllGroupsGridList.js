@@ -9,7 +9,9 @@ import InfoIcon from '@material-ui/icons/Info';
 import { useRadioGroup } from '@material-ui/core';
 import { blue } from '@material-ui/core/colors';
 
+import {Link} from 'react-router-dom'
 
+import GroupIcon from '../../icons/Other/users.svg'
 
     const styles = theme => ({
         root: {
@@ -23,7 +25,8 @@ import { blue } from '@material-ui/core/colors';
             overflow: 'hidden',
             backgroundColor: theme.palette.background.paper,
             margin:10,
-            marginTop:20
+            marginTop:30,
+            
           },
           gridList: {
             flexWrap: 'nowrap',
@@ -36,7 +39,7 @@ import { blue } from '@material-ui/core/colors';
           },
           titleBar: {
             background:
-              'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+              'linear-gradient(to top, rgba(0,188,212,1) 100%, rgba(0,188,212,0.3) 70%, rgba(0,88,212,0) 100%)',
           },
       });
       
@@ -54,6 +57,7 @@ class GroupsGridList extends Component {
         };
       }
     
+      /**We have to fetch specific groups with user parameter */
       async fetchGroups(){
         const res = await fetch('http://localhost:8081/api/shoppa/groups')
         const resjson = await res.json()
@@ -71,12 +75,15 @@ class GroupsGridList extends Component {
         
         return(
             <div className={classes.rootTwo}>
-                <GridList className={classes.gridList} cellHeight={110} cols={2.5}>
+                <GridList className={classes.gridList} cellHeight={180} cols={2.5}>
                 
 
                 {this.state.groupItemss.map((tile) => (
-                 <GridListTile key={tile.img}>
-                     <img src={"https://img.pngio.com/group-icon-png-download-16001600-free-transparent-icon-design-group-icon-png-900_900.jpg"} alt={tile.name} />
+
+                  
+                 <GridListTile key={GroupIcon}>
+                     <img src={GroupIcon} alt={tile.name} />
+                     <Link to="/specificGroup">
                  <GridListTileBar
                      title={tile.name}
                     classes={{
@@ -84,12 +91,15 @@ class GroupsGridList extends Component {
                      title: classes.title,
                           }}
                      actionIcon={
+                      
                      <IconButton aria-label={`info about ${tile.title}`} className={classes.icon}>
-                         <InfoIcon />
+                         <InfoIcon style={{color:"white"}} />
                         </IconButton>
+                        
                             }
-                            />
+                            /></Link>
                  </GridListTile>
+                 
                 ))}
 
 
