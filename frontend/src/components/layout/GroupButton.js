@@ -6,6 +6,8 @@ import GroupIcon from '@material-ui/icons/PeopleAlt'
 import { withStyles } from '@material-ui/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { Link as RouterLink } from 'react-router-dom';
+import { MemoryRouter as Router } from 'react-router';
 
 const styles = theme => ({
   root: {
@@ -36,8 +38,7 @@ class GroupButton extends Component {
         <p style={{fontSize: "12px" ,color: "black"}}>{this.props.groupname}</p>
         </IconButton>
 */}
-        <Button size="large" >
-          
+        <Button size="large">
           <GroupIcon fontSize="large"/>
           {this.props.groupname}
         </Button>

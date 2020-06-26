@@ -194,7 +194,6 @@ class App extends React.Component {
 									<Route path="/settings">
 										<SettingsPage/>
 									</Route>
-									{/* this must always be the last route */}
 									<Route path="/PersonalShoppingList">
 										<PersonalShoppingList/>
 									</Route>  
@@ -210,7 +209,6 @@ class App extends React.Component {
 									<Route path="/settings-accounts">
 										<AccountsPage />
 									</Route>
-									
 									{/* this must always be the last route */}
 									<Route path="/">
 										<HomePage />

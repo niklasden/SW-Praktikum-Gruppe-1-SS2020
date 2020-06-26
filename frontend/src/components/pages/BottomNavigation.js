@@ -9,10 +9,7 @@ import ListIcon from '@material-ui/icons/List';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
-
-import {
-  Link
-} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 const useStyles = (theme) => ({
   root: {
@@ -60,8 +57,8 @@ class BottomNavi extends React.Component {
       className={classes.root}
       >
       
-      <BottomNavigationAction component={Link} icon={<ImportContactsIcon />} to="/"/>
-      <BottomNavigationAction component={Link} icon={<PeopleAltIcon />} to="/groups"/>
+      <BottomNavigationAction component={Link} icon={<ImportContactsIcon />} to="/products"/>
+      <BottomNavigationAction component={Link} icon={<PeopleAltIcon />} to="/GroupShoppingList"/>
       <BottomNavigationAction component={Link} icon={<HomeIcon />} to="/home"/>
       <BottomNavigationAction component={Link} icon={<ListIcon />} to="/lists"/>
       <BottomNavigationAction component={Link} icon={<SettingsIcon />} to="/settings"/>

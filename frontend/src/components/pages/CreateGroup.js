@@ -45,7 +45,7 @@ const useStyles = (theme) => ({
  * ToDo: Outline around Icon
  *       Avatar Image from Google, instead of hardcoded
  * 
- * @author [Niklas Denneler](https://github.com/)
+ * @author [Niklas Denneler](https://github.com/niklasden)
  * @author [Julius Jacobitz]()
  * 
  * @property icon (string): the icon name to display, can be either: add, shopping_cart, shopping_cart_outline, shopping_list, shopping_list_outline, checkmark, people
@@ -66,7 +66,7 @@ class CreateGroup extends Component {
             {
               id: 'b',
               firstname: 'Dave',
-              lastname: 'Davidds',
+              lastname: 'Davids',
               
             },
           ],
@@ -94,14 +94,14 @@ class CreateGroup extends Component {
     var groupMembers = this.state.groupMembers;
     
     const handleClickOpen = () => {
-        this.setState({open:true});
+        this.setState({open:true})
     };
     
     const handleClose = () => {
         this.setState({open:false})
     };
 
-    const fetchUser = async () =>{
+    const fetchUser = async () => {
         try {
             let response = await fetch(`http://localhost:8081/api/shoppa/groupmembers/$email`);
             let data = await response.json()
@@ -111,6 +111,21 @@ class CreateGroup extends Component {
             console.log(error)
         }
     };
+
+    const clear = () => {
+      this.setState({inputval: '', fetchuser: ''})
+    }
+
+    const saveGroup = async () => {
+      try {
+          //send request with paramets to backend for the group to be saved
+          alert('The group was saved')
+      }
+      catch (error) {
+          //
+          console.log(error)
+      } 
+    }
     
     return (
         <Container maxWidth="sm" style={{justifyContent: 'center'}}>
@@ -152,7 +167,7 @@ class CreateGroup extends Component {
                               />
                             </DialogContent>
                             <DialogActions>
-                              <Button onClick={handleClose} color="primary">
+                              <Button onClick={() => {handleClose(); clear();}} color="primary">
                                 CANCEL
                               </Button>
                               <Button onClick={() => {fetchUser(); handleClose();}} color="primary">
@@ -182,7 +197,7 @@ class CreateGroup extends Component {
                     </div>
             </Grid>
             <Grid item xs="12" style={{}}>
-                    <MainButton className={classes.CreateButton} onclick={() => {alert("group saved")} }>Create Group</MainButton>
+                    <MainButton className={classes.CreateButton} onclick={() => {saveGroup()} }>Create Group</MainButton>
             </Grid>
         </Grid>
         </Container>

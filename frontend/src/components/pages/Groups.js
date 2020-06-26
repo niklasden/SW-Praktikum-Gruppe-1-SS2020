@@ -7,19 +7,28 @@ import TextField from '@material-ui/core/TextField';
 import { Container } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 
-import GroupButton from '../layout/GroupButton.js'
+import GroupButton from '../layout/GroupButton.js';
+import {Link} from 'react-router-dom';
+
+
 
 const styles = theme => ({
   root: {
     backgroundColor: '#fafafa', 
     borderRadius: 5, 
   },
+  button: {
+    textDecoration: 'none'
+  }
 });
+
+
 
 /**
  * Displays all Groups specific for one user 
  * 
-* @author [Julius Jacobitz](https://github.com/JuliusJacobitz) * 
+ * @author [Julius Jacobitz](https://github.com/JuliusJacobitz) * 
+ * @author [Niklas Denneler](https://github.com/niklasden) * Just for the Routing & Styling for the button, everything else is Julius master piece.
  * @property icon (string): the icon name to display, can be either: add, shopping_cart, shopping_cart_outline, shopping_list, shopping_list_outline, checkmark, people
  */
 class Groups extends Component {
@@ -53,11 +62,18 @@ class Groups extends Component {
   }
 
     renderGroups(){
+        const {classes } = this.props;
         const Groups =[];
         this.state.groupItemss.forEach( elem => {
-            Groups.push(<Grid item xs ={12}><GroupButton key={elem.id} groupname={elem.name}></GroupButton></Grid>)
+            Groups.push(<Grid item xs={12}>
+                {/* @Julius here we need a parameter to fetch the right group, all groups a user is part of, then specific group hes clicking on */}
+                          <Link to="/specificGroup" className={classes.button}>
+                            <GroupButton key={elem.id} groupname={elem.name}></GroupButton>
+                          </Link>
+                        </Grid>)
         })
         return Groups
+        
     }
     
     render(){
@@ -68,9 +84,12 @@ class Groups extends Component {
     <>
       <Grid container spacing={3} direction="column" justify="center" alignItems="center">
       {this.renderGroups()}
-
+        <Grid item xs={12}>
+          <Link to="/createGroup" className={classes.button}>
+            <GroupButton groupname="Add Group"></GroupButton>
+          </Link>
+        </Grid> 
       </Grid>
-
         </>
     )
   }

@@ -23,11 +23,29 @@ class GrouMapper(Mapper):
 
         pass 
 
-    def find_by_key(self):
+    def find_by_key(self, key):
         """
         Niklas
         """
-        pass 
+        result = None
+        cursor = self._cnx.cursor()
+        command = "SELECT id, name, description FROM group WHERE id={}".format(key)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        try:
+            (id, name, description) = tuples[0]
+            group = Group()
+            group.set_id(id)
+            group.set_name(name)
+            group.set_description(description)
+            result = group
+        except IndexError:
+            result = None
+        
+        self._cnx.commit()
+        cursor.close()
+        return result
     
     def insert(self):
         pass 
@@ -35,10 +53,21 @@ class GrouMapper(Mapper):
     def update(self):
         pass 
 
-    def delete(self):
+    def delete(self, group):
         """
         Niklas
         """
-        pass 
+        try:
+            cursor = self._cnx.cursor()
+            command = "DELETE FROM Group WHERE ID={0}".format(group.get_id())
+            cursor.execute(command)
+
+            self._cnx.commit()
+            cursor.close()
+
+            return "Group deleted"
+
+        except Exception as e:
+            return "Error in delete Group GroupMapper: " + str(e)
 
     

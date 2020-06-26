@@ -25,7 +25,6 @@ export default class GroupShoppingList extends Component {
 
   handleClick(event){
     this.setState({anchorEl: event.currentTarget});
-
   };
 
   handleClose(){
