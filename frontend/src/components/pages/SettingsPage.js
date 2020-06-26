@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Typography, withStyles, Checkbox, FormControlLabel, Button, Avatar, Box, Icon } from '@material-ui/core';
 import avatar from '../img/avatar.jpg';
-import ListEntry from '../layout/ListEntry'
-import CustomIcon from '../layout/CustomIcon'
+import ListEntry from '../layout/ListEntry';
+import CustomIcon from '../layout/CustomIcon';
+import {Link} from 'react-router-dom';
+
 
 
 /** 
@@ -30,28 +32,33 @@ class Settings extends Component {
 		const { classes } = this.props;
 		return (
 			<div style={{marginLeft: 12, marginRight: 12}}>
-				<ListEntry 
-					text='Gruppe verwalten'
-					iconName='people_outline'
-					style={{marginTop: 12}}
-				/>
-				<ListEntry 
-					text='Einzelhändler verwalten'
-					iconName='shopping_cart_outline'
-					style={{marginTop: 12}}
-				/>
-				<ListEntry 
-					text='Account verwalten'
-					iconName='person_outline'
-					style={{marginTop: 12}}
-				/>
-
-				<div className={classes.advertisementBlock}>
-					<img src={require('../../icons/advertisingIcon.png')} />
-					<p>HIER KÖNNTE IHRE</p>
-					<p>WERBUNG</p>
-					<p>STEHEN!</p>
-				</div>
+				<Link to="/groups" className={classes.link}>
+					<ListEntry 
+						text='Gruppen verwalten'
+						iconName='people_outline'
+						style={{marginTop: 12}}
+					/>
+				</Link>	
+				<Link to="/retailers" className={classes.link}>
+					<ListEntry 
+						text='Einzelhändler verwalten'
+						iconName='shopping_cart_outline'
+						style={{marginTop: 12}}
+					/>
+				</Link>
+				<Link to="/settings-accounts" className={classes.link}>	
+					<ListEntry 
+						text='Account verwalten'
+						iconName='person_outline'
+						style={{marginTop: 12}}
+					/>
+				</Link>
+					<div className={classes.advertisementBlock}>
+						<img src={require('../../icons/advertisingIcon.png')} />
+						<p>HIER KÖNNTE IHRE</p>
+						<p>WERBUNG</p>
+						<p>STEHEN!</p>
+					</div>
 			</div>
 		);
 	}
@@ -74,6 +81,9 @@ const styles = theme => ({
 		padding: 5,
 		marginTop: 20, 
 	},
+	link: {
+		textDecoration: 'none'
+	  }
 });
 
 /** PropTypes */

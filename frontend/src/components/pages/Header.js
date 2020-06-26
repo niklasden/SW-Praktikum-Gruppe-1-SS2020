@@ -30,11 +30,11 @@ function Header(props){
   const paths = {
     "/": "HOME",
     "/about": "ABOUT",
-    "/users": "BENUTZER",
-    "/products": "ARTIKEL",
-    "/retailers": "EINZELHÄNDLER",
-    "/settings": "EINSTELLUNGEN",
-    "/statistics": "EINKAUFSVERHALTEN",
+    "/users": "USER",
+    "/products": "ITEM",
+    "/retailers": "RETAILER",
+    "/settings": "SETTINGS",
+    "/statistics": "STATISTICS",
     "/createGroup": "CREATE A GROUP",
   };
   let location = useLocation();

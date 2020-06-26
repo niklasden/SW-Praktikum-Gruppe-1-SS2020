@@ -33,7 +33,7 @@ class AccountsPage extends Component {
 		const { classes } = this.props;
 		return (
 			<div>
-				<Typography className={classes.root} align='center' variant='h6'>Your Settings</Typography>
+				<Typography className={classes.root} align='center' variant='h6'>Your Account Settings</Typography>
 				<Grid container justify='center'>
 					<Grid item xs={3}>
 					<Box align-items="center" display="flex">
