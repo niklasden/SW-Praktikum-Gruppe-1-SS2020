@@ -1,15 +1,9 @@
 import React, {Component} from 'react';
-import { Grid, Typography, Button } from '@material-ui/core';
-import ListItem from '../layout/ListItem'
-import Heading from '../layout/Heading'
-import EditListItem from '../layout/EditListItem'
-import Popover from '@material-ui/core/Popover'
-import { checkPropTypes } from 'prop-types';
-import ListItemCheckbox from '../layout/ListItemCheckbox';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import { Grid,Button, FormControl, InputLabel, Select } from '@material-ui/core';
+import IconButton from '../layout/IconButton'
+import CategoryDropDown from '../layout/CategoryDropDown';
+import MenuItem from '@material-ui/core/MenuItem';
+
 
 
 /**
@@ -23,12 +17,15 @@ export default class PersonalShoppingList extends Component {
 
   state={
     items: [
-      {id: 1, name: "Apfel", category: "fruits", amount: "3", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: true},
-      {id: 2, name: "Birne", category: "fruits", amount: "2", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: true},
-      {id: 3, name: "Erdbeerkäse", category: "vegetables", amount: "2", unit: "Stk.", person: 'Herbert', userID: 2, checkbox: true},
-      {id: 2, name: "Mango", category: "vegetables", amount: "2", unit: "g", person: 'Manfred', userID: 2, checkbox: true},
-      {id: 3, name: "Lyoner", category: "vegetables", amount: "2", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: true},
-  ]
+      {id: 1, name: "Apfel", category: "fruits", amount: "5", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: false, retailer: 'Aldi'},
+      {id: 2, name: "Birne", category: "fruits", amount: "2", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: false, retailer: 'Edeka' },
+      {id: 3, name: "Erdbeerkäse", category: "vegetables", amount: "2", unit: "Stk.", person: 'Herbert', userID: 2, checkbox: false, retailer: 'Lidl' },
+      {id: 4, name: "Mango", category: "vegetables", amount: "2", unit: "g", person: 'Manfred', userID: 1, checkbox: true, retailer: 'Aldi' },
+      {id: 5, name: "Lyoner", category: "vegetables", amount: "2", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: true, retailer: 'Edeka' },
+  ],
+  selectedRetailer : null,
+  market : null,
+  flag : 'unclicked'
 }
 
 getUserItems(){
@@ -36,89 +33,191 @@ getUserItems(){
     if (item.userID === 1) {
       return item
     }
-  }) 
+  });
   return Useritems
 }
 
-renderHeadingFruits(){
-  let fruits = []; 
+getCategorys(){
+  let ArrCategory = []
   let Useritems = this.getUserItems()
-  for (let item in Useritems) {
-    if(Useritems[item].category === 'fruits'){
-     fruits.push(<Grid item xs={12}> <Heading>'FRUITS</Heading> </Grid>)
-  }break}
-return fruits
+  Useritems.map(item => {
+    if(!ArrCategory.includes(item.category)){
+      ArrCategory.push(item.category)
+    }
+  });
+  return ArrCategory
 }
-
-renderHeadingVegetabels(){
-  let vegetables = []; 
-  let Useritems = this.getUserItems()
-  for (let item in Useritems) {
-    if(Useritems[item].category === 'vegetables'){
-     vegetables.push(<Grid item xs={12}> <Heading>'VEGETABLES</Heading> </Grid>)
-  }break}
-return vegetables
-}
-
-  render(){
-
-  let Useritems = this.getUserItems()
-
-    return (
-      <Grid 
-        container
-        direction='column'
-        justify='space-between'
-        alignItems="stretch"
-        xs={12}
-        spacing={1}        
-      >
-        <ExpansionPanel>
-          <ExpansionPanelSummary
-            expandIcon={<ExpandMoreIcon/>}
-            aria-controls='panel1a-content'
-            id='panel1a-header'
-          >
-          <Typography>
-            <Grid container xs={12} spacing={1}>
-            {this.renderHeadingFruits()}
-            </Grid>
-          </Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <Typography>
-              <Grid container xs={12} spacing={1}>
-                  {Useritems.map(item => {
-                  if(item.category === "fruits"){
-                  return <Grid item xs={12}>
-                  <ListItemCheckbox itemname={item.name} amount={item.amount} unit={item.unit}></ListItemCheckbox>
-                  </Grid>
-                }
-              })}
-              </Grid>
-            </Typography>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-      
-    
-        
-
-        <Grid container xs={12} spacing={1}>
-          {this.renderHeadingVegetabels()}
-        </Grid>
-
-       {/*  <Grid container xs={12} spacing={1}>
-        {Useritems.map(item => {
-            if(item.category === "vegetables") {
-              return <Grid item xs={12}>
-              <ListItemCheckbox itemname={item.name} amount={item.amount} unit={item.unit}></ListItemCheckbox>
-              </Grid>
-            }
-          })} 
-        </Grid> */}
-
-      </Grid>
-        
-    ) 
+/* 
+abc(){
+  if (flag === unchecked){
+    return this.renderCategoryArticles()
   }
+
+} */
+
+
+renderCategoryArticles(){
+  let renderdArticles = []
+  let Useritems = this.getUserItems();
+  let ArrCategory = this.getCategorys();
+  console.log('ArrCategory  ' + ArrCategory)
+  for (let item in ArrCategory){
+    renderdArticles.push( 
+      <CategoryDropDown handleChange={this.handleChangeCheckbox.bind(this)} Useritems={Useritems} ArrCategory={ArrCategory} item={item}></CategoryDropDown>
+    )}
+  return renderdArticles
+};
+
+
+renderReatailer(){
+  let retailer = []
+  let Useritems = this.getUserItems()
+  retailer.push('All')
+  Useritems.map(item => {
+    if(!retailer.includes(item.retailer)) {
+      retailer.push(item.retailer)
+    }
+  })
+return retailer
 }
+
+
+renderCheckedArticles(){
+  let ArrCheckedArticles = []
+  let Useritems = this.getUserItems()
+  Useritems.filter( item => {
+    if(item.checkbox === true){
+      ArrCheckedArticles.push(item)
+    }
+  })
+  return ArrCheckedArticles
+}
+
+renderCheckedArticlesCategory(){
+  let ArrCheckedArticlesCategory = [];
+  let ArrCheckedArticles = this.renderCheckedArticles();
+  ArrCheckedArticles.map( item => {
+    if(!ArrCheckedArticlesCategory.includes(item.category)){
+      ArrCheckedArticlesCategory.push(item.category)
+    }
+  })
+  return ArrCheckedArticlesCategory
+}
+
+renderCheckedCategoryArticles(){
+  let renderdArticles = []
+  let ArrCheckedArticles = this.renderCheckedArticles();
+  let ArrCheckedArticlesCategory = this.renderCheckedArticlesCategory();
+  for (let item in ArrCheckedArticlesCategory){
+    renderdArticles.push( 
+      <CategoryDropDown Useritems={ArrCheckedArticles} ArrCategory={ArrCheckedArticlesCategory} item={item}></CategoryDropDown>
+    )}
+    console.log('checked'   + ArrCheckedArticlesCategory)
+    console.log('array'   + ArrCheckedArticles)
+  return renderdArticles
+};
+
+onClickList(){
+  this.renderCheckedArticlesCategory()
+}
+
+getArticleOfRetailer(){
+  let ArrSelectedRetailer = []
+  let retailer = this.state.selectedRetailer
+  let Useritems = this.getUseritems()
+  Useritems.map( item => {
+    if(item.retailer === retailer){
+      ArrSelectedRetailer.push(item)
+    }
+  })
+  console.log('ListeÄ ' + ArrSelectedRetailer)
+  return ArrSelectedRetailer
+}
+
+handleChangeRetailer = e =>{
+  this.setState({market: e.target.value})
+}
+
+NameRetailer=() =>{
+  this.state.market()
+}
+
+handleChangeCheckbox(id){
+  let Useritems = this.getUserItems()
+  Useritems.map( item => {
+    if(item.id === id){
+      if(item.checkbox === true){
+        item.checkbox = false
+      }
+      if(item.checkbox === false){
+        item.checkbox = true
+      }
+    }
+  })
+  console.log(this.state.items)
+  return 
+}
+
+render(){
+
+  console.log(this.state.selectedRetailer)
+  let shops = this.renderReatailer()
+  let all = 'ALL'
+
+
+  return (
+    <Grid 
+      container
+      direction='column'
+      justify='space-between'
+      alignItems="stretch"
+      xs={12}
+      spacing={1}        
+    >
+    
+    <Grid 
+      container
+      direction= 'row'
+      justify='flex-start'
+      alignItems='flex-start'
+      height= '20px'
+      xs={12}
+    >
+      <Grid 
+        container 
+        xs={12}
+        direction= 'row'
+        alignItems='center'
+        justify="space-between"
+        >
+        
+          <Grid item xs={6} style={{marginTop: 10, marginBottom: 10}}>
+            <FormControl style={{width: '170px', height: 35, marginLeft: 10, marginBottom: 10}}>
+                <InputLabel>Retailer</InputLabel>
+                <Select
+                  value={this.NameRetailer}
+                  onChange={this.handleChangeRetailer}
+                >
+                  <MenuItem value= "" disabled>Retailer</MenuItem>
+                  {shops.map(element =>{
+                    return <MenuItem value={element}>{element}</MenuItem>
+                  })}
+                </Select>
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={6}
+          container
+          justify= 'flex-end'
+          > 
+            <IconButton style={{marginLeft: 10}} size='small' icon='list' onclick={() => this.setState({flag : 'unclicked'})}></IconButton> 
+            <IconButton style={{marginLeft: 10}} size='small' icon='euro' onclick={this.onClickList.bind(this)}></IconButton> 
+            <IconButton style={{marginLeft: 10, marginRight: 10}} size='small' icon='done'></IconButton> 
+          </Grid>
+      </Grid>
+    </Grid>
+    <Grid id='test'>
+      {this.renderCategoryArticles()}
+    </Grid>
+    </Grid>
+)}}

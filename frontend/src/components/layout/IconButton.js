@@ -1,9 +1,10 @@
-import React, { Component } from 'react'
+ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import MaterialIconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
 import { withStyles } from '@material-ui/styles';
-import Box from '@material-ui/core/Box'
+import Box from '@material-ui/core/Box';
+
 
 
 const styles = theme => ({
@@ -26,6 +27,10 @@ const styles = theme => ({
 class IconButton extends Component {
   render(){
     const { classes } = this.props;
+    let size = '48px' 
+    if(this.props.size == 'small'){
+      size = '35px'
+    }
 
     return (
       <Box 
@@ -34,8 +39,8 @@ class IconButton extends Component {
         borderRadius={5}
         style={{
           display: 'inline-block', 
-          height: '48px', 
-          width: '48px', 
+          height: size, 
+          width: size, 
           backgroundColor: '#fafafa',
           ...this.props.style
         }}
@@ -46,10 +51,12 @@ class IconButton extends Component {
           display: 'flex',
           height: '100%',
         }}>
+          <MaterialIconButton onClick={this.props.onclick}>
           <Icon 
             style={{ color: '#00BCD4'}}
             fontSize="medium" 
           >{this.props.icon}</Icon>
+          </MaterialIconButton>
         </div>
       </Box>
     )
@@ -58,6 +65,7 @@ class IconButton extends Component {
 
 IconButton.propTypes = {
   icon: PropTypes.string, 
+  onclick: PropTypes.func,
 }
 
 export default withStyles(styles)(IconButton);

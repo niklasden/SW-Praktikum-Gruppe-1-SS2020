@@ -41,6 +41,7 @@ import SpecificGroup from './components/pages/SpecificGroup.js';
 import CreateGroup from './components/pages/CreateGroup.js';
 import Groups from './components/pages/Groups';
 import PersonalShoppingList from './components/pages/PersonalShoppingList';
+import AccountsPage from './components/pages/AccountsPage'
 
 //** End Layout Import **/
 
@@ -178,6 +179,9 @@ class App extends React.Component {
 									<Route path="/create_retailer">
 										<CreateRetailerPage />
 									</Route>
+									<Route path="/create_article">
+										<CreateArticlePage />
+									</Route>
 									<Route path="/specificgroup">
 										<SpecificGroup/>
 									</Route>
@@ -191,8 +195,8 @@ class App extends React.Component {
 										<SettingsPage/>
 									</Route>
 									{/* this must always be the last route */}
-									<Route path="/GroupShoppingList">
-										<GroupShoppingList/>
+									<Route path="/PersonalShoppingList">
+										<PersonalShoppingList/>
 									</Route>  
 									<Route path="/createGroup">
 										<CreateGroup/>
@@ -202,6 +206,9 @@ class App extends React.Component {
 									</Route>
 									<Route path="/allGroups">
 										<Groups></Groups>	
+									</Route>
+									<Route path="/settings-accounts">
+										<AccountsPage />
 									</Route>
 									
 									{/* this must always be the last route */}
