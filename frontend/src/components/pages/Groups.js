@@ -32,7 +32,7 @@ class Groups extends Component {
   }
   
   async fetchGroups(){
-    const res = await fetch('http://jj-surface:8081/api/shoppa/groups')
+    const res = await fetch('http://localhost:8081/api/shoppa/groups')
     const resjson = await res.json()
     console.log( resjson)
     this.setState({groupItemss:resjson})

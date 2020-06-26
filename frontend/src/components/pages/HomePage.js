@@ -12,7 +12,7 @@ import { Icon } from '@material-ui/core';
 
 import {Link} from 'react-router-dom'
 
-
+import GroupsGridList from '../layout/AllGroupsGridList'
 
 const styles = theme => ({
   root: {
@@ -41,9 +41,10 @@ export class HomePage extends Component {
           alignItems="center"
         >
           <Grid item xs={12}>
-            <MainButton>
+            {/*<MainButton>
               Insert Group Swiper here
-            </MainButton>
+            </MainButton>*/}
+            <GroupsGridList></GroupsGridList>
           </Grid>
 
           <Grid item xs={6} >
