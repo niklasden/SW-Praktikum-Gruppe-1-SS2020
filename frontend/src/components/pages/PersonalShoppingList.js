@@ -3,6 +3,7 @@ import { Grid,Button, FormControl, InputLabel, Select } from '@material-ui/core'
 import IconButton from '../layout/IconButton'
 import CategoryDropDown from '../layout/CategoryDropDown';
 import MenuItem from '@material-ui/core/MenuItem';
+import PopUp from '../layout/PopUp';
 
 
 
@@ -47,13 +48,17 @@ getCategorys(){
   });
   return ArrCategory
 }
-/* 
-abc(){
-  if (flag === unchecked){
+
+
+renderMyShoppingList(){
+  if (this.state.flag === 'unclicked'){
     return this.renderCategoryArticles()
   }
 
-} */
+  if (this.state.flag === 'clicked'){
+    return this.renderCheckedCategoryArticles()
+  }
+}
 
 
 renderCategoryArticles(){
@@ -195,7 +200,7 @@ render(){
             <FormControl style={{width: '170px', height: 35, marginLeft: 10, marginBottom: 10}}>
                 <InputLabel>Retailer</InputLabel>
                 <Select
-                  value={this.NameRetailer}
+                  value={'Hallo'}
                   onChange={this.handleChangeRetailer}
                 >
                   <MenuItem value= "" disabled>Retailer</MenuItem>
@@ -211,13 +216,14 @@ render(){
           justify= 'flex-end'
           > 
             <IconButton style={{marginLeft: 10}} size='small' icon='list' onclick={() => this.setState({flag : 'unclicked'})}></IconButton> 
-            <IconButton style={{marginLeft: 10}} size='small' icon='euro' onclick={this.onClickList.bind(this)}></IconButton> 
-            <IconButton style={{marginLeft: 10, marginRight: 10}} size='small' icon='done'></IconButton> 
+            <IconButton style={{marginLeft: 10}} size='small' icon='euro' onclick={() => this.setState()({flag : 'clicked'})}></IconButton> 
+            <IconButton style={{marginLeft: 10, marginRight: 10}} size='small' icon='done' onclick={() => <PopUp></PopUp>}
+            ></IconButton> 
           </Grid>
       </Grid>
     </Grid>
     <Grid id='test'>
-      {this.renderCategoryArticles()}
+      {this.renderMyShoppingList()}
     </Grid>
     </Grid>
 )}}
