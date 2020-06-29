@@ -144,6 +144,7 @@ class App extends React.Component {
 		firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
 	}
     render(){
+	document.title = 'iKaufa';
 	  const { currentUser, appError, authError, authLoading,isNavHidden } = this.state;
 	
 		return (

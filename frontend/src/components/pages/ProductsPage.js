@@ -92,6 +92,66 @@ const getProductsDummy = () => {
 }
 
 class ProductsPage extends Component {
+  state = {
+    searchValue: '',
+    loadingInProgress: false, 
+    loadingRetailersError: null, 
+    addingRetailerError: null, 
+    articles: [],
+  }
+
+  componentDidMount(){
+    this.getProducts()
+  }
+
+  async getProducts(){
+    this.setState({
+      loadingInProgress: true, 
+      loadingRetailersError: null 
+    })
+
+    setTimeout(() => {
+      this.setState({
+        loadingInProgress: false, 
+        loadingRetailersError: null, 
+        articles: this.state.articles.concat(MEAT,FRUITS,VEGETABLES)
+      })
+    }, 1000)
+  }
+
+  renderArticles(){
+    let articles = this.state.articles;
+    var categories = this.state.articles.reduce((itemsSoFar, {category, name, id, imgsrc}) => {
+      if (!itemsSoFar[category]) itemsSoFar[category] = [];
+      itemsSoFar[category].push({name, id, imgsrc});
+      return itemsSoFar; 
+    }, {});
+
+    if(this.state.searchValue != ''){
+      //Erst this.state.articles filtern und dann reducen?
+      categories = this.state.articles.reduce((itemsSoFar, {category, name, id, imgsrc}) => {
+        if (!itemsSoFar[category]) itemsSoFar[category] = [];
+        if (name.toLowerCase().includes(this.state.searchValue.toLowerCase())) itemsSoFar[category].push({name, id, imgsrc});
+        return itemsSoFar;
+      }, {});
+    }
+  
+   return Object.entries(categories).map(category => (
+        <div>
+          <h3>{category[0]} </h3>
+           {category[1].map(item => (
+             <ProductListEntry
+             id={item.id}
+             category={item.category}
+             name={item.name}
+             imgsrc={item.imgsrc}
+             style={{marginBottom:12}}
+             />
+           ))}
+        </div>
+      ));
+  }
+
   render(){
     const classes = this.props.classes
     return(
@@ -100,7 +160,7 @@ class ProductsPage extends Component {
 
         <Grid container xs={12} spacing={2}>
         <Grid item xs={10}>
-          <TextInputBar placeholder="search..." icon="search"/>
+          <TextInputBar placeholder="search..." icon="search" onChange={(elem) => this.setState({ searchValue: elem.target.value})}/>
         </Grid>
         <Grid item xs={2}>
           <Link to="/create_article">
@@ -110,11 +170,17 @@ class ProductsPage extends Component {
 
         </Grid> 
         <div>
-          <ProductListEntry category="fruits" articles={FRUITS}></ProductListEntry>
-          <ProductListEntry category="vegetables" articles={VEGETABLES}></ProductListEntry>
-          <ProductListEntry category="meat" articles={MEAT}></ProductListEntry>
-
-
+          {/* <ProductListEntry category="fruits" articles={FRUITS}></ProductListEntry> */}
+          {/* <ProductListEntry category="vegetables" articles={VEGETABLES}></ProductListEntry> */}
+          {/* <ProductListEntry category="meat" articles={MEAT}></ProductListEntry> */}
+          
+          {this.state.loadingInProgress ?
+              <div style={{display: 'flex', justifyContent: 'center'}}>
+                <CircularProgress size={25} />
+              </div>
+            :  
+              this.renderArticles()
+            }
         </div>
       </Grid>
     )
@@ -147,41 +213,48 @@ class ArticleList extends Component {
   async getArticles(){
     this.setState({
       loadingInProgress: true, 
-      loadingArticlesError:null
+      loadingArticlesError: null
     })
 
     // TODO: load from server (global API object)
 
-    setTimeout(() => {
-      this.setState({
-        loadingInProgress: false, 
-        loadingRetailersError: null, 
-        fruits: FRUITS,
-        vegetables: VEGETABLES
-      })
-    }, 10)
-  }
+  //   setTimeout(() => {
+  //     this.setState({
+  //       loadingInProgress: false, 
+  //       loadingRetailersError: null, 
+  //       fruits: FRUITS,
+  //       vegetables: VEGETABLES
+  //     })
+  //   }, 10)
+   }
 
-  renderArticles(){
-    return this.state.articles.map(article =>(
-      <ProductListEntry
-      id={article.id}
-      category={article.category}
-      name={article.name}
-      style={{marginBottom:12}}
-      />
-    ))
-  }
+  // renderArticles(){
+  //   let articles = this.state.articles
+  //   let searchValue = this.state.searchValue
+  //   if(this.state.searchValue != ''){
+  //     console.log(searchValue);
+  //     articles = articles.filter((article) => article.name.toLowerCase().includes(this.state.searchValue.toLowerCase()))
+  //   }
 
-  render(){
-    return (
-      <div>
-        {this.state.loadingInProgress ?
-          <CircularProgress />
-        :
-          this.renderArticles()
-        }
-      </div>
-    )
-  }
-}
+  //   return this.state.articles.map(article =>(
+  //     <ProductListEntry
+  //     id={article.id}
+  //     category={article.category}
+  //     name={article.name}
+  //     style={{marginBottom:12}}
+  //     />
+  //   ))
+  // }
+
+//   render(){
+//     return (
+//       <div>
+//         {this.state.loadingInProgress ?
+//           <CircularProgress />
+//         :
+//           this.renderArticles()
+//         }
+//       </div>
+//     )
+//   }
+ }
