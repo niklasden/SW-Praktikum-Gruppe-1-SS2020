@@ -38,7 +38,7 @@ class GroupButton extends Component {
         <p style={{fontSize: "12px" ,color: "black"}}>{this.props.groupname}</p>
         </IconButton>
 */}
-        <Button size="large">
+        <Button variant="outlined" color="primary" style={{borderColor: '#BDBDBD', backgroundColor: '#fafafa', width: '100%', fontWeight: 'bold'}}>
           <GroupIcon fontSize="large"/>
           {this.props.groupname}
         </Button>
