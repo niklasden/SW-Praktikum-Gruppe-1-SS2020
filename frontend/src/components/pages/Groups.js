@@ -10,7 +10,8 @@ import Grid from '@material-ui/core/Grid';
 import GroupButton from '../layout/GroupButton.js';
 import {Link} from 'react-router-dom';
 
-
+import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from '@material-ui/core/IconButton';
 
 const styles = theme => ({
   root: {
@@ -38,7 +39,14 @@ class Groups extends Component {
     this.state ={
       groupItemss: [],
     };
+    this.deleteGroup = this.deleteGroup.bind(this);
   }
+  deleteGroup(id) {
+    
+    alert("delete group with id: "+ id )
+    this.setState(prevState => ({
+        groupItemss: prevState.groupItemss.filter(item => item !== id)
+   }))}
   
   async fetchGroups(){
     const res = await fetch('http://localhost:8081/api/shoppa/groups')
@@ -57,9 +65,6 @@ class Groups extends Component {
     
   };
 
-  componentDidUpdate(){
-    this.renderGroups()
-  }
 
     renderGroups(){
         const {classes } = this.props;
@@ -75,10 +80,11 @@ class Groups extends Component {
                         style={{marginTop:20}}
                       >
 
-
-                          <Link to="/specificGroup" className={classes.button}>
-                            <GroupButton key={elem.id} groupname={elem.name}></GroupButton>
-                          </Link>
+                            <GroupButton  key={elem.id} groupname={elem.name}></GroupButton>
+                            <IconButton  aria-label="delete" className={this.props.classes.margin} style={{padding:0}}>
+                        <DeleteIcon onClick={() => this.deleteGroup(elem.id)}  />
+                             
+                      </IconButton>
                           </Grid>
                         </Grid>)
         })
