@@ -38,6 +38,7 @@ class ListItemCheckbox extends Component {
       justify='center'
       alignItems='center'
       className={this.props.classes.root}
+      xs={12}
     >
         <Grid item xs={2}>
           <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 3}}>fastfood</Icon>

@@ -25,6 +25,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 
+import MainButton from '../layout/MainButton'
 
 const styles = theme => ({
   root: {
@@ -71,20 +72,20 @@ class SpecificGroup extends Component {
     super(props);
 
     this.state ={
-      groupmembers: [],
+      
       dense: 'false',
         open: false,
-        groupMembers: [
+        groupmembers: [
             {
               id: 'a',
-              firstname: 'Robin',
-              lastname: 'Wieruch',
+              name: 'Robin',
+              
               
             },
             {
               id: 'b',
-              firstname: 'Dave',
-              lastname: 'Davidds',
+              name: 'Dave',
+              
               
             },
           ],
@@ -99,16 +100,21 @@ class SpecificGroup extends Component {
    }))
 };
 
-
+/*
 addMember(id) {
-  this.setState({groupMembers: [...this.state.groupMembers, {firstname: this.state.inputval, } ]})
-}
+  this.setState({groupmembers: [...this.state.groupmembers, {name: this.state.inputval, } ]})
+}*/
+
   async fetchGroupMembers(){
     const res = await fetch('http://jj-surface:8081/api/shoppa/specificGroupMembers')
     const resjson = await res.json()
     console.log( resjson)
     this.setState({groupmembers:resjson})}
     
+  
+
+
+
 
   componentDidMount(){
     this.fetchGroupMembers()
@@ -134,7 +140,7 @@ return ShoppingLists
     const { classes } = this.props;
     var dense = this.state.dense;
     var open = this.state.open;
-    var groupMembers = this.state.groupMembers;
+    var groupMembers = this.state.groupmembers;
     
     const handleClickOpen = () => {
         this.setState({open:true});
@@ -142,10 +148,13 @@ return ShoppingLists
     const handleClose = () => {
       this.setState({open:false})
   };
-  async function fetchspecificUser(email){
+
+/*
+  async function fetchspecificUser_A(email){
     try {
         let response = await fetch(`http://localhost:8081/api/shoppa/groupmembers/{$email}`);
-        let data = await response.json().then(console.log(data))
+        let data = await response.json()
+        this.setState({groupmembers: this.state.groupMembers.concat(data)})
         return data;
     //getUserAsync('yourUsernameHere').then(data => console.log(data)); 
     }
@@ -153,6 +162,35 @@ return ShoppingLists
         console.log(error)
     }
 };
+*/
+const fetchspecificUser = async () => {
+  try {
+      let response = await fetch(`http://localhost:8081/api/shoppa/groupmembers/$email`);
+      let data = await response.json()
+      this.setState({groupmembers: this.state.groupmembers.concat(data)}) 
+  }
+  catch (error) {
+      console.log(error)
+  }
+};
+
+
+
+
+const clear = () => {
+  this.setState({inputval: '', fetchuser: ''})
+}
+
+const saveGroup = async () => {
+  try {
+      //send request with paramets to backend for the group to be saved
+      alert('The group was saved')
+  }
+  catch (error) {
+      //
+      console.log(error)
+  } 
+}
 
     return (
         <div className={classes.accordion}>
@@ -207,16 +245,8 @@ return ShoppingLists
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
          <> 
-        <Grid 
-          style={{marginLeft: 2}}
-          container
-          direction='column'
-          justify='space-between'
-          alignItems="stretch"
-          xs={12}
-          spacing={1}        
-      >
-
+         
+<Grid item xs="12" style={{}}>
 <Dialog onClose={handleClose} aria-labelledby="form-dialog-title" style={{display: 'inline-block'}} open={open}>
                             <DialogTitle id="form-dialog-title">Add Member</DialogTitle>
                             <DialogContent>
@@ -237,18 +267,51 @@ return ShoppingLists
                               <Button onClick={handleClose} color="primary">
                                 CANCEL
                               </Button>
-                              <Button onClick={() => {fetchspecificUser();  handleClose(); this.addMember();}} color="primary">
+                              <Button onClick={() => {fetchspecificUser();  handleClose();}} color="primary">
                                 ADD
                               </Button>
                             </DialogActions>
                           </Dialog>
 
+            <Grid
+            container
+            direction="column"
+            justify="center"
+            alignItems="center"
+          >               
+        <Grid item xs="12" alignItems="center" >
         <AddCircleItem style={{alignSelf:"center", margin: 12,fontSize:"40px" }} onClick={() => { handleClickOpen() }}></AddCircleItem>
-          
-              {this.renderGroupMembers()}
         </Grid>
-          </>
+        </Grid>
+        <Grid item xs="12">
+        <Grid 
+          style={{marginLeft: 2}}
+          container
+          direction='column'
+          justify='space-between'
+          alignItems="stretch"
+          xs={12}
+                
+      >
+              {this.renderGroupMembers()}
 
+              </Grid>
+              
+        </Grid>
+        <Grid
+            container
+            direction="column"
+            justify="center"
+            alignItems="center"
+          >               
+        <Grid item xs="12" alignItems="center" >
+        <MainButton className={classes.CreateButton} onclick={() => {saveGroup()} }>Save Group</MainButton>
+        </Grid>
+        </Grid>
+        </Grid>
+        
+          </>
+          
           </ExpansionPanelDetails>
         </ExpansionPanel>
 
