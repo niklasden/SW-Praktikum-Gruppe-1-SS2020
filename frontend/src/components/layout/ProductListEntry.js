@@ -57,7 +57,8 @@ const styles = theme => ({
                 direction="row">
                   <Article itemname={this.props.name} src={this.props.imgsrc}></Article>
                 </Grid>
-             </Grid>
+                </Grid>
+            </Grid>
             )
      }
  }

@@ -6,6 +6,7 @@ import EditListItem from '../layout/EditListItem'
 import Popover from '@material-ui/core/Popover'
 import { checkPropTypes } from 'prop-types';
 import DropDownGSL from '../layout/DropDownGSL'
+import TextInputBar from '../layout/TextInputBar'
 
 /**
  * 
@@ -86,9 +87,14 @@ export default class GroupShoppingList extends Component {
       xs={12}
       spacing={1}        
       >
+        <Grid>
+          <TextInputBar></TextInputBar>         
+        </Grid>
           
-      <Grid
-      alignItems='stretch'
+      <Grid 
+        container
+        xs={12}
+        alignItems='stretch'
       >{this.renderCategoryArticles()}</Grid>
     
     </Grid>

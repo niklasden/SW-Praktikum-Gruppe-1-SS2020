@@ -158,7 +158,11 @@ class ProductsPage extends Component {
       <Grid container 
         className={classes.root} xs={12}>
 
-        <Grid container xs={12} spacing={2}>
+        <Grid container xs={12} spacing={2}
+         container
+         direction="row"
+         justify="flex-start"
+         alignItems="center">
         <Grid item xs={10}>
           <TextInputBar placeholder="search..." icon="search" onChange={(elem) => this.setState({ searchValue: elem.target.value})}/>
         </Grid>
@@ -176,9 +180,11 @@ class ProductsPage extends Component {
                 <CircularProgress size={25} />
               </div>
             :  
-              this.renderArticles()
+            <Grid>
+              {this.renderArticles()}
+            <Grid>
             }
-        </div>
+        </Grid>
       </Grid>
     )
   }
