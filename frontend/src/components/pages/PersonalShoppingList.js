@@ -29,6 +29,7 @@ export default class PersonalShoppingList extends Component {
   flag : 'unclicked'
 }
 
+/* All UserItems with the ID 1 */
 getUserItems(){
   const Useritems = this.state.items.filter(item =>{
     if (item.userID === 1) {
@@ -36,7 +37,7 @@ getUserItems(){
     }
   });
   return Useritems
-}
+};
 
 getCategorys(){
   let ArrCategory = []
@@ -47,8 +48,65 @@ getCategorys(){
     }
   });
   return ArrCategory
-}
+};
 
+getUncheckedArticles(){
+  let ArrUncheckedArticles = []
+  let Useritems = this.getUserItems()
+  Useritems.filter( item => {
+    if(item.checkbox === false){
+      ArrUncheckedArticles.push(item)
+    }
+  })
+  return ArrUncheckedArticles
+};
+
+renderCategoryArticles(){
+  let renderdArticles = []
+  let ArrCategory = this.getUncheckedArticles();
+  let Useritems = this.getUserItems();
+  console.log('ArrCategory  ' + ArrCategory)
+  for (let item in ArrCategory){
+    renderdArticles.push( 
+      <CategoryDropDown handleChange={this.handleChangeCheckbox.bind(this)} Useritems={Useritems} ArrCategory={ArrCategory} item={item}></CategoryDropDown>
+    )}
+  return renderdArticles
+};
+
+renderCheckedArticles(){
+  let ArrCheckedArticles = []
+  let Useritems = this.getUserItems()
+  Useritems.filter( item => {
+    if(item.checkbox === true){
+      ArrCheckedArticles.push(item)
+    }
+  })
+  return ArrCheckedArticles
+};
+
+renderCheckedArticlesCategory(){
+  let ArrCheckedArticlesCategory = [];
+  let ArrCheckedArticles = this.renderCheckedArticles();
+  ArrCheckedArticles.map( item => {
+    if(!ArrCheckedArticlesCategory.includes(item.category)){
+      ArrCheckedArticlesCategory.push(item.category)
+    }
+  })
+  return ArrCheckedArticlesCategory
+};
+
+renderCheckedCategoryArticles(){
+  let renderdArticles = []
+  let ArrCheckedArticles = this.renderCheckedArticles();
+  let ArrCheckedArticlesCategory = this.renderCheckedArticlesCategory();
+  for (let item in ArrCheckedArticlesCategory){
+    renderdArticles.push( 
+      <CategoryDropDown Useritems={ArrCheckedArticles} ArrCategory={ArrCheckedArticlesCategory} item={item}></CategoryDropDown>
+    )}
+    console.log('checked'   + ArrCheckedArticlesCategory)
+    console.log('array'   + ArrCheckedArticles)
+  return renderdArticles
+};
 
 renderMyShoppingList(){
   if (this.state.flag === 'unclicked'){
@@ -58,20 +116,10 @@ renderMyShoppingList(){
   if (this.state.flag === 'clicked'){
     return this.renderCheckedCategoryArticles()
   }
-}
-
-
-renderCategoryArticles(){
-  let renderdArticles = []
-  let Useritems = this.getUserItems();
-  let ArrCategory = this.getCategorys();
-  console.log('ArrCategory  ' + ArrCategory)
-  for (let item in ArrCategory){
-    renderdArticles.push( 
-      <CategoryDropDown handleChange={this.handleChangeCheckbox.bind(this)} Useritems={Useritems} ArrCategory={ArrCategory} item={item}></CategoryDropDown>
-    )}
-  return renderdArticles
 };
+
+
+
 
 
 renderReatailer(){
@@ -87,40 +135,7 @@ return retailer
 }
 
 
-renderCheckedArticles(){
-  let ArrCheckedArticles = []
-  let Useritems = this.getUserItems()
-  Useritems.filter( item => {
-    if(item.checkbox === true){
-      ArrCheckedArticles.push(item)
-    }
-  })
-  return ArrCheckedArticles
-}
 
-renderCheckedArticlesCategory(){
-  let ArrCheckedArticlesCategory = [];
-  let ArrCheckedArticles = this.renderCheckedArticles();
-  ArrCheckedArticles.map( item => {
-    if(!ArrCheckedArticlesCategory.includes(item.category)){
-      ArrCheckedArticlesCategory.push(item.category)
-    }
-  })
-  return ArrCheckedArticlesCategory
-}
-
-renderCheckedCategoryArticles(){
-  let renderdArticles = []
-  let ArrCheckedArticles = this.renderCheckedArticles();
-  let ArrCheckedArticlesCategory = this.renderCheckedArticlesCategory();
-  for (let item in ArrCheckedArticlesCategory){
-    renderdArticles.push( 
-      <CategoryDropDown Useritems={ArrCheckedArticles} ArrCategory={ArrCheckedArticlesCategory} item={item}></CategoryDropDown>
-    )}
-    console.log('checked'   + ArrCheckedArticlesCategory)
-    console.log('array'   + ArrCheckedArticles)
-  return renderdArticles
-};
 
 onClickList(){
   this.renderCheckedArticlesCategory()
