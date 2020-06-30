@@ -49,7 +49,6 @@ const styles = theme => ({
                   <Article itemname={this.props.name} src={this.props.imgsrc}></Article>
                 </Grid>
                 </Grid>
-            </Grid>
             )
      }
  }
