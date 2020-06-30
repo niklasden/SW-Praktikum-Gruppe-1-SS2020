@@ -170,10 +170,7 @@ class ProductsPage extends Component {
 
         </Grid> 
         <div>
-          {/* <ProductListEntry category="fruits" articles={FRUITS}></ProductListEntry> */}
-          {/* <ProductListEntry category="vegetables" articles={VEGETABLES}></ProductListEntry> */}
-          {/* <ProductListEntry category="meat" articles={MEAT}></ProductListEntry> */}
-          
+        
           {this.state.loadingInProgress ?
               <div style={{display: 'flex', justifyContent: 'center'}}>
                 <CircularProgress size={25} />
