@@ -43,10 +43,11 @@ class Groups extends Component {
   }
   deleteGroup(id) {
     
-    alert("delete group with id: "+ id )
-    this.setState(prevState => ({
-        groupItemss: prevState.groupItemss.filter(item => item !== id)
-   }))}
+    
+    this.setState({
+        groupItemss: this.state.groupItemss.filter(elem => elem.id !== id)
+        
+   })}
   
   async fetchGroups(){
     const res = await fetch('http://localhost:8081/api/shoppa/groups')
