@@ -51,6 +51,11 @@ const FRUITS = [
     category: 'fruits', 
     name: 'raspberry'
   },
+  {
+    id: 'art7',
+    category: 'fruits', 
+    name: 'watermelon'
+  },
 ]
   const VEGETABLES = [
   {
@@ -139,6 +144,8 @@ class ProductsPage extends Component {
    return Object.entries(categories).map(category => (
         <div>
           <h3>{category[0]} </h3>
+          <Grid container
+          direction ="row">
            {category[1].map(item => (
              <ProductListEntry
              id={item.id}
@@ -148,6 +155,7 @@ class ProductsPage extends Component {
              style={{marginBottom:12}}
              />
            ))}
+           </Grid>
         </div>
       ));
   }
@@ -156,7 +164,9 @@ class ProductsPage extends Component {
     const classes = this.props.classes
     return(
       <Grid container 
-        className={classes.root} xs={12}>
+        className={classes.root} 
+        //xs={12}
+      >
 
         <Grid container xs={12} spacing={2}>
         <Grid item xs={10}>
@@ -169,7 +179,7 @@ class ProductsPage extends Component {
         </Grid>
 
         </Grid> 
-        <div>
+        <div style={{width: '100%'}}>
         
           {this.state.loadingInProgress ?
               <div style={{display: 'flex', justifyContent: 'center'}}>

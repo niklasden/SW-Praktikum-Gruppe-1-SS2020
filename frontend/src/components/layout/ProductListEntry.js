@@ -29,23 +29,14 @@ const styles = theme => ({
  */
 
  class ProductListEntry extends Component {
-    //  renderArtikels(){
-    //     return this.props.articles.map(article =>(
-    //         <Grid item xs={2.4}>
-    //                 <Article itemname={article.name}></Article>
-    //         </Grid>
-    //       ))
-    //  }
+
  
      render(){
          const { classes } = this.props
          return (     
-            <Grid container 
-              xs={12}
+            <Grid item 
               className={classes.article}
-              direction="row"
-              alginItem="center"
-              justify="flex-start"
+
               >
                 <Grid item xs={12}>
                   <text>
