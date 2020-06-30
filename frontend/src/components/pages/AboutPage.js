@@ -37,7 +37,7 @@ const devs = [
   {name: "Niklas Denneler", matrikelnr: 0, init: "ND",github_url: "https://github.com/niklasden", image_url: "https://avatars0.githubusercontent.com/u/43001868?s=460&u=7108a00a3d9e8bd273ab9bf039e4be72c943bc68&v=4"},
   {name: "Pascal Illg", matrikelnr: 0, init: "PI",github_url: "https://github.com/pasillg", image_url: "https://avatars3.githubusercontent.com/u/60141744?s=460&v=4"},
   {name: "Christopher Böhm", matrikelnr: 0, init: "CB",github_url: "https://github.com/christopherboehm1", image_url: "https://avatars1.githubusercontent.com/u/59896385?s=460&v=4"},
-  {name: "Julius Jacobitz", matrikelnr: 0, init: "JJ",github_url: "https://github.com/JuliusJacobitz", image_url: "https://avatars0.githubusercontent.com/u/47418007?s=460&u=190ad7155139683b7ed2656b9ad3be8c16b9c81c&v=4"},
+  {name: "Julius Jacobitz", matrikelnr: 37042, init: "JJ",github_url: "https://github.com/JuliusJacobitz", image_url: "https://avatars0.githubusercontent.com/u/47418007?s=460&u=190ad7155139683b7ed2656b9ad3be8c16b9c81c&v=4"},
   {name: "Pia Schmid", matrikelnr: 0, init: "PS",github_url: "https://github.com/PiaSchmid", image_url: "https://avatars1.githubusercontent.com/u/60093069?s=460&u=db2c8079b5ff6ce8e0986d0dfac7d168635e3f88&v=4"},
 ]
   

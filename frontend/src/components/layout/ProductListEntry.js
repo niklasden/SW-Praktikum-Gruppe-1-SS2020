@@ -29,16 +29,16 @@ const styles = theme => ({
  */
 
  class ProductListEntry extends Component {
-     renderArtikels(){
-        return this.props.articles.map(article =>(
-            <Grid item xs={2.4}>
-                    <Article itemname={article.name}></Article>
-            </Grid>
-          ))
-     }
+    //  renderArtikels(){
+    //     return this.props.articles.map(article =>(
+    //         <Grid item xs={2.4}>
+    //                 <Article itemname={article.name}></Article>
+    //         </Grid>
+    //       ))
+    //  }
+ 
      render(){
          const { classes } = this.props
-
          return (     
             <Grid container 
               spacing={12}
@@ -47,14 +47,15 @@ const styles = theme => ({
               alginItem="center"
               justify="flex-start"
               >
-
                 <Grid item xs={12}>
                   <text>
                   <Heading>{this.props.category}</Heading>
                   </text>
+                </Grid> 
+                <Grid item xs={2.4}>
+                  <Article itemname={this.props.name} src={this.props.imgsrc}></Article>
                 </Grid>
-                {this.renderArtikels()}
-              </Grid>
+             </Grid>
             )
      }
  }

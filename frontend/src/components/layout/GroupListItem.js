@@ -26,7 +26,7 @@ const styles = theme => ({
 });
 
 /**
- * Displays a list item of a specific group for Specific Group
+ * Displays a list item in a Specific Group
  * 
  * @author [Julius Jacobitz](https://github.com/JuliusJacobitz)
  * 

@@ -62,6 +62,7 @@ class Settings extends Component {
 			</div>
 		);
 	}
+	
 }
 
 /** Component specific styles */

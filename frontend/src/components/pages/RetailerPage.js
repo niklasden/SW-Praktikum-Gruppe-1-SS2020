@@ -47,7 +47,6 @@ export class RetailerPage extends Component {
     loadingInProgress: false, 
     loadingRetailersError: null, 
     addingRetailerError: null, 
-
     searchValue: '',
   }
 
