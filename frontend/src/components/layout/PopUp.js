@@ -5,15 +5,15 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import PropTypes from 'prop-types';
 
 
 class PopUp extends Component {
-  render(){
 
+  render(){
     return(
       <Dialog
-        /* open={open}
-        onClose={handleClose} */
+        open={this.props.open}
         aria-labelledby="alert title"
         aria-describedby="description" 
       >
@@ -24,16 +24,21 @@ class PopUp extends Component {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button /* onClick={handleClose} */ color="primary">
+        <Button onClick={this.props.handleChange} color="primary">
           YES
         </Button>
-        <Button /* onClick={handleClose} */ color="primary" autoFocus>
+        <Button onClick={this.props.handleChange} color="primary" autoFocus>
           NO
         </Button>
       </DialogActions>
     </Dialog>
     )
 }}
+
+PopUp.propTypes = {
+  open: PropTypes.bool.isRequired,
+  handleChange: PropTypes.bool.isRequired,
+}
 
 
 export default (PopUp);

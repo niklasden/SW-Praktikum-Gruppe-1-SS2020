@@ -4,6 +4,7 @@ import IconButton from '../layout/IconButton'
 import CategoryDropDown from '../layout/CategoryDropDown';
 import MenuItem from '@material-ui/core/MenuItem';
 import PopUp from '../layout/PopUp';
+import { element } from 'prop-types';
 
 
 
@@ -20,28 +21,42 @@ export default class PersonalShoppingList extends Component {
     items: [
       {id: 1, name: "Apfel", category: "fruits", amount: "5", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: false, retailer: 'Aldi'},
       {id: 2, name: "Birne", category: "fruits", amount: "2", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: false, retailer: 'Edeka' },
-      {id: 3, name: "Erdbeerkäse", category: "vegetables", amount: "2", unit: "Stk.", person: 'Herbert', userID: 2, checkbox: false, retailer: 'Lidl' },
-      {id: 4, name: "Mango", category: "vegetables", amount: "2", unit: "g", person: 'Manfred', userID: 1, checkbox: true, retailer: 'Aldi' },
-      {id: 5, name: "Lyoner", category: "vegetables", amount: "2", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: true, retailer: 'Edeka' },
+      {id: 3, name: "Erdbeerkäse", category: "vegetables", amount: "2", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: false, retailer: 'Lidl' },
+      {id: 4, name: "Mango", category: "vegetables", amount: "2", unit: "g", person: 'Manfred', userID: 1, checkbox: false, retailer: 'Aldi' },
+      {id: 5, name: "Lyoner", category: "vegetables", amount: "2", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: false, retailer: 'Edeka' },
   ],
-  selectedRetailer : null,
+  selectedRetailer : 'All',
   market : null,
-  flag : 'unclicked'
+  flag : 'unclicked',
+  solved: false
 }
 
 /* All UserItems with the ID 1 */
 getUserItems(){
   const Useritems = this.state.items.filter(item =>{
-    if (item.userID === 1) {
+    if (item.userID === 1 ) {
       return item
     }
   });
   return Useritems
 };
 
+/* Returns an array with all Useritems that are unchecked  */
+getUncheckedArticles(){
+  let ArrUncheckedArticles = []
+  let Useritems = this.getUserItems()
+  Useritems.filter( item => {
+    if(item.checkbox === false && (this.state.selectedRetailer === item.retailer || this.state.selectedRetailer === 'All')){
+      ArrUncheckedArticles.push(item)
+    }
+  })
+  return ArrUncheckedArticles
+};
+
+/* Returns an array with the categorys of all Useritems that are unchecked  */
 getCategorys(){
   let ArrCategory = []
-  let Useritems = this.getUserItems()
+  let Useritems = this.getUncheckedArticles()
   Useritems.map(item => {
     if(!ArrCategory.includes(item.category)){
       ArrCategory.push(item.category)
@@ -50,21 +65,11 @@ getCategorys(){
   return ArrCategory
 };
 
-getUncheckedArticles(){
-  let ArrUncheckedArticles = []
-  let Useritems = this.getUserItems()
-  Useritems.filter( item => {
-    if(item.checkbox === false){
-      ArrUncheckedArticles.push(item)
-    }
-  })
-  return ArrUncheckedArticles
-};
-
-renderCategoryArticles(){
+/* Renders an array with all categories and the containend unchecked Useritems */
+renderUncheckedArticles(){
   let renderdArticles = []
-  let ArrCategory = this.getUncheckedArticles();
-  let Useritems = this.getUserItems();
+  let ArrCategory = this.getCategorys();
+  let Useritems = this.getUncheckedArticles();
   console.log('ArrCategory  ' + ArrCategory)
   for (let item in ArrCategory){
     renderdArticles.push( 
@@ -73,20 +78,22 @@ renderCategoryArticles(){
   return renderdArticles
 };
 
-renderCheckedArticles(){
+/* Returns an array with all Useritems that are checked  */
+getCheckedArticles(){
   let ArrCheckedArticles = []
   let Useritems = this.getUserItems()
   Useritems.filter( item => {
-    if(item.checkbox === true){
+    if(item.checkbox === true && (this.state.selectedRetailer === item.retailer || this.state.selectedRetailer === 'All')){
       ArrCheckedArticles.push(item)
     }
   })
   return ArrCheckedArticles
 };
 
-renderCheckedArticlesCategory(){
+/* Returns an array with the categorys of all Useritems that are checked  */
+getCheckedArticlesCategory(){
   let ArrCheckedArticlesCategory = [];
-  let ArrCheckedArticles = this.renderCheckedArticles();
+  let ArrCheckedArticles = this.getCheckedArticles();
   ArrCheckedArticles.map( item => {
     if(!ArrCheckedArticlesCategory.includes(item.category)){
       ArrCheckedArticlesCategory.push(item.category)
@@ -95,22 +102,25 @@ renderCheckedArticlesCategory(){
   return ArrCheckedArticlesCategory
 };
 
+/* Renders an array with all categories and the containend checked Useritems */
 renderCheckedCategoryArticles(){
   let renderdArticles = []
-  let ArrCheckedArticles = this.renderCheckedArticles();
-  let ArrCheckedArticlesCategory = this.renderCheckedArticlesCategory();
+  let ArrCheckedArticles = this.getCheckedArticles();
+  let ArrCheckedArticlesCategory = this.getCheckedArticlesCategory();
+  console.log(ArrCheckedArticles)
   for (let item in ArrCheckedArticlesCategory){
     renderdArticles.push( 
-      <CategoryDropDown Useritems={ArrCheckedArticles} ArrCategory={ArrCheckedArticlesCategory} item={item}></CategoryDropDown>
+      <CategoryDropDown handleChange={this.handleChangeCheckbox.bind(this)} Useritems={ArrCheckedArticles} ArrCategory={ArrCheckedArticlesCategory} item={item}></CategoryDropDown>
     )}
     console.log('checked'   + ArrCheckedArticlesCategory)
     console.log('array'   + ArrCheckedArticles)
   return renderdArticles
 };
 
+/* Renders the list of unchecked or checked Useritems */
 renderMyShoppingList(){
   if (this.state.flag === 'unclicked'){
-    return this.renderCategoryArticles()
+    return this.renderUncheckedArticles()
   }
 
   if (this.state.flag === 'clicked'){
@@ -118,10 +128,7 @@ renderMyShoppingList(){
   }
 };
 
-
-
-
-
+/* Renders the list of unchecked or checked Useritems */
 renderReatailer(){
   let retailer = []
   let Useritems = this.getUserItems()
@@ -133,9 +140,6 @@ renderReatailer(){
   })
 return retailer
 }
-
-
-
 
 onClickList(){
   this.renderCheckedArticlesCategory()
@@ -155,27 +159,30 @@ getArticleOfRetailer(){
 }
 
 handleChangeRetailer = e =>{
-  this.setState({market: e.target.value})
-}
-
-NameRetailer=() =>{
-  this.state.market()
+  this.setState({selectedRetailer : e.target.value})
 }
 
 handleChangeCheckbox(id){
-  let Useritems = this.getUserItems()
-  Useritems.map( item => {
+  let Items = [...this.state.items]
+
+  Items.map( item => {
     if(item.id === id){
-      if(item.checkbox === true){
-        item.checkbox = false
-      }
-      if(item.checkbox === false){
-        item.checkbox = true
+      let newItem = {...item}
+      for (let element in Items){
+        if(Items[element].id === newItem.id){
+          newItem.checkbox = !newItem.checkbox
+          Items.splice(element, 1, newItem)
+          this.setState({items : Items})
+        }
       }
     }
   })
-  console.log(this.state.items)
-  return 
+}
+
+handlePopUp(){
+  if(this.state.solved === true){
+    return <PopUp open={true} handleChange={()=> this.setState({ solved : false})}></PopUp> 
+  }
 }
 
 render(){
@@ -215,10 +222,10 @@ render(){
             <FormControl style={{width: '170px', height: 35, marginLeft: 10, marginBottom: 10}}>
                 <InputLabel>Retailer</InputLabel>
                 <Select
-                  value={'Hallo'}
+                  value={this.state.selectedRetailer}
                   onChange={this.handleChangeRetailer}
                 >
-                  <MenuItem value= "" disabled>Retailer</MenuItem>
+                  <MenuItem value= {this.state.selectedRetailer} disabled>Retailer</MenuItem>
                   {shops.map(element =>{
                     return <MenuItem value={element}>{element}</MenuItem>
                   })}
@@ -231,14 +238,14 @@ render(){
           justify= 'flex-end'
           > 
             <IconButton style={{marginLeft: 10}} size='small' icon='list' onclick={() => this.setState({flag : 'unclicked'})}></IconButton> 
-            <IconButton style={{marginLeft: 10}} size='small' icon='euro' onclick={() => this.setState()({flag : 'clicked'})}></IconButton> 
-            <IconButton style={{marginLeft: 10, marginRight: 10}} size='small' icon='done' onclick={() => <PopUp></PopUp>}
-            ></IconButton> 
+            <IconButton style={{marginLeft: 10}} size='small' icon='euro' onclick={() => this.setState({flag : 'clicked'})}></IconButton> 
+            <IconButton style={{marginLeft: 10, marginRight: 10}} size='small' icon='done' onclick={() => this.setState({ solved : true })}></IconButton> 
           </Grid>
       </Grid>
     </Grid>
     <Grid id='test'>
       {this.renderMyShoppingList()}
+      {this.handlePopUp()}
     </Grid>
     </Grid>
 )}}

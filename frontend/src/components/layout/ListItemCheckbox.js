@@ -54,7 +54,7 @@ class ListItemCheckbox extends Component {
         </Grid>
 
         <Grid item xs={2}>
-          <Checkbox defaultChecked={this.props.Checked} onChange={this.props.handleChange} style={{padding:0, marginLeft: 15}}></Checkbox>
+          <Checkbox checked={this.props.Checked} onChange={this.props.handleChange} style={{padding:0, marginLeft: 15}}></Checkbox>
         </Grid>
       
     </Grid>
