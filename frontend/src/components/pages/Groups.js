@@ -3,14 +3,15 @@ import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/styles';
 import TextField from '@material-ui/core/TextField';
-
+import MainButton from '../layout/MainButton'
 import { Container } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 
 import GroupButton from '../layout/GroupButton.js';
 import {Link} from 'react-router-dom';
 
-
+import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from '@material-ui/core/IconButton';
 
 const styles = theme => ({
   root: {
@@ -38,7 +39,15 @@ class Groups extends Component {
     this.state ={
       groupItemss: [],
     };
+    this.deleteGroup = this.deleteGroup.bind(this);
   }
+  deleteGroup(id) {
+    
+    
+    this.setState({
+        groupItemss: this.state.groupItemss.filter(elem => elem.id !== id)
+        
+   })}
   
   async fetchGroups(){
     const res = await fetch('http://localhost:8081/api/shoppa/groups')
@@ -57,19 +66,27 @@ class Groups extends Component {
     
   };
 
-  componentDidUpdate(){
-    this.renderGroups()
-  }
 
     renderGroups(){
         const {classes } = this.props;
         const Groups =[];
         this.state.groupItemss.forEach( elem => {
-            Groups.push(<Grid item xs={12}>
+            Groups.push(<Grid item xs={6}>
                 {/* @Julius here we need a parameter to fetch the right group, all groups a user is part of, then specific group hes clicking on */}
-                          <Link to="/specificGroup" className={classes.button}>
-                            <GroupButton key={elem.id} groupname={elem.name}></GroupButton>
-                          </Link>
+                <Grid
+                        container
+                        direction="column"
+                        justify="center"
+                        alignItems="center"
+                        style={{marginTop:20}}
+                      >
+
+                            <GroupButton  key={elem.id} groupname={elem.name}></GroupButton>
+                            <IconButton  aria-label="delete" className={this.props.classes.margin} style={{padding:0}}>
+                        <DeleteIcon onClick={() => this.deleteGroup(elem.id)}  />
+                             
+                      </IconButton>
+                          </Grid>
                         </Grid>)
         })
         return Groups
@@ -82,11 +99,12 @@ class Groups extends Component {
    
     return (
     <>
-      <Grid container spacing={3} direction="column" justify="center" alignItems="center">
+      <Grid container spacing={3} >
       {this.renderGroups()}
+        
         <Grid item xs={12}>
           <Link to="/createGroup" className={classes.button}>
-            <GroupButton groupname="Add Group"></GroupButton>
+          <MainButton className={classes.CreateButton}>Create Group</MainButton>
           </Link>
         </Grid> 
       </Grid>
