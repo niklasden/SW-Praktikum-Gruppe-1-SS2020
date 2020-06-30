@@ -41,7 +41,7 @@ const styles = theme => ({
          const { classes } = this.props
          return (     
             <Grid container 
-              spacing={12}
+              xs={12}
               className={classes.article}
               direction="row"
               alginItem="center"
@@ -52,7 +52,9 @@ const styles = theme => ({
                   <Heading>{this.props.category}</Heading>
                   </text>
                 </Grid> 
-                <Grid item xs={2.4}>
+                <Grid item 
+                xs={2.4}
+                direction="row">
                   <Article itemname={this.props.name} src={this.props.imgsrc}></Article>
                 </Grid>
              </Grid>
