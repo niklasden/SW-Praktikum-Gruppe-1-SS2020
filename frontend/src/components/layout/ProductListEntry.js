@@ -40,22 +40,22 @@ const styles = theme => ({
      render(){
          const { classes } = this.props
          return (     
-            <Grid container 
-              spacing={12}
-              className={classes.article}
-              direction="row"
-              alginItem="center"
-              justify="flex-start"
-              >
-                <Grid item xs={12}>
-                  <text>
-                  <Heading>{this.props.category}</Heading>
-                  </text>
+            <Grid>
+                <Grid container xs={12}>
+                <Heading>{this.props.category}</Heading>
                 </Grid> 
-                <Grid item xs={2.4}>
+
+                <Grid
+               container
+               direction="row"
+               justify="flex-start"
+               alignItems="center"
+                >
+                <Grid item xs={2}>
                   <Article itemname={this.props.name} src={this.props.imgsrc}></Article>
                 </Grid>
-             </Grid>
+                </Grid>
+            </Grid>
             )
      }
  }

@@ -243,7 +243,7 @@ render(){
           </Grid>
       </Grid>
     </Grid>
-    <Grid id='test'>
+    <Grid>
       {this.renderMyShoppingList()}
       {this.handlePopUp()}
     </Grid>
