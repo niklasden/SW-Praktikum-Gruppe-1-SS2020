@@ -12,7 +12,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
+import IconButton from '../layout/IconButton';
 import Typography from '@material-ui/core/Typography';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
@@ -146,7 +146,7 @@ class CreateGroup extends Component {
                         <List dense={dense}>
                         <ListItem style={{backgroundColor: '#fafafa', borderRadius: '1em'}} >
                             <ListItemAvatar style={{}}>
-                                <AddCircleIcon style={{fontSize:40}} onClick={() => { handleClickOpen() }}/>
+                                <IconButton style={{marginLeft: 12, marginRight: 12}} icon='add' onclick={() => { handleClickOpen() }}/>
                             </ListItemAvatar>
                             <ListItemText primary="Add member"/>
                             </ListItem>
@@ -187,9 +187,7 @@ class CreateGroup extends Component {
                                 primary={item.firstname +" "+ item.lastname}
                             />
                             <ListItemSecondaryAction>
-                                <IconButton edge="end" aria-label="delete">
-                                <DeleteIcon onClick={this.deleteMember.bind(this, item)}/>
-                                </IconButton>
+                                <IconButton edge="end" aria-label="delete" icon="delete" onclick={this.deleteMember.bind(this, item)}></IconButton>
                             </ListItemSecondaryAction>
                             </ListItem>
                         ))}

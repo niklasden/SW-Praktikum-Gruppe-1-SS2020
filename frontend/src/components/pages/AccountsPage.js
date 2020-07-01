@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Typography, withStyles, Checkbox, FormControlLabel, Button, Avatar, Box } from '@material-ui/core';
 import avatar from '../img/avatar.jpg';
+import MainButton from '../layout/MainButton';
 
 
 /** 
@@ -37,7 +38,7 @@ class AccountsPage extends Component {
 				<Grid container justify='center'>
 					<Grid item xs={3}>
 					<Box align-items="center" display="flex">
-					<Avatar alt="Sabine Mustermann" src={avatar} //className={classes.large.AvatarPadding}
+					<Avatar alt="Sabine Mustermann" src={avatar} className={classes.AvatarPadding}
 					/>
 					<Typography>Sabine Mustermann</Typography>
 					</Box>
@@ -46,7 +47,7 @@ class AccountsPage extends Component {
 					/>
 					</Grid>
 					<Grid item xs={3}>
-					<Button variant="contained">Delete Account</Button>
+					<MainButton variant="contained">Delete Account</MainButton>
 					</Grid>
 				</Grid>
 			</div>
