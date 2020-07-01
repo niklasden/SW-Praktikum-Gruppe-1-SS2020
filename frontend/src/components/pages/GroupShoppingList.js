@@ -7,10 +7,7 @@ import Popover from '@material-ui/core/Popover'
 import { checkPropTypes } from 'prop-types';
 import DropDownGSL from '../layout/DropDownGSL'
 import TextInputBar from '../layout/TextInputBar'
-<<<<<<< HEAD
-=======
 import PopUp from '../layout/PopUp'
->>>>>>> pascal
 
 /**
  * 
