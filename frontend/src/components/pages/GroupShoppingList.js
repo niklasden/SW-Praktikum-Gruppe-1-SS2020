@@ -7,6 +7,10 @@ import Popover from '@material-ui/core/Popover'
 import { checkPropTypes } from 'prop-types';
 import DropDownGSL from '../layout/DropDownGSL'
 import TextInputBar from '../layout/TextInputBar'
+<<<<<<< HEAD
+=======
+import PopUp from '../layout/PopUp'
+>>>>>>> pascal
 
 /**
  * 
@@ -54,10 +58,15 @@ export default class GroupShoppingList extends Component {
     console.log('ArrCategory  ' + ArrCategory)
     for (let item in ArrCategory){
       renderdArticles.push( 
-        <DropDownGSL Useritems={Useritems} ArrCategory={ArrCategory} item={item}></DropDownGSL>
+        <DropDownGSL onClick={this.handleClick} Useritems={Useritems} ArrCategory={ArrCategory} item={item}></DropDownGSL>
       )}
     return renderdArticles
   };
+
+  handleClick(){
+    return <PopUp></PopUp>
+  }
+
 
   handleClick(event){
     this.setState({anchorEl: event.currentTarget});
@@ -82,19 +91,15 @@ export default class GroupShoppingList extends Component {
       <Grid 
       container
       direction='row'
-      justify='space-between'
+      justify='center'
       alignItems="stretch"
-      xs={12}
-      spacing={1}        
+      xs={12}   
       >
-        <Grid>
-          <TextInputBar></TextInputBar>         
-        </Grid>
+      <Grid>
+        <TextInputBar placeholder="search..." icon="search"></TextInputBar>
+      </Grid>
           
-      <Grid 
-        container
-        xs={12}
-        alignItems='stretch'
+      <Grid xs={12}
       >{this.renderCategoryArticles()}</Grid>
     
     </Grid>
@@ -121,7 +126,9 @@ spacing={1}
 <Grid container xs={12} spacing={1}>
   {this.state.items.map(item => {
     if(item.category === "fruits") {
-      return <Grid item xs={12} onClick={this.handleClick}><ListItem itemname={item.name} amount={item.amount} unit={item.unit}></ListItem>
+      return <Grid item xs={12} onClick={this.handleClick}>
+      
+      <ListItem itemname={item.name} amount={item.amount} unit={item.unit}></ListItem>
       <EditListItem
       item={item}
       id={id}

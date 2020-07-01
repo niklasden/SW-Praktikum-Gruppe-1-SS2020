@@ -41,6 +41,7 @@ class ListItem extends Component {
       justify='center'
       alignItems='center'
       className={this.props.classes.root}
+      handleChange={this.props.handleChange}
     >
         <Grid item xs={2}>
           <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 3}}>fastfood</Icon>
@@ -63,7 +64,8 @@ ListItem.propTypes = {
   imgsrc: PropTypes.string.isRequired,
   itemname: PropTypes.string.isRequired,
   amount: PropTypes.string.isRequired,
-  unit: PropTypes.string.isRequired
+  unit: PropTypes.string.isRequired,
+  handleChange: PropTypes.string.isRequired
 }
 
 export default withStyles(styles)(ListItem);

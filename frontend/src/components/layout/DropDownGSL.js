@@ -7,6 +7,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Grid, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import ListItem from '../layout/ListItem'
+import PopUp from '../layout/PopUp'
 
 /**
  * 
@@ -35,8 +36,8 @@ class DropDownGSL extends Component {
           <Grid container xs={12} spacing={1}>
               {this.props.Useritems.map(element => {
               if(element.category === this.props.ArrCategory[this.props.item]){
-              return <Grid item xs={12}>
-              <ListItem itemname={element.name} amount={element.amount} unit={element.unit}></ListItem>
+              return <Grid item xs={12} onClick={() => alert(String(element.id))}>
+              <ListItem handleChange={()=>this.props.handleChange(element.id)} itemname={element.name} amount={element.amount} unit={element.unit}></ListItem>
               </Grid>
             }
           })}
