@@ -1,3 +1,4 @@
+#@author [Niklas Denneler](https://github.com/niklasden)
 # [START env settings]
 env: standard
 runtime: nodejs12
