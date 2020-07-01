@@ -1,0 +1,14 @@
+# @author [Niklas Denneler](https://github.com/niklasden)
+#This file handles all the traffic routing for our "microservice" architecture
+#Unfortunately the default service can not be deleted inside Google App Engine. 
+dispatch:
+    # Send all traffic that reaches the top domain to the react frontend.
+    - url: "ikaufa.com/*"
+      service: frontend
+  
+    # Send all backend traffic to the one python backend.
+    - url: "backend.ikaufa.com/*"
+      service: backend
+    
+    - url: 'default.ikaufa.com/*'
+      service: default

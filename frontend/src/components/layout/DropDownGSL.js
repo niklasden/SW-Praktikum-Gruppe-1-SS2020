@@ -17,6 +17,7 @@ import PopUp from '../layout/PopUp'
 
 class DropDownGSL extends Component {
 
+
   render(){
     return (
     <ExpansionPanel>
@@ -36,8 +37,8 @@ class DropDownGSL extends Component {
           <Grid container xs={12} spacing={1}>
               {this.props.Useritems.map(element => {
               if(element.category === this.props.ArrCategory[this.props.item]){
-              return <Grid item xs={12} onClick={() => alert(String(element.id))}>
-              <ListItem handleChange={()=>this.props.handleChange(element.id)} itemname={element.name} amount={element.amount} unit={element.unit}></ListItem>
+              return <Grid item xs={12}>
+              <ListItem onClick={()=>this.props.onClick(element.id)} onClickListItem={()=>this.props.onClickListItem(element.id, element.unit, element.amount)} itemname={element.name} amount={element.amount} unit={element.unit}></ListItem>
               </Grid>
             }
           })}
@@ -54,6 +55,9 @@ DropDownGSL.propTypes = {
   ArrCategory: PropTypes.array.isRequired,
   item: PropTypes.string.isRequired,
   handleChange: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  onClickListItem: PropTypes.func.isRequired,
+
 }
 
 export default (DropDownGSL);

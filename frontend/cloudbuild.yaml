@@ -1,0 +1,2 @@
+#To be finalized, this is untested. But would allow automatic deploymend via a Trigger inside the deploy GitHub Branch.
+steps:- name: 'gcr.io/cloud-builders/npm'  args: ['install']- name: 'gcr.io/cloud-builders/npm'  args: ['test']- name: "gcr.io/cloud-builders/gcloud"  args: ["app", "deploy"]timeout: "1600s"
