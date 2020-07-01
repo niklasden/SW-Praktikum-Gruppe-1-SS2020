@@ -188,11 +188,10 @@ class ProductsPage extends Component {
               <div style={{display: 'flex', justifyContent: 'center'}}>
                 <CircularProgress size={25} />
               </div>
-            :  
-            <Grid>
-              {this.renderArticles()}
-            <Grid>
+            :
+            this.renderArticles()
             }
+        </Grid>
         </Grid>
       </Grid>
     )
