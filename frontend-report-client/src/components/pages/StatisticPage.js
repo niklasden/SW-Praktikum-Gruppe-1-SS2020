@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import MainBarChart from '../layout/MainBarChart';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
+import BarChart from '../../components/layout/BarChart'
 
 /**
  * Displays the statistic page
@@ -80,6 +81,9 @@ class StatisticPage extends Component {
                         <Link to="/show">
                             <MainButton>STATISTIK ANZEIGEN</MainButton>
                         </Link>
+
+                        <BarChart />
+                        <div style={{height: 100}} />
                     </>
                 }
             </>
