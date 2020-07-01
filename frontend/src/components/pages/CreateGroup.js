@@ -1,31 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/styles';
-import TextField from '@material-ui/core/TextField';
+import {TextField, Container, Grid, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Avatar, Typography, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button} from '@material-ui/core';
 import MainButton from '../layout/MainButton';
-import Container from '@material-ui/core/Container';
-import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
-import { Grid, } from '@material-ui/core';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import Avatar from '@material-ui/core/Avatar';
 import IconButton from '../layout/IconButton';
-import Typography from '@material-ui/core/Typography';
-import DeleteIcon from '@material-ui/icons/Delete';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
 import avatar from '../img/avatar.jpg';
-
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
-
-
+import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 
 const useStyles = (theme) => ({
   root: {
@@ -42,13 +22,19 @@ const useStyles = (theme) => ({
 });
 
 /**
+ * @author [Niklas Denneler](https://github.com/niklasden):
+ * Renders a Page which allows the User to create a new group and opens a modal to add/delete members via their e-mail.
+ * 
+ * 
  * ToDo: Outline around Icon
  *       Avatar Image from Google, instead of hardcoded
+ *       Error Handling for when user not found.
+ *       Error Handling for when the group name already exists.
  * 
- * @author [Niklas Denneler](https://github.com/niklasden)
+ * 
  * @author [Julius Jacobitz]()
  * 
- * @property icon (string): the icon name to display, can be either: add, shopping_cart, shopping_cart_outline, shopping_list, shopping_list_outline, checkmark, people
+ * 
  */
 class CreateGroup extends Component {
     constructor(props) {
@@ -122,7 +108,7 @@ class CreateGroup extends Component {
           alert('The group was saved')
       }
       catch (error) {
-          //
+          //needs more advanced error handling
           console.log(error)
       } 
     }
