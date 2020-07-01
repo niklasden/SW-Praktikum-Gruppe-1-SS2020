@@ -100,8 +100,8 @@ class ProductsPage extends Component {
   state = {
     searchValue: '',
     loadingInProgress: false, 
-    loadingRetailersError: null, 
-    addingRetailerError: null, 
+    loadingArticlesError: null, 
+    addingArticleError: null, 
     articles: [],
   }
 
@@ -112,20 +112,20 @@ class ProductsPage extends Component {
   async getProducts(){
     this.setState({
       loadingInProgress: true, 
-      loadingRetailersError: null 
+      loadingArticleError: null 
     })
 
     setTimeout(() => {
       this.setState({
         loadingInProgress: false, 
-        loadingRetailersError: null, 
+        loadingArticleError: null, 
         articles: this.state.articles.concat(MEAT,FRUITS,VEGETABLES)
       })
     }, 1000)
   }
 
   renderArticles(){
-    let articles = this.state.articles;
+    /*reduce creates an array with article of the same category*/ 
     var categories = this.state.articles.reduce((itemsSoFar, {category, name, id, imgsrc}) => {
       if (!itemsSoFar[category]) itemsSoFar[category] = [];
       itemsSoFar[category].push({name, id, imgsrc});
@@ -134,9 +134,10 @@ class ProductsPage extends Component {
 
     if(this.state.searchValue != ''){
       //Erst this.state.articles filtern und dann reducen?
+      /* Checks if there is a Article equal to the search-value*/ 
       categories = this.state.articles.reduce((itemsSoFar, {category, name, id, imgsrc}) => {
         if (!itemsSoFar[category]) itemsSoFar[category] = [];
-        if (name.toLowerCase().includes(this.state.searchValue.toLowerCase())) itemsSoFar[category].push({name, id, imgsrc});
+        if (name.toLowerCase().includes(this.state.searchValue.toLowerCase())) itemsSoFar[category].push({name, category,  id, imgsrc});
         return itemsSoFar;
       }, {});
     }
@@ -149,7 +150,7 @@ class ProductsPage extends Component {
            {category[1].map(item => (
              <ProductListEntry
              id={item.id}
-             category={item.category}
+             category={category[0]}
              name={item.name}
              imgsrc={item.imgsrc}
              style={{marginBottom:12}}
