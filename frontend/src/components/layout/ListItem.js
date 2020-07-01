@@ -47,13 +47,17 @@ class ListItem extends Component {
           <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 3}}>fastfood</Icon>
         </Grid>
 
-        <Grid item xs={7}>
+        <Grid item xs={6} onClick={() => this.props.onClickListItem()} >
           <t style={{color: '#000000', fontSize: 18}}>{this.props.itemname}</t>
         </Grid>         
 
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           <t style={{color: '#000000', fontSize: 18}}>{this.props.amount}</t>
           <t style={{color: '#000000', fontSize: 18}}>{this.props.unit}</t>
+        </Grid>
+
+        <Grid item xs={2} onClick={() => this.props.onClick()} >
+          <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 5}}>delete</Icon>
         </Grid>
     </Grid>
     );
@@ -65,7 +69,9 @@ ListItem.propTypes = {
   itemname: PropTypes.string.isRequired,
   amount: PropTypes.string.isRequired,
   unit: PropTypes.string.isRequired,
-  handleChange: PropTypes.string.isRequired
+  handleChange: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  onClickListItem: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles)(ListItem);

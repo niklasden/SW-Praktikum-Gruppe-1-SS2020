@@ -25,21 +25,15 @@ export default class GroupShoppingList extends Component {
       {id: 3, name: "Erdbeerkäse", category: "vegetables", amount: "2", unit: "Stk.", person: 'Herbert', userID: 2, checkbox: false, retailer: 'Lidl' },
       {id: 4, name: "Mango", category: "vegetables", amount: "2", unit: "g", person: 'Manfred', userID: 1, checkbox: true, retailer: 'Aldi' },
       {id: 5, name: "Lyoner", category: "vegetables", amount: "2", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: true, retailer: 'Edeka' },
-  ],
-  }
-
-  getUserItems(){
-    const Useritems = this.state.items.filter(item =>{
-      if (item.userID === 1) {
-        return item
-      }
-    });
-    return Useritems
+    ],
+    open: false,
+    amount: "1",
+    unit: '',
   }
 
   getCategorys(){
     let ArrCategory = []
-    let Useritems = this.getUserItems()
+    let Useritems = this.state.items
     Useritems.map(item => {
       if(!ArrCategory.includes(item.category)){
         ArrCategory.push(item.category)
@@ -50,20 +44,38 @@ export default class GroupShoppingList extends Component {
 
   renderCategoryArticles(){
     let renderdArticles = []
-    let Useritems = this.getUserItems();
+    let Useritems = this.state.items;
     let ArrCategory = this.getCategorys();
     console.log('ArrCategory  ' + ArrCategory)
     for (let item in ArrCategory){
       renderdArticles.push( 
-        <DropDownGSL onClick={this.handleClick} Useritems={Useritems} ArrCategory={ArrCategory} item={item}></DropDownGSL>
+        <DropDownGSL onClick={this.onClickDelete.bind(this)} onClickListItem={this.onClickListItem.bind(this)} Useritems={Useritems} ArrCategory={ArrCategory} item={item}></DropDownGSL>
       )}
     return renderdArticles
   };
 
-  handleClick(){
-    return <PopUp></PopUp>
+  onClickDelete(id){
+    console.log('Hi')
+    let Items = [...this.state.items]
+
+    Items.map( item => {
+      if(item.id === id){
+        let newItem = {...item}
+        for (let element in Items){
+          if(Items[element].id === newItem.id){
+            Items.splice(element, 1)
+            this.setState({items : Items})
+          }
+        }
+      }
+    })
   }
 
+  onClickListItem(id, unit, amount){
+    this.setState({open : true})
+    this.setState({amount : amount})
+    this.setState({unit : unit})
+  }
 
   handleClick(event){
     this.setState({anchorEl: event.currentTarget});
@@ -72,6 +84,10 @@ export default class GroupShoppingList extends Component {
   handleClose(){
     this.setState({anchorEl:null});
   };
+
+  PressButtonBack(){
+    this.setState({open : false})
+  }
 
   constructor(props) {
     super(props)
@@ -96,8 +112,11 @@ export default class GroupShoppingList extends Component {
         <TextInputBar placeholder="search..." icon="search"></TextInputBar>
       </Grid>
           
-      <Grid xs={12}
-      >{this.renderCategoryArticles()}</Grid>
+      <Grid xs={12}>
+        {this.renderCategoryArticles()}
+        <EditListItem /* handleChange={this.props.onChangeEditItem.bind(this)} */ open={this.state.open} unit={this.state.unit} amount={this.state.amount}  PressButtonBack={this.PressButtonBack.bind(this)} ></EditListItem>
+  
+      </Grid>
     
     </Grid>
     ) 
