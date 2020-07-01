@@ -24,14 +24,15 @@ const styles = theme => ({
     }
 });
 const initStartDate = new Date();
-const initStartDateMonth = initStartDate.getMonth() < 10 ? "0" + initStartDate.getMonth() : initStartDate.getMonth();
+const initStartDateMonth = initStartDate.getMonth() < 10 ? "0" + (initStartDate.getMonth() + 1) : (initStartDate.getMonth() + 1);
 const initStartDateDay = initStartDate.getDate() < 10 ? "0" + initStartDate.getDate() : initStartDate.getDate();
 const initStartDateFullDate = initStartDate.getFullYear() + "-" + initStartDateMonth + "-" + initStartDateDay;
 
 const initEndDate = new Date(initStartDate.setDate(initStartDate.getDate() + 7));
-const initEndDateMonth = initEndDate.getMonth() < 10 ? "0" + (initEndDate.getMonth() + 1) : initEndDate.getMonth();
+const initEndDateMonth = initEndDate.getMonth() < 10 ? "0" + (initEndDate.getMonth() + 1) : (initEndDate.getMonth() + 1);
 const initEndDateDay = initEndDate.getDate() < 10 ? "0" + initEndDate.getDate() : initEndDate.getDate();
 const initEndDateFullDate = initEndDate.getFullYear() + "-" + initEndDateMonth + "-" + initEndDateDay;
+console.log("StartTime:", initStartDateFullDate, " Endtime:", initEndDateFullDate)
 class ShowStatisticPage extends Component {
     constructor(props) {
         super(props);

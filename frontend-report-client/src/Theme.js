@@ -63,6 +63,15 @@ const theme = createMuiTheme({
     },
     typography: {
       // fontFamily: "'Montserrat', sans-serif;"
-    } 
+    },
+    overrides: {
+      MuiBottomNavigationAction: {
+        root: {
+          '&$selected': {
+            color: 'white',
+          },
+        }
+      }
+    }
 });
 export default theme;
