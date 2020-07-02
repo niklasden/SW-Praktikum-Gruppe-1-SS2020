@@ -42,6 +42,7 @@ class ListItem extends Component {
       alignItems='center'
       className={this.props.classes.root}
       handleChange={this.props.handleChange}
+      style={{minWidth: '300px'}}
     >
         <Grid item xs={2}>
           <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 3}}>fastfood</Icon>
