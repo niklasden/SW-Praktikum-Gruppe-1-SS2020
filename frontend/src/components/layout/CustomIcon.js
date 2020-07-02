@@ -104,7 +104,7 @@ const icons = {
  */
 class CustomIcon extends Component {
   render(){
-    let icon = 'apple'
+    let icon = ''
     if (this.props.iconName != undefined){
       icon = this.props.iconName
     }
@@ -118,7 +118,9 @@ class CustomIcon extends Component {
       <img
         style={{ 
           width: dimension, 
-          height: dimension 
+          height: dimension,
+          filter: `grayscale(100%)`,
+          marginTop: '15px'      
         }} 
         src={icons[icon]}
       />

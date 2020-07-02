@@ -49,7 +49,7 @@ const FRUITS = [
   {
     id: 'art5',
     category: 'fruits', 
-    name: 'strawberyy',
+    name: 'strawberry',
     iconName: 'strawberyy',
   }, 
 ]
