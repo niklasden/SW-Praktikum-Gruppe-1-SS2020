@@ -11,6 +11,9 @@ import AddIcon from '@material-ui/icons/Add';
 import Box from '@material-ui/core/Box'
 import MaterialIconButton from '@material-ui/core/IconButton';
 
+
+
+
 import svg from '@material-ui/icons/AccessAlarm';
 
 const styles = theme => ({
@@ -30,6 +33,8 @@ const styles = theme => ({
     }
 })
 
+
+
 /**
  * Displays an article icon / button as designed in figma
  * 
@@ -39,17 +44,37 @@ const styles = theme => ({
 
 
  class Article extends Component{
+  constructor(){
+    super()
+    this.handleButtonPress = this.handleButtonPress.bind(this)
+    this.handleButtonRelease = this.handleButtonRelease.bind(this)
+  }
+
+  handleButtonPress(){
+    this.buttonPressTimer = setTimeout(() => alert('HI'), 1500)
+  }
+
+  handleButtonRelease(){
+    clearTimeout(this.buttonPressTimer);
+  }
+
      render(){
         const classes = this.props.classes;
 
         return(
             
-            <Box 
+      <Box 
         
         border={1} 
         borderColor='#e0e0e0'
         borderRadius={5}
         style={{display: 'inline-block', margin: '3px'}}
+
+        onTouchStart={this.handleButtonPress} 
+        onTouchEnd={this.handleButtonRelease} 
+        onMouseDown={this.handleButtonPress} 
+        onMouseUp={this.handleButtonRelease} 
+        onMouseLeave={this.handleButtonRelease}
       >
         <MaterialIconButton 
           

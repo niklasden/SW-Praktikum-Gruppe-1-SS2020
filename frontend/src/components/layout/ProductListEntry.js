@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core';
-import Heading from '../layout/Heading';
 import Article from '../layout/Article';
 import { Link } from 'react-router-dom';
 
@@ -36,27 +35,26 @@ const styles = theme => ({
      render(){
          const { classes } = this.props
          return (     
-            <Grid item 
+              <Grid item 
               className={classes.article}
               >
-              
-
                 <Grid item 
                 xs={2.4}
-                direction="row">
+                direction="row"
+                >
                   <Link
-                  to= 'create_article?query=hello'
-                  query='hello'
-                  to={{
-                    pathname:'create_article', 
-                    state:{name: this.props.name, category: this.props.category}
-                  }}>
+                    to= 'create_article?query=hello'
+                    query='hello'
+                    to={{
+                      pathname:'create_article', 
+                      state:{name: this.props.name, category: this.props.category}
+                    }}>
                     <Article itemname={this.props.name} src={this.props.imgsrc}></Article>
                   </Link>
                 </Grid>
-             </Grid>
-            )
+              </Grid>
+          )
      }
- }
+  }
 
  export default withStyles(styles)(ProductListEntry);

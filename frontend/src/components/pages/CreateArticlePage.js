@@ -50,13 +50,13 @@ class CreateArticlePage extends Component {
         snackbarOpen: false, 
         isSaving: false,
         redirectToArticlePage: false,
+        category: "" ,
         categorys: [
             {id: 0, name: "fruits"}, 
             {id: 1, name: "vegetables"}, 
             {id: 2, name: "meat"}, 
             {id: 3, name: "drinks"}, 
         ],
-        category: "" 
     }
 
     onClickSave(){
@@ -83,23 +83,18 @@ class CreateArticlePage extends Component {
     componentDidMount(){
         let name = ''
         let category = ''
-        // checks if there has been a redirect from the article page from to this page with a selected article
-        // if yes, it takes name and category from there
+        /* checks if there has been a article from the article page*/
+        /* if yes, it takes name and category from there*/
         if (this.props.location.state != undefined){
             name = this.props.location.state.name
             category = this.props.location.state.category
         }
-        console.log(category)
         this.setState({
             name: name, 
             category: category
         })
     }
 
-    handleChangeCategory = e => {
-        this.setState({selectedCategory : e.target.value})
-    }
-   
 
     render(){        
 
@@ -148,11 +143,8 @@ class CreateArticlePage extends Component {
                                 <InputLabel >select category</InputLabel>
 
                                 <Select 
-                                //onChange={this.handleChangeCategory}
                                 onChange={(e) => this.setState({category: e.target.value})}
                                 value={this.state.category}>
-            
-                                
                                     
                                    {
                                    this.state.categorys.map((element) =>{
@@ -160,15 +152,6 @@ class CreateArticlePage extends Component {
                                    })
                                    }
 
-
-                                    {/** 
-
-                                
-                                label="select category"
-                                value={this.state.category}
-                                onChange={(e) => this.setState({category: e.target.value})}
-                                >
-*/}
                                 </Select>
 
                             </FormControl>
@@ -208,6 +191,7 @@ class CreateArticlePage extends Component {
                     }
 
                     </Grid>
+                    
                     <Snackbar
                     open={this.state.snackbarOpen}
                     onClose={() => this.setState({snackbarOpen: false})}

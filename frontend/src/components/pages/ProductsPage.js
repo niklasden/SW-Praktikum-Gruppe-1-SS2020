@@ -6,6 +6,7 @@ import IconButton from '../layout/IconButton';
 import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress';
 import ProductListEntry from '../layout/ProductListEntry';
 import { Link } from 'react-router-dom';
+import Heading from '../layout/Heading';
 
 const styles = theme => ({
     root: {
@@ -18,7 +19,7 @@ const styles = theme => ({
  });
 
 /**
- * Example Category with Articles
+ * Example Categorys with Articles
  */
 const FRUITS = [
   {
@@ -96,6 +97,15 @@ const getProductsDummy = () => {
     return productsJSON;
 }
 
+/**
+ * Renders a list of ArticleEntry objects
+ * 
+ * @see ArticleEntry
+ * 
+ * @author [Pia Schmid](https://github.com/PiaSchmid)
+ */
+
+
 class ProductsPage extends Component {
   state = {
     searchValue: '',
@@ -125,16 +135,16 @@ class ProductsPage extends Component {
   }
 
   renderArticles(){
-    /*reduce creates an array with article of the same category*/ 
+    /*reduce creates an array with all articles of the same category*/ 
     var categories = this.state.articles.reduce((itemsSoFar, {category, name, id, imgsrc}) => {
       if (!itemsSoFar[category]) itemsSoFar[category] = [];
       itemsSoFar[category].push({name, id, imgsrc});
       return itemsSoFar; 
     }, {});
 
+    /* Checks if there is a Article equal to the search-value*/ 
     if(this.state.searchValue != ''){
       //Erst this.state.articles filtern und dann reducen?
-      /* Checks if there is a Article equal to the search-value*/ 
       categories = this.state.articles.reduce((itemsSoFar, {category, name, id, imgsrc}) => {
         if (!itemsSoFar[category]) itemsSoFar[category] = [];
         if (name.toLowerCase().includes(this.state.searchValue.toLowerCase())) itemsSoFar[category].push({name, category,  id, imgsrc});
@@ -144,10 +154,13 @@ class ProductsPage extends Component {
   
    return Object.entries(categories).map(category => (
         <div>
-          <h3>{category[0]} </h3>
+
+          <Heading>{category[0]}</Heading>
+
           <Grid container
           direction ="row">
            {category[1].map(item => (
+
              <ProductListEntry
              id={item.id}
              category={category[0]}
@@ -155,8 +168,10 @@ class ProductsPage extends Component {
              imgsrc={item.imgsrc}
              style={{marginBottom:12}}
              />
+
            ))}
            </Grid>
+
         </div>
       ));
   }
@@ -164,22 +179,25 @@ class ProductsPage extends Component {
   render(){
     const classes = this.props.classes
     return(
+
       <Grid container 
         className={classes.root} 
-        //xs={12}
       >
 
         <Grid container xs={12} spacing={2}>
-        <Grid item xs={10}>
-          <TextInputBar placeholder="search..." icon="search" onChange={(elem) => this.setState({ searchValue: elem.target.value})}/>
-        </Grid>
-        <Grid item xs={2}>
-          <Link to="/create_article">
-            <IconButton icon='add' />
-          </Link>
+
+          <Grid item xs={10}>
+            <TextInputBar placeholder="search..." icon="search" onChange={(elem) => this.setState({ searchValue: elem.target.value})}/>
+          </Grid>
+
+          <Grid item xs={2}>
+            <Link to="/create_article">
+              <IconButton icon='add' />
+            </Link>
+          </Grid>
+
         </Grid>
 
-        </Grid> 
         <div style={{width: '100%'}}>
         
           {this.state.loadingInProgress ?
@@ -196,73 +214,3 @@ class ProductsPage extends Component {
 }
 
 export default withStyles(styles)(ProductsPage);
-
-/**
- * Renders a list of ArticleEntry objects
- * 
- * @see ArticleEntry
- * 
- * @author [Pia Schmid](https://github.com/PiaSchmid)
- */
-
-class ArticleList extends Component {
-  state = {
-    articles:[], 
-    loadingInProgress: false, 
-    loadingArticlesError: null,
-    addingArticleError: null,  
-  }
-
-  componentDidMount(){
-    this.getArticles()
-  }
-
-  /**Fetches ArticleBOs */
-  async getArticles(){
-    this.setState({
-      loadingInProgress: true, 
-      loadingArticlesError: null
-    })
-
-    // TODO: load from server (global API object)
-
-  //   setTimeout(() => {
-  //     this.setState({
-  //       loadingInProgress: false, 
-  //       loadingRetailersError: null, 
-  //       fruits: FRUITS,
-  //       vegetables: VEGETABLES
-  //     })
-  //   }, 10)
-   }
-
-  // renderArticles(){
-  //   let articles = this.state.articles
-  //   let searchValue = this.state.searchValue
-  //   if(this.state.searchValue != ''){
-  //     console.log(searchValue);
-  //     articles = articles.filter((article) => article.name.toLowerCase().includes(this.state.searchValue.toLowerCase()))
-  //   }
-
-  //   return this.state.articles.map(article =>(
-  //     <ProductListEntry
-  //     id={article.id}
-  //     category={article.category}
-  //     name={article.name}
-  //     style={{marginBottom:12}}
-  //     />
-  //   ))
-  // }
-
-//   render(){
-//     return (
-//       <div>
-//         {this.state.loadingInProgress ?
-//           <CircularProgress />
-//         :
-//           this.renderArticles()
-//         }
-//       </div>
-//     )
-//   }
- }
