@@ -52,7 +52,7 @@ const styles = theme => ({
                       pathname:'create_article', 
                       state:{name: this.props.name, category: this.props.category}
                     }}>
-                    <Article itemname={this.props.name} category = {this.props.category} src={this.props.imgsrc}></Article>
+                    <Article itemname={this.props.name} category = {this.props.category} iconName={this.props.iconName}></Article>
                   </ButtonBase>
                 </Grid>
               </Grid>

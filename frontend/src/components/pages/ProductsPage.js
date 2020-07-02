@@ -26,60 +26,67 @@ const FRUITS = [
     id: 'art1',
     category: 'fruits', 
     name: 'apple', 
-    iconName: 'apple'
+    iconName: 'apple',
   },
   {
     id: 'art2',
     category: 'fruits', 
-    name: 'banana'
+    name: 'banana',
+    iconName: 'banana',
   },
   {
     id: 'art3',
     category: 'fruits', 
-    name: 'peach'
+    name: 'grape',
+    iconName: 'grape',
   }, 
   {
     id: 'art4',
     category: 'fruits', 
-    name: 'melon'
+    name: 'orange', 
+    iconName: 'orange',
   }, 
   {
     id: 'art5',
     category: 'fruits', 
-    name: 'ananas'
+    name: 'strawberyy',
+    iconName: 'strawberyy',
   }, 
-  {
-    id: 'art6',
-    category: 'fruits', 
-    name: 'raspberry'
-  },
 ]
   const VEGETABLES = [
   {
     id: 'art1',
     category: 'vegetables', 
-    name: 'tomato'
+    name: 'tomato',
+    iconName: 'tomato',
   }, 
   {
     id: 'art2',
     category: 'vegetables', 
-    name: 'carrot'
+    name: 'lettuce',
+    iconName: 'lettuce',
   }, {
     id: 'art3',
     category: 'vegetables', 
-    name: 'cucumber'
+    name: 'cucumber',
+    iconName: 'cucumber',
+
   },
 ]
 const MEAT =[
   {
     id: "art1",
     category: "meat",
-    name: "steak"
+    name: "meat",
+    iconName: 'meat',
+
   }, 
   {
     id: "art2",
     category: "meat",
-    name: "fish"
+    name: "fish",
+    iconName: 'fish',
+
   }
 ]
 
@@ -132,18 +139,18 @@ class ProductsPage extends Component {
 
   renderArticles(){
     /*reduce creates an array with all articles of the same category*/ 
-    var categories = this.state.articles.reduce((itemsSoFar, {category, name, id, imgsrc}) => {
+    var categories = this.state.articles.reduce((itemsSoFar, {category, name, id, iconName}) => {
       if (!itemsSoFar[category]) itemsSoFar[category] = [];
-      itemsSoFar[category].push({name, id, imgsrc});
+      itemsSoFar[category].push({name, id, iconName});
       return itemsSoFar; 
     }, {});
 
     /* Checks if there is a Article equal to the search-value*/ 
     if(this.state.searchValue != ''){
       //Erst this.state.articles filtern und dann reducen?
-      categories = this.state.articles.reduce((itemsSoFar, {category, name, id, imgsrc}) => {
+      categories = this.state.articles.reduce((itemsSoFar, {category, name, id, iconName}) => {
         if (!itemsSoFar[category]) itemsSoFar[category] = [];
-        if (name.toLowerCase().includes(this.state.searchValue.toLowerCase())) itemsSoFar[category].push({name, category,  id, imgsrc});
+        if (name.toLowerCase().includes(this.state.searchValue.toLowerCase())) itemsSoFar[category].push({name, category,  id, iconName});
         return itemsSoFar;
       }, {});
     }
@@ -161,7 +168,7 @@ class ProductsPage extends Component {
              id={item.id}
              category={category[0]}
              name={item.name}
-             imgsrc={item.imgsrc}
+             iconName={item.iconName}
              style={{marginBottom:12}}
              />
 

@@ -94,7 +94,7 @@ const styles = theme => ({
         <img className={classes.imageIcon} style={{margin:'3px',height:'100%',width:'100%'}} src={this.props.imgsrc}/>
           
         </Icon> **/}
-        <CustomIcon iconName = "apple">
+        <CustomIcon iconName ={this.props.iconName} >
 
         </CustomIcon>
 
@@ -114,7 +114,7 @@ const styles = theme => ({
     
 }
 Article.propTypes = {
-  imgsrc: PropTypes.string.isRequired,
+  iconName: PropTypes.string.isRequired,
   itemname: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired, 
 }
