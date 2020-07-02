@@ -36,7 +36,9 @@ class DropDownGSL extends Component {
         <Typography>
               {this.props.Useritems.map(element => {
               if(element.category === this.props.ArrCategory[this.props.item]){
-              return <ListItem onClick={()=>this.props.onClick(element.id)} onClickListItem={()=>this.props.onClickListItem(element.id, element.unit, element.amount)} itemname={element.name} amount={element.amount} unit={element.unit}></ListItem>
+              return <>
+              <ListItem onClick={()=>this.props.onClick(element.id)} onClickListItem={()=>this.props.onClickListItem(element.id, element.unit, element.amount)} itemname={element.name} amount={element.amount} unit={element.unit}></ListItem>
+              </>
             }
           })}
         </Typography>

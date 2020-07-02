@@ -5,14 +5,8 @@ import Theme from '../../Theme';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import HomeIcon from '@material-ui/icons/Home';
-import ListIcon from '@material-ui/icons/List';
-import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
-import SettingsIcon from '@material-ui/icons/Settings';
-import ImportContactsIcon from '@material-ui/icons/ImportContacts';
-
-import {
-  Link
-} from 'react-router-dom';
+import TimelineIcon from '@material-ui/icons/Timeline';
+import {Link} from 'react-router-dom';
 
 const useStyles = (theme) => ({
   root: {
@@ -23,7 +17,6 @@ const useStyles = (theme) => ({
     alignItems: 'center',
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.white,
-    // backgroundColor + fontcolor should be done via Theme.js file, this is not clean code
   },
 });
 
@@ -39,7 +32,7 @@ const useStyles = (theme) => ({
 
 class BottomNavi extends React.Component {
     state = {
-      value: '0'
+      value: 'home'
     }
 
     changeValue(e, newValue) {
@@ -60,11 +53,8 @@ class BottomNavi extends React.Component {
       className={classes.root}
       >
       
-      <BottomNavigationAction component={Link} icon={<ImportContactsIcon />} to="/"/>
-      <BottomNavigationAction component={Link} icon={<PeopleAltIcon />} to="/groups"/>
-      <BottomNavigationAction component={Link} icon={<HomeIcon />} to="/home"/>
-      <BottomNavigationAction component={Link} icon={<ListIcon />} to="/lists"/>
-      <BottomNavigationAction component={Link} icon={<SettingsIcon />} to="/settings"/>
+      <BottomNavigationAction component={Link} icon={<HomeIcon />} to="./" value="home" onChange={this.changeValue}/>
+      <BottomNavigationAction component={Link} icon={<TimelineIcon />} value="./show" to="/show" onChange={this.changeValue}/>
     </BottomNavigation>
     </ThemeProvider>
     );

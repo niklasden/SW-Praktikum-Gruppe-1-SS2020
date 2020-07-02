@@ -57,7 +57,6 @@ export default class GroupShoppingList extends Component {
   onClickDelete(id){
     console.log('Hi')
     let Items = [...this.state.items]
-
     Items.map( item => {
       if(item.id === id){
         let newItem = {...item}

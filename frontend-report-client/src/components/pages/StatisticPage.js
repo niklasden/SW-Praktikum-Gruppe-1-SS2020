@@ -77,7 +77,7 @@ class StatisticPage extends Component {
                                 return <StatisticItem article key={article.nr} number={article.nr} name={article.name} amount={article.amount} />
                             })}
                         </Grid>
-                        <Link to="/show">
+                        <Link to="./show">
                             <MainButton>STATISTIK ANZEIGEN</MainButton>
                         </Link>
                     </>
