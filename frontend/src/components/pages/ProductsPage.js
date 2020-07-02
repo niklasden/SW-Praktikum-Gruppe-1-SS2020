@@ -25,7 +25,8 @@ const FRUITS = [
   {
     id: 'art1',
     category: 'fruits', 
-    name: 'apple'
+    name: 'apple', 
+    iconName: 'apple'
   },
   {
     id: 'art2',

@@ -13,6 +13,7 @@ import MaterialIconButton from '@material-ui/core/IconButton';
 import svg from '@material-ui/icons/AccessAlarm';
 
 import { withRouter } from "react-router-dom";
+import CustomIcon from "../layout/CustomIcon"
 
 
 const styles = theme => ({
@@ -76,6 +77,7 @@ const styles = theme => ({
         onMouseUp={this.handleButtonRelease} 
         onMouseLeave={this.handleButtonRelease}
       >
+        
         <MaterialIconButton 
           
           className={classes.root}
@@ -86,12 +88,15 @@ const styles = theme => ({
         >
         <div style={{height:'100%',width:'100%',margin:'9px'}}>
         
-        <Icon 
+        {/*<Icon 
         classes={{root: classes.iconRoot}}
         style={{height:'80%',width:'80%'}}> 
         <img className={classes.imageIcon} style={{margin:'3px',height:'100%',width:'100%'}} src={this.props.imgsrc}/>
           
-        </Icon>
+        </Icon> **/}
+        <CustomIcon iconName = "apple">
+
+        </CustomIcon>
 
         
         
