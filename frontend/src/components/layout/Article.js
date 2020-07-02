@@ -10,11 +10,10 @@ import Icon from '@material-ui/core/Icon';
 import AddIcon from '@material-ui/icons/Add';
 import Box from '@material-ui/core/Box'
 import MaterialIconButton from '@material-ui/core/IconButton';
-
-
-
-
 import svg from '@material-ui/icons/AccessAlarm';
+
+import { withRouter } from "react-router-dom";
+
 
 const styles = theme => ({
     root:{
@@ -50,8 +49,14 @@ const styles = theme => ({
     this.handleButtonRelease = this.handleButtonRelease.bind(this)
   }
 
+
+  /*handleButtonPress(){
+    this.buttonPressTimer = setTimeout(() => window.location.assign("/create_article"), 1500)
+  }*/
+
   handleButtonPress(){
-    this.buttonPressTimer = setTimeout(() => alert('HI'), 1500)
+    this.buttonPressTimer = setTimeout(() => this.props.history.push({pathname: '/create_article', state:{name: this.props.name, category: this.props.category}
+  }), 1500)
   }
 
   handleButtonRelease(){
@@ -60,6 +65,7 @@ const styles = theme => ({
 
      render(){
         const classes = this.props.classes;
+        const {history } = this.props;
 
         return(
             
