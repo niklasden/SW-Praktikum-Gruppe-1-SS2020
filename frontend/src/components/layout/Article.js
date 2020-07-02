@@ -49,13 +49,8 @@ const styles = theme => ({
     this.handleButtonRelease = this.handleButtonRelease.bind(this)
   }
 
-
-  /*handleButtonPress(){
-    this.buttonPressTimer = setTimeout(() => window.location.assign("/create_article"), 1500)
-  }*/
-
   handleButtonPress(){
-    this.buttonPressTimer = setTimeout(() => this.props.history.push({pathname: '/create_article', state:{name: this.props.name, category: this.props.category}
+    this.buttonPressTimer = setTimeout(() => this.props.history.push({pathname: '/create_article', state:{name: this.props.itemname, category: this.props.category}
   }), 1500)
   }
 
@@ -70,7 +65,6 @@ const styles = theme => ({
         return(
             
       <Box 
-        
         border={1} 
         borderColor='#e0e0e0'
         borderRadius={5}
@@ -98,6 +92,8 @@ const styles = theme => ({
         <img className={classes.imageIcon} style={{margin:'3px',height:'100%',width:'100%'}} src={this.props.imgsrc}/>
           
         </Icon>
+
+        
         
         
         <p style={{fontSize: "12px" ,color: "black", overflowWrap: "break-word"}}>{this.props.itemname}</p>
@@ -108,10 +104,6 @@ const styles = theme => ({
         </div>
         </MaterialIconButton>
       </Box>
-        
-        
-
-
         ) 
      }
     
@@ -119,6 +111,7 @@ const styles = theme => ({
 Article.propTypes = {
   imgsrc: PropTypes.string.isRequired,
   itemname: PropTypes.string.isRequired,
+  category: PropTypes.string.isRequired, 
 }
 
- export default withStyles(styles)(Article);
+ export default withRouter(withStyles(styles)(Article));

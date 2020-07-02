@@ -49,7 +49,7 @@ const styles = theme => ({
                       pathname:'create_article', 
                       state:{name: this.props.name, category: this.props.category}
                     }}>
-                    <Article itemname={this.props.name} src={this.props.imgsrc}></Article>
+                    <Article itemname={this.props.name} category = {this.props.category} src={this.props.imgsrc}></Article>
                   </Link>
                 </Grid>
               </Grid>
