@@ -26,6 +26,8 @@ export default class GroupShoppingList extends Component {
       {id: 4, name: "Mango", category: "vegetables", amount: "2", unit: "g", person: 'Manfred', userID: 1, checkbox: true, retailer: 'Aldi' },
       {id: 5, name: "Lyoner", category: "vegetables", amount: "2", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: true, retailer: 'Edeka' },
     ],
+    user:[{id: 1, name:'Niklas'},{id: 2, name:'Julius'},{id: 3, name:'Pia'},{id: 4, name:'Chris'},{id: 5, name:'Kevin'},{id: 6, name:'Pascal'}],
+    retailer: [{id: 1, name:'Edeka'},{id: 2, name:'Lidl'},{id: 3, name:'Norma'},{id: 4, name:'BeateUhse'},{id: 5, name:'Rewe'},{id: 6, name:'Kaufland'}],
     open: false,
     amount: "1",
     unit: '',
@@ -113,7 +115,7 @@ export default class GroupShoppingList extends Component {
           
       <Grid item xs={12}>
         {this.renderCategoryArticles()}
-        <EditListItem /* handleChange={this.props.onChangeEditItem.bind(this)} */ open={this.state.open} unit={this.state.unit} amount={this.state.amount}  PressButtonBack={this.PressButtonBack.bind(this)} ></EditListItem>
+        <EditListItem /* handleChange={this.props.onChangeEditItem.bind(this)} */ open={this.state.open} unit={this.state.unit} amount={this.state.amount}  PressButtonBack={this.PressButtonBack.bind(this)} user={this.state.user} user={this.state.retailer}></EditListItem>
   
       </Grid>
     
@@ -121,48 +123,3 @@ export default class GroupShoppingList extends Component {
     ) 
   }
 }
-
-
-/* 
-<Grid 
-container
-direction='column'
-justify='space-between'
-alignItems="stretch"
-xs={12}
-spacing={1}        
->
-<Grid container xs={12}>
-</Grid>
-<Grid item>
-  <Heading>Fruits</Heading>
-</Grid>
-
-<Grid container xs={12} spacing={1}>
-  {this.state.items.map(item => {
-    if(item.category === "fruits") {
-      return <Grid item xs={12} onClick={this.handleClick}>
-      
-      <ListItem itemname={item.name} amount={item.amount} unit={item.unit}></ListItem>
-      <EditListItem
-      item={item}
-      id={id}
-      open={open}
-      anchorEl={this.state.anchorEl}
-      onClose={this.handleClose}
-      >
-    </EditListItem></Grid>
-    }
-  })}
-</Grid>
-
-<Grid item>
-  <Heading>Vegetables</Heading>
-</Grid>
-
-<Grid container xs={12} spacing={1}>
-  {this.state.items.map(item => {
-    if(item.category === "vegetables") {
-      return <Grid item xs={12} onClick={this.handleClick}><ListItem itemname={item.name} amount={item.amount} unit={item.unit}></ListItem></Grid>
-    }
-  })} */
