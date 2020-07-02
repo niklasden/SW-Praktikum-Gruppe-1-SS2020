@@ -1,19 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Typography, withStyles, Checkbox, FormControlLabel, Button, Avatar, Box, Icon } from '@material-ui/core';
-import avatar from '../img/avatar.jpg';
+import { withStyles } from '@material-ui/core';
 import ListEntry from '../layout/ListEntry';
-import CustomIcon from '../layout/CustomIcon';
 import {Link} from 'react-router-dom';
-
-
+import LiveTvIcon from '@material-ui/icons/LiveTv';
 
 /** 
  * @author Christopher Boehm
  * 
  */
-
-
 class Settings extends Component {
 	/** 
 	 * Handles the click event of the sign in button an calls the prop onSignIn handler
@@ -54,10 +49,15 @@ class Settings extends Component {
 					/>
 				</Link>
 					<div className={classes.advertisementBlock}>
-						<img src={require('../../icons/advertisingIcon.png')} />
-						<p>HIER KÖNNTE IHRE</p>
-						<p>WERBUNG</p>
-						<p>STEHEN!</p>
+						<LiveTvIcon 
+							style={{
+								color: 'rgb(0, 188, 212)', 
+								fontSize: 100
+							}} 
+						/>
+						<text>HIER KÖNNTE IHRE</text>
+						<text style={{fontSize: 25, margin: 12}}>WERBUNG</text>
+						<text>STEHEN!</text>
 					</div>
 			</div>
 		);
@@ -81,6 +81,10 @@ const styles = theme => ({
     borderRadius: 5,
 		padding: 5,
 		marginTop: 20, 
+		alignItems: 'center', 
+		display: 'flex', 
+		flexDirection: 'column', 
+		marginTop: 40, 	
 	},
 	link: {
 		textDecoration: 'none'
@@ -90,8 +94,7 @@ const styles = theme => ({
 /** PropTypes */
 Settings.propTypes = {
 	/** @ignore */
-	classes: PropTypes.object.isRequired,
-	
+	classes: PropTypes.object.isRequired
 }
 
 export default withStyles(styles)(Settings)
