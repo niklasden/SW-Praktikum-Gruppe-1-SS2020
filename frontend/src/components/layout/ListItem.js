@@ -19,12 +19,12 @@ const styles = theme => ({
     borderRadius: 10,
     borderColor: '#BDBDBD',
     borderStyle: 'solid',
-  /*   width: 'auto', */
     marginLeft: 13,
     height: 35,
     marginRight: 0,
- /*    minWidth: '100%' */
-    maxWidth: '100vh'
+    maxWidth: '100vh',
+    marginTop: '2px',
+    marginBottom: '4px'
   },
 });
 
