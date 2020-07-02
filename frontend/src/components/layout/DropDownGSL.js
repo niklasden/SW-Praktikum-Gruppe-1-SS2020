@@ -34,15 +34,11 @@ class DropDownGSL extends Component {
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
         <Typography>
-          <Grid container xs={12} spacing={1}>
               {this.props.Useritems.map(element => {
               if(element.category === this.props.ArrCategory[this.props.item]){
-              return <Grid item xs={12}>
-              <ListItem onClick={()=>this.props.onClick(element.id)} onClickListItem={()=>this.props.onClickListItem(element.id, element.unit, element.amount)} itemname={element.name} amount={element.amount} unit={element.unit}></ListItem>
-              </Grid>
+              return <ListItem onClick={()=>this.props.onClick(element.id)} onClickListItem={()=>this.props.onClickListItem(element.id, element.unit, element.amount)} itemname={element.name} amount={element.amount} unit={element.unit}></ListItem>
             }
           })}
-          </Grid>
         </Typography>
       </ExpansionPanelDetails>
     </ExpansionPanel>

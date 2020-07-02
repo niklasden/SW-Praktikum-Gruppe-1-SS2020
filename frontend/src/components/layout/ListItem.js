@@ -19,10 +19,12 @@ const styles = theme => ({
     borderRadius: 10,
     borderColor: '#BDBDBD',
     borderStyle: 'solid',
-    width: 'auto',
+  /*   width: 'auto', */
     marginLeft: 13,
     height: 35,
     marginRight: 0,
+ /*    minWidth: '100%' */
+    maxWidth: '100vh'
   },
 });
 
@@ -36,7 +38,7 @@ class ListItem extends Component {
   render() {
     return (
     <Grid 
-      container 
+      container
       direction='row'
       justify='center'
       alignItems='center'
@@ -47,8 +49,8 @@ class ListItem extends Component {
           <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 3}}>fastfood</Icon>
         </Grid>
 
-        <Grid item xs={6} onClick={() => this.props.onClickListItem()} >
-          <t style={{color: '#000000', fontSize: 18}}>{this.props.itemname}</t>
+        <Grid item xs={6} onClick={() => this.props.onClickListItem()} style={{maxWidth:'165px'}} >
+          <t style={{color: '#000000', fontSize: 18, margin:0, padding: 0}}>{this.props.itemname}</t>
         </Grid>         
 
         <Grid item xs={2}>
