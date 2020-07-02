@@ -46,7 +46,7 @@ import chickenIcon from '../../icons/chicken.svg'
 import soapIcon from '../../icons/soap.svg'
 import advertisingIcon from '../../icons/advertising.svg'
 
-// add your icon here, you can then call it by <CustomIcon name='iconname' />
+// add your icon here, you can then call it by <CustomIcon iconName='iconname' />
 // place the file in icons and import it the same way the appleIcon has been imported
 // e.g. <CustomIcon name='apple' /> in case you want an apple icon
 const icons = { 

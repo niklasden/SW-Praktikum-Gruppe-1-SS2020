@@ -10,11 +10,11 @@ import Icon from '@material-ui/core/Icon';
 import AddIcon from '@material-ui/icons/Add';
 import Box from '@material-ui/core/Box'
 import MaterialIconButton from '@material-ui/core/IconButton';
-
-
-
-
 import svg from '@material-ui/icons/AccessAlarm';
+
+import { withRouter } from "react-router-dom";
+import CustomIcon from "../layout/CustomIcon"
+
 
 const styles = theme => ({
     root:{
@@ -51,7 +51,8 @@ const styles = theme => ({
   }
 
   handleButtonPress(){
-    this.buttonPressTimer = setTimeout(() => alert('HI'), 1500)
+    this.buttonPressTimer = setTimeout(() => this.props.history.push({pathname: '/create_article', state:{name: this.props.itemname, category: this.props.category}
+  }), 1500)
   }
 
   handleButtonRelease(){
@@ -60,11 +61,11 @@ const styles = theme => ({
 
      render(){
         const classes = this.props.classes;
+        const {history } = this.props;
 
         return(
             
       <Box 
-        
         border={1} 
         borderColor='#e0e0e0'
         borderRadius={5}
@@ -76,6 +77,7 @@ const styles = theme => ({
         onMouseUp={this.handleButtonRelease} 
         onMouseLeave={this.handleButtonRelease}
       >
+        
         <MaterialIconButton 
           
           className={classes.root}
@@ -86,12 +88,17 @@ const styles = theme => ({
         >
         <div style={{height:'100%',width:'100%',margin:'9px'}}>
         
-        <Icon 
+        {/*<Icon 
         classes={{root: classes.iconRoot}}
         style={{height:'80%',width:'80%'}}> 
         <img className={classes.imageIcon} style={{margin:'3px',height:'100%',width:'100%'}} src={this.props.imgsrc}/>
           
-        </Icon>
+        </Icon> **/}
+        <CustomIcon iconName = "apple">
+
+        </CustomIcon>
+
+        
         
         
         <p style={{fontSize: "12px" ,color: "black", overflowWrap: "break-word"}}>{this.props.itemname}</p>
@@ -102,10 +109,6 @@ const styles = theme => ({
         </div>
         </MaterialIconButton>
       </Box>
-        
-        
-
-
         ) 
      }
     
@@ -113,6 +116,7 @@ const styles = theme => ({
 Article.propTypes = {
   imgsrc: PropTypes.string.isRequired,
   itemname: PropTypes.string.isRequired,
+  category: PropTypes.string.isRequired, 
 }
 
- export default withStyles(styles)(Article);
+ export default withRouter(withStyles(styles)(Article));
