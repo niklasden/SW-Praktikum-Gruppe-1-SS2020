@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Grid from '@material-ui/core/Grid/Grid'
 import { withStyles } from '@material-ui/styles';
-import Box from '@material-ui/core/Box'
 import SettingsIcon from '@material-ui/icons/Settings';
 import {
   Link
@@ -74,12 +73,15 @@ class RetailerListEntry extends Component {
             query='hello'
             to={{
               pathname: 'create_retailer', 
-              state: { name: this.props.name, address: this.props.address }
+              state: { 
+                id: this.props.id, 
+                name: this.props.name, 
+                address: this.props.address 
+              }
             }}
           >
             <SettingsIcon 
               style={{ color: '#00BCD4' }} 
-              // onClick={() => alert('hello')}
             />
           </Link>
         </Grid>

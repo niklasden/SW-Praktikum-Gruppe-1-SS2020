@@ -4,16 +4,11 @@ import TextInputBar from '../layout/TextInputBar'
 import MultilineTextInput from '../layout/MultilineTextInput'
 import Icon from '@material-ui/core/Icon'
 import MainButton from '../layout/MainButton'
-import {
-  Link
-} from 'react-router-dom';
 import Grid from '@material-ui/core/Grid'
 import Snackbar from '@material-ui/core/Snackbar';
-import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress'
 import { withRouter } from "react-router";
-
 import { Redirect } from 'react-router';
 
 
@@ -38,20 +33,64 @@ class CreateRetailerPage extends Component {
     snackbarOpen: false, 
     isSaving: false, 
     redirectToRetailerPage: false, 
+
+    id: '', 
+    name: '', 
+    address: '', 
   }
 
-  onClickSave(){
+  async onClickSave(){
     this.setState({ isSaving: true })
-
-    setTimeout(() => {
+    setTimeout(async () => {
+      const retailer = {
+        id: this.state.id, 
+        name: this.state.name, 
+        address: this.state.address
+      }
+  
+      const rInit = {
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json'
+        }, 
+        body: JSON.stringify(retailer)
+      } 
+      const resp = await fetch('http://localhost:8081/api/shoppa/retailers', rInit)
+      if(resp.ok){
+        this.props.history.push('/retailers')
+      } else {
+        this.showErrorSnackBar()
+      }
+  
       this.setState({ isSaving: false })
-      this.showErrorSnackBar()
     }, 1000)
   }
 
   onClickDelete(){
-    this.setState({redirectToRetailerPage: true});
-    console.log(this.props.location)
+    this.setState({ isSaving: true })
+    setTimeout(async () => {
+      const retailer = {
+        id: this.state.id, 
+        name: this.state.name, 
+        address: this.state.address
+      }
+  
+      const rInit = {
+        method: 'DELETE', 
+        headers: {
+          'Content-Type': 'application/json'
+        }, 
+        body: JSON.stringify(retailer)
+      } 
+      const resp = await fetch('http://localhost:8081/api/shoppa/retailers', rInit)
+      if(resp.ok){
+        this.props.history.push('/retailers')
+      } else {
+        this.showErrorSnackBar()
+      }
+  
+      this.setState({ isSaving: false })
+    }, 1000)
   }
 
   showErrorSnackBar(){

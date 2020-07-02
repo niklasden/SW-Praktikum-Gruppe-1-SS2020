@@ -1,38 +1,9 @@
 import React, { Component } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress'
-import Grid from '@material-ui/core/Grid/Grid'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-import Container from '@material-ui/core/Container/Container'
 import TextInputBar from '../layout/TextInputBar'
 import IconButton from '../layout/IconButton'
 import RetailerListEntry from '../layout/RetailerListEntry'
-import {
-  Link
-} from 'react-router-dom';
-
-const RETAILERS = [
-  {
-    id: 'retailer0', 
-    name: 'REWE',
-    address: 'Esslingen',  
-  },
-  {
-    id: 'retailer1', 
-    name: 'REWE',
-    address: 'Stuttgart Königsstraße',  
-  },
-  {
-    id: 'retailer2', 
-    name: 'Aldi',  
-    address: 'neben Pigspoint'
-  },
-  {
-    id: 'retailer3', 
-    name: 'Edeka',
-    address: ''
-  }
-]
+import { Link } from 'react-router-dom';
 
 /**
  * Renders the retailer page
@@ -61,14 +32,24 @@ export class RetailerPage extends Component {
       loadingRetailersError: null 
     })
 
-    // TODO: load from server (global API object)
-
-    setTimeout(() => {
-      this.setState({
-        loadingInProgress: false, 
-        loadingRetailersError: null, 
-        retailers: RETAILERS
-      })
+    setTimeout(async () => {
+      try {
+        // TODO: change to real api
+        const res = await fetch('http://localhost:8081/api/shoppa/retailers')
+        const json = await res.json()
+  
+        this.setState({
+          loadingInProgress: false, 
+          loadingRetailersError: null, 
+          retailers: json
+        })
+      } catch (e){
+        this.setState({
+          loadingInProgress: false, 
+          loadingRetailersError: '', 
+  
+        })
+      } 
     }, 1000)
   }
 

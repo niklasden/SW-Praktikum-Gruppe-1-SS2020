@@ -62,8 +62,17 @@ module.exports = SetupEndpoint({
         requests: [{
             method: ['GET'],
             response: '/response-files/retailers.json'
+        }, 
+        {
+            method: ['POST'],
+            response: '/response-files/createRetailer.json'
+        }, 
+        {
+            method: ['DELETE'],
+            response: '/response-files/createRetailer.json'
         }],
     },
+
     {
         params: '/retailers/top',
         requests: [{
@@ -84,7 +93,7 @@ module.exports = SetupEndpoint({
             method: 'GET',
             response: '/response-files/SpecificGroupMembers.json'
         }],
-    } ,
+    },
     ]
 });
 
