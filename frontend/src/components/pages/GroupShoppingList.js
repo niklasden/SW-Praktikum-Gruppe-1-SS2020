@@ -19,18 +19,22 @@ export default class GroupShoppingList extends Component {
 
   state={
     anchorEl: null,
-    items: [
-      {id: 1, name: "Apfel", category: "fruits", amount: "5", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: false, retailer: 'Aldi'},
-      {id: 2, name: "Birne", category: "fruits", amount: "2", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: false, retailer: 'Edeka' },
-     {id: 3, name: "Erdbeerkäse", category: "vegetables", amount: "2", unit: "Stk.", person: 'Herbert', userID: 2, checkbox: false, retailer: 'Lidl' },
-      {id: 4, name: "Mango", category: "vegetables", amount: "2", unit: "g", person: 'Manfred', userID: 1, checkbox: true, retailer: 'Aldi' },
-      {id: 5, name: "Lyoner", category: "vegetables", amount: "2", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: true, retailer: 'Edeka' },
-    ],
+    items: [],
     user:[{id: 1, name:'Niklas'},{id: 2, name:'Julius'},{id: 3, name:'Pia'},{id: 4, name:'Chris'},{id: 5, name:'Kevin'},{id: 6, name:'Pascal'}],
     retailer: [{id: 1, name:'Edeka'},{id: 2, name:'Lidl'},{id: 3, name:'Norma'},{id: 4, name:'BeateUhse'},{id: 5, name:'Rewe'},{id: 6, name:'Kaufland'}],
     open: false,
     amount: "1",
     unit: '',
+  }
+  async fetchItems() {
+    var res = await fetch("http://localhost:8081/api/shoppa/listEntries");
+    var json = await res.json();
+    this.setState({items: json})
+  }
+
+
+  componentDidMount() {
+    this.fetchItems();
   }
 
   getCategorys(){
@@ -90,6 +94,10 @@ export default class GroupShoppingList extends Component {
     this.setState({open : false})
   }
 
+  handleChangeUnit() {
+    console.log("AH JA");
+  }
+
   constructor(props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
@@ -115,8 +123,7 @@ export default class GroupShoppingList extends Component {
           
       <Grid item xs={12}>
         {this.renderCategoryArticles()}
-        <EditListItem /* handleChange={this.props.onChangeEditItem.bind(this)} */ open={this.state.open} unit={this.state.unit} amount={this.state.amount}  PressButtonBack={this.PressButtonBack.bind(this)} user={this.state.user} user={this.state.retailer}></EditListItem>
-  
+        <EditListItem /* handleChange={this.props.onChangeEditItem.bind(this)} */ open={this.state.open} unit={this.state.unit} amount={this.state.amount} PressButtonBack={this.PressButtonBack.bind(this)} handleChangeUnit={this.handleChangeUnit.bind(this)} user={this.state.user} retailer={this.state.retailer}></EditListItem>
       </Grid>
     
     </Grid>

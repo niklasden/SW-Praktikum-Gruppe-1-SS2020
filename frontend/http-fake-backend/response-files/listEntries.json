@@ -1,0 +1,7 @@
+[
+      {"id": 1, "name": "Apfel", "category": "fruits", "amount": "5", "unit": "Stk.", "person": "Herbert", "userID": 1, "checkbox": false, "retailer": "Aldi"},
+      {"id": 2, "name": "Birne", "category": "fruits", "amount": "2", "unit": "Stk.", "person": "Herbert", "userID": 1, "checkbox": false, "retailer": "Edeka" },
+     {"id": 3, "name": "Erdbeerkäse", "category": "vegetables", "amount": "2", "unit": "Stk.", "person": "Herbert", "userID": 2, "checkbox": false, "retailer": "Lidl" },
+      {"id": 4, "name": "Mango", "category": "vegetables", "amount": "2", "unit": "g", "person": "Manfred", "userID": 1, "checkbox": true, "retailer": "Aldi" },
+      {"id": 5, "name": "Lyoner", "category": "vegetables", "amount": "2", "unit": "Stk.", "person": "Herbert", "userID": 1, "checkbox": true, "retailer": "Edeka" }
+    ]
