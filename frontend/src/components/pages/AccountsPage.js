@@ -96,7 +96,7 @@ class AccountsPage extends Component {
 										}}
 									/>
 								</Badge>
-								<Grid item xs>
+								<Grid item xs={3}>
 									<Typography className={classes.Username} style={{}} gutterBottom>Pia Traktorbraut</Typography>
 									<Typography className={classes.Location} style={{}}>Riedlingen, Baden-Württemberg</Typography>
 								</Grid>
@@ -106,7 +106,7 @@ class AccountsPage extends Component {
 								/> 
 							*/}
 						</Grid>
-						<Grid item xs={12} align="center" style={{ marginTop: '50px' }}>
+						<Grid item xs={12} align="center" style={{ marginTop: '40px' }}>
 							<div>
 								<TextField
 									id="filled-input"
@@ -128,7 +128,7 @@ class AccountsPage extends Component {
 									variant="filled"
 									className={classes.textField}
 								/>
-								<Grid item xs={12} style={{ marginTop: '25px' }}>
+								<Grid item xs={12} style={{ marginTop: '15px' }}>
 									<TextField disabled id="standard-disabled" label="Google E-Mail" defaultValue="pia.traktorbraut@gmail.com" variant="filled" style={{ width: '30ch' }} />
 								</Grid>
 							</div>
@@ -150,21 +150,21 @@ const styles = theme => ({
 		margin: theme.spacing(2)
 	},
 	Avatar: {
-		marginRight: '15px',
-		width: '150px',
-		height: '150px',
+		marginRight: '0px',
+		width: '100px',
+		height: '100px',
 		boxShadow: '0px 6px 5px #ccc',
 		border: '2px solid #fff',
 	},
 	Username: {
-		fontSize: '20px',
-		marginTop: '35px',
+		fontSize: '18px',
+		marginTop: '15px',
 		textAlign: 'left',
 		marginLeft: '25px',
 		marginBottom: '5px'
 	},
 	Location: {
-		fontSize: '16px',
+		fontSize: '14px',
 		marginTop: '0px',
 		textAlign: 'left',
 		marginLeft: '25px',
@@ -174,6 +174,7 @@ const styles = theme => ({
 	textField: {
 		marginLeft: theme.spacing(1),
 		marginRight: theme.spacing(1),
+		marginTop: theme.spacing(1),
 		width: '25ch',
 	}
 });

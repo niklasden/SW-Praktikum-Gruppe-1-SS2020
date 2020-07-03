@@ -62,7 +62,10 @@ const theme = createMuiTheme({
     divider: colors.grey[200],
     },
     typography: {
-      /* fontFamily: "'Montserrat', sans-serif;" */
-    } 
+      fontFamily: "'Montserrat', sans-serif"
+    },
+    button: {
+      fontFamily: "'Montserrat', sans-serif",
+    },
 });
 export default theme;

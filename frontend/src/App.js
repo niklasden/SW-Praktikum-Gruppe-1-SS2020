@@ -66,8 +66,8 @@ class App extends React.Component {
       currentUser: null,
       appError: null,
       authError: null,
-	  	authLoading: false,
-	  	isNavHidden: false,
+	  authLoading: false,
+	  isNavHidden: false,
     };
 	}
 	
