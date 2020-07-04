@@ -13,6 +13,8 @@ import {Link} from 'react-router-dom'
 
 import GroupIcon from '../../icons/Other/users.svg'
 
+import ShoppingSettings from '../../../src/shoppingSettings'
+
     const styles = theme => ({
         root: {
           backgroundColor: '#fafafa', 
@@ -49,6 +51,9 @@ import GroupIcon from '../../icons/Other/users.svg'
  * @author [Julius Jacobitz](https://github.com/JuliusJacobitz) * 
  * 
  */
+
+const settingsobj = ShoppingSettings.getSettings()
+
 class GroupsGridList extends Component {
     constructor(props){
         super(props);
@@ -83,21 +88,16 @@ class GroupsGridList extends Component {
                   
                  <GridListTile key={GroupIcon}>
                      <img src={GroupIcon} alt={tile.name} />
-                     <Link to="/specificGroup">
-                 <GridListTileBar
-                     title={tile.name}
+                     
+                <Link to="" onClick={() => {settingsobj.setGroupID(tile.id);settingsobj.setGroupName(tile.name); alert("Active group set to: " + settingsobj.getGroupName() + "  |  Group ID: "+ settingsobj.getGroupID())}} aria-label={`info about ${tile.title}`} className={classes.icon}>
+                 <GridListTileBar 
+                     title={ tile.name}
                     classes={{
                       root: classes.titleBar,
                      title: classes.title,
                           }}
-                     actionIcon={
-                      
-                     <IconButton aria-label={`info about ${tile.title}`} className={classes.icon}>
-                         <InfoIcon style={{color:"white"}} />
-                        </IconButton>
-                        
-                            }
-                            /></Link>
+                     
+                            /> </Link>
                  </GridListTile>
                  
                 ))}
