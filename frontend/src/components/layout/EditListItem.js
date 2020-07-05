@@ -35,8 +35,7 @@ class EditListItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      amount: this.props.amount,
-      unit: this.props.unit,
+      item: this.props.item,
       user: this.props.user,
       retailer: this.props.retailer
     }
@@ -47,7 +46,7 @@ class EditListItem extends Component {
   }
 
   safeChanges() {
-    this.props.handleChangeUnit(this.state.unit);
+    this.props.handleChangeUnit(this.state.item.unit);
   }
   render() {
     return (
@@ -69,14 +68,14 @@ class EditListItem extends Component {
       >
       <Grid item xs={6}>
         <InputLabel>AMOUNT</InputLabel>
-        <TextField value={this.props.amount}></TextField>
+        <TextField defaultValue={this.state.item.amount}></TextField>
       </Grid>
       <Grid item xs={6}>
       <FormControl style={{width: '100%', height: 35, marginLeft: 10, marginBottom: 10}}>
                 <InputLabel>UNIT</InputLabel>
                 <Select
                   onChange={this.handleChangeUnit.bind(this)}
-                  value={this.state.unit}
+                  value={this.state.item.unit}
                 >
                  <MenuItem value={'kg'}>Kg</MenuItem>
                 <MenuItem value={'g'}>g</MenuItem>
@@ -94,6 +93,7 @@ class EditListItem extends Component {
                   /* value={this.props.unit}
                   onChange={this.props.handleChange} */
                 >
+                  
                 {this.props.user.map(item =>{
                     return <MenuItem value={item.name}>{item.name}</MenuItem>
                   })}
@@ -116,7 +116,7 @@ class EditListItem extends Component {
       </Grid>
 
       <DialogActions>
-        <Button onClick={this.props.PressButtonConfirm} color="primary">
+        <Button color="primary">
           SAVE
         </Button>
         <Button onClick={this.props.PressButtonBack} color="primary" autoFocus>
