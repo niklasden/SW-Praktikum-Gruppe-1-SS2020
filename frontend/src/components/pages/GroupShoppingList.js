@@ -8,6 +8,13 @@ import { checkPropTypes } from 'prop-types';
 import DropDownGSL from '../layout/DropDownGSL'
 import TextInputBar from '../layout/TextInputBar'
 import PopUp from '../layout/PopUp'
+import ShoppingSettings from '../../../src/shoppingSettings'
+
+const settingsobj = ShoppingSettings.getSettings()
+
+// hier dann beim fetch der Gruppenliste einfach fetch(... groupid = settingsobj.getGroupID())
+// vlt noch mit try und catch falls keine gesetzt ist und man dann keine daten bekommen kann, bitten auf der Homepage
+// die Gruppe auszuwählen
 
 /**
  * 
