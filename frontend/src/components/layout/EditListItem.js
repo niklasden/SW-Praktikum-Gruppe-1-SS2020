@@ -32,59 +32,24 @@ const styles = theme => ({
 });
 
 class EditListItem extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      item: this.props.item,
+      user: this.props.user,
+      retailer: this.props.retailer
+    }
+  }
+  
+  handleChangeUnit(v) {
+    this.setState({unit: v.target.value});
+  }
+
+  safeChanges() {
+    this.props.handleChangeUnit(this.state.item.unit);
+  }
   render() {
     return (
-  /*     <Popover 
-        style={{width: 400}}
-        id={this.props.id}
-        open={this.props.open}
-        anchorEl={this.props.anchorEl}
-        onClose={this.props.handleClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-      >
-        <Grid container style={{flexDirection: 'row', width: '400px'}}>
-        <Grid item xs={6}>
-        <Input 
-          defaultValue={this.props.item.amount} 
-          type={Int16Array} 
-          inputProps={{ 'aria-label' : 'description'}}
-          style={{width:40}}>
-        </Input>
-        <FormHelperText>Menge</FormHelperText>
-        </Grid>
-        <Grid item xs={6}>
-        <FormControl className={this.props.classes.formControl}>
-        <Select
-          onChange={this.props.handleChange}
-          displayEmpty
-          value={this.props.item.unit}
-        >
-          <MenuItem value="" disabled>
-            Unit
-          </MenuItem>
-          <MenuItem value={'kg'}>Kg</MenuItem>
-          <MenuItem value={'g'}>g</MenuItem>
-          <MenuItem value={'l'}>l</MenuItem>
-          <MenuItem value={'ml'}>ml</MenuItem>
-          <MenuItem value={'Stk.'}>Stk.</MenuItem>
-          <MenuItem value={'Pkg.'}>Pkg.</MenuItem>
-        </Select>
-        <FormHelperText>Unit</FormHelperText>
-        </FormControl>
-        </Grid>
-        </Grid>
-      </Popover>
-    );
-  }
-} */
-
 <Dialog
         open={this.props.open}
         aria-labelledby="alert title"
@@ -94,24 +59,23 @@ class EditListItem extends Component {
       <DialogContent>
       </DialogContent>
       <Grid
-        xs= {12}
+        xs={12}
         container
         direction='row'
         justify='center'
         alignItems= 'center'
+        spacing={4}
       >
-      <Grid>
+      <Grid item xs={6}>
         <InputLabel>AMOUNT</InputLabel>
-        <TextField onChange={this.props.onChange} value={this.props.amount}></TextField>
+        <TextField defaultValue={this.state.item.amount}></TextField>
       </Grid>
-    
-        
-      <Grid xs={4}>
-      <FormControl style={{width: '100px', height: 35, marginLeft: 10, marginBottom: 10}}>
+      <Grid item xs={6}>
+      <FormControl style={{width: '100%', height: 35, marginLeft: 10, marginBottom: 10}}>
                 <InputLabel>UNIT</InputLabel>
                 <Select
-                  value={this.props.unit}
-                  onChange={this.props.handleChange}
+                  onChange={this.handleChangeUnit.bind(this)}
+                  value={this.state.item.unit}
                 >
                  <MenuItem value={'kg'}>Kg</MenuItem>
                 <MenuItem value={'g'}>g</MenuItem>
@@ -122,11 +86,38 @@ class EditListItem extends Component {
                 </Select>
       </FormControl>
       </Grid>
+      <Grid item xs={6} style={{marginTop: 10}}>
+      <FormControl style={{width: '100%', height: 35, marginLeft: 10, marginBottom: 10}}>
+                <InputLabel>ASSIGN USER</InputLabel>
+                <Select
+                  /* value={this.props.unit}
+                  onChange={this.props.handleChange} */
+                >
+                  
+                {this.props.user.map(item =>{
+                    return <MenuItem value={item.name}>{item.name}</MenuItem>
+                  })}
+                </Select>
+      </FormControl>
+      </Grid>
+      <Grid item xs={6} style={{marginTop: 10}}>
+      <FormControl style={{width: '100%', height: 35, marginLeft: 10, marginBottom: 10}}>
+                <InputLabel>ASSIGN RETAILER</InputLabel>
+                <Select
+                  /* value={this.props.unit}
+                  onChange={this.props.handleChange} */
+                >
+                  {this.props.retailer.map(item =>{
+                    return <MenuItem value={item.name}>{item.name}</MenuItem>
+                  })}
+                </Select>
+      </FormControl>
+      </Grid>
       </Grid>
 
       <DialogActions>
-        <Button onClick={this.props.PressButtonConfirm} color="primary">
-          Bestätigen
+        <Button color="primary">
+          SAVE
         </Button>
         <Button onClick={this.props.PressButtonBack} color="primary" autoFocus>
           BACK
@@ -146,6 +137,8 @@ EditListItem.propTypes = {
   handleChange: PropTypes.string.isRequired,
   PressButtonBack: PropTypes.string.isRequired,
   PressButtonConfirm: PropTypes.string.isRequired,
+  retailer: PropTypes.string.isRequired,
+  user: PropTypes.string.isRequired,
 }
 
 export default withStyles(styles)(EditListItem);

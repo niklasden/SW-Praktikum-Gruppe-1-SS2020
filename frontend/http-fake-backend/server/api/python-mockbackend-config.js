@@ -94,6 +94,14 @@ module.exports = SetupEndpoint({
             response: '/response-files/SpecificGroupMembers.json'
         }],
     },
+    {
+        params: '/listEntries',
+        requests: [{
+            method: 'GET',
+            response: '/response-files/listEntries.json'
+            },
+        ],
+    },
     ]
 });
 
