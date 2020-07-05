@@ -32,6 +32,23 @@ const styles = theme => ({
 });
 
 class EditListItem extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      amount: this.props.amount,
+      unit: this.props.unit,
+      user: this.props.user,
+      retailer: this.props.retailer
+    }
+  }
+  
+  handleChangeUnit(v) {
+    this.setState({unit: v.target.value});
+  }
+
+  safeChanges() {
+    this.props.handleChangeUnit(this.state.unit);
+  }
   render() {
     return (
 <Dialog
@@ -52,14 +69,14 @@ class EditListItem extends Component {
       >
       <Grid item xs={6}>
         <InputLabel>AMOUNT</InputLabel>
-        <TextField onChange={this.props.onChange} value={this.props.amount}></TextField>
+        <TextField value={this.props.amount}></TextField>
       </Grid>
       <Grid item xs={6}>
       <FormControl style={{width: '100%', height: 35, marginLeft: 10, marginBottom: 10}}>
                 <InputLabel>UNIT</InputLabel>
                 <Select
-                  value={this.props.unit}
-                  onChange={this.props.handleChangeUnit}
+                  onChange={this.handleChangeUnit.bind(this)}
+                  value={this.state.unit}
                 >
                  <MenuItem value={'kg'}>Kg</MenuItem>
                 <MenuItem value={'g'}>g</MenuItem>

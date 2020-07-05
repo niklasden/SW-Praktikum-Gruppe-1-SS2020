@@ -25,6 +25,7 @@ export default class GroupShoppingList extends Component {
     open: false,
     amount: "1",
     unit: '',
+    selectedID: 0
   }
   async fetchItems() {
     var res = await fetch("http://localhost:8081/api/shoppa/listEntries");
@@ -52,7 +53,6 @@ export default class GroupShoppingList extends Component {
     let renderdArticles = []
     let Useritems = this.state.items;
     let ArrCategory = this.getCategorys();
-    console.log('ArrCategory  ' + ArrCategory)
     for (let item in ArrCategory){
       renderdArticles.push( 
         <DropDownGSL onClick={this.onClickDelete.bind(this)} onClickListItem={this.onClickListItem.bind(this)} Useritems={Useritems} ArrCategory={ArrCategory} item={item}></DropDownGSL>
@@ -61,7 +61,6 @@ export default class GroupShoppingList extends Component {
   };
 
   onClickDelete(id){
-    console.log('Hi')
     let Items = [...this.state.items]
     Items.map( item => {
       if(item.id === id){
@@ -77,6 +76,7 @@ export default class GroupShoppingList extends Component {
   }
 
   onClickListItem(id, unit, amount){
+    this.setState({selectedID: id})
     this.setState({open : true})
     this.setState({amount : amount})
     this.setState({unit : unit})
@@ -94,8 +94,15 @@ export default class GroupShoppingList extends Component {
     this.setState({open : false})
   }
 
-  handleChangeUnit() {
-    console.log("AH JA");
+  handleChangeUnit(v) {
+    this.setState({unit: v});
+    var newList = [...this.state.items];
+    newList.filter(item => item.id !== this.state.selectedID);
+    var newObject = this.state.items.find(item => item.id === this.state.selectedID);
+    if(v !== "null" || v !== "undefined") {
+      newObject.unit = v;
+    }
+    this.setState({items: newList});
   }
 
   constructor(props) {
@@ -123,7 +130,7 @@ export default class GroupShoppingList extends Component {
           
       <Grid item xs={12}>
         {this.renderCategoryArticles()}
-        <EditListItem /* handleChange={this.props.onChangeEditItem.bind(this)} */ open={this.state.open} unit={this.state.unit} amount={this.state.amount} PressButtonBack={this.PressButtonBack.bind(this)} handleChangeUnit={this.handleChangeUnit.bind(this)} user={this.state.user} retailer={this.state.retailer}></EditListItem>
+        <EditListItem open={this.state.open} unit={this.state.unit} amount={this.state.amount} PressButtonBack={this.PressButtonBack.bind(this)} handleChangeUnit={this.handleChangeUnit.bind(this)} user={this.state.user} retailer={this.state.retailer}></EditListItem>
       </Grid>
     
     </Grid>
