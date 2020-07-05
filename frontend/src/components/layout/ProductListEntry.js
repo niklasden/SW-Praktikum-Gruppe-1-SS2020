@@ -9,9 +9,6 @@ import { withRouter } from "react-router-dom";
 
 
 
-
-
-
 const styles = theme => ({
     root: {
       flexGrow: 1,
@@ -36,14 +33,13 @@ const styles = theme => ({
 
  class ProductListEntry extends Component {
 
+
+  //TODO: Funktion, die Artikel auf die Gruppeneinkaufsliste setzt
   onSave= () => {
     this.state= {name: this.props.name, category: this.props.category}
     console.log(this.props.name, this.props.category)
-    this.props.history.push({
-      pathname: '/GroupShoppingList', 
-      state: {item: this.props.name, ArrCategory: this.props.category}
-    })
-  }
+    }
+  
      
 
   render(){
@@ -57,14 +53,12 @@ const styles = theme => ({
             direction="row"
             >
               <ButtonBase
-                onClick={this.onSave}
-                /*to= 'create_article?query=hello'
-                query='hello'
-                to={{
-                  pathname:'create_article', 
-                  state:{name: this.props.name, category: this.props.category}
-                }}*/>
-                <Article itemname={this.props.name} category = {this.props.category} iconName={this.props.iconName}></Article>
+                onClick={this.onSave}>
+                <Article 
+                itemname={this.props.name} 
+                category = {this.props.category} 
+                iconName={this.props.iconName}>
+                </Article>
               </ButtonBase>
             </Grid>
           </Grid>
