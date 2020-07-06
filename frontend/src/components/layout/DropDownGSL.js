@@ -7,7 +7,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Grid, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import ListItem from '../layout/ListItem'
-import PopUp from '../layout/PopUp'
 
 /**
  * 
@@ -17,6 +16,29 @@ import PopUp from '../layout/PopUp'
 
 class DropDownGSL extends Component {
 
+
+  constructor(props) {
+    super(props)
+  }
+  state = {
+    user:[{id: 1, name:'Niklas'},{id: 2, name:'Julius'},{id: 3, name:'Pia'},{id: 4, name:'Chris'},{id: 5, name:'Kevin'},{id: 6, name:'Pascal'}],
+    retailer: [{id: 1, name:'Edeka'},{id: 2, name:'Lidl'},{id: 3, name:'Norma'},{id: 4, name:'BeateUhse'},{id: 5, name:'Rewe'},{id: 6, name:'Kaufland'}],
+  }
+
+
+  handleClick(event){
+    this.setState({anchorEl: event.currentTarget});
+  };
+  handleChangeUnit(v) {
+    this.setState({unit: v});
+    var newList = [...this.state.items];
+    newList.filter(item => item.id !== this.state.selectedID);
+    var newObject = this.state.items.find(item => item.id === this.state.selectedID);
+    if(v !== "null" || v !== "undefined") {
+      newObject.unit = v;
+    }
+    this.setState({items: newList});
+  }
 
   render(){
     return (
@@ -37,7 +59,7 @@ class DropDownGSL extends Component {
               {this.props.Useritems.map(element => {
               if(element.category === this.props.ArrCategory[this.props.item]){
               return <>
-              <ListItem onClick={()=>this.props.onClick(element.id)} onClickListItem={()=>this.props.onClickListItem(element.id, element.unit, element.amount)} itemname={element.name} amount={element.amount} unit={element.unit}></ListItem>
+              <ListItem onClickDeleteButton={()=>this.props.onClickDeleteButton(element.id)} item={element} user={this.state.user} retailer={this.state.retailer}></ListItem>
               </>
             }
           })}
