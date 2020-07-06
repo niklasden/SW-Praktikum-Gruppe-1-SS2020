@@ -210,7 +210,7 @@ class App extends React.Component {
 									<Route path="/settings-accounts">
 										<AccountsPage />
 									</Route>
-									<Route path='/report' component={() => { window.location = 'https://report.ikaufa.com/'; return null;} }/>
+									<Route path='/report' component={() => { window.location = 'http://report.ikaufa.com/'; return null;} }/>
 									{/* this must always be the last route */}
 									<Route path="/">
 										<HomePage />

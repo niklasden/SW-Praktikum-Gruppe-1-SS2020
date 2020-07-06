@@ -50,7 +50,7 @@ export class HomePage extends Component {
           </Grid>
 
           <Grid item xs={6} >
-          <Link to="/statistics" style={{ textDecoration: 'none' }}>
+          <Link to="/report" style={{ textDecoration: 'none' }}>
           <MainButton>
                   <Grid
                   container
