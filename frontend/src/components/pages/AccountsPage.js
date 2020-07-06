@@ -109,7 +109,7 @@ class AccountsPage extends Component {
 						<Grid item xs={12} align="center" style={{ marginTop: '40px' }}>
 							<div>
 								<TextField
-									id="filled-input"
+									id="filled-input-name"
 									label="First Name"
 									defaultValue="Pia"
 									InputProps={{
@@ -119,7 +119,7 @@ class AccountsPage extends Component {
 									className={classes.textField}
 								/>
 								<TextField
-									id="filled-input"
+									id="filled-input-lastname"
 									label="Last Name"
 									defaultValue="Traktorbraut"
 									InputProps={{
