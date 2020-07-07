@@ -1,0 +1,15 @@
+#@author [Niklas Denneler](https://github.com/niklasden)
+# [START env settings]
+env: standard
+runtime: nodejs12
+service: frontend-report
+# [END env settings]
+
+# [START handlers]
+handlers:
+    - url: /
+      static_files: build/index.html
+      upload: build/index.html
+    - url: /
+      static_dir: build
+# [END handlers]

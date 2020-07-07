@@ -29,21 +29,21 @@ class Settings extends Component {
 			<div style={{marginLeft: 12, marginRight: 12}}>
 				<Link to="/groups" className={classes.link}>
 					<ListEntry 
-						text='Gruppen verwalten'
+						text='Manage Group'
 						iconName='people_outline'
 						style={{marginTop: 12}}
 					/>
 				</Link>	
 				<Link to="/retailers" className={classes.link}>
 					<ListEntry 
-						text='Einzelhändler verwalten'
+						text='Manage Retailers'
 						iconName='shopping_cart_outline'
 						style={{marginTop: 12}}
 					/>
 				</Link>
 				<Link to="/settings-accounts" className={classes.link}>	
 					<ListEntry 
-						text='Account verwalten'
+						text='Manage Account'
 						iconName='person_outline'
 						style={{marginTop: 12}}
 					/>

@@ -180,7 +180,7 @@ class CreateGroup extends Component {
                           </Dialog>
                         
                           {groupMembers.map((item) => (
-                            <ListItem key={item}>
+                            <ListItem key={item} style={{marginTop: '5px'}}>
                             <ListItemAvatar>
                                 <Avatar>
                                 <Avatar alt="Sabine Mustermann" src={avatar}/>

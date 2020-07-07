@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
-import { withStyles } from '@material-ui/core';
+import { withStyles, ButtonBase } from '@material-ui/core';
 import Article from '../layout/Article';
 import { Link } from 'react-router-dom';
 
@@ -27,7 +27,9 @@ const styles = theme => ({
  */
 
  class ProductListEntry extends Component {
-
+      onSave(){
+        
+      }
  
      render(){
          const { classes } = this.props
@@ -39,15 +41,16 @@ const styles = theme => ({
                 xs={2.4}
                 direction="row"
                 >
-                  <Link
+                  <ButtonBase
+                    onClick
                     to= 'create_article?query=hello'
                     query='hello'
                     to={{
                       pathname:'create_article', 
                       state:{name: this.props.name, category: this.props.category}
                     }}>
-                    <Article itemname={this.props.name} src={this.props.imgsrc}></Article>
-                  </Link>
+                    <Article itemname={this.props.name} category = {this.props.category} iconName={this.props.iconName}></Article>
+                  </ButtonBase>
                 </Grid>
               </Grid>
           )

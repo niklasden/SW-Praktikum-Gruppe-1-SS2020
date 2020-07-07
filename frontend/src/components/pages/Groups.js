@@ -4,9 +4,12 @@ import { withStyles } from '@material-ui/styles';
 import MainButton from '../layout/MainButton'
 import Grid from '@material-ui/core/Grid';
 import GroupButton from '../layout/GroupButton.js';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
+import ShoppingSettings from '../../../src/shoppingSettings'
+
+const settingsobj = ShoppingSettings.getSettings()
 
 const styles = theme => ({
   root: {
@@ -40,8 +43,14 @@ class Groups extends Component {
     this.setState({
         groupItemss: this.state.groupItemss.filter(elem => elem.id !== id)
 
+        
         // request to db! > delete Group      
-   })}
+   })
+   if(settingsobj.onlySettingsGetSettingsGroupID() == id){
+      settingsobj.onlySettingsSetSettingsGroupID("")
+      settingsobj.onlySettingsSetSettingsGroupName("")
+  }
+  }
   
 
   async fetchGroups(){
@@ -54,6 +63,8 @@ class Groups extends Component {
 
   componentDidMount(){
     this.fetchGroups()
+    settingsobj.onlySettingsSetSettingsGroupID("")
+    settingsobj.onlySettingsSetSettingsGroupName("")
   };
 
 
@@ -63,7 +74,7 @@ class Groups extends Component {
       this.state.groupItemss.forEach( elem => {
           Groups.push(
           <Grid item xs={6}>
-              {/* @Julius here we need a parameter to fetch the right group, all groups a user is part of, then specific group hes clicking on */}
+              {/* Now by clicking on a group we set the settingsgroupid @Julius here we need a parameter to fetch the right group, all groups a user is part of, then specific group hes clicking on */}
               <Grid
               container
               direction="column"
@@ -71,7 +82,8 @@ class Groups extends Component {
               alignItems="center"
               style={{marginTop:20}}>
 
-                  <GroupButton  key={elem.id} groupname={elem.name}></GroupButton>
+                  <Link to="" onClick={ () => {settingsobj.onlySettingsSetSettingsGroupID(elem.id); settingsobj.onlySettingsSetSettingsGroupName(elem.name)}}>
+                  <GroupButton key={elem.id} groupname={elem.name}></GroupButton></Link>
                   <IconButton  aria-label="delete" className={this.props.classes.margin} style={{padding:0}}>
                     <DeleteIcon onClick={() => this.deleteGroup(elem.id)}  />
                   </IconButton>
