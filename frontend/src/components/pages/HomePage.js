@@ -19,8 +19,8 @@ import ShoppingSettings from '../../../src/shoppingSettings'
 const styles = theme => ({
   root: {
     backgroundColor: '#fafafa', 
-    borderRadius: 5, 
-  }
+    borderRadius: 5,
+  },
   })
 
   /** Homepage of iKaufa
@@ -50,7 +50,7 @@ export class HomePage extends Component {
           </Grid>
 
           <Grid item xs={6} >
-          <Link to="/statistics">
+          <Link to="/report" style={{ textDecoration: 'none' }}>
           <MainButton>
                   <Grid
                   container
@@ -68,7 +68,7 @@ export class HomePage extends Component {
         </Grid>
 
         <Grid item xs={6} >
-          <Link to="/settings">
+          <Link to="/settings" style={{ textDecoration: 'none' }}>
           <MainButton>
 
                   <Grid
