@@ -6,11 +6,11 @@ from server.bo import BusinessObject as bo
 class Retailer (bo.BusinessObject):
     def __init__(self):
         super().__init__()
-        self._name = None
-        self._location = None
+        self._name = "" # Der Name eines Einzelhändlers, z.B. Rewe
+        self._location = "" # Die Adresse des Einzelhändlers als einzelner String
 
     def get_name(self):
-        self._name
+        return self._name
 
     def set_name(self, name):
         self._name = name
@@ -22,5 +22,15 @@ class Retailer (bo.BusinessObject):
         self._location = location
 
     def __str__(self):
-        return "Retailer: {}, name: {}".format(self.get_id(), self._name)
+        return "Retailer: {}, name: {}, location: {}".format(self.get_id(), self._name, self._location)
+
+    @staticmethod
+    def from_dict(dictionary=dict()):
+        """Umwandeln eines Python dict() in einen Customer()."""
+        obj = Retailer()
+        obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
+        obj.set_name(dictionary["name"])
+        obj.set_location(dictionary["location"])
+        return obj
+
 
