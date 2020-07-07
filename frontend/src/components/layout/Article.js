@@ -8,9 +8,9 @@ import CustomIcon from "../layout/CustomIcon"
 
 const styles = theme => ({
     root:{
-        backgroundColor: '#f2f2f2', 
+    backgroundColor: '#f2f2f2', 
     borderRadius: 5,
-    
+    fontFamily: "'Montserrat', sans-serif"
     },
     imageIcon:{
       height: '100%'
@@ -57,7 +57,7 @@ const styles = theme => ({
         border={1} 
         borderColor='#e0e0e0'
         borderRadius={5}
-        style={{display: 'inline-block', margin: '3px'}}
+        style={{display: 'inline-block', margin: '3px', fontFamily: "'Montserrat', sans-serif"}}
 
         onTouchStart={this.handleButtonPress} 
         onTouchEnd={this.handleButtonRelease} 
