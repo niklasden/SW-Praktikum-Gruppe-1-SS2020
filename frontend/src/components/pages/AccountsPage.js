@@ -4,7 +4,6 @@ import { Grid, Typography, withStyles, Checkbox, FormControlLabel, Button, Avata
 import MainButton from '../layout/MainButton';
 import AddAPhoto from '@material-ui/icons/AddAPhoto';
 
-
 /**
  * @author [Niklas Denneler](https://github.com/niklasden): 
  * Renders a Settings Page, so the User can edit his personal details and delete his account
@@ -17,8 +16,6 @@ import AddAPhoto from '@material-ui/icons/AddAPhoto';
  * 
  * 
  */
-
-
 class AccountsPage extends Component {
 	constructor(props) {
 		super(props);

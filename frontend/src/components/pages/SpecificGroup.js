@@ -1,13 +1,11 @@
-import React, { Component, memo } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types';
-import MaterialIconButton from '@material-ui/core/IconButton';
 
 import AddCircleItem from '@material-ui/icons/AddCircle'
 
 import { withStyles } from '@material-ui/styles';
 import TextField from '@material-ui/core/TextField';
 
-import createPalette from '@material-ui/core/styles/createPalette';
 import { Grid, Typography } from '@material-ui/core';
 
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';

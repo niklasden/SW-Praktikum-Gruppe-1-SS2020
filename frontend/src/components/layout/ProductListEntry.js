@@ -4,9 +4,6 @@ import { withStyles } from '@material-ui/core';
 import Article from '../layout/Article';
 import { Link } from 'react-router-dom';
 
-
-
-
 const styles = theme => ({
     root: {
       flexGrow: 1,

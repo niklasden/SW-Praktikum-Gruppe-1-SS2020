@@ -1,7 +1,24 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/styles';
-import {TextField, Container, Grid, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Avatar, Typography, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button} from '@material-ui/core';
+import { 
+  TextField, 
+  Container, 
+  Grid, 
+  List, 
+  ListItem, 
+  ListItemAvatar, 
+  ListItemSecondaryAction, 
+  ListItemText, 
+  Avatar, 
+  Typography, 
+  Dialog, 
+  DialogActions, 
+  DialogContent, 
+  DialogContentText, 
+  DialogTitle, 
+  Button
+} from '@material-ui/core';
 import MainButton from '../layout/MainButton';
 import IconButton from '../layout/IconButton';
 import avatar from '../img/avatar.jpg';

@@ -1,20 +1,15 @@
 import React, {Component} from 'react';
-import { Grid,Button, FormControl, InputLabel, Select } from '@material-ui/core';
+import { Grid, FormControl, InputLabel, Select } from '@material-ui/core';
 import IconButton from '../layout/IconButton'
 import CategoryDropDown from '../layout/CategoryDropDown';
 import MenuItem from '@material-ui/core/MenuItem';
 import PopUp from '../layout/PopUp';
-import { element } from 'prop-types';
-
-
 
 /**
  * Displays the PersonalShoppingList as designed in Figa. All items to be purchased by a person are listed on the list and can be ticked off the list. Finally the user can complete the shopping. 
  * 
- * @author [Pascalv Illg](https://github.com/pasillg)
+ * @author [Pascal Illg](https://github.com/pasillg)
  */
-
-
 export default class PersonalShoppingList extends Component {
 
   state={
