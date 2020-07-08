@@ -3,6 +3,7 @@ from .bo.User import User
 
 #from .db.UserMapper import UserMapper ..
 from .db.UserMapper import UserMapper
+from .db.ReportGenerator import ReportGenerator
 
 
 #hier müssen BO Klassen & Mapper importiert werden
@@ -56,3 +57,10 @@ class ShoppingAdministration (object):
         with UserMapper() as mapper:
             res = mapper.delete(user)
             return res
+
+    def get_list_entry_by_name(self, name):
+        with ReportGenerator() as generator:
+            pass
+        """
+        TODO: @Kevin: Warten bis andere Mapper stehen, @all: Hier sollten Listentries initialisiert werden
+        """

@@ -7,33 +7,33 @@ class Report(bo.BusinessObject):
     """
     def __init__(self, report_group, time_period, report_retailer, report_listentries):
         super().__init__()
-        self.report_group = report_group
-        self.time_period = time_period
-        self.report_retailer = report_retailer
-        self.report_listentries = report_listentries
+        self._report_group = report_group
+        self._time_period = time_period
+        self._report_retailer = report_retailer
+        self._report_listentries = report_listentries
 
     def get_group(self):
-        pass
+        return self._report_group
 
     def set_group(self, group):
-        pass
+        self._report_group = group
 
     def get_time_period(self):
-        pass
+        return self._time_period
 
     def set_time_period(self, tp):
-        pass
+        self._time_period = tp
 
     def get_retailer(self):
-        pass
+        return self._report_retailer
 
     def set_retailer(self, rt):
-        pass
+        self._report_retailer = rt
 
     def get_listentries(self):
-        pass
+        return self._report_listentries
 
     def set_listentries(self, liste):
-        pass
+        self._report_listentries = liste
     def append_listentries(self, entry):
-        pass
+        self._report_listentries.append(entry)
