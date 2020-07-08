@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 
-import Icon from '@material-ui/core/Icon'
-
 // icon imports 
 import appleIcon from '../../icons/apple.svg'
 import milkIcon from '../../icons/milk.svg'

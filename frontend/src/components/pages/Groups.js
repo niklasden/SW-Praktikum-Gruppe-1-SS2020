@@ -4,10 +4,9 @@ import { withStyles } from '@material-ui/styles';
 import MainButton from '../layout/MainButton'
 import Grid from '@material-ui/core/Grid';
 import GroupButton from '../layout/GroupButton.js';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
-
 import ShoppingSettings from '../../../src/shoppingSettings'
 
 const settingsobj = ShoppingSettings.getSettings()

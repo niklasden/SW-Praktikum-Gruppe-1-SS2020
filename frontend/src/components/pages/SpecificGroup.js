@@ -1,7 +1,7 @@
-import React, { Component, memo } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types';
-import MaterialIconButton from '@material-ui/core/IconButton';
 import AddCircleItem from '@material-ui/icons/AddCircle'
+import MaterialIconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/styles';
 import TextField from '@material-ui/core/TextField';
 import createPalette from '@material-ui/core/styles/createPalette';
@@ -51,11 +51,13 @@ const styles = theme => ({
   }
 });
 
+
 const ShoppingLs=[
   {id:"1",name:"liste 2"},
   {id:"2",name:"list 2.4"}
 ]
   
+
 /**
  * Bildet eine Spezifische, editierbare Gruppe ab
  * 
@@ -108,10 +110,6 @@ addMember(id) {
     console.log( resjson)
     this.setState({groupmembers:resjson})}
     
-  
-
-
-
 
   componentDidMount(){
     this.fetchGroupMembers()
@@ -178,6 +176,7 @@ const clear = () => {
   this.setState({inputval: '', fetchuser: ''})
 }
 
+
 const saveGroup = async () => {
   try {
       //send request with paramets to backend for the group to be saved
@@ -188,7 +187,6 @@ const saveGroup = async () => {
       console.log(error)
   } 
 }
-
     return (
         <div className={classes.accordion}>
         {/*<div className={classes.Groupnameheader}>{"Gruppenname"}</div>*/}
@@ -306,12 +304,9 @@ const saveGroup = async () => {
         </Grid>
         </Grid>
         </Grid>
-        
           </>
-          
           </ExpansionPanelDetails>
         </ExpansionPanel>
-
         </div>
     
     )
