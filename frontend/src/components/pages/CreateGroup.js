@@ -1,7 +1,24 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/styles';
-import {TextField, Container, Grid, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Avatar, Typography, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button} from '@material-ui/core';
+import { 
+  TextField, 
+  Container, 
+  Grid, 
+  List, 
+  ListItem, 
+  ListItemAvatar, 
+  ListItemSecondaryAction, 
+  ListItemText, 
+  Avatar, 
+  Typography, 
+  Dialog, 
+  DialogActions, 
+  DialogContent, 
+  DialogContentText, 
+  DialogTitle, 
+  Button
+} from '@material-ui/core';
 import MainButton from '../layout/MainButton';
 import IconButton from '../layout/IconButton';
 import avatar from '../img/avatar.jpg';
@@ -22,7 +39,7 @@ const useStyles = (theme) => ({
 });
 
 /**
- * @author [Niklas Denneler](https://github.com/niklasden):
+ * @author [Niklas Denneler](https://github.com/niklasden)
  * Renders a Page which allows the User to create a new group and opens a modal to add/delete members via their e-mail.
  * 
  * 
@@ -30,7 +47,6 @@ const useStyles = (theme) => ({
  *       Avatar Image from Google, instead of hardcoded
  *       Error Handling for when user not found.
  *       Error Handling for when the group name already exists.
- * 
  * 
  * @author [Julius Jacobitz]()
  * 

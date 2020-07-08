@@ -5,8 +5,6 @@ import Icon from '@material-ui/core/Icon';
 import { withStyles } from '@material-ui/styles';
 import Box from '@material-ui/core/Box';
 
-
-
 const styles = theme => ({
   
   root: {
