@@ -1,7 +1,7 @@
 from server.bo.Group import Group
 from server.db.Mapper import Mapper
 
-class GrouMapper(Mapper):
+class GroupMapper(Mapper):
     """
     Author: Julius
     """
@@ -9,19 +9,30 @@ class GrouMapper(Mapper):
         super().__init__()
     
     def find_all(self):
+        #hier ist das problem, dass in der db noch eine Tabelle angelegt werden muss, die verschiedene Listen speichert (mit fk
+        #dann muss man diese listen instantiieren (vlt durch den listenmapper oder so) und daraufhin diese objekte dem Gruppenatribut self.lists hinzufügen
+        #Todo: 1. Tabelle anlegen 2. Listenmapper 3. Gruppenmapper 
+        
         result = []
         cursor = self._cnx.cursor()
-        statement = ""
-        cursor.execute(statement)
+        
+        cursor.execute("SELECT * from `Group`")
 
         tuples = cursor.fetchall()
 
-        #hier ist das problem, dass in der db noch eine Tabelle angelegt werden muss, die verschiedene Listen speichert (mit fk
-        #dann muss man diese listen instantiieren (vlt durch den listenmapper oder so) und daraufhin diese objekte dem Gruppenatribut self.lists hinzufügen
-        
-        #Todo: 1. Tabelle anlegen 2. Listenmapper 3. Gruppenmapper 
+        try:
+            for (id, description, name) in tuples:
+                group = Group()
+                group.set_id(id)
+                group.set_name(name)
+                group.set_description(description)
+                result.append(group)
 
-        pass 
+        except IndexError:
+            result = None
+        
+        return result
+        
 
     def find_by_key(self, key):
         """
@@ -29,7 +40,7 @@ class GrouMapper(Mapper):
         """
         result = None
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, description FROM group WHERE id={}".format(key)
+        command = "SELECT id, name, description FROM `Group` WHERE id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -48,6 +59,8 @@ class GrouMapper(Mapper):
         return result
     
     def insert(self):
+        
+
         pass 
 
     def update(self):
@@ -59,7 +72,7 @@ class GrouMapper(Mapper):
         """
         try:
             cursor = self._cnx.cursor()
-            command = "DELETE FROM Group WHERE ID={0}".format(group.get_id())
+            command = "DELETE FROM `Group` WHERE ID={0}".format(group.get_id())
             cursor.execute(command)
 
             self._cnx.commit()

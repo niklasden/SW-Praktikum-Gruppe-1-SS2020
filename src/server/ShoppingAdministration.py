@@ -1,9 +1,9 @@
 #from .bo.User import User ... 
 from .bo.User import User
-
+from .bo.Group import Group
 #from .db.UserMapper import UserMapper ..
 from .db.UserMapper import UserMapper
-
+from .db.GroupMapper import GroupMapper
 
 #hier müssen BO Klassen & Mapper importiert werden
 
@@ -56,3 +56,15 @@ class ShoppingAdministration (object):
         with UserMapper() as mapper:
             res = mapper.delete(user)
             return res
+
+    # Groups 
+
+    def get_all_groups(self):
+        with GroupMapper() as mapper:
+            res = mapper.find_all()
+            return res
+
+    def get_group_by_key(self,key):
+        with GroupMapper() as mapper:
+            res = mapper.find_by_key(key)
+            return res 

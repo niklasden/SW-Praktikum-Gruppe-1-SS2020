@@ -84,8 +84,22 @@ class testUser(Resource):
             return "ERROR in main.py delete test " +str(e) 
         
         return result
+
+
+@testing.route('/testGroup')
+class testGroup(Resource):
+    def get(self):
+        adm = ShoppingAdministration()
+
+        r = adm.get_all_groups()
+        res = []
+        res.append([str(i) for i in r])
         
+        res.append([str(i)for i in adm.get_group_by_key(1)])
         
+        return res
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
