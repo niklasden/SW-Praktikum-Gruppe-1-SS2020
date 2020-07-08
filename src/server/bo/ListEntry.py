@@ -58,7 +58,7 @@ class ListEntry(bo.BusinessObject):
 
     def checkout():
         """
-        Pascal setcheck bool to true?
+        Pascal setcheck bool to true? or set date
         """
         pass
 

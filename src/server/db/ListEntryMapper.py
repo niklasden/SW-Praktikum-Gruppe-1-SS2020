@@ -73,22 +73,25 @@ class ListEntryMapper(Mapper):
         """
         Pascal date:Date
         """
+        pass
     
     def insert(self, le):
         """
         Niklas le:ListEntry
         """
+        pass
     
     def update(self, le):
         """
         Pascal le:ListEntry
         """
-    
+        pass
+
     def delete(self, le):
         """
         Niklas le:ListEntry
         """
-    
+        pass
 
 """
 for test purposes only
