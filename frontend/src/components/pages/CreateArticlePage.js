@@ -13,6 +13,7 @@ import { Redirect } from 'react-router';
 import Button from '@material-ui/core/Button'
 import { withRouter } from "react-router";
 
+
 const styles = theme => ({
     root: {
       backgroundColor: '#fafafa', 
@@ -48,7 +49,14 @@ class CreateArticlePage extends Component {
     state = {
         snackbarOpen: false, 
         isSaving: false,
-        redirectToArticlePage: false
+        redirectToArticlePage: false,
+        category: "" ,
+        categorys: [
+            {id: 0, name: "fruits"}, 
+            {id: 1, name: "vegetables"}, 
+            {id: 2, name: "meat"}, 
+            {id: 3, name: "drinks"}, 
+        ],
     }
 
     onClickSave(){
@@ -75,11 +83,11 @@ class CreateArticlePage extends Component {
     componentDidMount(){
         let name = ''
         let category = ''
-        // checks if there has been a redirect from the article page from to this page with a selected article
-        // if yes, it takes name and category from there
+        /* checks if there has been a article from the article page*/
+        /* if yes, it takes name and category from there*/
         if (this.props.location.state != undefined){
-            name = this.props.location.name
-            category = this.props.location.category
+            name = this.props.location.state.name
+            category = this.props.location.state.category
         }
         this.setState({
             name: name, 
@@ -87,8 +95,8 @@ class CreateArticlePage extends Component {
         })
     }
 
-    render(){
-        
+
+    render(){        
 
         if (this.state.redirectToArticlePage) {
             return <Redirect push to= "/products"/>
@@ -100,10 +108,6 @@ class CreateArticlePage extends Component {
             direction="column"
             xs={12} 
             style={{padding: "1em"}}>
-
-                <Grid item xs={12}>
-                    <h2>create a new article</h2>
-                </Grid>
 
                 <Grid item xs={12}>
                     <TextInputBar 
@@ -135,14 +139,15 @@ class CreateArticlePage extends Component {
                                 <InputLabel >select category</InputLabel>
 
                                 <Select 
-                                label="select category"
-                                value={this.state.category}
                                 onChange={(e) => this.setState({category: e.target.value})}
-                                >
-                                    <MenuItem value={1}>fruits</MenuItem>
-                                    <MenuItem value={2}>vegetables</MenuItem>
-                                    <MenuItem value={3}>meat and fish</MenuItem>
-                                    <MenuItem value={4}>drinks</MenuItem>
+                                value={this.state.category}>
+                                    
+                                   {
+                                   this.state.categorys.map((element) =>{
+                                       return <MenuItem value={element.name}>{element.name}</MenuItem>
+                                   })
+                                   }
+
                                 </Select>
 
                             </FormControl>
@@ -182,6 +187,7 @@ class CreateArticlePage extends Component {
                     }
 
                     </Grid>
+                    
                     <Snackbar
                     open={this.state.snackbarOpen}
                     onClose={() => this.setState({snackbarOpen: false})}

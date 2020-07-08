@@ -7,6 +7,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Grid, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import ListItem from '../layout/ListItem'
+import PopUp from '../layout/PopUp'
 
 /**
  * 
@@ -15,6 +16,7 @@ import ListItem from '../layout/ListItem'
 */
 
 class DropDownGSL extends Component {
+
 
   render(){
     return (
@@ -32,15 +34,13 @@ class DropDownGSL extends Component {
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
         <Typography>
-          <Grid container xs={12} spacing={1}>
               {this.props.Useritems.map(element => {
               if(element.category === this.props.ArrCategory[this.props.item]){
-              return <Grid item xs={12}>
-              <ListItem itemname={element.name} amount={element.amount} unit={element.unit}></ListItem>
-              </Grid>
+              return <>
+              <ListItem onClick={()=>this.props.onClick(element.id)} onClickListItem={()=>this.props.onClickListItem(element.id, element.unit, element.amount)} itemname={element.name} amount={element.amount} unit={element.unit}></ListItem>
+              </>
             }
           })}
-          </Grid>
         </Typography>
       </ExpansionPanelDetails>
     </ExpansionPanel>
@@ -53,6 +53,9 @@ DropDownGSL.propTypes = {
   ArrCategory: PropTypes.array.isRequired,
   item: PropTypes.string.isRequired,
   handleChange: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  onClickListItem: PropTypes.func.isRequired,
+
 }
 
 export default (DropDownGSL);

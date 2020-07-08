@@ -19,10 +19,12 @@ const styles = theme => ({
     borderRadius: 10,
     borderColor: '#BDBDBD',
     borderStyle: 'solid',
-    width: 'auto',
     marginLeft: 13,
     height: 35,
     marginRight: 0,
+    maxWidth: '100vh',
+    marginTop: '2px',
+    marginBottom: '4px'
   },
 });
 
@@ -36,23 +38,29 @@ class ListItem extends Component {
   render() {
     return (
     <Grid 
-      container 
+      container
       direction='row'
       justify='center'
       alignItems='center'
       className={this.props.classes.root}
+      handleChange={this.props.handleChange}
+      style={{minWidth:'300px'}}
     >
         <Grid item xs={2}>
           <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 3}}>fastfood</Icon>
         </Grid>
 
-        <Grid item xs={7}>
-          <t style={{color: '#000000', fontSize: 18}}>{this.props.itemname}</t>
+        <Grid item xs={6} onClick={() => this.props.onClickListItem()} style={{maxWidth:'165px'}} >
+          <t style={{color: '#000000', fontSize: 18, margin:0, padding: 0}}>{this.props.itemname}</t>
         </Grid>         
 
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           <t style={{color: '#000000', fontSize: 18}}>{this.props.amount}</t>
           <t style={{color: '#000000', fontSize: 18}}>{this.props.unit}</t>
+        </Grid>
+
+        <Grid item xs={2} onClick={() => this.props.onClick()} >
+          <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 5}}>delete</Icon>
         </Grid>
     </Grid>
     );
@@ -63,7 +71,10 @@ ListItem.propTypes = {
   imgsrc: PropTypes.string.isRequired,
   itemname: PropTypes.string.isRequired,
   amount: PropTypes.string.isRequired,
-  unit: PropTypes.string.isRequired
+  unit: PropTypes.string.isRequired,
+  handleChange: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  onClickListItem: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles)(ListItem);

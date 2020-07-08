@@ -1,8 +1,11 @@
 import React, { Component, memo } from 'react'
 import PropTypes from 'prop-types';
 import AddCircleItem from '@material-ui/icons/AddCircle'
+import MaterialIconButton from '@material-ui/core/IconButton';
+import AddCircleItem from '@material-ui/icons/AddCircle'
 import { withStyles } from '@material-ui/styles';
 import TextField from '@material-ui/core/TextField';
+import createPalette from '@material-ui/core/styles/createPalette';
 import { Grid, Typography } from '@material-ui/core';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -18,6 +21,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import MainButton from '../layout/MainButton'
 
+import ShoppingSettings from '../../../src/shoppingSettings'
+
+const settingsobj = ShoppingSettings.getSettings()
 
 const styles = theme => ({
   root: {
@@ -100,7 +106,7 @@ addMember(id) {
 }*/
 
   async fetchGroupMembers(){
-    const res = await fetch('http://jj-surface:8081/api/shoppa/specificGroupMembers')
+    const res = await fetch('http://jj-surface:8081/api/shoppa/specificGroupMembers') //Hier ID übergabe bei getmembersbygroupid = id = settingsobj.onlySettingsGetSettingsGroupID()
     const resjson = await res.json()
     console.log( resjson)
     this.setState({groupmembers:resjson})}
