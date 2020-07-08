@@ -22,7 +22,7 @@ const useStyles = (theme) => ({
 });
 
 /**
- * @author [Niklas Denneler](https://github.com/niklasden):
+ * @author [Niklas Denneler](https://github.com/niklasden)
  * Renders a Page which allows the User to create a new group and opens a modal to add/delete members via their e-mail.
  * 
  * 
@@ -30,7 +30,6 @@ const useStyles = (theme) => ({
  *       Avatar Image from Google, instead of hardcoded
  *       Error Handling for when user not found.
  *       Error Handling for when the group name already exists.
- * 
  * 
  * @author [Julius Jacobitz]()
  * 

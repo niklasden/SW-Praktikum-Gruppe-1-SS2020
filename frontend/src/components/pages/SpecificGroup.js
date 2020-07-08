@@ -2,7 +2,6 @@ import React, { Component, memo } from 'react'
 import PropTypes from 'prop-types';
 import AddCircleItem from '@material-ui/icons/AddCircle'
 import MaterialIconButton from '@material-ui/core/IconButton';
-import AddCircleItem from '@material-ui/icons/AddCircle'
 import { withStyles } from '@material-ui/styles';
 import TextField from '@material-ui/core/TextField';
 import createPalette from '@material-ui/core/styles/createPalette';
