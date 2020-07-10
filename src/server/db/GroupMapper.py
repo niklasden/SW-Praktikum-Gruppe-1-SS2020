@@ -61,7 +61,7 @@ class GroupMapper(Mapper):
         Julius
         """
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT MAX(id) AS maxid FROM Group")
+        cursor.execute("SELECT MAX(id) AS maxid FROM `Group`")
         tuples = cursor.fetchall()
         for (maxid) in tuples:
             if maxid[0]:
@@ -69,8 +69,8 @@ class GroupMapper(Mapper):
             else:
                 group.set_id(1)
 
-        command = "INSERT INTO Group (ID, `description`, `name`, VALUES ('{0}', '{1}', '{2}'".format(group.get_id(),group.get_description(),group.get_name())
-
+        command = "INSERT INTO `Group` (ID, description, name) VALUES ('{0}', '{1}', '{2}')".format(group.get_id(),group.get_description(),group.get_name())
+               
         try:
             cursor.execute(command)
             self._cnx.commit()

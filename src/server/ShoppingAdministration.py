@@ -59,7 +59,7 @@ class ShoppingAdministration (object):
 
     #Groups:
     #Julius 
-    
+
     def get_all_groups(self):
         with GroupMapper() as mapper: 
             res = mapper.find_all()
@@ -74,7 +74,7 @@ class ShoppingAdministration (object):
         with GroupMapper() as mapper:
                 return mapper.insert(group)
 
-    def update_group(self,group):
+    def save_group(self,group):
         with GroupMapper() as mapper: 
             return mapper.update(group)
 
@@ -82,3 +82,10 @@ class ShoppingAdministration (object):
         with GroupMapper() as mapper:
             res = mapper.delete(group)
             return res
+    
+    def create_group(self,name,description):
+        group = Group(name,description)
+        group.set_id(1)
+
+        with GroupMapper() as mapper:
+            return mapper.insert(group)
