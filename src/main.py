@@ -1,18 +1,21 @@
 from flask import Flask
 from flask_restx import Resource, Api, fields
 from flask_cors import CORS
+from SecurityDecorator import secured
+from server.ShoppingAdministration import ShoppingAdministration
+
+
+#Import all BO :
 from server.db.UserMapper import UserMapper
 from server.bo.User import User
-
-from SecurityDecorator import secured
-
-from server.ShoppingAdministration import ShoppingAdministration
+from server.db.GroupMapper import GroupMapper
+from server.bo.Group import Group
 
 import json
 
 
 app = Flask(__name__)
-#CORS(app, resources=r'/shopping/*')
+CORS(app, resources=r'/shopping/*')
 api = Api(app)
 
 
@@ -21,6 +24,25 @@ Namespaces:
 """
 shopping_v1 = api.namespace('shopping', description='iShopping App V1')     
 testing = api.namespace('testing',description='Namespace for testing')
+
+
+"""
+Transferierbare Strukturen: 
+"""
+bo = api.model('BusinessObject',{
+    'id': fields.Integer(attribute= '_id', description= "Der einzigartige Identifier eines Business Object"),
+
+})
+
+"""
+Business Objects: Group, t.b.f
+"""
+group = api.inherit('Group',bo, {
+    'name': fields.String(attribute='name',description="Name einer Gruppe"),
+    'description': fields.String(attribute='description',description="Beschreibung einer Gruppe")
+})
+
+# alle bos hier aufführen!
 
 
 
@@ -36,6 +58,17 @@ class testSecured(Resource):
     def get(self):
         res = "if you can see this without beeing logged in.. backend dev has got a problem."
         return res
+
+@testing.route('/testGroup')
+@testing.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class testGroup(Resource):
+    @testing.marshal_with(group)
+    def get(self):
+        adm = ShoppingAdministration()
+
+        result= adm.get_all_groups()
+        return result              
+
 
 
 @testing.route('/testUser')
