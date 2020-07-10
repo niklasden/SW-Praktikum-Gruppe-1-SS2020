@@ -46,11 +46,21 @@ group = api.inherit('Group',bo, {
 
 
 
+
 @shopping_v1.route('/hello')
 @shopping_v1.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class HelloWorld(Resource):
     def get(self):
         return {'hello': 'world'}
+
+
+
+
+
+
+
+
+# TESTING AREA:
 
 @testing.route('/testSecured')
 class testSecured(Resource):
@@ -61,14 +71,29 @@ class testSecured(Resource):
 
 @testing.route('/testGroup')
 @testing.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-class testGroup(Resource):
+class testGroupListOperations(Resource):
     @testing.marshal_with(group)
     def get(self):
         adm = ShoppingAdministration()
-
+        
         result= adm.get_all_groups()
-        return result              
+        return result
 
+
+@testing.route('/testGroup/<int:id>')
+@testing.param('id', "Group object id")
+class testGroupOperations(Resource):
+    @testing.marshal_with(group)
+    def get(self,id):
+        adm = ShoppingAdministration()
+        return adm.get_group_by_id(id)
+
+    def delete(self,id):
+        adm = ShoppingAdministration()
+        gr = adm.get_group_by_id(id)
+        adm.delete_group(gr)
+
+        return "",200
 
 
 @testing.route('/testUser')
