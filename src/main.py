@@ -116,9 +116,16 @@ class GroupOperations(Resource):
         else:
             return 'error',500
 
-
-
-
+@shopping_v1.route('User')
+@shopping_v1.response(500,"If an server sided error occures")
+class UserListOperations(Resource):
+    @shopping_v1.marshal_list_with(user)
+    #@secured
+    def get(self):
+        adm = ShoppingAdministration() 
+        result_find_all = adm.get_all_user()
+        return result_find_all
+        
 
 
 # TESTING AREA:
