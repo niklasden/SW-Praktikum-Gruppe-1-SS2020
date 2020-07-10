@@ -58,10 +58,34 @@ class ShoppingAdministration (object):
             return res
 
     #Groups:
+    #Julius 
 
     def get_all_groups(self):
         with GroupMapper() as mapper: 
             res = mapper.find_all()
             return res
-
     
+    def get_group_by_id(self,id):
+        with GroupMapper() as mapper:
+            res = mapper.find_by_key(id)
+            return res 
+
+    def insert_group(self,group):
+        with GroupMapper() as mapper:
+                return mapper.insert(group)
+
+    def save_group(self,group):
+        with GroupMapper() as mapper: 
+            return mapper.update(group)
+
+    def delete_group(self, group):
+        with GroupMapper() as mapper:
+            res = mapper.delete(group)
+            return res
+    
+    def create_group(self,name,description):
+        group = Group(name,description)
+        group.set_id(1)
+
+        with GroupMapper() as mapper:
+            return mapper.insert(group)

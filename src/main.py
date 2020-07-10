@@ -46,11 +46,76 @@ group = api.inherit('Group',bo, {
 
 
 
+
 @shopping_v1.route('/hello')
 @shopping_v1.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class HelloWorld(Resource):
     def get(self):
         return {'hello': 'world'}
+
+
+@shopping_v1.route('/Group')
+@shopping_v1.response(500,'If an server sided error occures')
+class GroupListOperations(Resource):
+    @shopping_v1.marshal_with(group)
+    @secured
+    def get(self):
+        adm = ShoppingAdministration()
+        return adm.get_all_groups()
+    
+    @shopping_v1.marshal_with(group,code=200)
+    @shopping_v1.expect(group)
+    @secured
+    def post(self):
+        adm = ShoppingAdministration()
+        try:
+            proposal = Group.from_dict(api.payload)
+            if proposal is not None:
+                c = adm.create_group(proposal.get_name(),proposal.get_description())
+                return c, 200
+            else:
+                return "",500
+
+        except Exception as e:
+            return str(e),500
+
+
+@shopping_v1.route('/Group/<int:id>')
+@shopping_v1.response(500,'If an server sided error occures')
+@shopping_v1.param('id', 'Group objects id')
+class GroupOperations(Resource):
+    @shopping_v1.marshal_with(group)
+    @secured
+    def get(self,id):
+        adm = ShoppingAdministration()
+        return adm.get_group_by_id(id)
+    
+    @secured
+    def delete(self,id):
+        adm = ShoppingAdministration()
+        grp = adm.get_group_by_id(id)
+        adm.delete_group(grp)
+        return "deleted",200
+    
+    @shopping_v1.marshal_with(group)
+    @shopping_v1.expect(group,validate=True)
+    @secured
+    def put(self,id):
+        adm = ShoppingAdministration()
+        c = Group.from_dict(api.payload)
+        if c is not None: 
+            c.set_id(id)
+            adm.save_group(c)
+            return 'saved',200
+        else:
+            return 'error',500
+
+
+
+
+
+
+# TESTING AREA:
 
 @testing.route('/testSecured')
 class testSecured(Resource):
@@ -61,14 +126,29 @@ class testSecured(Resource):
 
 @testing.route('/testGroup')
 @testing.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-class testGroup(Resource):
+class testGroupListOperations(Resource):
     @testing.marshal_with(group)
     def get(self):
         adm = ShoppingAdministration()
-
+        
         result= adm.get_all_groups()
-        return result              
+        return result
 
+
+@testing.route('/testGroup/<int:id>')
+@testing.param('id', "Group object id")
+class testGroupOperations(Resource):
+    @testing.marshal_with(group)
+    def get(self,id):
+        adm = ShoppingAdministration()
+        return adm.get_group_by_id(id)
+
+    def delete(self,id):
+        adm = ShoppingAdministration()
+        gr = adm.get_group_by_id(id)
+        adm.delete_group(gr)
+
+        return "",200
 
 
 @testing.route('/testUser')

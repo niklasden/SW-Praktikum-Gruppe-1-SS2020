@@ -5,9 +5,9 @@ class Group(bo.BusinessObject):
     """
     author: Julius
     """
-    def __init__(self, g_name="Group_name"):
+    def __init__(self, g_name="Group_name",desc = ""):
         super().__init__()
-        self.description = ""
+        self.description = desc
         self.name = g_name
        
 
@@ -44,7 +44,14 @@ class Group(bo.BusinessObject):
     def __str__(self):
         return "Groupobject: Name = {0}".format(self.name)
 
-
+    
+    @staticmethod
+    def from_dict(dictionary=dict()):
+        obj = Group()
+        obj.set_id(dictionary["id"])
+        obj.set_name(dictionary["name"])
+        obj.set_description(dictionary["description"])
+        return obj
 
 
 
