@@ -22,7 +22,7 @@ api = Api(app)
 """
 Namespaces:
 """
-shopping_v1 = api.namespace('shopping', description='iShopping App V1')     
+shopping_v1 = api.namespace('shopping', description='iKaufa App V1')     
 testing = api.namespace('testing',description='Namespace for testing')
 
 
@@ -116,17 +116,36 @@ class GroupOperations(Resource):
         else:
             return 'error',500
 
+
 @shopping_v1.route('User')
 @shopping_v1.response(500,"If an server sided error occures")
 class UserListOperations(Resource):
     @shopping_v1.marshal_list_with(user)
-    #@secured
+    @secured
     def get(self):
         adm = ShoppingAdministration() 
         result_find_all = adm.get_all_user()
         return result_find_all
         
+    @shopping_v1.marshal_with(user,code=200)
+    @shopping_v1.expect(user)
+    @secured
+    def post(self):
+        adm = ShoppingAdministration()
+        try:
+            proposal = User.from_dict(api.payload)
+            if proposal is not None:
+                c = adm.create_user(proposal.get_name(),proposal.get_email(),proposal.get_firebase_id())
+                return c, 200
+            else:
+                return "",500
 
+        except Exception as e:
+            return str(e),500
+        
+
+
+# TODO Class UserOperations
 
 # TESTING AREA:
 
