@@ -11,14 +11,14 @@ class ListEntry(bo.BusinessObject):
     """
     def __init__(self):
         super().__init__()
-        self._id = ""
-        self._article_id = ""
-        self._retailer_id = ""
-        self._shoppinglist_id = ""
-        self._user_id = ""
-        self._group_id = ""
-        self._amount = ""
-        self._bought = ""
+        self._id = "1"
+        self._article_id = "1"
+        self._retailer_id = "1"
+        self._shoppinglist_id = "1"
+        self._user_id = "1"
+        self._group_id = "1"
+        self._amount = "1"
+        self._bought = "1"
 
     #this was renamed from get name to article, makes more sense imho
     def get_article():

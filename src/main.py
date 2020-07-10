@@ -37,7 +37,7 @@ bo = api.model('BusinessObject',{
 })
 
 """
-Business Objects: Group, t.b.f
+Business Objects: Group, ListEntry t.b.f
 """
 group = api.inherit('Group',bo, {
     'name': fields.String(attribute='name',description="Name einer Gruppe"),
@@ -47,13 +47,12 @@ group = api.inherit('Group',bo, {
 listentry = api.inherit('ListEntry',bo, {
     'id': fields.String(attribute='_id',description="ID of a listentry"),
     'article_id': fields.String(attribute='_article_id',description="Article ID of a listentry"),
-    'retailer_id': fields.String(attribute='_retailer_id',description="Retailer ID of the specific listenty"),
+    'eetailer_id': fields.String(attribute='_retailer_id',description="Retailer ID of the specific listenty"),
     'shoppinglist_id': fields.String(attribute='_shoppinglist_id',description="Corresponding Shopping List ID of a listentry"),
     'user_id': fields.String(attribute='_user_id',description="User ID which the ListEntry is assigned to"),
     'group_id': fields.String(attribute='_group_id',description="Group ID in which the ListEntry belongs to"),
     'amount': fields.String(attribute='_amount',description="Amount of item to be bought"),
     'bought': fields.String(attribute='_bought',description="Date when the article was bought"),
-
 })
 
 # alle bos hier aufführen!

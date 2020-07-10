@@ -1,4 +1,4 @@
-from server.bo.User import User
+from server.bo.ListEntry import ListEntry
 from server.db.Mapper import Mapper 
 
 class ListEntryMapper(Mapper):
@@ -16,20 +16,25 @@ class ListEntryMapper(Mapper):
         """                    
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT * from ListEntry")
+        cursor.execute("SELECT ID, Article_ID, Retailer_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought from `Listentry`")
         tuples = cursor.fetchall()
-                
-        for (ID, Article_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought) in tuples:
-            le = ListEntry()
-            le.set_id(ID)
-            le.set_article(Article_ID)
-            le.set_shoppinglist(Shoppinglist_ID)
-            le.set_user(User_ID)
-            le.set_group(Group_ID)
-            le.set_amount(amount)
-            le.set_buy_date(bought)
-            result.append(le)
-        
+        print(tuples)
+        try:
+            for (id, article_id, retailer_id, shoppinglist_id, user_id, group_id, amount, bought) in tuples:
+                le = ListEntry()
+                le.set_id(id)
+                le.set_article(article_id)
+                le.set_retailer(retailer_id)
+                le.set_shoppinglist(shoppinglist_id)
+                le.set_user(user_id)
+                le.set_group(group_id)
+                le.set_amount(amount)
+                le.set_buy_date(bought)
+                result.append(le)
+                print(result)
+        except IndexError:
+                result = None
+
         self._cnx.commit()
         cursor.close()
         return result
