@@ -4,6 +4,8 @@ from .bo.Group import Group
 #from .db.UserMapper import UserMapper ..
 from .db.UserMapper import UserMapper
 from .db.GroupMapper import GroupMapper 
+from .db.ListEntryMapper import ListEntryMapper
+
 
 #hier müssen BO Klassen & Mapper importiert werden
 
@@ -65,3 +67,9 @@ class ShoppingAdministration (object):
             return res
 
     
+    #ListEntry:
+
+    def get_all_listentries(self):
+        with ListEntryMapper() as mapper:
+            result = mapper.find_all()
+            return result

@@ -1,13 +1,11 @@
 from server.bo.User import User
 from server.db.Mapper import Mapper 
 
+class ListEntryMapper(Mapper):
     """
     Mapper for ListEntry Data Structure
     Author: Pascal & Niklas
     """
-
-
-class ListEntryMapper(Mapper):
     def __init__(self): 
         super().__init__()
 
@@ -21,13 +19,16 @@ class ListEntryMapper(Mapper):
         cursor.execute("SELECT * from ListEntry")
         tuples = cursor.fetchall()
                 
-        for (id, mail, firebase_id, name) in tuples:
-            user = User()
-            user.set_id(id)
-            user.set_email(mail)
-            user.set_firebase_id(firebase_id)
-            user.set_name(name)
-            result.append(user)
+        for (ID, Article_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought) in tuples:
+            le = ListEntry()
+            le.set_id(ID)
+            le.set_article(Article_ID)
+            le.set_shoppinglist(Shoppinglist_ID)
+            le.set_user(User_ID)
+            le.set_group(Group_ID)
+            le.set_amount(amount)
+            le.set_buy_date(bought)
+            result.append(le)
         
         self._cnx.commit()
         cursor.close()

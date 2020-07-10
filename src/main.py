@@ -10,6 +10,8 @@ from server.db.UserMapper import UserMapper
 from server.bo.User import User
 from server.db.GroupMapper import GroupMapper
 from server.bo.Group import Group
+from server.db.ListEntryMapper import ListEntryMapper
+from server.bo.ListEntry import ListEntry
 
 import json
 
@@ -42,6 +44,18 @@ group = api.inherit('Group',bo, {
     'description': fields.String(attribute='description',description="Beschreibung einer Gruppe")
 })
 
+listentry = api.inherit('ListEntry',bo, {
+    'id': fields.String(attribute='_id',description="ID of a listentry"),
+    'article_id': fields.String(attribute='_article_id',description="Article ID of a listentry"),
+    'retailer_id': fields.String(attribute='_retailer_id',description="Retailer ID of the specific listenty"),
+    'shoppinglist_id': fields.String(attribute='_shoppinglist_id',description="Corresponding Shopping List ID of a listentry"),
+    'user_id': fields.String(attribute='_user_id',description="User ID which the ListEntry is assigned to"),
+    'group_id': fields.String(attribute='_group_id',description="Group ID in which the ListEntry belongs to"),
+    'amount': fields.String(attribute='_amount',description="Amount of item to be bought"),
+    'bought': fields.String(attribute='_bought',description="Date when the article was bought"),
+
+})
+
 # alle bos hier aufführen!
 
 
@@ -69,7 +83,14 @@ class testGroup(Resource):
         result= adm.get_all_groups()
         return result              
 
-
+@testing.route('/testListEntry')
+@testing.response(500, 'Falls was in die Fritten geht')
+class testListEntry(Resource):
+    @testing.marshal_with(listentry)
+    def get(self):
+        adm = ShoppingAdministration()
+        result = adm.get_all_listentries()
+        return result
 
 @testing.route('/testUser')
 class testUser(Resource):
