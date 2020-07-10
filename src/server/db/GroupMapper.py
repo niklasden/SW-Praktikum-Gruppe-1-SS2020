@@ -30,14 +30,7 @@ class GroupMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-        return result 
-
-        #hier ist das problem, dass in der db noch eine Tabelle angelegt werden muss, die verschiedene Listen speichert (mit fk
-        #dann muss man diese listen instantiieren (vlt durch den listenmapper oder so) und daraufhin diese objekte dem Gruppenatribut self.lists hinzufügen
-        
-        #Todo: 1. Tabelle anlegen 2. Listenmapper 3. Gruppenmapper 
-
-        pass 
+        return result       
 
     def find_by_key(self, key):
         """
@@ -63,11 +56,43 @@ class GroupMapper(Mapper):
         cursor.close()
         return result
     
-    def insert(self):
-        pass 
+    def insert(self,group):
+        """
+        Julius
+        """
+        cursor = self._cnx.cursor()
+        cursor.execute("SELECT MAX(id) AS maxid FROM `Group`")
+        tuples = cursor.fetchall()
+        for (maxid) in tuples:
+            if maxid[0]:
+                group.set_id(maxid[0]+1)
+            else:
+                group.set_id(1)
 
-    def update(self):
-        pass 
+        command = "INSERT INTO `Group` (ID, description, name) VALUES ('{0}', '{1}', '{2}')".format(group.get_id(),group.get_description(),group.get_name())
+               
+        try:
+            cursor.execute(command)
+            self._cnx.commit()
+            cursor.close()
+            return group
+
+        except Exception as e:
+            cursor.close()
+            return "Error in groupMapper insert: "+str(e)
+
+    def update(self,group):
+        """
+        Julius
+        """
+        cursor = self._cnx.cursor()
+        command = "UPDATE `Group` " + "SET name=%s, description=%s WHERE id=%s"
+        data = (group.get_name(), group.get_description(), group.get_id())
+        cursor.execute(command, data)
+        self._cnx.commit()
+        cursor.close()
+
+        return group
 
     def delete(self, group):
         """

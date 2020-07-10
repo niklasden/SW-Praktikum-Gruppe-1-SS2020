@@ -23,7 +23,7 @@ class UserMapper(Mapper):
             user.set_firebase_id(firebase_id)
             user.set_name(name)
             result.append(user)
-        
+            print(str(user))
         self._cnx.commit()
         cursor.close()
         return result
@@ -45,7 +45,7 @@ class UserMapper(Mapper):
                 user.set_firebase_id(firebase_id)
                 user.set_name(name)
                 res.append(user)
-
+                
         self._cnx.commit()
         cursor.close()
         return res
