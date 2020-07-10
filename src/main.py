@@ -27,10 +27,10 @@ testing = api.namespace('testing',description='Namespace for testing')
 
 
 """
-Transferierbare Strukturen: 
+Transferable structure: 
 """
 bo = api.model('BusinessObject',{
-    'id': fields.Integer(attribute= '_id', description= "Der einzigartige Identifier eines Business Object"),
+    'id': fields.Integer(attribute= '_id', description= "unique bo id"),
 
 })
 
@@ -38,8 +38,14 @@ bo = api.model('BusinessObject',{
 Business Objects: Group, t.b.f
 """
 group = api.inherit('Group',bo, {
-    'name': fields.String(attribute='name',description="Name einer Gruppe"),
-    'description': fields.String(attribute='description',description="Beschreibung einer Gruppe")
+    'name': fields.String(attribute='name',description="A groups name"),
+    'description': fields.String(attribute='description',description="A groups description")
+})
+
+user = api.inherit('User',bo,{
+    'name': fields.String(attribute='_name',description="An users name"),
+    'email': fields.String(attribute='_email',description="An users email"),
+    'firebase_id': fields.String(attribute='_firebase_id',description="An users firebaseid ")
 })
 
 # alle bos hier aufführen!
@@ -152,17 +158,19 @@ class testGroupOperations(Resource):
 
 
 @testing.route('/testUser')
+@testing.response(500,'If an server sided error occures')
 class testUser(Resource):
+    @testing.marshal_with(user)
     def get(self):
         result = {}
         adm = ShoppingAdministration() 
-
-        #find all result test
         result_find_all = adm.get_all_user()
+        return result_find_all
+        """
         if result_find_all[0]:
             result.update({"Find all result ": [str(i) for i in result_find_all]})
        
-            
+        
         #find by name test
         result_find_by_name = adm.get_user_by_name("bg5KpSLu") 
         result.update({"Find by name result ": [str(i) for i in result_find_by_name]})
@@ -197,7 +205,7 @@ class testUser(Resource):
             return "ERROR in main.py delete test " +str(e) 
         
         return result
-        
+        """
         
 
 if __name__ == '__main__':
