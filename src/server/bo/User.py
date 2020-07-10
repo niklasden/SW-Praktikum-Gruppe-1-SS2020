@@ -8,9 +8,9 @@ class User (bo.BusinessObject):
     """
     def __init__(self):
         super().__init__()
-        self.__name = ""
-        self.__email = "" 
-        self.__firebase_id = ""   
+        self._name = ""
+        self._email = "" 
+        self._firebase_id = ""   
     
     def randomize(self):
         """
@@ -28,25 +28,25 @@ class User (bo.BusinessObject):
 
 
     def get_name(self):
-        return self.__name
+        return self._name
     
     def set_name(self, val):
-        self.__name = val
+        self._name = val
     
     def get_email(self):
-        return self.__email
+        return self._email
 
     def set_email(self, val):
-        self.__email = val  
+        self._email = val  
 
     def get_firebase_id(self):
-        return self.__firebase_id
+        return self._firebase_id
 
     def set_firebase_id(self, val):
-        self.__firebase_id = val
+        self._firebase_id = val
     
     def __str__(self):
-        return "Userobject:  ID: {}, Name: {}, Mail: {}, FirebaseID: {}".format(self.get_id(), self.__name, self.__email, self.__firebase_id)
+        return "Userobject:  ID: {}, Name: {}, Mail: {}, FirebaseID: {}".format(self.get_id(), self._name, self._email, self._firebase_id)
     
     @staticmethod
     def from_dict(dictionary=dict()):

@@ -22,15 +22,15 @@ api = Api(app)
 """
 Namespaces:
 """
-shopping_v1 = api.namespace('shopping', description='iShopping App V1')     
+shopping_v1 = api.namespace('shopping', description='iKaufa App V1')     
 testing = api.namespace('testing',description='Namespace for testing')
 
 
 """
-Transferierbare Strukturen: 
+Transferable structure: 
 """
 bo = api.model('BusinessObject',{
-    'id': fields.Integer(attribute= '_id', description= "Der einzigartige Identifier eines Business Object"),
+    'id': fields.Integer(attribute= '_id', description= "unique bo id"),
 
 })
 
@@ -38,8 +38,14 @@ bo = api.model('BusinessObject',{
 Business Objects: Group, t.b.f
 """
 group = api.inherit('Group',bo, {
-    'name': fields.String(attribute='name',description="Name einer Gruppe"),
-    'description': fields.String(attribute='description',description="Beschreibung einer Gruppe")
+    'name': fields.String(attribute='name',description="A groups name"),
+    'description': fields.String(attribute='description',description="A groups description")
+})
+
+user = api.inherit('User',bo,{
+    'name': fields.String(attribute='_name',description="An users name"),
+    'email': fields.String(attribute='_email',description="An users email"),
+    'firebase_id': fields.String(attribute='_firebase_id',description="An users firebaseid ")
 })
 
 # alle bos hier aufführen!
@@ -111,9 +117,35 @@ class GroupOperations(Resource):
             return 'error',500
 
 
+@shopping_v1.route('User')
+@shopping_v1.response(500,"If an server sided error occures")
+class UserListOperations(Resource):
+    @shopping_v1.marshal_list_with(user)
+    @secured
+    def get(self):
+        adm = ShoppingAdministration() 
+        result_find_all = adm.get_all_user()
+        return result_find_all
+        
+    @shopping_v1.marshal_with(user,code=200)
+    @shopping_v1.expect(user)
+    @secured
+    def post(self):
+        adm = ShoppingAdministration()
+        try:
+            proposal = User.from_dict(api.payload)
+            if proposal is not None:
+                c = adm.create_user(proposal.get_name(),proposal.get_email(),proposal.get_firebase_id())
+                return c, 200
+            else:
+                return "",500
+
+        except Exception as e:
+            return str(e),500
+        
 
 
-
+# TODO Class UserOperations
 
 # TESTING AREA:
 
@@ -152,17 +184,19 @@ class testGroupOperations(Resource):
 
 
 @testing.route('/testUser')
+@testing.response(500,'If an server sided error occures')
 class testUser(Resource):
+    @testing.marshal_with(user)
     def get(self):
         result = {}
         adm = ShoppingAdministration() 
-
-        #find all result test
         result_find_all = adm.get_all_user()
+        return result_find_all
+        """
         if result_find_all[0]:
             result.update({"Find all result ": [str(i) for i in result_find_all]})
        
-            
+        
         #find by name test
         result_find_by_name = adm.get_user_by_name("bg5KpSLu") 
         result.update({"Find by name result ": [str(i) for i in result_find_by_name]})
@@ -197,7 +231,7 @@ class testUser(Resource):
             return "ERROR in main.py delete test " +str(e) 
         
         return result
-        
+        """
         
 
 if __name__ == '__main__':
