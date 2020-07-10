@@ -42,7 +42,6 @@ group = api.inherit('Group',bo, {
     'description': fields.String(attribute='description',description="Beschreibung einer Gruppe")
 })
 
-
 # alle bos hier aufführen!
 
 
@@ -63,12 +62,12 @@ class testSecured(Resource):
 @testing.route('/testGroup')
 @testing.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class testGroup(Resource):
-    @testing.marshal_list_with(group)
+    @testing.marshal_with(group)
     def get(self):
         adm = ShoppingAdministration()
 
         result= adm.get_all_groups()
-        return result               #testing.marshal(result,fields)
+        return result              
 
 
 

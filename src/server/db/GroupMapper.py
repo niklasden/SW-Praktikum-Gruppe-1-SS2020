@@ -13,20 +13,19 @@ class GroupMapper(Mapper):
         cursor = self._cnx.cursor()
         statement = "Select * from `Group`"
         cursor.execute(statement)
-
         tuples = cursor.fetchall()
 
-        
-        for (id, description, name) in tuples:
-            gr = Group()
-            gr.set_id(id)
-            gr.set_description(description)
-            gr.set_name(name)
-            
-            result.append(gr)
+        try:
+            for (id, description, name) in tuples:
+                gr = Group()
+                gr.set_id(id)
+                gr.set_description(description)
+                gr.set_name(name)
                 
-            
-        
+                result.append(gr)
+                print(result)
+        except IndexError:
+            result = None 
         
         self._cnx.commit()
         cursor.close()
