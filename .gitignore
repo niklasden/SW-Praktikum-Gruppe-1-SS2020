@@ -40,3 +40,4 @@ src/env/
 # hab ich für mich hinzugefügt (chris)
 connect_cloud_sql.sh
 
+src/server/bo/__pycache__/User.cpython-38.pyc
