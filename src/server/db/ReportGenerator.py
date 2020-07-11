@@ -69,12 +69,12 @@ class ReportGenerator(Mapper):
         result = []
         cursor = self._cnx.cursor()
         statement = """
-            SELECT Article.ID, Article.name, Article.CategoryID FROM dev_shoppingproject.Listentry
+            SELECT Article.ID, Article.name, Article.CategoryID, COUNT(Article.ID) AS number  FROM dev_shoppingproject.Listentry
             LEFT JOIN dev_shoppingproject.Article
             ON Listentry.Article_ID=Article.ID
             WHERE Listentry.Group_ID={0}
             GROUP BY Article.ID
-            ORDER BY COUNT(Article.ID) DESC
+            ORDER BY number DESC
             LIMIT 3
         """.format(group_id)
 
@@ -82,13 +82,13 @@ class ReportGenerator(Mapper):
 
         tuples = cursor.fetchall()
         try:
-            for(id, name, categoryID) in tuples:
+            for(id, name, categoryID, number) in tuples:
                 # article = Article()
                 # article.set_id(id)
                 # article.set_name(name)
                 # article.set_category(categoryID)
                 article_json = {"article_name": name, "article_id": id,
-                                 "article_category": categoryID}
+                                 "article_category": categoryID, "number_bought": number}
                 result.append(article_json)
             self._cnx.commit()
         except Exception as e:

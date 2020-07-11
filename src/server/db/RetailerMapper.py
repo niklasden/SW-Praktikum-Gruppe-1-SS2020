@@ -8,6 +8,7 @@ class RetailerMapper (Mapper):
     def __init__(self):
         super().__init__()
 
+    # TODO: only get group specific retailers
     def find_all(self):
         """Auslesen aller Einzelhändler.
 
@@ -31,6 +32,7 @@ class RetailerMapper (Mapper):
 
         return result
 
+    # TODO: only get group specific retailers
     def find_by_name(self, name):
         """
 
