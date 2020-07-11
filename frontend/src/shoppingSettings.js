@@ -12,6 +12,9 @@ export default class ShoppingSettings{
     currentGroupID= ""
     currentGroupName=""
 
+    currentUserID = 0
+    currentUserFireBaseID = ""
+
     onlySettingsGroupID=""      //only used in settings > show specific group
     onlySettingsGroupName=""    //only used in settings > show specific group
 
@@ -40,6 +43,21 @@ export default class ShoppingSettings{
         this.currentGroupID=id
     }
 
+    setCurrentUserID(id) {
+        this.currentUserID = id;
+    }
+
+    getCurrentUserID() {
+        return this.currentUserID;
+    }
+
+    setCurrentUserFireBaseID(id) {
+        this.currentUserFireBaseID = id;
+    }
+
+    getCurrentUserFireBaseID() {
+        return this.currentUserFireBaseID;
+    }
 
     //only used in settings > show specific group
     onlySettingsGetSettingsGroupID(){

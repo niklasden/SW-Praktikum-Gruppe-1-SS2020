@@ -38,7 +38,7 @@ class ReportGenerator(Mapper):
         tuples = cursor.fetchall()
         try:
             for(retailer, retailer_location, shoppinglist_name, username, group_name, amount, bought, article_name) in tuples:
-                article = {"name": article_name, "amount": amount, "bought": bought}
+                article = {"name": article_name, "amount": int(amount), "bought": str(bought), "retailer": retailer}
                 articles.append(article)
                 if(retailer not in retailers):
                     retailer = {"name": retailer, "location": retailer_location}
@@ -106,7 +106,7 @@ class ReportGenerator(Mapper):
         tuples = cursor.fetchall()
         try:
             for (retailer_name, retailer_location, amount, bought) in tuples:
-                retailer_json = {"retailer_name": retailer_name, "retailer_location": retailer_location, "amount": str(amount), "bought": bought}
+                retailer_json = {"retailer_name": retailer_name, "retailer_location": retailer_location, "amount": int(amount), "bought": str(bought)}
                 result.append(retailer_json)
             self._cnx.commit()
         finally:
