@@ -116,7 +116,6 @@ class GroupListOperations(Resource):
         except Exception as e:
             return str(e),500
 
-
 @shopping_v1.route('/Group/<int:id>')
 @shopping_v1.response(500,'If an server sided error occures')
 @shopping_v1.param('id', 'Group objects id')
@@ -236,7 +235,6 @@ class UserListOperations(Resource):
         except Exception as e:
             return str(e),500
         
-
 @shopping_v1.route('/report/<int:id>')
 @shopping_v1.response(500,'If an server sided error occures')
 @shopping_v1.param('id', 'Group objects id')
@@ -434,6 +432,16 @@ class testListEntry(Resource):
     def get(self, key):
         adm = ShoppingAdministration()
         result = adm.find_listentry_by_key(key)
+        return result
+
+@testing.route('/testListEntrybyRetailer/<int:retailer>')
+@testing.response(500, 'Mach me so hamme kein stress')
+@testing.param('retailer', "Listentry retailer id")
+class testListEntry(Resource):
+    @testing.marshal_with(listentry)
+    def get(self, retailer):
+        adm = ShoppingAdministration()
+        result = adm.find_listentry_by_retailer(retailer)
         return result
 
 @testing.route('/testListEntrybyUser/<int:user>')
