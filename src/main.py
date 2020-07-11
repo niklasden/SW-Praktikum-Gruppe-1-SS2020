@@ -53,7 +53,7 @@ user = api.inherit('User',bo,{
 listentry = api.inherit('ListEntry',bo, {
     'id': fields.String(attribute='_id',description="ID of a listentry"),
     'article_id': fields.String(attribute='_article_id',description="Article ID of a listentry"),
-    'eetailer_id': fields.String(attribute='_retailer_id',description="Retailer ID of the specific listenty"),
+    'retailer_id': fields.String(attribute='_retailer_id',description="Retailer ID of the specific listenty"),
     'shoppinglist_id': fields.String(attribute='_shoppinglist_id',description="Corresponding Shopping List ID of a listentry"),
     'user_id': fields.String(attribute='_user_id',description="User ID which the ListEntry is assigned to"),
     'group_id': fields.String(attribute='_group_id',description="Group ID in which the ListEntry belongs to"),
@@ -61,6 +61,11 @@ listentry = api.inherit('ListEntry',bo, {
     'bought': fields.String(attribute='_bought',description="Date when the article was bought"),
 })
 
+report = api.inherit('Report',bo, {
+    'report_group': fields.String(attribute='_report_group',description="Group which report is used for"),
+    'report_retailer': fields.String(attribute='_report_retailer',description="Retailers visited of group members."),
+    '_report_listentries': fields.String(attribute='_report_listentries',description="Dictionary with bought articles with timestamp"),
+})
 # alle bos hier aufführen!
 
 
@@ -157,6 +162,16 @@ class UserListOperations(Resource):
             return str(e),500
         
 
+@shopping_v1.route('/report/<int:id>')
+@shopping_v1.response(500,'If an server sided error occures')
+@shopping_v1.param('id', 'Group objects id')
+class testReportGenerator(Resource):
+    @testing.marshal_with(report)
+    def get(self, id):
+        adm = ShoppingAdministration()
+        result = adm.get_report_entries(id)
+        return result
+
 
 # TODO Class UserOperations
 
@@ -251,7 +266,7 @@ class testUser(Resource):
         
         return result
         """
-        
+
 
 if __name__ == '__main__':
     app.run(debug=True)

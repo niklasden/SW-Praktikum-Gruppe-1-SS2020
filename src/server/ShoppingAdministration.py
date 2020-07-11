@@ -5,6 +5,7 @@ from .bo.Group import Group
 from .db.UserMapper import UserMapper
 from .db.GroupMapper import GroupMapper 
 from .db.ListEntryMapper import ListEntryMapper
+from .db.ReportGenerator import ReportGenerator
 
 
 #hier müssen BO Klassen & Mapper importiert werden
@@ -97,4 +98,9 @@ class ShoppingAdministration (object):
     def get_all_listentries(self):
         with ListEntryMapper() as mapper:
             result = mapper.find_all()
+            return result
+
+    def get_report_entries(self, group_id = 1):
+        with ReportGenerator() as generator:
+            result = generator.get_report(group_id)
             return result

@@ -5,10 +5,9 @@ class Report(bo.BusinessObject):
     """
     author: Kevin Eberhardt
     """
-    def __init__(self, report_group, time_period, report_retailer, report_listentries):
+    def __init__(self, report_group, report_retailer, report_listentries):
         super().__init__()
         self._report_group = report_group
-        self._time_period = time_period
         self._report_retailer = report_retailer
         self._report_listentries = report_listentries
 
@@ -17,12 +16,6 @@ class Report(bo.BusinessObject):
 
     def set_group(self, group):
         self._report_group = group
-
-    def get_time_period(self):
-        return self._time_period
-
-    def set_time_period(self, tp):
-        self._time_period = tp
 
     def get_retailer(self):
         return self._report_retailer
