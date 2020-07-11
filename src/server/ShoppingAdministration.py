@@ -3,6 +3,7 @@ from .bo.User import User
 
 #from .db.UserMapper import UserMapper ..
 from .db.UserMapper import UserMapper
+from .db.RetailerMapper import RetailerMapper
 
 
 #hier müssen BO Klassen & Mapper importiert werden
@@ -12,7 +13,6 @@ class ShoppingAdministration (object):
     def __init__(self):
         pass
 
-    
     def create_user(self, name, email, firebase_id):
         """Um einen User anzulegen"""
         user = User()
@@ -56,3 +56,25 @@ class ShoppingAdministration (object):
         with UserMapper() as mapper:
             res = mapper.delete(user)
             return res
+
+    def get_retailer_by_name(self, name):
+        with RetailerMapper() as mapper:
+            res = mapper.find_by_name(name)
+            return res
+
+    def get_retailer_by_id(self, id):
+        with RetailerMapper() as mapper:
+            res = mapper.find_by_key(id)
+            return res
+
+    def create_retailer(self, retailer):
+        with RetailerMapper() as mapper:
+            mapper.insert(retailer)
+
+    def save_retailer(self, retailer):
+        with RetailerMapper() as mapper:
+            mapper.update(retailer)
+
+    def delete_retailer(self, retailer):
+        with RetailerMapper() as mapper:
+            mapper.delete(retailer)
