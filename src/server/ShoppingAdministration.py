@@ -214,23 +214,31 @@ class ShoppingAdministration (object):
         with ArticleMapper() as mapper:
             result = mapper.find_by_name(name)
             return result
-
-
-
     
+    '''
     def create_article(self, name, category):
-        article = Article(name, category)
+        article = Article()
+        article.set_name(name)
+        article.set_category(category)
         article.set_id(1)
         with ArticleMapper() as mapper:
             return mapper.insert(article)
+    '''
 
     def delete_article(self, article):
         with ArticleMapper() as mapper:
-            restult = mapper.delet(article)
-            return restult
+            result = mapper.delete(article)
+            return result
 
     def save_article(self, article):
         with ArticleMapper() as mapper:
             return mapper.update(article)
+
+
+    def create_article(self, article):
+        with ArticleMapper() as mapper:
+            return mapper.insert(article)
+
+
 
 

@@ -76,7 +76,7 @@ report = api.inherit('Report',bo, {
 })
 article = api.inherit('Article', bo, {
     'name': fields.String(attribute='_name', description="An Article name"), 
-    'category_id': fields.String(attribute='_category', description="Category ID of the specific article")
+    'category_id': fields.Integer(attribute='_category', description="Category ID of the specific article")
 })
 
 # alle bos hier aufführen!
@@ -304,7 +304,71 @@ class UserIDOperations(Resource):
         usr = adm.get_user_by_email(email)
         return usr
 
+#Article
 
+@shopping_v1.route('/Article')
+@shopping_v1.response(500, 'If an server sided error occures')
+class ArticleOperations(Resource):
+    @shopping_v1.marshal_with(article)
+    #@secured
+    def get(self):
+        adm = ShoppingAdministration()
+        result = adm.get_all_article()
+        return result 
+
+    @shopping_v1.marshal_with(article,code=200)
+    @shopping_v1.expect(article)
+    #@secured
+    def post(self):
+        adm = ShoppingAdministration()
+        try: 
+            proposal = Article.from_dict(api.payload)
+            if proposal is not None:
+                article = Article()
+                article.set_id(proposal.get_id())
+                article.set_name(proposal.get_name())
+                article.set_category(proposal.get_category())
+                if (proposal.get_id() == 0):
+                    c = adm.create_article(article)
+                else: 
+                    c = adm.save_article(article)
+                return c, 200
+            else:
+                return "",500  
+
+        except Exception as e:
+            print(str(e))
+            return str(e), 500 
+    
+
+@shopping_v1.route('/Article/<int:id>')
+@shopping_v1.response(500, 'If an server sided error occures')
+@shopping_v1.param('id', "Article object id")
+class ArticleOperations(Resource):
+    @shopping_v1.marshal_with(article)
+    #@secured
+    def get(self, id):
+        adm = ShoppingAdministration()
+        return adm.get_article_by_id(id)
+
+    #@secured
+    def delete(self, id):
+        adm = ShoppingAdministration()
+        ar = adm.get_article_by_id(id)
+        adm.delete_article(ar)
+        return 'deleted', 200
+    
+    
+
+@shopping_v1.route('/Article/<string:name>')
+@shopping_v1.response(500, 'If an server sided error occures')
+@shopping_v1.param('name', "Article object name")
+class ArticleOperations(Resource):
+    @shopping_v1.marshal_with(article)
+    #@secured
+    def get(self, name):
+        adm = ShoppingAdministration()
+        return adm.get_article_by_name(name)
 
 
 
@@ -320,57 +384,6 @@ class testSecured(Resource):
     def get(self):
         res = "if you can see this without beeing logged in.. backend dev has got a problem."
         return res
-
-
-
-#ArticleTests
-
-@testing.route('/testArticle')
-@testing.response(500, 'If an server sided error occures')
-class testArticle(Resource):
-    @testing.marshal_with(article)
-    def get(self):
-        adm = ShoppingAdministration()
-        result = adm.get_all_article()
-        return result 
-
-    def post(self):
-        adm = ShoppingAdministration()
-        try:
-            proposal = Article.from_dict(api.payload)
-            if proposal is not None:
-                c = adm.create_article(proposal.get_name(),proposal.get_category())
-                return c, 200
-            else:
-                return "",500
-
-        except Exception as e:
-            return str(e),500
-
-@testing.route('testArticle/<int:id>')
-@testing.param('id', "Article object id")
-class testArticle(Resource):
-    @testing.marshal_with(article)
-    def get(self, id):
-        adm = ShoppingAdministration()
-        return adm.get_article_by_id(id)
-
-    def delete(self, id):
-        adm = ShoppingAdministration()
-        ar = adm.get_article_by_id(id)
-        adm.delete_article(ar)
-        
-
-@testing.route('/testArticle/<string:name>')
-@testing.param('name', "Article object name")
-class testArticle(Resource):
-    @testing.marshal_with(article)
-    def get(self, name):
-        adm = ShoppingAdministration()
-        return adm.get_article_by_name(name)
-
-
-
 
 
 #GroupListTests
