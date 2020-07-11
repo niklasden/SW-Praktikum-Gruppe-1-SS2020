@@ -91,6 +91,18 @@ class HelloWorld(Resource):
         return {'hello': 'world'}
 
 
+@shopping_v1.route('/Group/Usergroup/<int:userid>')
+@shopping_v1.response(500,'If an server sided error occures')
+@shopping_v1.param('userid', 'Users id')
+class UserGroupOperations(Resource):
+    
+    @shopping_v1.marshal_with(group)
+    #@secured
+    def get(self,userid):
+        adm = ShoppingAdministration()
+        return adm.get_all_user_groups(userid)
+
+
 @shopping_v1.route('/Group')
 @shopping_v1.response(500,'If an server sided error occures')
 class GroupListOperations(Resource):
@@ -98,6 +110,7 @@ class GroupListOperations(Resource):
     #@secured
     def get(self):
         adm = ShoppingAdministration()
+    
         return adm.get_all_groups()
     
     @shopping_v1.marshal_with(group,code=200)
@@ -398,7 +411,7 @@ class testGroupListOperations(Resource):
     def get(self):
         adm = ShoppingAdministration()
         
-        result= adm.get_all_groups()
+        result= adm.get_all_groups(id) # hier dann die id aus der payload
         return result
 
 

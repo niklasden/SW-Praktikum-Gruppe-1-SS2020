@@ -67,7 +67,7 @@ class UserMapper(Mapper):
         tuples = cursor.fetchall()
 
         try:
-            (id, name, email, user_id) = tuples[0]
+            (id, email, user_id, name) = tuples[0]
             user = User()
             user.set_id(id)
             user.set_name(name)
@@ -119,7 +119,7 @@ class UserMapper(Mapper):
         tuples = cursor.fetchall()
 
         try:
-            (id, name, email, firebase_id) = tuples[0]
+            (id, email, firebase_id, name) = tuples[0]
             user = User()
             user.set_id(id)
             user.set_name(name)
