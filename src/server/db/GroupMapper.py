@@ -1,7 +1,7 @@
 from server.bo.Group import Group
 from server.db.Mapper import Mapper
 
-class GrouMapper(Mapper):
+class GroupMapper(Mapper):
     """
     Author: Julius
     """
@@ -11,17 +11,26 @@ class GrouMapper(Mapper):
     def find_all(self):
         result = []
         cursor = self._cnx.cursor()
-        statement = ""
+        statement = "Select * from `Group`"
         cursor.execute(statement)
-
         tuples = cursor.fetchall()
 
-        #hier ist das problem, dass in der db noch eine Tabelle angelegt werden muss, die verschiedene Listen speichert (mit fk
-        #dann muss man diese listen instantiieren (vlt durch den listenmapper oder so) und daraufhin diese objekte dem Gruppenatribut self.lists hinzufügen
+        try:
+            for (id, description, name) in tuples:
+                gr = Group()
+                gr.set_id(id)
+                gr.set_description(description)
+                gr.set_name(name)
+                
+                result.append(gr)
+                print(result)
+        except IndexError:
+            result = None 
         
-        #Todo: 1. Tabelle anlegen 2. Listenmapper 3. Gruppenmapper 
+        self._cnx.commit()
+        cursor.close()
 
-        pass 
+        return result       
 
     def find_by_key(self, key):
         """
@@ -29,12 +38,12 @@ class GrouMapper(Mapper):
         """
         result = None
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, description FROM group WHERE id={}".format(key)
+        command = "SELECT id, name, description FROM `Group` WHERE id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (id, name, description) = tuples[0]
+            (id, name, description) = tuples[0]    #potentieller fehler (erst description dann name)
             group = Group()
             group.set_id(id)
             group.set_name(name)
@@ -47,11 +56,43 @@ class GrouMapper(Mapper):
         cursor.close()
         return result
     
-    def insert(self):
-        pass 
+    def insert(self,group):
+        """
+        Julius
+        """
+        cursor = self._cnx.cursor()
+        cursor.execute("SELECT MAX(id) AS maxid FROM `Group`")
+        tuples = cursor.fetchall()
+        for (maxid) in tuples:
+            if maxid[0]:
+                group.set_id(maxid[0]+1)
+            else:
+                group.set_id(1)
 
-    def update(self):
-        pass 
+        command = "INSERT INTO `Group` (ID, description, name) VALUES ('{0}', '{1}', '{2}')".format(group.get_id(),group.get_description(),group.get_name())
+               
+        try:
+            cursor.execute(command)
+            self._cnx.commit()
+            cursor.close()
+            return group
+
+        except Exception as e:
+            cursor.close()
+            return "Error in groupMapper insert: "+str(e)
+
+    def update(self,group):
+        """
+        Julius
+        """
+        cursor = self._cnx.cursor()
+        command = "UPDATE `Group` " + "SET name=%s, description=%s WHERE id=%s"
+        data = (group.get_name(), group.get_description(), group.get_id())
+        cursor.execute(command, data)
+        self._cnx.commit()
+        cursor.close()
+
+        return group
 
     def delete(self, group):
         """
@@ -59,7 +100,7 @@ class GrouMapper(Mapper):
         """
         try:
             cursor = self._cnx.cursor()
-            command = "DELETE FROM Group WHERE ID={0}".format(group.get_id())
+            command = "DELETE FROM `Group` WHERE ID={0}".format(group.get_id())
             cursor.execute(command)
 
             self._cnx.commit()
