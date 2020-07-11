@@ -145,7 +145,7 @@ class ShoppingAdministration (object):
     
     def find_listentry_by_retailer(self, retailer):
         with ListEntryMapper() as mapper:
-            result = mapper.find_by_retailer(article)
+            result = mapper.find_by_retailer(retailer)
             return result
     
     def find_listentry_by_article(self, article):

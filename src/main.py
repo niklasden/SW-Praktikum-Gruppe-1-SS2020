@@ -436,7 +436,7 @@ class testListEntry(Resource):
         result = adm.find_listentry_by_key(key)
         return result
 
-@testing.route('/testListEntrybyRetailer')
+@testing.route('/testListEntrybyRetailer/<int:retailer>')
 @testing.response(500, 'Mach me so hamme kein stress')
 @testing.param('retailer', "Listentry retailer id")
 class testListEntry(Resource):

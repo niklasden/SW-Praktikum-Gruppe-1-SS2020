@@ -81,7 +81,7 @@ class ListEntryMapper(Mapper):
 
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT ID, Article_ID, Retailer_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought from `Listentry` WHERE Retailer_ID={}".format(retailer.get_id()))
+        cursor.execute("SELECT ID, Article_ID, Retailer_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought from `Listentry` WHERE Retailer_ID={}".format(retailer))
         tuples = cursor.fetchall()
         print(tuples)
 
@@ -200,7 +200,7 @@ class ListEntryMapper(Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT ID, Article_ID, Retailer_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought from `Listentry` WHERE bought={}".format(date.get_bought)
+        cursor.execute("SELECT ID, Article_ID, Retailer_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought from `Listentry` WHERE bought={}".format(date.get_bought))
         tuples = cursor.fetchall()
         print(tuples)
 
