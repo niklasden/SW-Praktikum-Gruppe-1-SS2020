@@ -101,10 +101,11 @@ class ArticleMapper (Mapper):
 
         for (maxid) in tuples:
             article.set_id(maxid[0]+1)
-
-        command = ""
-        data = (actricle.get_id(), article.get_name(), article.get_category())
-        cursor.execute(command, data)
+        print("here" ,article)
+        #command = "INSERT INTO `Article` (`ID`, `name`, `CategoryID`) VALUES ('{0}', '{1}', '{2}')".format(article.get_id(),article.get_name(),article.get_category())
+        command = "INSERT INTO Article (id, name, CategoryID) VALUES (%s, %s, %s)"
+        data = (article.get_id(), article.get_name(), article.get_category())
+        cursor.execute(command, data) #data
 
         self._cnx.commit()
         cursor.close()
@@ -117,8 +118,8 @@ class ArticleMapper (Mapper):
         """
         cursor = self._cnx.cursor()
 
-        command = "UPDATE Article " + "SET name=%s, category=%s WHERE id=%s"
-        data = (article.get_id(), article.get_name(), article.get_category())
+        command = "UPDATE Article " + "SET name=%s, CategoryID=%s WHERE id=%s"
+        data = (article.get_name(), article.get_category(), article.get_id())
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -131,7 +132,7 @@ class ArticleMapper (Mapper):
         try: 
             cursor = self._cnx.cursor()
             command = "DELETE FROM Article WHERE id={}".format(article.get_id())
-            cursor.exevute(command)
+            cursor.execute(command)
 
             self._cnx.commit()
             cursor.close()
