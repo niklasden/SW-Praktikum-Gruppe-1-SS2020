@@ -52,6 +52,19 @@ class ReportGenerator(Mapper):
             return result
 
     def get_top3_retailer(self, group_id):
-        pass
+        result = []
+        cursor = self._cnx.cursor()
+        statement = "SELECT r.name, r.location, amount, bought FROM dev_shoppingproject.Listentry as l INNER JOIN dev_shoppingproject.Retailer as r ON l.Retailer_ID = r.ID WHERE l.Group_ID = {0} ORDER BY amount DESC LIMIT 3;".format(group_id)
+        cursor.execute(statement)
+        tuples = cursor.fetchall()
+        try:
+            for (retailer_name, retailer_location, amount, bought) in tuples:
+                retailer_json = {"retailer_name": retailer_name, "retailer_location": retailer_location, "amount": str(amount), "bought": bought}
+                result.append(retailer_json)
+            self._cnx.commit()
+        finally:
+            cursor.close()
+            print(result)
+            return result
     def get_top3_products(self, group_id):
         pass

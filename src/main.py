@@ -228,6 +228,14 @@ class testReportGenerator(Resource):
         result = adm.get_report_entries(id)
         return result
 
+@shopping_v1.route('/report/top3Retailer/<int:id>')
+@shopping_v1.response(500,'If an server sided error occures')
+@shopping_v1.param('id', 'Group objects id')
+class testTop3Articles(Resource):
+    def get(self, id):
+        adm = ShoppingAdministration()
+        result = adm.get_top3Articles(id)
+        return result
 @shopping_v1.route('/User/<int:id>')
 @shopping_v1.response(500,"If an server sided error occures")
 class UserIDOperations(Resource):

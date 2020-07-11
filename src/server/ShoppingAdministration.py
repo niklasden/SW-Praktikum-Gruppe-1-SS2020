@@ -189,3 +189,8 @@ class ShoppingAdministration (object):
         with ReportGenerator() as generator:
             result = generator.get_report(group_id)
             return result
+
+    def get_top3Articles(self, group_id = 1):
+        with ReportGenerator() as generator:
+            result = generator.get_top3_retailer(group_id)
+            return result
