@@ -193,13 +193,13 @@ class UserIDOperations(Resource):
 @shopping_v1.response(500,"If an server sided error occures")
 class UserIDOperations(Resource):
     
-    @shopping_v1.marshal_with(user)
+    @shopping_v1.marshal_list_with(user)
     #@secured
     def get(self,name):
         adm = ShoppingAdministration()
         usr = adm.get_user_by_name(name)
-    
         return usr
+     
 # TESTING AREA:
 
 

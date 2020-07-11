@@ -38,7 +38,7 @@ class UserMapper(Mapper):
         cursor.execute(r"SELECT ID, `e-mail`,`firebase-id`, name FROM User WHERE name LIKE '%{0}%' ORDER BY name".format(name))   
         tuples = cursor.fetchall()
 
-        print(str(tuples))
+        
         
         for (id, mail, firebase_id, name) in tuples:
                 user = User()
@@ -47,7 +47,8 @@ class UserMapper(Mapper):
                 user.set_firebase_id(firebase_id)
                 user.set_name(name)
                 res.append(user)
-                print(str(user))
+        
+        
         self._cnx.commit()
         cursor.close()
         return res
