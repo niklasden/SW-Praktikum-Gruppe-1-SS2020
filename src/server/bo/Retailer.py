@@ -8,6 +8,13 @@ class Retailer (bo.BusinessObject):
         super().__init__()
         self._name = "" # Der Name eines Einzelhändlers, z.B. Rewe
         self._location = "" # Die Adresse des Einzelhändlers als einzelner String
+        self._id = "" # The id of a retailer
+
+    def get_id(self):
+        return self._id
+
+    def set_id(self, id):
+        self._id = id
 
     def get_name(self):
         return self._name

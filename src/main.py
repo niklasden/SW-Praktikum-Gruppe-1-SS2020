@@ -12,6 +12,7 @@ from server.db.GroupMapper import GroupMapper
 from server.bo.Group import Group
 from server.db.ListEntryMapper import ListEntryMapper
 from server.bo.ListEntry import ListEntry
+from server.bo.Retailer import Retailer
 
 import json
 
@@ -50,6 +51,12 @@ user = api.inherit('User',bo,{
     'firebase_id': fields.String(attribute='_firebase_id',description="An users firebaseid ")
 })
 
+retailer = api.inherit('Retailer',bo,{
+    'id': fields.Integer(attribute='_id', description="The id of a retailer"),
+    'name': fields.String(attribute='_name',description="A retailers name"),
+    'location': fields.String(attribute='_location', description="The address/location of a retailer as single string")
+})
+
 listentry = api.inherit('ListEntry',bo, {
     'article_id': fields.String(attribute='_article_id',description="Article ID of a listentry"),
     'retailer_id': fields.String(attribute='_retailer_id',description="Retailer ID of the specific listenty"),
@@ -60,6 +67,11 @@ listentry = api.inherit('ListEntry',bo, {
     'bought': fields.String(attribute='_bought',description="Date when the article was bought"),
 })
 
+report = api.inherit('Report',bo, {
+    'report_group': fields.String(attribute='_report_group',description="Group which report is used for"),
+    'report_retailer': fields.String(attribute='_report_retailer',description="Retailers visited of group members."),
+    '_report_listentries': fields.String(attribute='_report_listentries',description="Dictionary with bought articles with timestamp"),
+})
 # alle bos hier aufführen!
 
 
@@ -128,12 +140,74 @@ class GroupOperations(Resource):
         else:
             return 'error',500
 
+@shopping_v1.route('/Retailer')
+@shopping_v1.response(500, "Server side error occured")
+class RetailerListOperations(Resource):
+    @shopping_v1.marshal_list_with(retailer)
+    # @secured
+    def get(self):
+        adm = ShoppingAdministration()
+        result_find_all = adm.get_all_retailers()
+        return result_find_all
 
-@shopping_v1.route('User')
+    @shopping_v1.marshal_with(retailer, code=200)
+    @shopping_v1.expect(retailer, validate=True)
+    # @secured
+    def post(self):
+        adm = ShoppingAdministration()
+        try:
+            proposal = Retailer.from_dict(api.payload)
+            if proposal is not None:
+                retailer = Retailer()
+                retailer.set_id(proposal.get_id())
+                retailer.set_name(proposal.get_name())
+                retailer.set_location(proposal.get_location())
+                if (proposal.get_id() == 0):
+                    c = adm.create_retailer(retailer)
+                else:
+                    c = adm.save_retailer(retailer)
+                return c, 200
+            else:
+                return "", 500
+
+        except Exception as e:
+            print(str(e))
+            return str(e), 500
+
+
+@shopping_v1.route('/Retailer/<int:id>')
+@shopping_v1.response(500, "Server side error occured")
+class RetailerOperations(Resource):
+    # @secured
+    def delete(self, id):
+        """Löschen eines bestimmten Retailer-Objekts.
+
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ShoppingAdministration()
+        cust = adm.get_retailer_by_id(id)
+        adm.delete_retailer(cust)
+        return '', 200
+
+
+@shopping_v1.route('/report/<int:id>')
+@shopping_v1.response(500,'If an server sided error occures')
+@shopping_v1.param('id', 'Group objects id')
+class testReportGenerator(Resource):
+    @testing.marshal_with(report)
+    def get(self, id):
+        adm = ShoppingAdministration()
+        result = adm.get_report_entries(id)
+        return result
+
+
+#User:
+
+@shopping_v1.route('/User')
 @shopping_v1.response(500,"If an server sided error occures")
 class UserListOperations(Resource):
     @shopping_v1.marshal_list_with(user)
-    @secured
+    #@secured
     def get(self):
         adm = ShoppingAdministration() 
         result_find_all = adm.get_all_user()
@@ -141,7 +215,7 @@ class UserListOperations(Resource):
         
     @shopping_v1.marshal_with(user,code=200)
     @shopping_v1.expect(user)
-    @secured
+    #@secured
     def post(self):
         adm = ShoppingAdministration()
         try:
@@ -156,10 +230,82 @@ class UserListOperations(Resource):
             return str(e),500
         
 
+@shopping_v1.route('/User/<int:id>')
+@shopping_v1.response(500,"If an server sided error occures")
+class UserIDOperations(Resource):
+    @shopping_v1.marshal_with(user)
+    #@secured
+    def get(self,id):
+        adm = ShoppingAdministration()
+        return adm.get_user_by_id(id)
+    
+    #@secured
+    def delete(self,id):
+        adm = ShoppingAdministration()
+        usr = adm.get_user_by_id(id)
+        adm.delete_user(usr)
+        return "deleted",200
 
-# TODO Class UserOperations
+   
+    @shopping_v1.marshal_with(user)
+    @shopping_v1.expect(user,validate=True)
+    #@secured
+    def put(self,id):
+        adm = ShoppingAdministration()
+        c = User.from_dict(api.payload)
+        print(str(c))
+        if c is not None: 
+            c.set_id(id)
+            adm.save_user(c)
+            return 'saved',200
+        else:
+            return 'error',500
+    
+   
+@shopping_v1.route('/User/name/<string:name>')
+@shopping_v1.response(500,"If an server sided error occures")
+class UserIDOperations(Resource):
+    
+    @shopping_v1.marshal_list_with(user)
+    #@secured
+    def get(self,name):
+        adm = ShoppingAdministration()
+        usr = adm.get_user_by_name(name)
+        return usr
+
+
+@shopping_v1.route('/User/firebaseid/<string:firebaseid>')
+@shopping_v1.response(500,"If an server sided error occures")
+class UserIDOperations(Resource):
+    
+    @shopping_v1.marshal_list_with(user)
+    #@secured
+    def get(self,firebaseid):
+        adm = ShoppingAdministration()
+        usr = adm.get_user_by_firebase_id(firebaseid)
+        return usr
+
+
+@shopping_v1.route('/User/email/<string:email>')
+@shopping_v1.response(500,"If an server sided error occures")
+class UserIDOperations(Resource):
+    
+    @shopping_v1.marshal_list_with(user)
+    #@secured
+    def get(self,email):
+        adm = ShoppingAdministration()
+        usr = adm.get_user_by_email(email)
+        return usr
+
+
+
+
+
+
+
 
 # TESTING AREA:
+
 
 @testing.route('/testSecured')
 class testSecured(Resource):
@@ -282,7 +428,7 @@ class testUser(Resource):
         
         return result
         """
-        
+
 
 if __name__ == '__main__':
     app.run(debug=True)

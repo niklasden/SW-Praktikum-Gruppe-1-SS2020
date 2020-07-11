@@ -4,8 +4,10 @@ from .bo.Group import Group
 from .bo.ListEntry import ListEntry
 #from .db.UserMapper import UserMapper ..
 from .db.UserMapper import UserMapper
-from .db.GroupMapper import GroupMapper 
+from .db.RetailerMapper import RetailerMapper
+from .db.GroupMapper import GroupMapper
 from .db.ListEntryMapper import ListEntryMapper
+from .db.ReportGenerator import ReportGenerator
 
 
 #hier müssen BO Klassen & Mapper importiert werden
@@ -15,7 +17,6 @@ class ShoppingAdministration (object):
     def __init__(self):
         pass
 
-    
     def create_user(self, name, email, firebase_id):
         """Um einen User anzulegen"""
         user = User()
@@ -58,6 +59,35 @@ class ShoppingAdministration (object):
     def delete_user(self, user):
         with UserMapper() as mapper:
             res = mapper.delete(user)
+            return res
+
+    # Retailer
+    # Chris
+    def get_retailer_by_name(self, name):
+        with RetailerMapper() as mapper:
+            res = mapper.find_by_name(name)
+            return res
+
+    def get_retailer_by_id(self, id):
+        with RetailerMapper() as mapper:
+            res = mapper.find_by_key(id)
+            return res
+
+    def create_retailer(self, retailer):
+        with RetailerMapper() as mapper:
+            return mapper.insert(retailer)
+
+    def save_retailer(self, retailer):
+        with RetailerMapper() as mapper:
+            mapper.update(retailer)
+
+    def delete_retailer(self, retailer):
+        with RetailerMapper() as mapper:
+            mapper.delete(retailer)
+
+    def get_all_retailers(self):
+        with RetailerMapper() as mapper:
+            res = mapper.find_all()
             return res
 
     #Groups:
@@ -158,4 +188,10 @@ class ShoppingAdministration (object):
     def delete_listentry(self, listentry):
         with ListEntryMapper() as mapper:
             result = mapper.delete(listentry)
+            return result
+            
+    #Report Kevin
+    def get_report_entries(self, group_id = 1):
+        with ReportGenerator() as generator:
+            result = generator.get_report(group_id)
             return result
