@@ -18,8 +18,6 @@ class Article (bo.BusinessObject):
     def set_name(self, name):
         self._name = name
 
-    """?????? Braucht man Category auch?"""
-
     def get_category(self):
         return self._category
 
@@ -28,4 +26,13 @@ class Article (bo.BusinessObject):
 
     def __str__(self):
         return "Article: {}, name: {}, category: {}".format(self.get_id(), self._name, self._category)
+
+    
+    @staticmethod
+    def from_dict(dictionary=dict()):
+        obj = Article()
+        obj.set_id(dictionary["id"])
+        obj.set_name(dictionary["name"])
+        obj.set_category(dictionary["category"])
+        return obj
 

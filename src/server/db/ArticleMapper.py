@@ -20,11 +20,11 @@ class ArticleMapper (Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name) in tuples: 
+        for (id, name, category_id) in tuples: 
             article = Article()
             article.set_id(id)
             article.set_name(name)
-            #article.set_category(category)
+            article.set_category(category_id)
             result.append(article)
 
         self._cnx.commit()
@@ -41,7 +41,7 @@ class ArticleMapper (Mapper):
 
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, category FROM articles WHERE name LIKE '{}' ORDER BY name".format(name)
+        command = "SELECT id, name, `CategoryID` FROM Article WHERE name LIKE '{}' ORDER BY name".format(name)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -66,9 +66,8 @@ class ArticleMapper (Mapper):
         """
 
         result = None
-
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, category FROM articles WHERE id = {}".format(key)
+        command = "SELECT id, name, `CategoryID` FROM Article WHERE id = {}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -97,7 +96,7 @@ class ArticleMapper (Mapper):
         :return das bereits übergebene Objekt, jedoch mit ggf. korrigirter ID
         """
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT MAX(id) AS maxid FROM articles")
+        cursor.execute("SELECT MAX(id) AS maxid FROM Article")
         tuples = cursor.fetchall()
 
         for (maxid) in tuples:
@@ -118,7 +117,7 @@ class ArticleMapper (Mapper):
         """
         cursor = self._cnx.cursor()
 
-        command = "UPDATE articles " + "SET name=%s, category=%s WHERE id=%s"
+        command = "UPDATE Article " + "SET name=%s, category=%s WHERE id=%s"
         data = (article.get_id(), article.get_name(), article.get_category())
         cursor.execute(command, data)
 
@@ -131,7 +130,7 @@ class ArticleMapper (Mapper):
         """
         try: 
             cursor = self._cnx.cursor()
-            command = "DELETE FROM articles WHERE id={}".format(article.get_id())
+            command = "DELETE FROM Article WHERE id={}".format(article.get_id())
             cursor.exevute(command)
 
             self._cnx.commit()
