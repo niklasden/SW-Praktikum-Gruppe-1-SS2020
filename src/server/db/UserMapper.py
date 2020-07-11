@@ -23,7 +23,7 @@ class UserMapper(Mapper):
             user.set_firebase_id(firebase_id)
             user.set_name(name)
             result.append(user)
-            print(str(user))
+            
         self._cnx.commit()
         cursor.close()
         return result
@@ -35,9 +35,11 @@ class UserMapper(Mapper):
         """
         res = []
         cursor = self._cnx.cursor()
-        cursor.execute(r"SELECT ID,'e-mail','firebase-id', name FROM User WHERE name LIKE '{0}' ORDER BY name".format(name))   
+        cursor.execute(r"SELECT ID, `e-mail`,`firebase-id`, name FROM User WHERE name LIKE '%{0}%' ORDER BY name".format(name))   
         tuples = cursor.fetchall()
 
+        print(str(tuples))
+        
         for (id, mail, firebase_id, name) in tuples:
                 user = User()
                 user.set_id(id)
@@ -45,7 +47,7 @@ class UserMapper(Mapper):
                 user.set_firebase_id(firebase_id)
                 user.set_name(name)
                 res.append(user)
-                
+                print(str(user))
         self._cnx.commit()
         cursor.close()
         return res
@@ -58,7 +60,8 @@ class UserMapper(Mapper):
         """
         result = None
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, e-mail, firebase-id FROM users WHERE id={}".format(key)
+        
+        command = "SELECT ID, `e-mail`,`firebase-id`, name FROM User WHERE ID='{0}'".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -110,7 +113,7 @@ class UserMapper(Mapper):
         """
         result = None
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, email, firebase-id FROM users WHERE firebase_id='{}'".format(firebase_id)
+        command = "SELECT ID, `e-mail`,`firebase-id`, name FROM User WHERE `firebase-id` LIKE'{0}'".format(firebase_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -170,9 +173,11 @@ class UserMapper(Mapper):
         Niklas
         """
         cursor = self._cnx.cursor()
-        command = "UPDATE User " + "SET name=%s, e-mail=%s WHERE firebase-id=%s"
-        data = (user.get_id(), user.get_name(), user.get_email(), user.get_firebase_id())
-        cursor.execute(command, data)
+        
+        command = "UPDATE `User` " + "SET name=%s, `e-mail`=%s WHERE ID=%s"
+        data = (user.get_name(), user.get_email(), user.get_id())
+        
+        cursor.execute(command,data)
         self._cnx.commit()
         cursor.close()
 
