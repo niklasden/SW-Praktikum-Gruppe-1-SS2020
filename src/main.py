@@ -60,7 +60,6 @@ retailer = api.inherit('Retailer',bo,{
 })
 
 listentry = api.inherit('ListEntry',bo, {
-    'id': fields.String(attribute='_id',description="ID of a listentry"),
     'article_id': fields.String(attribute='_article_id',description="Article ID of a listentry"),
     'retailer_id': fields.String(attribute='_retailer_id',description="Retailer ID of the specific listenty"),
     'shoppinglist_id': fields.String(attribute='_shoppinglist_id',description="Corresponding Shopping List ID of a listentry"),
@@ -409,14 +408,37 @@ class testListEntry(Resource):
         result = adm.get_all_listentries()
         return result
 
-@testing.route('/testListEntrybykey')
+@testing.route('/testListEntrybyKey/<int:key>')
 @testing.response(500, 'Falls was in die Fritten geht')
+@testing.param('key', "Listentry object id")
 class testListEntry(Resource):
     @testing.marshal_with(listentry)
-    def get(self):
+    def get(self, key):
         adm = ShoppingAdministration()
-        result = adm.get_all_listentries()
+        result = adm.find_listentry_by_key(key)
         return result
+
+@testing.route('/testListEntrybyUser/<int:user>')
+@testing.response(500, 'Falls was in die Fritten geht')
+@testing.param('key', "User object id")
+class testListEntry(Resource):
+    @testing.marshal_with(listentry)
+    def get(self, user):
+        adm = ShoppingAdministration()
+        result = adm.find_listentry_by_purchaser(user)
+        return result
+
+
+@testing.route('/testListEntryinset/')
+@testing.response(500, 'Falls was in die Fritten geht')
+@testing.param('obj', "Listentry object id")
+class testListEntry(Resource):
+    @testing.marshal_with(listentry)
+    def get(self, listentry):
+        adm = ShoppingAdministration()
+        result = adm.insert_listentry(listentry)
+        return result
+
 
 @testing.route('/testUser')
 @testing.response(500,'If an server sided error occures')
