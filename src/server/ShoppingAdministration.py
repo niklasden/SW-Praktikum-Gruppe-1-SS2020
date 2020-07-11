@@ -1,9 +1,11 @@
 #from .bo.User import User ... 
 from .bo.User import User
 from .bo.Group import Group
+from .bo.ListEntry import ListEntry
 #from .db.UserMapper import UserMapper ..
 from .db.UserMapper import UserMapper
-from .db.GroupMapper import GroupMapper 
+from .db.RetailerMapper import RetailerMapper
+from .db.GroupMapper import GroupMapper
 from .db.ListEntryMapper import ListEntryMapper
 from .db.ReportGenerator import ReportGenerator
 
@@ -15,7 +17,6 @@ class ShoppingAdministration (object):
     def __init__(self):
         pass
 
-    
     def create_user(self, name, email, firebase_id):
         """Um einen User anzulegen"""
         user = User()
@@ -60,6 +61,35 @@ class ShoppingAdministration (object):
             res = mapper.delete(user)
             return res
 
+    # Retailer
+    # Chris
+    def get_retailer_by_name(self, name):
+        with RetailerMapper() as mapper:
+            res = mapper.find_by_name(name)
+            return res
+
+    def get_retailer_by_id(self, id):
+        with RetailerMapper() as mapper:
+            res = mapper.find_by_key(id)
+            return res
+
+    def create_retailer(self, retailer):
+        with RetailerMapper() as mapper:
+            return mapper.insert(retailer)
+
+    def save_retailer(self, retailer):
+        with RetailerMapper() as mapper:
+            mapper.update(retailer)
+
+    def delete_retailer(self, retailer):
+        with RetailerMapper() as mapper:
+            mapper.delete(retailer)
+
+    def get_all_retailers(self):
+        with RetailerMapper() as mapper:
+            res = mapper.find_all()
+            return res
+
     #Groups:
     #Julius 
 
@@ -100,6 +130,60 @@ class ShoppingAdministration (object):
             result = mapper.find_all()
             return result
 
+    def find_by_name(self, name):
+        with ListEntryMapper() as mapper:
+            result = mapper.find_by_name()
+            return result
+
+    def find_by_key(self, key):
+        with ListEntryMapper() as mapper:
+            result = mapper.find_by_key(key)
+            return result
+    
+    def find_by_retailer(self, retailer):
+        with ListEntryMapper() as mapper:
+            result = mapper.find_by_retailer(article)
+            return result
+    
+    def find_by_article(self, article):
+        with ListEntryMapper() as mapper:
+            result = mapper.find_by_article(article)
+            return result
+    
+    def find_by_purchaser(self, purchaser):
+        with ListEntryMapper() as mapper:
+            result = mapper.find_by_purchaser(purchaser)
+            return result
+    
+    def find_by_checkout(self, date):
+        with ListEntryMapper() as mapper:
+            result = mapper.find_by_checkout(date)
+            return result
+    
+    def find_by_date_of_purchase(self, date):
+        with ListEntryMapper() as mapper:
+            result = mapper.find_by_date_of_purchase(date)
+            return result
+    
+    #noch nicht fertig
+    def insert(self, ):
+        listentry = ListEntry()
+        listentry.set_id(1)
+
+        with ListEntryMapper() as mapper:
+            result = mapper.insert(listentry)
+            return result
+    
+    def update(self, listentry):
+        with ListEntryMapper() as mapper:
+            result = mapper.update()
+            return result
+    
+    def delete(self, listentry):
+        with ListEntryMapper() as mapper:
+            result = mapper.delete()
+            return result
+            
     def get_report_entries(self, group_id = 1):
         with ReportGenerator() as generator:
             result = generator.get_report(group_id)

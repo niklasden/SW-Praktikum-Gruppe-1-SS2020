@@ -144,6 +144,8 @@ class RetailerMapper (Mapper):
 
         command = "UPDATE Retailer " + "SET name=%s, location=%s WHERE id=%s"
         data = (retailer.get_name(), retailer.get_location(), retailer.get_id())
+        print('Command, ', command)
+        print('Data: ', data)
         cursor.execute(command, data)
 
         self._cnx.commit()
