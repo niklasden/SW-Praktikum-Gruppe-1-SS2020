@@ -249,7 +249,16 @@ class testGroupOperations(Resource):
         gr = adm.get_group_by_id(id)
         adm.delete_group(gr)
 
-@testing.route('/testListEntry')
+@testing.route('/testallListEntry')
+@testing.response(500, 'Falls was in die Fritten geht')
+class testListEntry(Resource):
+    @testing.marshal_with(listentry)
+    def get(self):
+        adm = ShoppingAdministration()
+        result = adm.get_all_listentries()
+        return result
+
+@testing.route('/testListEntrybykey')
 @testing.response(500, 'Falls was in die Fritten geht')
 class testListEntry(Resource):
     @testing.marshal_with(listentry)

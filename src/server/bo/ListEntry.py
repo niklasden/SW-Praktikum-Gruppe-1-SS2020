@@ -22,7 +22,7 @@ class ListEntry(bo.BusinessObject):
 
     #this was renamed from get name to article, makes more sense imho
     def get_id():
-        return self.__id
+        return self._id
     #this needs some more thinking
     def set_id(self, id):
         self._id = id
@@ -31,110 +31,110 @@ class ListEntry(bo.BusinessObject):
         """
         Niklas
         """
-        return self.__article_id
+        return self._article_id
     
     def set_article(self, article):
         """
         Niklas
         """
-        self.__article_id = article
+        self._article_id = article
 
     def get_retailer():
         """
         Niklas
         """
-        return self.__retailer_id
+        return self._retailer_id
 
     def set_retailer(self, retailer):
         """
         Pascal retailer:Retailer
         """
-        self.__retailer_id = retailer
+        self._retailer_id = retailer
 
     def get_purchaser():
         """
         Pascal
         """
-        return self.__purchaser
+        return self._purchaser
 
     def set_purchaser(self, purchaser):
         """
         Niklas purchaser:User
         """
-        self.__user_id = purchaser
+        self._user_id = purchaser
 
     #renamed from class diagramm quantity to amount to have the same words ;)
     def get_amount():
         """
         Pascal amount:int
         """
-        return self.__amount
+        return self._amount
 
     def set_amount(self, amount):
         """
         Niklas amount:int
         """
-        self.__amount = amount
+        self._amount = amount
 
     def get_checkout():
         """
         Pascal setcheck bool to true? or set date
         """
-        return self.__checkout
+        return self._checkout
 
     def set_checkout(self, checkout):
         """
         Pascal setcheck bool to true? or set date
         """
-        self.__checkout = checkout
+        self._checkout = checkout
 
     def get_buy_date():
         """
         Niklas quantity:int
         """
-        return self.__bought
+        return self._bought
     
     def set_buy_date(self, date):
         """
         Pascal date:Date
         """
-        self.__bought = date
+        self._bought = date
 
     def get_group():
         """
         Niklas 
         """
-        return self.__group_id
+        return self._group_id
 
     def set_group(self, group):
         """
         Pascal
         """
-        self.__group_id = group
+        self._group_id = group
 
     def get_user():
         """
         Niklas
         """
-        return self.__user_id
+        return self._user_id
 
     def set_user(self, user):
         """
         Niklas
         """
-        self.__user_id = user
+        self._user_id = user
     
     def get_shoppinglist():
         """
         Niklas
         """
-        return self.__shoppinglist_id
+        return self._shoppinglist_id
     
     def set_shoppinglist(self, shoppinglist):
         """
         Pascal
         """
-        self.__shoppinglist_id = shoppinglist
+        self._shoppinglist_id = shoppinglist
     
 
         
