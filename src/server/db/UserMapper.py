@@ -114,7 +114,7 @@ class UserMapper(Mapper):
         """
         result = None
         cursor = self._cnx.cursor()
-        command = "SELECT ID, `e-mail`,`firebase-id`, name FROM User WHERE `firebase-id` LIKE'{0}'".format(firebase_id)
+        command = "SELECT ID, `e-mail`,`firebase-id`, name FROM User WHERE `firebase-id` LIKE '{0}'".format(firebase_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 

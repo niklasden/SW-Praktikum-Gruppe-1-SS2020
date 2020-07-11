@@ -191,6 +191,19 @@ class RetailerOperations(Resource):
         return '', 200
 
 
+@shopping_v1.route('/report/<int:id>')
+@shopping_v1.response(500,'If an server sided error occures')
+@shopping_v1.param('id', 'Group objects id')
+class testReportGenerator(Resource):
+    @testing.marshal_with(report)
+    def get(self, id):
+        adm = ShoppingAdministration()
+        result = adm.get_report_entries(id)
+        return result
+
+
+#User:
+
 @shopping_v1.route('/User')
 @shopping_v1.response(500,"If an server sided error occures")
 class UserListOperations(Resource):
@@ -217,16 +230,6 @@ class UserListOperations(Resource):
         except Exception as e:
             return str(e),500
         
-
-@shopping_v1.route('/report/<int:id>')
-@shopping_v1.response(500,'If an server sided error occures')
-@shopping_v1.param('id', 'Group objects id')
-class testReportGenerator(Resource):
-    @testing.marshal_with(report)
-    def get(self, id):
-        adm = ShoppingAdministration()
-        result = adm.get_report_entries(id)
-        return result
 
 @shopping_v1.route('/User/<int:id>')
 @shopping_v1.response(500,"If an server sided error occures")
@@ -260,7 +263,7 @@ class UserIDOperations(Resource):
             return 'error',500
     
    
-@shopping_v1.route('/User/<string:name>')
+@shopping_v1.route('/User/name/<string:name>')
 @shopping_v1.response(500,"If an server sided error occures")
 class UserIDOperations(Resource):
     
@@ -270,7 +273,38 @@ class UserIDOperations(Resource):
         adm = ShoppingAdministration()
         usr = adm.get_user_by_name(name)
         return usr
-     
+
+
+@shopping_v1.route('/User/firebaseid/<string:firebaseid>')
+@shopping_v1.response(500,"If an server sided error occures")
+class UserIDOperations(Resource):
+    
+    @shopping_v1.marshal_list_with(user)
+    #@secured
+    def get(self,firebaseid):
+        adm = ShoppingAdministration()
+        usr = adm.get_user_by_firebase_id(firebaseid)
+        return usr
+
+
+@shopping_v1.route('/User/email/<string:email>')
+@shopping_v1.response(500,"If an server sided error occures")
+class UserIDOperations(Resource):
+    
+    @shopping_v1.marshal_list_with(user)
+    #@secured
+    def get(self,email):
+        adm = ShoppingAdministration()
+        usr = adm.get_user_by_email(email)
+        return usr
+
+
+
+
+
+
+
+
 # TESTING AREA:
 
 
