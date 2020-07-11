@@ -140,7 +140,7 @@ class ListEntryMapper(Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT ID, Article_ID, Retailer_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought from `Listentry` WHERE User_ID={}".format(purchaser.get_id()))
+        cursor.execute("SELECT ID, Article_ID, Retailer_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought from `Listentry` WHERE User_ID={}".format(purchaser))
         tuples = cursor.fetchall()
         print(tuples)
 
@@ -252,7 +252,15 @@ class ListEntryMapper(Mapper):
         """
         Pascal le:ListEntry
         """
-        pass
+
+        cursor = self._cnx.cursor()
+        command = "UPDATE 'Listentry'" + "SET Article_ID=%s, Retailer_ID=%s, Shoppinglist_ID=%s User_ID=%s, Group_ID=%s, amount=%s, bought=%s WHERE id=%s"
+
+        data = (listentry.get_article(), listentry.get_retailer(), listentry.get_shoppinglist(), listentry.get_user(), listentry.get_group(), listentry.get_amount, listentry.get_bought(), listentry.get_id())
+        cursor.execute(command, data)
+        self._cnx.commit()
+        cursor.close()
+        return listentry
 
     def delete(self, listentry):
         """

@@ -456,6 +456,15 @@ class testListEntry(Resource):
         result = adm.find_listentry_by_purchaser(user)
         return result
 
+@testing.route('/testListEntryfindbyPurchaser/ <int:purchaser>')
+@testing.response(500, 'Mach me so hamme kein stress')
+@testing.param('purchaser', "Listentry purchaser id")
+class testListEntry(Resource):
+    @testing.marshal_list_with(listentry)
+    def get(self, purchaser):
+        adm = ShoppingAdministration()
+        result = adm.find_listentry_by_purchaser(purchaser)
+        return result
 
 @testing.route('/testListEntryinset/')
 @testing.response(500, 'Falls was in die Fritten geht')
@@ -467,6 +476,34 @@ class testListEntry(Resource):
         result = adm.insert_listentry(listentry)
         return result
 
+@testing.route('testListEntryUpdate')
+@testing.response(500, 'If an server sided error occures')
+class testListEntry(Resource):
+    @testing.marshal_list_with(listentry)
+    def get(self):
+        adm = ShoppingAdministration()
+        result = adm.get_all_listentries()
+        return result
+    
+    @testing.marshal_list_with(listentry, code= 200)
+    @testing.expect(listentry)
+
+    def post(self):
+        adm = ShoppingAdministrationI()
+        try:
+            proposal = ListEntry.from_dict(api.payload)
+            if proposal is not None: 
+                c = admin.create
+                
+            @testing.marshal_with(group)
+    def get(self,id):
+        adm = ShoppingAdministration()
+        return adm.get_group_by_id(id)
+
+    def delete(self,id):
+        adm = ShoppingAdministration()
+        gr = adm.get_group_by_id(id)
+        adm.delete_group(gr)
 
 @testing.route('/testUser')
 @testing.response(500,'If an server sided error occures')
