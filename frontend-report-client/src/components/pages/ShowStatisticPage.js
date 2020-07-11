@@ -9,6 +9,7 @@ import Select from '@material-ui/core/Select';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { Link } from 'react-router-dom';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
+import {Config} from '../../config';
 
 /**
  * Displays the statistic page
@@ -32,7 +33,6 @@ const initEndDate = new Date(initStartDate.setDate(initStartDate.getDate() + 7))
 const initEndDateMonth = initEndDate.getMonth() < 10 ? "0" + (initEndDate.getMonth() + 1) : (initEndDate.getMonth() + 1);
 const initEndDateDay = initEndDate.getDate() < 10 ? "0" + initEndDate.getDate() : initEndDate.getDate();
 const initEndDateFullDate = initEndDate.getFullYear() + "-" + initEndDateMonth + "-" + initEndDateDay;
-console.log("StartTime:", initStartDateFullDate, " Endtime:", initEndDateFullDate)
 class ShowStatisticPage extends Component {
     constructor(props) {
         super(props);
@@ -69,18 +69,18 @@ class ShowStatisticPage extends Component {
     }
     async fetchProducts() {
        try {
-            const res = await fetch("http://localhost:8081/api/shoppa/products/shopped")
+            const res = await fetch(Config.apiHost + "/report/1")
             const json = await res.json();
-            this.setState({products: json})
+            this.setState({products: json._report_listentries})
        }catch(exception) {
         this.setState({error: exception})
        }
     }
     async fetchRetailers() {
         try {
-            const res = await fetch("http://localhost:8081/api/shoppa/retailers")
+            const res = await fetch(Config.apiHost + "/report/1")
             const json = await res.json();
-            this.setState({retailer: json})
+            this.setState({retailer: json.report_retailer})
         }catch(exception) {
             this.setState({error: exception})
         }

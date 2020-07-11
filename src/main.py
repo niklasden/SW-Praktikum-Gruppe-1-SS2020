@@ -71,10 +71,10 @@ listentry = api.inherit('ListEntry',bo, {
 
 report = api.inherit('Report',bo, {
     'report_group': fields.String(attribute='_report_group',description="Group which report is used for"),
-    'report_retailer': fields.String(attribute='_report_retailer',description="Retailers visited of group members."),
-    '_report_listentries': fields.String(attribute='_report_listentries',description="Dictionary with bought articles with timestamp"),
-    'top_articles': fields.String(attribute='_top_articles', description="Top 3 bought articles of each group"),
-    'top_retailers': fields.String(attribute='_top_retailers', description="Top 3 bought retailers of each group"),
+    'report_retailer': fields.Raw(attribute='_report_retailer',description="Retailers visited of group members."),
+    '_report_listentries': fields.Raw(attribute='_report_listentries',description="Dictionary with bought articles with timestamp"),
+    'top_articles': fields.Raw(attribute='_top_articles', description="Top 3 bought articles of each group"),
+    'top_retailers': fields.Raw(attribute='_top_retailers', description="Top 3 bought retailers of each group"),
 })
 article = api.inherit('Article', bo, {
     'name': fields.String(attribute='_name', description="An Article name"), 

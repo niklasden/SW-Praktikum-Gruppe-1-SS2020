@@ -7,8 +7,7 @@ import { Link } from 'react-router-dom';
 import MainBarChart from '../layout/MainBarChart';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
-import BarChart from '../../components/layout/BarChart'
-import LineChart from '../../components/layout/LineChart'
+import {Config} from '../../config';
 
 /**
  * Displays the statistic page
@@ -29,9 +28,9 @@ class StatisticPage extends Component {
 
     async fetchTopProducts() {
         try {
-            const res = await fetch("http://localhost:8081/api/shoppa/products/top");
+            const res = await fetch(Config.apiHost + "/report/1");
             const json = await res.json();
-            this.setState({products: json})
+            this.setState({products: json.top_articles})
         }catch(exception) {
             this.setState({error: exception});
         }
@@ -39,9 +38,9 @@ class StatisticPage extends Component {
     }
     async fetchTopRetailers() {
         try {
-            const res = await fetch("http://localhost:8081/api/shoppa/retailers/top");
+            const res = await fetch(Config.apiHost + "/report/1");
             const json = await res.json();
-            this.setState({retailers: json})
+            this.setState({retailers: json.top_retailers})
         }catch(exception) {
             this.setState({error: exception});
         }
@@ -54,7 +53,7 @@ class StatisticPage extends Component {
         this.fetchTopRetailers();
         this.setState({
 			dataLoading: false
-		});
+        });
     }
     render() { 
     const { error, dataLoading } = this.state;
@@ -66,27 +65,24 @@ class StatisticPage extends Component {
                 <>
                     <LoadingProgress show={dataLoading} />
                     <Heading>MEISTBESUCHTE EINZELHÄNDLER</Heading>
-                        <MainBarChart data={this.state.retailers} />
+                        <MainBarChart retailer data={this.state.retailers} />
                         <Grid item xs={12} container spacing={1}>
                             {this.state.retailers.map(retailer => {
-                                return <StatisticItem retailer key={retailer.nr} number={retailer.nr} name={retailer.name} amount={retailer.amount} />
+                                return <StatisticItem retailer key={retailer.retailer_id} number={retailer.retailer_id} name={retailer.retailer_name} amount={retailer.amount} />
                             })}
                         </Grid>
                         <Heading>MEISTGEKAUFTE ARTIKEL</Heading>
-                        <MainBarChart data={this.state.products} />
+                        <MainBarChart products data={this.state.products} />
                         <Grid item xs={12} container spacing={1}>
                             {this.state.products.map(article => {
-                                return <StatisticItem article key={article.nr} number={article.nr} name={article.name} amount={article.amount} />
+                                return <StatisticItem article key={article.article_id} number={article.article_id} name={article.article_name} amount={article.number_bought} />
                             })}
                         </Grid>
+                        
                         <Link to="./show">
                             <MainButton>STATISTIK ANZEIGEN</MainButton>
                         </Link>
 
-                        <BarChart />
-                        <div style={{height: 100}} />
-                        <LineChart />
-                        <div style={{height: 100}} />
                     </>
                 }
             </>

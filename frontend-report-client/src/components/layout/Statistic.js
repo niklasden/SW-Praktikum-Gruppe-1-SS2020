@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Grid } from '@material-ui/core';
 import CanvasJSReact from './statistic/canvasjs.react'
 import { withStyles } from '@material-ui/core/styles';
+import {Config} from '../../config';
 
 /**
  * Displays the timeline chat for the statistic page
@@ -28,30 +29,29 @@ class Statistic extends Component {
   }
   async getBoughtProducts() {
     try {
-      const res = await fetch("http://localhost:8081/api/shoppa/products/shopped");
+      const res = await fetch(Config.apiHost + "/report/1");
       const json = await res.json();
+      console.log(json);
       var newItem, productList = [];
-      json.forEach(item => {
+      json._report_listentries.forEach(item => {
         newItem = {
           type: "spline",
           yValueFormatString: "#0.## Stk.",
           showInLegend: true,
           name: item.name,
-          category: item.category,
+          category: item.article_category,
           retailer: item.retailer,
           dataPoints: []
         };
-        item.purchases.forEach(purchase => {
-          var dataPoint = 
+        newItem.dataPoints.push(
           {
-            x: new Date(purchase.bought),
-            y: purchase.amount
-          };
-          newItem.dataPoints.push(dataPoint);
-        })
-      productList.push(newItem);
+          x: new Date(item.bought),
+          y: item.amount
+          })
       })
+      productList.push(newItem);
       this.setState({options: {data: [...productList]}})
+      console.log(this.state.options);
     }catch(exception) {
         this.setState({error: exception})
     }
