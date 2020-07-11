@@ -46,21 +46,22 @@ class ReportGenerator(Mapper):
             report = Report(group_name, retailers, articles)
 
 
-            top_3_articles = self.get_top_3_articles()
-            top_3_retailers = self.get_top3_retailer()
+            top_3_articles = self.get_top_3_articles(group_id)
+            top_3_retailers = self.get_top3_retailer(group_id)
 
             report.set_top_articles(top_3_articles)
             report.set_top_retailers(top_3_retailers)
 
             self._cnx.commit()
 
-        except:
+        except Exception as e:
+            print(e)
             print("Error while fetching report tuple! Something's wrong with the database-result!")
         finally:
             cursor.close()
             return report
 
-    def get_top_3_articles(self):
+    def get_top_3_articles(self, group_id):
         """
         Author: Christopher Böhm
         :return:
@@ -71,25 +72,28 @@ class ReportGenerator(Mapper):
             SELECT Article.ID, Article.name, Article.CategoryID FROM dev_shoppingproject.Listentry
             LEFT JOIN dev_shoppingproject.Article
             ON Listentry.Article_ID=Article.ID
+            WHERE Listentry.Group_ID={0}
             GROUP BY Article.ID
             ORDER BY COUNT(Article.ID) DESC
             LIMIT 3
-        """
+        """.format(group_id)
 
         cursor.execute(statement)
 
         tuples = cursor.fetchall()
         try:
             for(id, name, categoryID) in tuples:
-                article = Article()
-                article.set_id(id)
-                article.set_name(name)
-                article.set_category(categoryID)
-
-                result.append(article)
+                # article = Article()
+                # article.set_id(id)
+                # article.set_name(name)
+                # article.set_category(categoryID)
+                article_json = {"article_name": name, "article_id": id,
+                                 "article_category": categoryID}
+                result.append(article_json)
             self._cnx.commit()
-        except:
+        except Exception as e:
             print("Error while fetching report tuple! Something's wrong with the database-result!")
+            print(e)
         finally:
             cursor.close()
             return result
