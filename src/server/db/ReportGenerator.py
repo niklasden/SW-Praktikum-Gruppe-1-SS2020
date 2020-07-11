@@ -50,3 +50,8 @@ class ReportGenerator(Mapper):
         finally:
             cursor.close()
             return result
+
+    def get_top3_retailer(self, group_id):
+        pass
+    def get_top3_products(self, group_id):
+        pass
