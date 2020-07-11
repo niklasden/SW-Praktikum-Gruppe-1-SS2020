@@ -50,3 +50,40 @@ class ReportGenerator(Mapper):
         finally:
             cursor.close()
             return result
+
+    def get_top_3_articles(self):
+        """
+        Author: Christopher Böhm
+        :return:
+        """
+        result = []
+        articles = []
+        articles = []
+        cursor = self._cnx.cursor()
+        statement = """
+            SELECT Article.ID, Article.name, Article.CategoryID FROM dev_shoppingproject.Listentry
+            LEFT JOIN dev_shoppingproject.Article
+            ON Listentry.Article_ID=Article.ID
+            GROUP BY Article.ID
+            ORDER BY COUNT(Article.ID) DESC
+            LIMIT 3
+        """
+
+        cursor.execute(statement)
+
+        tuples = cursor.fetchall()
+        try:
+            for(id, name, categoryID) in tuples:
+                article = Article()
+                articles.append(article)
+                if(retailer not in retailers):
+                    retailer = {"name": retailer, "location": retailer_location}
+                    retailers.append(retailer)
+                report = Report(group_name, retailers, articles)
+                result.append(report)
+            self._cnx.commit()
+        except:
+            print("Error while fetching report tuple! Something's wrong with the database-result!")
+        finally:
+            cursor.close()
+            return result

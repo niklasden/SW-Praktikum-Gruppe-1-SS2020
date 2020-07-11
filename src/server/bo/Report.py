@@ -28,5 +28,6 @@ class Report(bo.BusinessObject):
 
     def set_listentries(self, liste):
         self._report_listentries = liste
+
     def append_listentries(self, entry):
         self._report_listentries.append(entry)
