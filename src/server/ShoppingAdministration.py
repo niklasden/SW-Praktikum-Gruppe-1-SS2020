@@ -73,7 +73,7 @@ class ShoppingAdministration (object):
 
     def create_retailer(self, retailer):
         with RetailerMapper() as mapper:
-            mapper.insert(retailer)
+            return mapper.insert(retailer)
 
     def save_retailer(self, retailer):
         with RetailerMapper() as mapper:
@@ -82,6 +82,11 @@ class ShoppingAdministration (object):
     def delete_retailer(self, retailer):
         with RetailerMapper() as mapper:
             mapper.delete(retailer)
+
+    def get_all_retailers(self):
+        with RetailerMapper() as mapper:
+            res = mapper.find_all()
+            return res
 
     #Groups:
     #Julius 

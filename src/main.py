@@ -12,6 +12,7 @@ from server.db.GroupMapper import GroupMapper
 from server.bo.Group import Group
 from server.db.ListEntryMapper import ListEntryMapper
 from server.bo.ListEntry import ListEntry
+from server.bo.Retailer import Retailer
 
 import json
 
@@ -48,6 +49,12 @@ user = api.inherit('User',bo,{
     'name': fields.String(attribute='_name',description="An users name"),
     'email': fields.String(attribute='_email',description="An users email"),
     'firebase_id': fields.String(attribute='_firebase_id',description="An users firebaseid ")
+})
+
+retailer = api.inherit('Retailer',bo,{
+    'id': fields.Integer(attribute='_id', description="The id of a retailer"),
+    'name': fields.String(attribute='_name',description="A retailers name"),
+    'location': fields.String(attribute='_location', description="The address/location of a retailer as single string")
 })
 
 listentry = api.inherit('ListEntry',bo, {
@@ -128,6 +135,55 @@ class GroupOperations(Resource):
             return 'saved',200
         else:
             return 'error',500
+
+@shopping_v1.route('/Retailer')
+@shopping_v1.response(500, "Server side error occured")
+class RetailerListOperations(Resource):
+    @shopping_v1.marshal_list_with(retailer)
+    # @secured
+    def get(self):
+        adm = ShoppingAdministration()
+        result_find_all = adm.get_all_retailers()
+        return result_find_all
+
+    @shopping_v1.marshal_with(retailer, code=200)
+    @shopping_v1.expect(retailer, validate=True)
+    # @secured
+    def post(self):
+        adm = ShoppingAdministration()
+        try:
+            proposal = Retailer.from_dict(api.payload)
+            if proposal is not None:
+                retailer = Retailer()
+                retailer.set_id(proposal.get_id())
+                retailer.set_name(proposal.get_name())
+                retailer.set_location(proposal.get_location())
+                if (proposal.get_id() == 0):
+                    c = adm.create_retailer(retailer)
+                else:
+                    c = adm.save_retailer(retailer)
+                return c, 200
+            else:
+                return "", 500
+
+        except Exception as e:
+            print(str(e))
+            return str(e), 500
+
+
+@shopping_v1.route('/Retailer/<int:id>')
+@shopping_v1.response(500, "Server side error occured")
+class RetailerOperations(Resource):
+    # @secured
+    def delete(self, id):
+        """Löschen eines bestimmten Retailer-Objekts.
+
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ShoppingAdministration()
+        cust = adm.get_retailer_by_id(id)
+        adm.delete_retailer(cust)
+        return '', 200
 
 
 @shopping_v1.route('User')
