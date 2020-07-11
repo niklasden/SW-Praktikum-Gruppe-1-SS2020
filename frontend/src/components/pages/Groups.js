@@ -66,7 +66,7 @@ class Groups extends Component {
   
 
   async fetchGroups(){
-    const res = await fetch(Config.apiHost + '/Group')
+    const res = await fetch(Config.apiHost + '/Group/Usergroup/'+ settingsobj.getCurrentUserID())
     const resjson = await res.json()
     console.log( resjson)
     this.setState({groupItemss:resjson}) 

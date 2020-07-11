@@ -81,7 +81,8 @@ class App extends React.Component {
 	async fetchCurrentUserID(){
 		const json = await fetch(Config.apiHost + "/User/firebaseid/" + settingsOptions.getCurrentUserFireBaseID());
 		const res = await json.json();
-		console.log("RES", res);
+		//console.log("RES", res);
+		settingsOptions.setCurrentUserID(res.id)
 	}
   /** 
 	 * Create an error boundary for this app and recieve all errors from below the component tree.
