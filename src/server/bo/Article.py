@@ -10,7 +10,7 @@ class Article (bo.BusinessObject):
     def __init__(self):
         super().__init__()
         self._name = ""
-        self._category = ""
+        self._category = None
 
     def get_name(self):
         return self._name
@@ -33,6 +33,6 @@ class Article (bo.BusinessObject):
         obj = Article()
         obj.set_id(dictionary["id"])
         obj.set_name(dictionary["name"])
-        obj.set_category(dictionary["category"])
+        obj.set_category(dictionary["category_id"])
         return obj
 

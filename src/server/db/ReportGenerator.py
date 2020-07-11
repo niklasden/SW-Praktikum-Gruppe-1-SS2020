@@ -1,5 +1,6 @@
 from server.db.Mapper import Mapper
 from server.bo.Report import Report
+from server.bo.Article import Article
 
 class ReportGenerator(Mapper):
     """
@@ -37,16 +38,62 @@ class ReportGenerator(Mapper):
         tuples = cursor.fetchall()
         try:
             for(retailer, retailer_location, shoppinglist_name, username, group_name, amount, bought, article_name) in tuples:
-                article = {"name": article_name, "amount": amount, "bought": bought}
+                article = {"name": article_name, "amount": int(amount), "bought": str(bought), "retailer": retailer}
                 articles.append(article)
                 if(retailer not in retailers):
                     retailer = {"name": retailer, "location": retailer_location}
                     retailers.append(retailer)
-                report = Report(group_name, retailers, articles)
-                result.append(report)
+            report = Report(group_name, retailers, articles)
+
+
+            top_3_articles = self.get_top_3_articles(group_id)
+            top_3_retailers = self.get_top3_retailer(group_id)
+
+            report.set_top_articles(top_3_articles)
+            report.set_top_retailers(top_3_retailers)
+
             self._cnx.commit()
-        except:
+
+        except Exception as e:
+            print(e)
             print("Error while fetching report tuple! Something's wrong with the database-result!")
+        finally:
+            cursor.close()
+            return report
+
+    def get_top_3_articles(self, group_id):
+        """
+        Author: Christopher Böhm
+        :return:
+        """
+        result = []
+        cursor = self._cnx.cursor()
+        statement = """
+            SELECT Article.ID, Article.name, Article.CategoryID, COUNT(Article.ID) AS number  FROM dev_shoppingproject.Listentry
+            LEFT JOIN dev_shoppingproject.Article
+            ON Listentry.Article_ID=Article.ID
+            WHERE Listentry.Group_ID={0}
+            GROUP BY Article.ID
+            ORDER BY number DESC
+            LIMIT 3
+        """.format(group_id)
+
+        cursor.execute(statement)
+
+        tuples = cursor.fetchall()
+        try:
+            for(id, name, categoryID, number) in tuples:
+                # article = Article()
+                # article.set_id(id)
+                # article.set_name(name)
+                # article.set_category(categoryID)
+                article_json = {"article_name": name, "article_id": id,
+                                 "article_category": categoryID, "number_bought": number}
+                result.append(article_json)
+            self._cnx.commit()
+        except Exception as e:
+            print("Error while fetching report tuple! Something's wrong with the database-result!")
+            print(e)
         finally:
             cursor.close()
             return result
@@ -59,12 +106,15 @@ class ReportGenerator(Mapper):
         tuples = cursor.fetchall()
         try:
             for (retailer_name, retailer_location, amount, bought) in tuples:
-                retailer_json = {"retailer_name": retailer_name, "retailer_location": retailer_location, "amount": str(amount), "bought": bought}
+                retailer_json = {"retailer_name": retailer_name, "retailer_location": retailer_location, "amount": int(amount), "bought": str(bought)}
                 result.append(retailer_json)
             self._cnx.commit()
         finally:
             cursor.close()
             print(result)
             return result
+
+    # können gelöscht werden
     def get_top3_products(self, group_id):
         pass
+
