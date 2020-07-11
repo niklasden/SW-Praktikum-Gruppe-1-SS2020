@@ -48,7 +48,6 @@ export class RetailerPage extends Component {
         this.setState({
           loadingInProgress: false, 
           loadingRetailersError: '', 
-  
         })
       } 
     }, 1000)

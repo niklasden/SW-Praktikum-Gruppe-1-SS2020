@@ -1,5 +1,6 @@
 from server.db.Mapper import Mapper
 from server.bo.Report import Report
+from server.bo.Article import Article
 
 class ReportGenerator(Mapper):
     """
@@ -42,8 +43,50 @@ class ReportGenerator(Mapper):
                 if(retailer not in retailers):
                     retailer = {"name": retailer, "location": retailer_location}
                     retailers.append(retailer)
-                report = Report(group_name, retailers, articles)
-                result.append(report)
+            report = Report(group_name, retailers, articles)
+
+
+            top_3_articles = self.get_top_3_articles()
+            top_3_retailers = self.get_top3_retailer()
+
+            report.set_top_articles(top_3_articles)
+            report.set_top_retailers(top_3_retailers)
+
+            self._cnx.commit()
+
+        except:
+            print("Error while fetching report tuple! Something's wrong with the database-result!")
+        finally:
+            cursor.close()
+            return report
+
+    def get_top_3_articles(self):
+        """
+        Author: Christopher Böhm
+        :return:
+        """
+        result = []
+        cursor = self._cnx.cursor()
+        statement = """
+            SELECT Article.ID, Article.name, Article.CategoryID FROM dev_shoppingproject.Listentry
+            LEFT JOIN dev_shoppingproject.Article
+            ON Listentry.Article_ID=Article.ID
+            GROUP BY Article.ID
+            ORDER BY COUNT(Article.ID) DESC
+            LIMIT 3
+        """
+
+        cursor.execute(statement)
+
+        tuples = cursor.fetchall()
+        try:
+            for(id, name, categoryID) in tuples:
+                article = Article()
+                article.set_id(id)
+                article.set_name(name)
+                article.set_category(categoryID)
+
+                result.append(article)
             self._cnx.commit()
         except:
             print("Error while fetching report tuple! Something's wrong with the database-result!")
@@ -66,5 +109,8 @@ class ReportGenerator(Mapper):
             cursor.close()
             print(result)
             return result
+
+    # können gelöscht werden
     def get_top3_products(self, group_id):
         pass
+
