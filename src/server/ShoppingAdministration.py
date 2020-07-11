@@ -2,9 +2,12 @@
 from .bo.User import User
 from .bo.Article import Article
 
+from .db.ArticleMapper import ArticleMapper
+from .bo.Group import Group
 #from .db.UserMapper import UserMapper ..
 from .db.UserMapper import UserMapper
-from .db.ArticleMapper import ArticleMapper
+from .db.GroupMapper import GroupMapper 
+from .db.ListEntryMapper import ListEntryMapper
 
 
 #hier müssen BO Klassen & Mapper importiert werden
@@ -62,3 +65,42 @@ class ShoppingAdministration (object):
     def get_all_article(self):
         with ArticleMapper() as mapper:
             return mapper.find_all()
+    #Groups:
+    #Julius 
+
+    def get_all_groups(self):
+        with GroupMapper() as mapper: 
+            res = mapper.find_all()
+            return res
+    
+    def get_group_by_id(self,id):
+        with GroupMapper() as mapper:
+            res = mapper.find_by_key(id)
+            return res 
+
+    def insert_group(self,group):
+        with GroupMapper() as mapper:
+                return mapper.insert(group)
+
+    def save_group(self,group):
+        with GroupMapper() as mapper: 
+            return mapper.update(group)
+
+    def delete_group(self, group):
+        with GroupMapper() as mapper:
+            res = mapper.delete(group)
+            return res
+    
+    def create_group(self,name,description):
+        group = Group(name,description)
+        group.set_id(1)
+
+        with GroupMapper() as mapper:
+            return mapper.insert(group)
+
+
+    #ListEntry:
+    def get_all_listentries(self):
+        with ListEntryMapper() as mapper:
+            result = mapper.find_all()
+            return result

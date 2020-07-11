@@ -11,7 +11,6 @@ import CircularProgress from '@material-ui/core/CircularProgress/CircularProgres
 import { withRouter } from "react-router";
 import { Redirect } from 'react-router';
 
-
 const styles = theme => ({
   root: {
     backgroundColor: '#fafafa', 
