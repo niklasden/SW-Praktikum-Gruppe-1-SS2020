@@ -41,9 +41,14 @@ import SpecificGroup from './components/pages/SpecificGroup.js';
 import CreateGroup from './components/pages/CreateGroup.js';
 import Groups from './components/pages/Groups';
 import PersonalShoppingList from './components/pages/PersonalShoppingList';
-import AccountsPage from './components/pages/AccountsPage'
+import AccountsPage from './components/pages/AccountsPage';
+
+import ShoppingSettings from './shoppingSettings';
+import {Config} from './config';
+
 
 //** End Layout Import **/
+const settingsOptions = ShoppingSettings.getSettings();
 
 class App extends React.Component {
 	/** The firebase config structure as provided by the firebase admin website.
@@ -68,9 +73,16 @@ class App extends React.Component {
       authError: null,
 	  authLoading: false,
 	  isNavHidden: false,
-    };
+	};
+	this.fetchCurrentUserID = this.fetchCurrentUserID.bind(this);
 	}
 	
+
+	async fetchCurrentUserID(){
+		const json = await fetch(Config.apiHost + "/User/firebaseid/" + settingsOptions.getCurrentUserFireBaseID());
+		const res = await json.json();
+		console.log("RES", res);
+	}
   /** 
 	 * Create an error boundary for this app and recieve all errors from below the component tree.
 	 * 
@@ -142,11 +154,17 @@ class App extends React.Component {
 		firebase.initializeApp(this.#firebaseConfig);
 		firebase.auth().languageCode = 'en';
 		firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
+
 	}
     render(){
-	document.title = 'iKaufa';
+
+		document.title = 'iKaufa';
 	  const { currentUser, appError, authError, authLoading,isNavHidden } = this.state;
-	
+
+		if(currentUser) {
+			settingsOptions.setCurrentUserFireBaseID(currentUser.uid)
+			this.fetchCurrentUserID()
+		}
 		return (
 			<ThemeProvider theme={Theme}>
 				{/* Global CSS reset and browser normalization. CssBaseline kickstarts an elegant, consistent, and simple baseline to build upon. */}
@@ -158,7 +176,7 @@ class App extends React.Component {
 						// geändert von chris, um im dev prozess den signin zu umgehen, muss wieder 
 						// TODO: muss wieder in currentUser umbenannt werden
 						// Is a user signed in?
-						true ?
+						currentUser ?
 							<>
 								{/* Here should the redirects go */}
 								<Switch>
