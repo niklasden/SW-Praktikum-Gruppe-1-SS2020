@@ -12,7 +12,7 @@ import { blue } from '@material-ui/core/colors';
 import {Link} from 'react-router-dom'
 
 import GroupIcon from '../../icons/Other/users.svg'
-
+import { Config } from '../../config'
 import ShoppingSettings from '../../../src/shoppingSettings'
 
     const styles = theme => ({
@@ -64,7 +64,8 @@ class GroupsGridList extends Component {
     
       /**We have to fetch specific groups with user parameter */
       async fetchGroups(){
-        const res = await fetch('http://localhost:8081/api/shoppa/groups')
+        //const res = await fetch('http://localhost:8081/api/shoppa/groups')
+        const res = await fetch(Config.apiHost + '/Group/Usergroup/'+ settingsobj.getCurrentUserID())
         const resjson = await res.json()
         console.log(resjson)
         this.setState({groupItemss:resjson})
@@ -73,7 +74,9 @@ class GroupsGridList extends Component {
       componentDidMount(){
         this.fetchGroups()
       }
-
+      componentWillUpdate(){
+        this.fetchGroups()
+      }
       render(){
         const { classes } = this.props;
         var groupI = this.state.groupItems
