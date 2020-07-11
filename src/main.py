@@ -89,14 +89,14 @@ class HelloWorld(Resource):
 @shopping_v1.response(500,'If an server sided error occures')
 class GroupListOperations(Resource):
     @shopping_v1.marshal_with(group)
-    @secured
+    #@secured
     def get(self):
         adm = ShoppingAdministration()
         return adm.get_all_groups()
     
     @shopping_v1.marshal_with(group,code=200)
     @shopping_v1.expect(group)
-    @secured
+    #@secured
     def post(self):
         adm = ShoppingAdministration()
         try:
@@ -116,12 +116,12 @@ class GroupListOperations(Resource):
 @shopping_v1.param('id', 'Group objects id')
 class GroupOperations(Resource):
     @shopping_v1.marshal_with(group)
-    @secured
+    #@secured
     def get(self,id):
         adm = ShoppingAdministration()
         return adm.get_group_by_id(id)
     
-    @secured
+  #  @secured
     def delete(self,id):
         adm = ShoppingAdministration()
         grp = adm.get_group_by_id(id)
@@ -130,7 +130,7 @@ class GroupOperations(Resource):
     
     @shopping_v1.marshal_with(group)
     @shopping_v1.expect(group,validate=True)
-    @secured
+   # @secured
     def put(self,id):
         adm = ShoppingAdministration()
         c = Group.from_dict(api.payload)
@@ -254,7 +254,7 @@ class UserIDOperations(Resource):
     def put(self,id):
         adm = ShoppingAdministration()
         c = User.from_dict(api.payload)
-        print(str(c))
+        
         if c is not None: 
             c.set_id(id)
             adm.save_user(c)

@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import ShoppingSettings from '../../../src/shoppingSettings'
+import { Config } from '../../config'
+import { withRouter } from "react-router"
 
 const settingsobj = ShoppingSettings.getSettings()
 
@@ -39,13 +41,23 @@ class Groups extends Component {
     this.deleteGroup = this.deleteGroup.bind(this);
   }
 
-  deleteGroup(id) {
+  async deleteGroup(id) {
+    try{
+    const rInit = {
+      method: 'DELETE'
+    }
+    const resp = await fetch(Config.apiHost + '/Group/' + id, rInit)
+    if(resp.ok){
+      this.props.history.push('/Groups')
+    } else {
+     alert("Fehler !")
+    }
+  }catch(e){alert(e)}
     this.setState({
-        groupItemss: this.state.groupItemss.filter(elem => elem.id !== id)
-
-        
-        // request to db! > delete Group      
+            groupItemss: this.state.groupItemss.filter(elem => elem.id !== id)       
+     // request to db! > delete Group      
    })
+  
    if(settingsobj.onlySettingsGetSettingsGroupID() == id){
       settingsobj.onlySettingsSetSettingsGroupID("")
       settingsobj.onlySettingsSetSettingsGroupName("")
@@ -54,7 +66,7 @@ class Groups extends Component {
   
 
   async fetchGroups(){
-    const res = await fetch('http://localhost:8081/api/shoppa/groups')
+    const res = await fetch(Config.apiHost + '/Group')
     const resjson = await res.json()
     console.log( resjson)
     this.setState({groupItemss:resjson}) 
@@ -116,4 +128,5 @@ class Groups extends Component {
       icon: PropTypes.string,
       }
 
-export default withStyles(styles)(Groups);
+
+export default withRouter(withStyles(styles)(Groups));
