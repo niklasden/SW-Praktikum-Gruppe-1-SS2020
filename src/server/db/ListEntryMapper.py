@@ -41,7 +41,7 @@ class ListEntryMapper(Mapper):
     
     def find_by_name(self, name):
         """
-        Pascal name:str - ListEntry hat kein Name? :D
+        Pascal name:str - ListEntry hat kein Name? :D --> auf Borad schreiben!
         """                    
         pass
 
@@ -78,7 +78,31 @@ class ListEntryMapper(Mapper):
         """
         Pascal retailer:Retailer
         """
-        pass
+
+        result = []
+        cursor = self._cnx.cursor()
+        cursor.execute("SELECT ID, Article_ID, Retailer_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought from `Listentry` WHERE Retailer_ID={}".format(retailer))
+        tuples = cursor.fetchall()
+        print(tuples)
+
+        try: 
+            for (id, article_id, retailer_id, shoppinglist_id, user_id, group_id, amount, bought) in tuples:
+                le = ListEntry()
+                le.set_id(id)
+                le.set_article(article_id)
+                le.set_retailer(retailer_id)
+                le.set_shoppinglist(shoppinglist_id)
+                le.set_user(user_id)
+                le.set_group(group_id)
+                le.set_amount(amount)
+                le.set_buy_date(bought)
+                result.append(le)
+                print(result)
+        except IndexError:
+                result = None
+        self._cnx.commit()
+        cursor.close()
+        return result
 
     def find_by_article(self, article):
         """
@@ -114,7 +138,30 @@ class ListEntryMapper(Mapper):
         """
         Pascal purchaser:User
         """
-        pass
+        result = []
+        cursor = self._cnx.cursor()
+        cursor.execute("SELECT ID, Article_ID, Retailer_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought from `Listentry` WHERE User_ID={}".format(purchaser.get_id()))
+        tuples = cursor.fetchall()
+        print(tuples)
+
+        try: 
+            for (id, article_id, retailer_id, shoppinglist_id, user_id, group_id, amount, bought) in tuples:
+                le = ListEntry()
+                le.set_id(id)
+                le.set_article(article_id)
+                le.set_retailer(retailer_id)
+                le.set_shoppinglist(shoppinglist_id)
+                le.set_user(user_id)
+                le.set_group(group_id)
+                le.set_amount(amount)
+                le.set_buy_date(bought)
+                result.append(le)
+                print(result)
+        except IndexError:
+                result = None
+        self._cnx.commit()
+        cursor.close()
+        return result
 
     def find_by_checkout(self, date):
         """
@@ -150,9 +197,31 @@ class ListEntryMapper(Mapper):
     def find_by_date_of_purchase(self, date): 
         """
         Pascal date:Date
-        redundant zur oberen
         """
-        pass
+        result = []
+        cursor = self._cnx.cursor()
+        cursor.execute("SELECT ID, Article_ID, Retailer_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought from `Listentry` WHERE bought={}".format(date.get_bought))
+        tuples = cursor.fetchall()
+        print(tuples)
+
+        try: 
+            for (id, article_id, retailer_id, shoppinglist_id, user_id, group_id, amount, bought) in tuples:
+                le = ListEntry()
+                le.set_id(id)
+                le.set_article(article_id)
+                le.set_retailer(retailer_id)
+                le.set_shoppinglist(shoppinglist_id)
+                le.set_user(user_id)
+                le.set_group(group_id)
+                le.set_amount(amount)
+                le.set_buy_date(bought)
+                result.append(le)
+                print(result)
+        except IndexError:
+                result = None
+        self._cnx.commit()
+        cursor.close()
+        return result
     
     def insert(self, listentry):
         """
