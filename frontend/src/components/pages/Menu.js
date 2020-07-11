@@ -66,12 +66,7 @@ export default function Menu(props) {
       >
         <div onClick={toggleDrawer("left", false)} onKeyDown={toggleDrawer("left", false)}>
           <List>
-            <Link to="/" className={classes.listItem}>
-              <ListItem button key="0">
-                <ListItemIcon><HomeIcon /></ListItemIcon>
-                <ListItemText primary="Home" />
-              </ListItem>
-            </Link>
+            
             <Link to="/about" className={classes.listItem}>
               <ListItem button key="1">
                 <ListItemIcon><InfoIcon /></ListItemIcon>
@@ -90,12 +85,7 @@ export default function Menu(props) {
                     <ListItemText primary="Users" />
                   </ListItem>
                 </Link>
-                <Link to="/allGroups" className={classes.listItem}>
-                  <ListItem button key="2">
-                    <ListItemIcon><PermIdentityIcon /></ListItemIcon>
-                    <ListItemText primary="All Groups" />
-                  </ListItem>
-                </Link>
+                
                 <Link to="/products" className={classes.listItem}>
                   <ListItem button key="2">
                     <ListItemIcon><ArchiveIcon /></ListItemIcon>
@@ -126,12 +116,7 @@ export default function Menu(props) {
                     <ListItemText primary="GroupShoppingList" />
                   </ListItem>
                 </Link>
-                <Link to="/specificGroup" className={classes.listItem}>
-                  <ListItem button key="2">
-                    <ListItemIcon><ArchiveIcon/></ListItemIcon>
-                    <ListItemText primary="Specific Group" />
-                  </ListItem>
-                </Link>
+                
                 {/* Link to Page PersonalShoppingList @Pascal*/}
                 <Link to="/PersonalShoppingList" className={classes.listItem}>
                     <ListItem button key="2">
@@ -139,12 +124,7 @@ export default function Menu(props) {
                       <ListItemText primary="My ShoppingList" />
                     </ListItem>
                   </Link>
-                <Link to="/settings" className={classes.listItem}>
-                  <ListItem button key="2">
-                    <ListItemIcon><SettingsIcon /></ListItemIcon>
-                    <ListItemText primary="Settings" />
-                  </ListItem>
-                </Link>
+                
                 <a href="http://localhost:8081" className={classes.listItem} target="_blank" rel="noopener noreferrer">
                   <ListItem button key="2">
                     <ListItemIcon><CodeIcon /></ListItemIcon>

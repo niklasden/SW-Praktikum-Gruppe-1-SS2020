@@ -32,9 +32,6 @@ class Mapper (AbstractContextManager, ABC):
             self._cnx = connector.connect(user='kevin', password='kevin',
                                   host='localhost',
                                   database='dev_shoppingproject')
-
-            
-             
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):

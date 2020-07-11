@@ -1,9 +1,11 @@
 #from .bo.User import User ... 
 from .bo.User import User
-
+from .bo.Group import Group
 #from .db.UserMapper import UserMapper ..
 from .db.UserMapper import UserMapper
 from .db.RetailerMapper import RetailerMapper
+from .db.GroupMapper import GroupMapper
+from .db.ListEntryMapper import ListEntryMapper
 
 
 #hier müssen BO Klassen & Mapper importiert werden
@@ -57,6 +59,8 @@ class ShoppingAdministration (object):
             res = mapper.delete(user)
             return res
 
+    # Retailer
+    # Chris
     def get_retailer_by_name(self, name):
         with RetailerMapper() as mapper:
             res = mapper.find_by_name(name)
@@ -78,3 +82,43 @@ class ShoppingAdministration (object):
     def delete_retailer(self, retailer):
         with RetailerMapper() as mapper:
             mapper.delete(retailer)
+
+    #Groups:
+    #Julius 
+
+    def get_all_groups(self):
+        with GroupMapper() as mapper: 
+            res = mapper.find_all()
+            return res
+    
+    def get_group_by_id(self,id):
+        with GroupMapper() as mapper:
+            res = mapper.find_by_key(id)
+            return res 
+
+    def insert_group(self,group):
+        with GroupMapper() as mapper:
+                return mapper.insert(group)
+
+    def save_group(self,group):
+        with GroupMapper() as mapper: 
+            return mapper.update(group)
+
+    def delete_group(self, group):
+        with GroupMapper() as mapper:
+            res = mapper.delete(group)
+            return res
+    
+    def create_group(self,name,description):
+        group = Group(name,description)
+        group.set_id(1)
+
+        with GroupMapper() as mapper:
+            return mapper.insert(group)
+
+
+    #ListEntry:
+    def get_all_listentries(self):
+        with ListEntryMapper() as mapper:
+            result = mapper.find_all()
+            return result
