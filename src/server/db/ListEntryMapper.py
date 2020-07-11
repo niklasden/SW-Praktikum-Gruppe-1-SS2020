@@ -137,7 +137,7 @@ class ListEntryMapper(Mapper):
                 le.set_group(group_id)
                 le.set_amount(amount)
                 le.set_buy_date(bought)
-                result.append(le)
+                result.append(le), 
                 print(result)
         except IndexError:
                 result = None
@@ -150,6 +150,7 @@ class ListEntryMapper(Mapper):
     def find_by_date_of_purchase(self, date): 
         """
         Pascal date:Date
+        redundant zur oberen
         """
         pass
     

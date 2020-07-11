@@ -1,6 +1,7 @@
 #from .bo.User import User ... 
 from .bo.User import User
 from .bo.Group import Group
+from .bo.ListEntry import ListEntry
 #from .db.UserMapper import UserMapper ..
 from .db.UserMapper import UserMapper
 from .db.GroupMapper import GroupMapper 
@@ -97,4 +98,58 @@ class ShoppingAdministration (object):
     def get_all_listentries(self):
         with ListEntryMapper() as mapper:
             result = mapper.find_all()
+            return result
+
+    def find_by_name(self, name):
+        with ListEntryMapper() as mapper:
+            result = mapper.find_by_name()
+            return result
+
+    def find_by_key(self, key):
+        with ListEntryMapper() as mapper:
+            result = mapper.find_by_key(key)
+            return result
+    
+    def find_by_retailer(self, retailer):
+        with ListEntryMapper() as mapper:
+            result = mapper.find_by_retailer(article)
+            return result
+    
+    def find_by_article(self, article):
+        with ListEntryMapper() as mapper:
+            result = mapper.find_by_article(article)
+            return result
+    
+    def find_by_purchaser(self, purchaser):
+        with ListEntryMapper() as mapper:
+            result = mapper.find_by_purchaser(purchaser)
+            return result
+    
+    def find_by_checkout(self, date):
+        with ListEntryMapper() as mapper:
+            result = mapper.find_by_checkout(date)
+            return result
+    
+    def find_by_date_of_purchase(self, date):
+        with ListEntryMapper() as mapper:
+            result = mapper.find_by_date_of_purchase(date)
+            return result
+    
+    #noch nicht fertig
+    def insert(self, ):
+        listentry = ListEntry()
+        listentry.set_id(1)
+
+        with ListEntryMapper() as mapper:
+            result = mapper.insert(listentry)
+            return result
+    
+    def update(self, listentry):
+        with ListEntryMapper() as mapper:
+            result = mapper.update()
+            return result
+    
+    def delete(self, listentry):
+        with ListEntryMapper() as mapper:
+            result = mapper.delete()
             return result
