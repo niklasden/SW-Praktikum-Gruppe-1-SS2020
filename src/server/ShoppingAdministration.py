@@ -1,5 +1,8 @@
 #from .bo.User import User ... 
 from .bo.User import User
+from .bo.Article import Article
+
+from .db.ArticleMapper import ArticleMapper
 from .bo.Group import Group
 from .bo.ListEntry import ListEntry
 #from .db.UserMapper import UserMapper ..
@@ -189,3 +192,39 @@ class ShoppingAdministration (object):
         with ReportGenerator() as generator:
             result = generator.get_report(group_id)
             return result
+    #Article:
+    #Pia
+    def get_all_article(self):
+        with ArticleMapper() as mapper:
+            result = mapper.find_all()
+            return result
+
+    def get_article_by_id(self, id):
+        with ArticleMapper() as mapper:
+            result = mapper.find_by_key(id)
+            return result
+
+    def get_article_by_name(self, name):
+        with ArticleMapper() as mapper:
+            result = mapper.find_by_name(name)
+            return result
+
+
+
+    
+    def create_article(self, name, category):
+        article = Article(name, category)
+        article.set_id(1)
+        with ArticleMapper() as mapper:
+            return mapper.insert(article)
+
+    def delete_article(self, article):
+        with ArticleMapper() as mapper:
+            restult = mapper.delet(article)
+            return restult
+
+    def save_article(self, article):
+        with ArticleMapper() as mapper:
+            return mapper.update(article)
+
+

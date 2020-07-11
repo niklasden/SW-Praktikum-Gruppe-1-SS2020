@@ -13,6 +13,8 @@ from server.bo.Group import Group
 from server.db.ListEntryMapper import ListEntryMapper
 from server.bo.ListEntry import ListEntry
 from server.bo.Retailer import Retailer
+from server.bo.Article import Article
+from server.db.ArticleMapper import ArticleMapper
 
 import json
 
@@ -73,6 +75,11 @@ report = api.inherit('Report',bo, {
     'report_retailer': fields.String(attribute='_report_retailer',description="Retailers visited of group members."),
     '_report_listentries': fields.String(attribute='_report_listentries',description="Dictionary with bought articles with timestamp"),
 })
+article = api.inherit('Article', bo, {
+    'name': fields.String(attribute='_name', description="An Article name"), 
+    'category_id': fields.String(attribute='_category', description="Category ID of the specific article")
+})
+
 # alle bos hier aufführen!
 
 
@@ -314,6 +321,60 @@ class testSecured(Resource):
     def get(self):
         res = "if you can see this without beeing logged in.. backend dev has got a problem."
         return res
+
+
+
+#ArticleTests
+
+@testing.route('/testArticle')
+@testing.response(500, 'If an server sided error occures')
+class testArticle(Resource):
+    @testing.marshal_with(article)
+    def get(self):
+        adm = ShoppingAdministration()
+        result = adm.get_all_article()
+        return result 
+
+    def post(self):
+        adm = ShoppingAdministration()
+        try:
+            proposal = Article.from_dict(api.payload)
+            if proposal is not None:
+                c = adm.create_article(proposal.get_name(),proposal.get_category())
+                return c, 200
+            else:
+                return "",500
+
+        except Exception as e:
+            return str(e),500
+
+@testing.route('testArticle/<int:id>')
+@testing.param('id', "Article object id")
+class testArticle(Resource):
+    @testing.marshal_with(article)
+    def get(self, id):
+        adm = ShoppingAdministration()
+        return adm.get_article_by_id(id)
+
+    def delete(self, id):
+        adm = ShoppingAdministration()
+        ar = adm.get_article_by_id(id)
+        adm.delete_article(ar)
+        
+
+@testing.route('/testArticle/<string:name>')
+@testing.param('name', "Article object name")
+class testArticle(Resource):
+    @testing.marshal_with(article)
+    def get(self, name):
+        adm = ShoppingAdministration()
+        return adm.get_article_by_name(name)
+
+
+
+
+
+#GroupListTests
 
 @testing.route('/testGroup')
 @testing.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
