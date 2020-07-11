@@ -18,7 +18,7 @@ class ListEntryMapper(Mapper):
         cursor = self._cnx.cursor()
         cursor.execute("SELECT ID, Article_ID, Retailer_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought from `Listentry`")
         tuples = cursor.fetchall()
-        print(tuples)
+        
         try:
             for (id, article_id, retailer_id, shoppinglist_id, user_id, group_id, amount, bought) in tuples:
                 le = ListEntry()
@@ -31,7 +31,7 @@ class ListEntryMapper(Mapper):
                 le.set_amount(amount)
                 le.set_buy_date(bought)
                 result.append(le)
-                print(result)
+                
         except IndexError:
                 result = None
 
@@ -74,8 +74,6 @@ class ListEntryMapper(Mapper):
         cursor.close()
         return result
 
-        pass
-    
     def find_by_retailer(self, retailer):
         """
         Pascal retailer:Retailer
@@ -125,7 +123,7 @@ class ListEntryMapper(Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT ID, Article_ID, Retailer_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought from `Listentry` WHERE Article_ID={}".format(date))
+        cursor.execute("SELECT ID, Article_ID, Retailer_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought from `Listentry` WHERE bought={}".format(date))
         tuples = cursor.fetchall()
         print(tuples)
         try:
