@@ -116,7 +116,6 @@ class GroupListOperations(Resource):
         except Exception as e:
             return str(e),500
 
-
 @shopping_v1.route('/Group/<int:id>')
 @shopping_v1.response(500,'If an server sided error occures')
 @shopping_v1.param('id', 'Group objects id')
