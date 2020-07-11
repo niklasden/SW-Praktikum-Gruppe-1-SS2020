@@ -3,6 +3,8 @@ from flask_restx import Resource, Api, fields
 from flask_cors import CORS
 from server.db.UserMapper import UserMapper
 from server.bo.User import User
+from server.bo.Article import Article
+from server.db.ArticleMapper import ArticleMapper
 
 from SecurityDecorator import secured
 
@@ -36,6 +38,14 @@ class testSecured(Resource):
     def get(self):
         res = "if you can see this without beeing logged in.. backend dev has got a problem."
         return res
+
+@testing.route('/testArticle')
+class testArticle(Resource):
+    def get(self):
+        adm = ShoppingAdministration()
+        result = {}
+        result.update({"Articles ": [str(i) for i in adm.get_all_article()]})
+        return result 
 
 
 @testing.route('/testUser')

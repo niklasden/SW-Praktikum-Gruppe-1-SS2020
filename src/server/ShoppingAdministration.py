@@ -1,8 +1,10 @@
 #from .bo.User import User ... 
 from .bo.User import User
+from .bo.Article import Article
 
 #from .db.UserMapper import UserMapper ..
 from .db.UserMapper import UserMapper
+from .db.ArticleMapper import ArticleMapper
 
 
 #hier müssen BO Klassen & Mapper importiert werden
@@ -56,3 +58,7 @@ class ShoppingAdministration (object):
         with UserMapper() as mapper:
             res = mapper.delete(user)
             return res
+
+    def get_all_article(self):
+        with ArticleMapper() as mapper:
+            return mapper.find_all()

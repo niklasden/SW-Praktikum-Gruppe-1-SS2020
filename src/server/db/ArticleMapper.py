@@ -1,9 +1,10 @@
 from server.db.Mapper import Mapper
+from server.bo.Article import Article
 
 """ A single Article
 @author Pia Schmid
 """
-class ArticleMpper (Mapper):
+class ArticleMapper (Mapper):
     def __init__(self):
         super().__init__()
 
@@ -15,15 +16,15 @@ class ArticleMpper (Mapper):
 
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT * from articles"
+        command = "SELECT * from Article"
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, category) in tuples: 
+        for (id, name) in tuples: 
             article = Article()
             article.set_id(id)
             article.set_name(name)
-            article.set_category(category)
+            #article.set_category(category)
             result.append(article)
 
         self._cnx.commit()
