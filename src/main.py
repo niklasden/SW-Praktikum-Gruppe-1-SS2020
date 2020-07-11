@@ -191,11 +191,11 @@ class RetailerOperations(Resource):
         return '', 200
 
 
-@shopping_v1.route('User')
+@shopping_v1.route('/User')
 @shopping_v1.response(500,"If an server sided error occures")
 class UserListOperations(Resource):
     @shopping_v1.marshal_list_with(user)
-    @secured
+    #@secured
     def get(self):
         adm = ShoppingAdministration() 
         result_find_all = adm.get_all_user()
@@ -203,7 +203,7 @@ class UserListOperations(Resource):
         
     @shopping_v1.marshal_with(user,code=200)
     @shopping_v1.expect(user)
-    @secured
+    #@secured
     def post(self):
         adm = ShoppingAdministration()
         try:
@@ -228,10 +228,51 @@ class testReportGenerator(Resource):
         result = adm.get_report_entries(id)
         return result
 
+@shopping_v1.route('/User/<int:id>')
+@shopping_v1.response(500,"If an server sided error occures")
+class UserIDOperations(Resource):
+    @shopping_v1.marshal_with(user)
+    #@secured
+    def get(self,id):
+        adm = ShoppingAdministration()
+        return adm.get_user_by_id(id)
+    
+    #@secured
+    def delete(self,id):
+        adm = ShoppingAdministration()
+        usr = adm.get_user_by_id(id)
+        adm.delete_user(usr)
+        return "deleted",200
 
-# TODO Class UserOperations
-
+   
+    @shopping_v1.marshal_with(user)
+    @shopping_v1.expect(user,validate=True)
+    #@secured
+    def put(self,id):
+        adm = ShoppingAdministration()
+        c = User.from_dict(api.payload)
+        print(str(c))
+        if c is not None: 
+            c.set_id(id)
+            adm.save_user(c)
+            return 'saved',200
+        else:
+            return 'error',500
+    
+   
+@shopping_v1.route('/User/<string:name>')
+@shopping_v1.response(500,"If an server sided error occures")
+class UserIDOperations(Resource):
+    
+    @shopping_v1.marshal_list_with(user)
+    #@secured
+    def get(self,name):
+        adm = ShoppingAdministration()
+        usr = adm.get_user_by_name(name)
+        return usr
+     
 # TESTING AREA:
+
 
 @testing.route('/testSecured')
 class testSecured(Resource):

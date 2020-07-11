@@ -184,6 +184,7 @@ class ShoppingAdministration (object):
             result = mapper.delete()
             return result
             
+    #Report Kevin
     def get_report_entries(self, group_id = 1):
         with ReportGenerator() as generator:
             result = generator.get_report(group_id)
