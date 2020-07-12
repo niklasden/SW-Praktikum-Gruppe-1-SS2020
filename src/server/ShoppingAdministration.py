@@ -247,5 +247,12 @@ class ShoppingAdministration (object):
             return mapper.insert(article)
 
 
+    # membership
 
+    def create_membership(self,uid,gid):
+        with GroupMapper() as mapper:
+            return mapper.createMembership(uid,gid)
 
+    def delete_membership(self,uid,gid):
+        with GroupMapper as mapper:
+            return mapper.deleteMembership(uid,gid)
