@@ -55,6 +55,7 @@ const styles = theme => ({
               <ButtonBase
                 onClick={this.onSave}>
                 <Article 
+                id = {this.props.id}
                 itemname={this.props.name} 
                 category = {this.props.category} 
                 iconName={this.props.iconName}>
