@@ -9,6 +9,7 @@ class GroupMapper(Mapper):
         super().__init__()
     
     def find_all(self):
+        
         result = []
         cursor = self._cnx.cursor()
         statement = "Select * from `Group`"
@@ -30,7 +31,33 @@ class GroupMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-        return result       
+        return result 
+        
+    def find_all_by_userid(self,uid):
+        groups = []
+        cursor = self._cnx.cursor()
+        statement = "Select Group_ID from Membership WHERE User_ID = {} ".format(int(uid))
+        cursor.execute(statement)
+        tuples = cursor.fetchall()
+        
+        for gid in tuples:
+            cursor.execute("SELECT * from `Group` WHERE ID = '{}'".format(gid[0]))
+            g = cursor.fetchall()
+            try:
+                for (id, description, name) in g:
+                    gr = Group()
+                    gr.set_id(id)
+                    gr.set_description(description)
+                    gr.set_name(name)
+
+                    groups.append(gr)
+            except IndexError:
+                groups = None 
+        
+        self._cnx.commit()
+        cursor.close()
+
+        return groups 
 
     def find_by_key(self, key):
         """

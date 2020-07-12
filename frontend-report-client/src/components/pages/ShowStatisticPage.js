@@ -9,6 +9,7 @@ import Select from '@material-ui/core/Select';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { Link } from 'react-router-dom';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
+import {Config} from '../../config';
 
 /**
  * Displays the statistic page
@@ -25,14 +26,14 @@ const styles = theme => ({
 });
 const initStartDate = new Date();
 const initStartDateMonth = initStartDate.getMonth() < 10 ? "0" + (initStartDate.getMonth() + 1) : (initStartDate.getMonth() + 1);
-const initStartDateDay = initStartDate.getDate() < 10 ? "0" + initStartDate.getDate() : initStartDate.getDate();
+// const initStartDateDay = initStartDate.getDate() < 10 ? "0" + initStartDate.getDate() : initStartDate.getDate();
+const initStartDateDay = "01";
 const initStartDateFullDate = initStartDate.getFullYear() + "-" + initStartDateMonth + "-" + initStartDateDay;
 
 const initEndDate = new Date(initStartDate.setDate(initStartDate.getDate() + 7));
 const initEndDateMonth = initEndDate.getMonth() < 10 ? "0" + (initEndDate.getMonth() + 1) : (initEndDate.getMonth() + 1);
 const initEndDateDay = initEndDate.getDate() < 10 ? "0" + initEndDate.getDate() : initEndDate.getDate();
 const initEndDateFullDate = initEndDate.getFullYear() + "-" + initEndDateMonth + "-" + initEndDateDay;
-console.log("StartTime:", initStartDateFullDate, " Endtime:", initEndDateFullDate)
 class ShowStatisticPage extends Component {
     constructor(props) {
         super(props);
@@ -69,18 +70,32 @@ class ShowStatisticPage extends Component {
     }
     async fetchProducts() {
        try {
-            const res = await fetch("http://localhost:8081/api/shoppa/products/shopped")
+           var productIDS = [], productList = [];
+            const res = await fetch(Config.apiHost + "/report/1")
             const json = await res.json();
-            this.setState({products: json})
+            json._report_listentries.forEach(lE => {
+                if(!productIDS.includes(lE.id)) {
+                    productList.push(lE);
+                    productIDS.push(lE.id);
+                }
+            })
+            this.setState({products: productList})
        }catch(exception) {
         this.setState({error: exception})
        }
     }
     async fetchRetailers() {
         try {
-            const res = await fetch("http://localhost:8081/api/shoppa/retailers")
+            var retailerList = [], retailerIDs = [];
+            const res = await fetch(Config.apiHost + "/report/1")
             const json = await res.json();
-            this.setState({retailer: json})
+            json.report_retailer.forEach(retailer => {
+                if(!retailerIDs.includes(retailer.id)) {
+                    retailerList.push(retailer);
+                    retailerIDs.push(retailer.id);
+                }
+            })
+            this.setState({retailer: retailerList})
         }catch(exception) {
             this.setState({error: exception})
         }

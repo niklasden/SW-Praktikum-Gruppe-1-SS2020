@@ -73,6 +73,8 @@ class App extends React.Component {
       authError: null,
 	  authLoading: false,
 	  isNavHidden: false,
+	  currentUserID: null,
+	  isloaded:false
 	};
 	this.fetchCurrentUserID = this.fetchCurrentUserID.bind(this);
 	}
@@ -81,7 +83,9 @@ class App extends React.Component {
 	async fetchCurrentUserID(){
 		const json = await fetch(Config.apiHost + "/User/firebaseid/" + settingsOptions.getCurrentUserFireBaseID());
 		const res = await json.json();
-		console.log("RES", res);
+		//console.log("RES", res);
+		settingsOptions.setCurrentUserID(res.id)
+		this.setState({currentUserID:res.id})
 	}
   /** 
 	 * Create an error boundary for this app and recieve all errors from below the component tree.
@@ -161,9 +165,10 @@ class App extends React.Component {
 		document.title = 'iKaufa';
 	  const { currentUser, appError, authError, authLoading,isNavHidden } = this.state;
 
-		if(currentUser) {
+		if(currentUser && !this.state.isloaded) {
 			settingsOptions.setCurrentUserFireBaseID(currentUser.uid)
 			this.fetchCurrentUserID()
+			this.setState({isloaded:true})
 		}
 		return (
 			<ThemeProvider theme={Theme}>
@@ -231,7 +236,7 @@ class App extends React.Component {
 									<Route path='/report' component={() => { window.location = 'http://report.ikaufa.com/'; return null;} }/>
 									{/* this must always be the last route */}
 									<Route path="/">
-										<HomePage />
+										<HomePage currentUserID={this.state.currentUserID} />
 									</Route>
 								</Switch>
 							</>

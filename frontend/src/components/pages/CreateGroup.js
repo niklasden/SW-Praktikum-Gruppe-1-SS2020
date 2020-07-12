@@ -23,6 +23,9 @@ import MainButton from '../layout/MainButton';
 import IconButton from '../layout/IconButton';
 import avatar from '../img/avatar.jpg';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
+import { Config } from '../../config';
+import { withRouter } from "react-router";
+
 
 const useStyles = (theme) => ({
   root: {
@@ -120,7 +123,30 @@ class CreateGroup extends Component {
 
     const saveGroup = async () => {
       try {
-          //send request with paramets to backend for the group to be saved
+        const group = {
+          id: 1, 
+          name: this.state.inputval, 
+          description: "no description defined in frontend"
+        }
+        const requestBody = JSON.stringify(group)
+        console.log(requestBody)
+
+        const rInit = {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json'
+          }, 
+          body: requestBody
+        } 
+        
+        const resp = await fetch(Config.apiHost + '/Group', rInit)
+        if(resp.ok){
+          this.props.history.push('/groups')
+        } else {
+          alert("error")
+        }
+
+          
           alert('The group was saved')
       }
       catch (error) {
@@ -137,7 +163,7 @@ class CreateGroup extends Component {
                         <PeopleOutlineIcon className={classes.icon} style={{display: "none", padding: 0, textAlign: "center"}}/>
                     </Grid>
                     <Grid item>
-                        <TextField required id="input-with-icon-grid" label="Group Name" style= {{ fontWeight: 'bold'}} />
+                        <TextField onChange= {(e) => this.setState({inputval:e.target.value})} required id="input-with-icon-grid" label="Group Name" style= {{ fontWeight: 'bold'}} />
                      </Grid>
                 </Grid>
                 <Grid item xs={12} md={6} style= {{ marginTop: "20px"}}>
@@ -210,4 +236,5 @@ CreateGroup.propTypes = {
   icon: PropTypes.string,
 }
 
-export default withStyles(useStyles, {withTheme: true})(CreateGroup);
+//export default withStyles(useStyles, {withTheme: true})(CreateGroup);
+export default withRouter(withStyles(useStyles, {withTheme: true})(CreateGroup));

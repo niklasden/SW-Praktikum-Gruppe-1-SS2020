@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import Heading from '../layout/Heading';
 import MainButton from '../layout/MainButton';
 import StatisticItem from '../layout/StatisticItem';
-import { Grid } from '@material-ui/core';
+import { Grid, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import MainBarChart from '../layout/MainBarChart';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
-import BarChart from '../../components/layout/BarChart'
-import LineChart from '../../components/layout/LineChart'
+import {Config} from '../../config';
+import { withStyles } from '@material-ui/core/styles';
+
 
 /**
  * Displays the statistic page
@@ -16,6 +17,13 @@ import LineChart from '../../components/layout/LineChart'
  * @author [Kevin Eberhardt](https://github.com/kevin-eberhardt)
  * 
  */
+
+const styles = theme => ({
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: '75%',
+    }
+});
 class StatisticPage extends Component {
     constructor(props) {
         super(props);
@@ -24,14 +32,28 @@ class StatisticPage extends Component {
             products: [],
             error: null,
             dataLoading: false,
+            selectedGroup : 0
         }
+        this.handleChangeGroup = this.handleChangeGroup.bind(this);
     }
 
+    handleChangeGroup(event) {
+        this.setState({selectedGroup: event.target.value})
+    }
     async fetchTopProducts() {
         try {
-            const res = await fetch("http://localhost:8081/api/shoppa/products/top");
+            var topArticlesList = [], articleIDs = [], i = 1;
+            const res = await fetch(Config.apiHost + "/report/1");
             const json = await res.json();
-            this.setState({products: json})
+            json.top_articles.forEach(article => {
+                if(!articleIDs.includes(article.article_id)) {
+                    article.rank = i;
+                    i++;
+                    topArticlesList.push(article);
+                    articleIDs.push(article.article_id);
+                }
+            })
+            this.setState({products: topArticlesList})
         }catch(exception) {
             this.setState({error: exception});
         }
@@ -39,9 +61,18 @@ class StatisticPage extends Component {
     }
     async fetchTopRetailers() {
         try {
-            const res = await fetch("http://localhost:8081/api/shoppa/retailers/top");
+            var topRetailersList = [], retailerIDs = [], i = 1;
+            const res = await fetch(Config.apiHost + "/report/1");
             const json = await res.json();
-            this.setState({retailers: json})
+            json.top_retailers.forEach(retailer => {
+                if(!retailerIDs.includes(retailer.retailer_id)) {
+                    retailer.rank = i;
+                    i++;
+                    topRetailersList.push(retailer);
+                    retailerIDs.push(retailer.retailer_id);
+                }
+            })
+            this.setState({retailers: topRetailersList})
         }catch(exception) {
             this.setState({error: exception});
         }
@@ -54,39 +85,47 @@ class StatisticPage extends Component {
         this.fetchTopRetailers();
         this.setState({
 			dataLoading: false
-		});
+        });
     }
     render() { 
     const { error, dataLoading } = this.state;
-        return (
+    const classes = this.props.classes;
+    return (
             <>
             {error ?
                     <ContextErrorMessage error={error} contextErrorMsg={`Data could not be loaded. Check if database server is running.`} />
                         :
                 <>
                     <LoadingProgress show={dataLoading} />
+                    <Heading>GRUPPE AUSWÄHLEN</Heading>
+                    <FormControl className={classes.formControl} >
+                        <InputLabel>Gruppe</InputLabel>
+                        <Select value={this.state.selectedGroup} onChange={this.handleChangeGroup}>
+                            <MenuItem value={0}>Alle</MenuItem>
+                            {/* {this.state.products.map(p=> (
+                                <MenuItem key={p.id} value={p.name}>{p.name}</MenuItem>
+                            ))} */}
+                        </Select>
+                    </FormControl>
                     <Heading>MEISTBESUCHTE EINZELHÄNDLER</Heading>
-                        <MainBarChart data={this.state.retailers} />
+                        <MainBarChart retailer data={this.state.retailers} />
                         <Grid item xs={12} container spacing={1}>
                             {this.state.retailers.map(retailer => {
-                                return <StatisticItem retailer key={retailer.nr} number={retailer.nr} name={retailer.name} amount={retailer.amount} />
+                                return <StatisticItem retailer key={retailer.retailer_id} number={retailer.retailer_id} name={retailer.retailer_name} amount={retailer.amount} />
                             })}
                         </Grid>
                         <Heading>MEISTGEKAUFTE ARTIKEL</Heading>
-                        <MainBarChart data={this.state.products} />
+                        <MainBarChart products data={this.state.products} />
                         <Grid item xs={12} container spacing={1}>
                             {this.state.products.map(article => {
-                                return <StatisticItem article key={article.nr} number={article.nr} name={article.name} amount={article.amount} />
+                                return <StatisticItem article key={article.article_id} number={article.rank} name={article.article_name} amount={article.number_bought} />
                             })}
                         </Grid>
+                        
                         <Link to="./show">
                             <MainButton>STATISTIK ANZEIGEN</MainButton>
                         </Link>
 
-                        <BarChart />
-                        <div style={{height: 100}} />
-                        <LineChart />
-                        <div style={{height: 100}} />
                     </>
                 }
             </>
@@ -94,4 +133,4 @@ class StatisticPage extends Component {
     }
 }
  
-export default StatisticPage;
+export default (withStyles)(styles)(StatisticPage);

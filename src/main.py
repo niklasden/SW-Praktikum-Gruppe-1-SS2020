@@ -71,14 +71,14 @@ listentry = api.inherit('ListEntry',bo, {
 
 report = api.inherit('Report',bo, {
     'report_group': fields.String(attribute='_report_group',description="Group which report is used for"),
-    'report_retailer': fields.String(attribute='_report_retailer',description="Retailers visited of group members."),
-    '_report_listentries': fields.String(attribute='_report_listentries',description="Dictionary with bought articles with timestamp"),
+    'report_retailer': fields.Raw(attribute='_report_retailer',description="Retailers visited of group members."),
+    '_report_listentries': fields.Raw(attribute='_report_listentries',description="Dictionary with bought articles with timestamp"),
     'top_articles': fields.Raw(attribute='_top_articles', description="Top 3 bought articles of each group"),
-    'top_retailers': fields.String(attribute='_top_retailers', description="Top 3 bought retailers of each group"),
+    'top_retailers': fields.Raw(attribute='_top_retailers', description="Top 3 bought retailers of each group"),
 })
 article = api.inherit('Article', bo, {
     'name': fields.String(attribute='_name', description="An Article name"), 
-    'category_id': fields.String(attribute='_category', description="Category ID of the specific article")
+    'category_id': fields.Integer(attribute='_category', description="Category ID of the specific article")
 })
 
 # alle bos hier aufführen!
@@ -93,18 +93,31 @@ class HelloWorld(Resource):
         return {'hello': 'world'}
 
 
+@shopping_v1.route('/Group/Usergroup/<int:userid>')
+@shopping_v1.response(500,'If an server sided error occures')
+@shopping_v1.param('userid', 'Users id')
+class UserGroupOperations(Resource):
+    
+    @shopping_v1.marshal_with(group)
+    #@secured
+    def get(self,userid):
+        adm = ShoppingAdministration()
+        return adm.get_all_user_groups(userid)
+
+
 @shopping_v1.route('/Group')
 @shopping_v1.response(500,'If an server sided error occures')
 class GroupListOperations(Resource):
     @shopping_v1.marshal_with(group)
-    @secured
+    #@secured
     def get(self):
         adm = ShoppingAdministration()
+    
         return adm.get_all_groups()
     
     @shopping_v1.marshal_with(group,code=200)
     @shopping_v1.expect(group)
-    @secured
+    #@secured
     def post(self):
         adm = ShoppingAdministration()
         try:
@@ -123,12 +136,12 @@ class GroupListOperations(Resource):
 @shopping_v1.param('id', 'Group objects id')
 class GroupOperations(Resource):
     @shopping_v1.marshal_with(group)
-    @secured
+    #@secured
     def get(self,id):
         adm = ShoppingAdministration()
         return adm.get_group_by_id(id)
     
-    @secured
+  #  @secured
     def delete(self,id):
         adm = ShoppingAdministration()
         grp = adm.get_group_by_id(id)
@@ -137,7 +150,7 @@ class GroupOperations(Resource):
     
     @shopping_v1.marshal_with(group)
     @shopping_v1.expect(group,validate=True)
-    @secured
+   # @secured
     def put(self,id):
         adm = ShoppingAdministration()
         c = Group.from_dict(api.payload)
@@ -281,7 +294,7 @@ class UserIDOperations(Resource):
     def put(self,id):
         adm = ShoppingAdministration()
         c = User.from_dict(api.payload)
-        print(str(c))
+        
         if c is not None: 
             c.set_id(id)
             adm.save_user(c)
@@ -325,7 +338,71 @@ class UserIDOperations(Resource):
         usr = adm.get_user_by_email(email)
         return usr
 
+#Article
 
+@shopping_v1.route('/Article')
+@shopping_v1.response(500, 'If an server sided error occures')
+class ArticleOperations(Resource):
+    @shopping_v1.marshal_with(article)
+    #@secured
+    def get(self):
+        adm = ShoppingAdministration()
+        result = adm.get_all_article()
+        return result 
+
+    @shopping_v1.marshal_with(article,code=200)
+    @shopping_v1.expect(article)
+    #@secured
+    def post(self):
+        adm = ShoppingAdministration()
+        try: 
+            proposal = Article.from_dict(api.payload)
+            if proposal is not None:
+                article = Article()
+                article.set_id(proposal.get_id())
+                article.set_name(proposal.get_name())
+                article.set_category(proposal.get_category())
+                if (proposal.get_id() == 0):
+                    c = adm.create_article(article)
+                else: 
+                    c = adm.save_article(article)
+                return c, 200
+            else:
+                return "",500  
+
+        except Exception as e:
+            print(str(e))
+            return str(e), 500 
+    
+
+@shopping_v1.route('/Article/<int:id>')
+@shopping_v1.response(500, 'If an server sided error occures')
+@shopping_v1.param('id', "Article object id")
+class ArticleOperations(Resource):
+    @shopping_v1.marshal_with(article)
+    #@secured
+    def get(self, id):
+        adm = ShoppingAdministration()
+        return adm.get_article_by_id(id)
+
+    #@secured
+    def delete(self, id):
+        adm = ShoppingAdministration()
+        ar = adm.get_article_by_id(id)
+        adm.delete_article(ar)
+        return 'deleted', 200
+    
+    
+
+@shopping_v1.route('/Article/<string:name>')
+@shopping_v1.response(500, 'If an server sided error occures')
+@shopping_v1.param('name', "Article object name")
+class ArticleOperations(Resource):
+    @shopping_v1.marshal_with(article)
+    #@secured
+    def get(self, name):
+        adm = ShoppingAdministration()
+        return adm.get_article_by_name(name)
 
 
 
@@ -343,57 +420,6 @@ class testSecured(Resource):
         return res
 
 
-
-#ArticleTests
-
-@testing.route('/testArticle')
-@testing.response(500, 'If an server sided error occures')
-class testArticle(Resource):
-    @testing.marshal_with(article)
-    def get(self):
-        adm = ShoppingAdministration()
-        result = adm.get_all_article()
-        return result 
-
-    def post(self):
-        adm = ShoppingAdministration()
-        try:
-            proposal = Article.from_dict(api.payload)
-            if proposal is not None:
-                c = adm.create_article(proposal.get_name(),proposal.get_category())
-                return c, 200
-            else:
-                return "",500
-
-        except Exception as e:
-            return str(e),500
-
-@testing.route('testArticle/<int:id>')
-@testing.param('id', "Article object id")
-class testArticle(Resource):
-    @testing.marshal_with(article)
-    def get(self, id):
-        adm = ShoppingAdministration()
-        return adm.get_article_by_id(id)
-
-    def delete(self, id):
-        adm = ShoppingAdministration()
-        ar = adm.get_article_by_id(id)
-        adm.delete_article(ar)
-        
-
-@testing.route('/testArticle/<string:name>')
-@testing.param('name', "Article object name")
-class testArticle(Resource):
-    @testing.marshal_with(article)
-    def get(self, name):
-        adm = ShoppingAdministration()
-        return adm.get_article_by_name(name)
-
-
-
-
-
 #GroupListTests
 
 @testing.route('/testGroup')
@@ -403,7 +429,7 @@ class testGroupListOperations(Resource):
     def get(self):
         adm = ShoppingAdministration()
         
-        result= adm.get_all_groups()
+        result= adm.get_all_groups(id) # hier dann die id aus der payload
         return result
 
 
