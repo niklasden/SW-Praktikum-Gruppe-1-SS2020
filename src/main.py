@@ -60,13 +60,17 @@ retailer = api.inherit('Retailer',bo,{
 })
 
 listentry = api.inherit('ListEntry',bo, {
-    'article_id': fields.String(attribute='_article_id',description="Article ID of a listentry"),
-    'retailer_id': fields.String(attribute='_retailer_id',description="Retailer ID of the specific listenty"),
-    'shoppinglist_id': fields.String(attribute='_shoppinglist_id',description="Corresponding Shopping List ID of a listentry"),
-    'user_id': fields.String(attribute='_user_id',description="User ID which the ListEntry is assigned to"),
-    'group_id': fields.String(attribute='_group_id',description="Group ID in which the ListEntry belongs to"),
-    'amount': fields.String(attribute='_amount',description="Amount of item to be bought"),
+    'article_id': fields.Integer(attribute='_article_id',description="Article ID of a listentry"),
+    'retailer_id': fields.Integer(attribute='_retailer_id',description="Retailer ID of the specific listenty"),
+    'shoppinglist_id': fields.Integer(attribute='_shoppinglist_id',description="Corresponding Shopping List ID of a listentry"),
+    'user_id': fields.Integer(attribute='_user_id',description="User ID which the ListEntry is assigned to"),
+    'group_id': fields.Integer(attribute='_group_id',description="Group ID in which the ListEntry belongs to"),
+    'amount': fields.Integer(attribute='_amount',description="Amount of item to be bought"),
+    'unit': fields.Integer(attribute='_unit', description="Unit of item"),
     'bought': fields.String(attribute='_bought',description="Date when the article was bought"),
+    'article_name': fields.String(attribute='_article_name',description="Name of the article"),
+    'category': fields.String(attribute='_category',description="Category of the article"),
+    'retailer': fields.String(attribute='_retailer',description="Retailer where the items/articles were bought"),
 })
 
 report = api.inherit('Report',bo, {
@@ -492,34 +496,62 @@ class testListEntry(Resource):
         result = adm.insert_listentry(listentry)
         return result
 
-@testing.route('testListEntryUpdate')
-@testing.response(500, 'If an server sided error occures')
+@testing.route('/testListEntryGetGroupItems/<int:group_id>')
+@testing.response(500, 'Falls was in die Fritten geht')
+@testing.param('group_id', "Group_id")
 class testListEntry(Resource):
-    @testing.marshal_list_with(listentry)
-    def get(self):
+    @testing.marshal_with(listentry)
+    def get(self, group_id):
         adm = ShoppingAdministration()
-        result = adm.get_all_listentries()
+        result = adm.get_items_of_group(group_id)
         return result
-    
-    @testing.marshal_list_with(listentry, code= 200)
+
+@testing.route('/testListEntryUpdate')
+@testing.response(500, 'If an server sided error occures')
+#@testing.param('listentry', "Listentry object id")
+class testListEntry(Resource):
+
+    @testing.marshal_with(listentry, code= 200)
     @testing.expect(listentry)
-
     def post(self):
-        adm = ShoppingAdministrationI()
-        try:
-            proposal = ListEntry.from_dict(api.payload)
-            if proposal is not None: 
-                c = admin.create
-                
-            @testing.marshal_with(group)
-    def get(self,id):
         adm = ShoppingAdministration()
-        return adm.get_group_by_id(id)
+       
+        proposal = ListEntry.from_dict(api.payload)
+        
+        if proposal is not None: 
+            #le = adm.creata e_listenty
+            print(proposal.get_id())
+            c = ListEntry()
+            c.set_id(proposal.get_id())
+            c.set_article(proposal.get_article())
+            c.set_retailer(proposal.get_retailer())
+            c.set_shoppinglist(proposal.get_shoppinglist())
+            c.set_user(proposal.get_user())
+            c.set_group(proposal.get_group())
+            c.set_amount(proposal.get_amount())
+            c.set_buy_date(proposal.get_buy_date())
+            if (proposal.get_id() == 0):
+                j = adm.insert_listentry(c)
+            else: 
+                j = adm.update_listentry(c)
+            return j, 200
+        else:
+            return "", 500
+        
 
-    def delete(self,id):
-        adm = ShoppingAdministration()
-        gr = adm.get_group_by_id(id)
-        adm.delete_group(gr)
+
+            """
+            listentry.set_id(proposal.get_id())
+            listentry.set_article(proposal.get_article())
+            if (proposal.get_id() == 0):
+                c = admin.insert_listentry(listentry)
+            else: 
+                c = admin.update_listentry(listentry)
+            return c, 200
+        else:
+            return "", 500
+            """
+    
 
 @testing.route('/testUser')
 @testing.response(500,'If an server sided error occures')

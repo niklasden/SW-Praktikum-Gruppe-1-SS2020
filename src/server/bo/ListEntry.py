@@ -11,23 +11,26 @@ class ListEntry(bo.BusinessObject):
     """
     def __init__(self):
         super().__init__()
-        self._id = ""
-        self._article_id = ""
-        self._retailer_id = ""
-        self._shoppinglist_id = ""
-        self._user_id = ""
-        self._group_id = ""
-        self._amount = ""
+        self._id = 0
+        self._article_id = 0
+        self._retailer_id = 0
+        self._shoppinglist_id = 0
+        self._user_id = 0
+        self._group_id = 0
+        self._amount = 0
+        self._unit = 0
         self._bought = ""
+        self._article_name = ""
+        self._category = ""
+        self._retailer = ""
 
-    #this was renamed from get name to article, makes more sense imho
-    def get_id():
+    def get_id(self):
         return self._id
     #this needs some more thinking
     def set_id(self, id):
         self._id = id
 
-    def get_article():
+    def get_article(self):
         """
         Niklas
         """
@@ -39,7 +42,7 @@ class ListEntry(bo.BusinessObject):
         """
         self._article_id = article
 
-    def get_retailer():
+    def get_retailer(self):
         """
         Niklas
         """
@@ -51,7 +54,7 @@ class ListEntry(bo.BusinessObject):
         """
         self._retailer_id = retailer
 
-    def get_purchaser():
+    def get_purchaser(self):
         """
         Pascal
         """
@@ -62,9 +65,46 @@ class ListEntry(bo.BusinessObject):
         Niklas purchaser:User
         """
         self._user_id = purchaser
+    
+    def get_article_name(self):
+        """
+        Pascal
+        """
+        return self._article_name
+
+    def set_article_name(self, article):
+        """
+        Niklas 
+        """
+        self._article_name = article
+    
+    def get_category(self):
+        """
+        Pascal
+        """
+        return self._category
+    
+    def set_category(self, category):
+        """
+        Niklas 
+        """
+        self._category = category
+    
+    def get_retailer(self):
+        """
+        Pascal
+        """
+        return self._retailer
+    
+    def set_retailer(self, retailer):
+        """
+        Niklas 
+        """
+        self._retailer = retailer
+
 
     #renamed from class diagramm quantity to amount to have the same words ;)
-    def get_amount():
+    def get_amount(self):
         """
         Pascal amount:int
         """
@@ -75,8 +115,20 @@ class ListEntry(bo.BusinessObject):
         Niklas amount:int
         """
         self._amount = amount
+    
+    def get_unit(self):
+        """
+        Pascal unit:int
+        """
+        return self._unit
+    
+    def set_unit(self, unit):
+        """
+        Niklas unit:int
+        """
+        self._unit = unit
 
-    def get_checkout():
+    def get_checkout(self):
         """
         Pascal setcheck bool to true? or set date
         """
@@ -88,7 +140,7 @@ class ListEntry(bo.BusinessObject):
         """
         self._checkout = checkout
 
-    def get_buy_date():
+    def get_buy_date(self):
         """
         Niklas quantity:int
         """
@@ -100,7 +152,7 @@ class ListEntry(bo.BusinessObject):
         """
         self._bought = date
 
-    def get_group():
+    def get_group(self):
         """
         Niklas 
         """
@@ -112,7 +164,7 @@ class ListEntry(bo.BusinessObject):
         """
         self._group_id = group
 
-    def get_user():
+    def get_user(self):
         """
         Niklas
         """
@@ -124,7 +176,7 @@ class ListEntry(bo.BusinessObject):
         """
         self._user_id = user
     
-    def get_shoppinglist():
+    def get_shoppinglist(self):
         """
         Niklas
         """
@@ -136,5 +188,18 @@ class ListEntry(bo.BusinessObject):
         """
         self._shoppinglist_id = shoppinglist
     
-
-        
+    def __str__(self):
+        return str(self._id) + " " + self._article_id
+    @staticmethod
+    def from_dict(dictionary=dict()):
+        """Umwandeln eines Python dict() in einen Customer()."""
+        obj = ListEntry()
+        obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
+        obj.set_article(dictionary["article_id"])
+        obj.set_retailer(dictionary["retailer_id"])
+        obj.set_shoppinglist(dictionary["shoppinglist_id"])
+        obj.set_user(dictionary["user_id"])
+        obj.set_group(dictionary["group_id"])
+        obj.set_amount(dictionary["amount"])
+        obj.set_buy_date(dictionary["bought"])
+        return obj
