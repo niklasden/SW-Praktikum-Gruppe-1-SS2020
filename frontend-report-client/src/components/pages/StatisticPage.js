@@ -83,6 +83,7 @@ class StatisticPage extends Component {
             var topRetailersList = [], retailerIDs = [], i = 1;
             const res = await fetch(Config.apiHost + "/report/" + group_id);
             const json = await res.json();
+            console.log("json", json);
             json.top_retailers.forEach(retailer => {
                 if(!retailerIDs.includes(retailer.retailer_id)) {
                     retailer.rank = i;
@@ -91,6 +92,7 @@ class StatisticPage extends Component {
                     retailerIDs.push(retailer.retailer_id);
                 }
             })
+            console.log(topRetailersList);
             this.setState({retailers: topRetailersList})
         }catch(exception) {
             this.setState({error: exception});
