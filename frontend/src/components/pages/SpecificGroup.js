@@ -167,65 +167,32 @@ class SpecificGroup extends Component {
       <div className={classes.accordion}>
 
         <ExpansionPanel style={{border:"1px solid #5a5a5a", margin:4}}>
-        <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography className={classes.heading}>Members</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-      <Grid item xs="12" style={{}}>
-            <Grid
-            container
-            direction="column"
-            justify="center"
-            alignItems="center"
-          > 
-        <AddCircleItem style={{alignSelf:"center", margin: 12,fontSize:"40px" }} onClick={() => { handleClickOpen() }}></AddCircleItem>
-        <Grid 
-          style={{marginLeft: 2}}
-          container
-          direction='column'
-          justify='space-between'
-          alignItems="stretch"
-          xs={12}
-      >
-              {this.renderGroupMembers()}
-        </Grid>
-        </Grid>
-        </Grid>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} >
+            <Typography className={classes.heading}>Members</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <Grid container>
+              <Grid item xs={12} direction="column" justify="center" alignItems="center" >
+                <AddCircleItem style={{alignSelf:"center", margin: 12,fontSize:"40px" }} onClick={() => { handleClickOpen() }}></AddCircleItem>
+                <Grid style={{marginLeft: 2}} item direction='column' justify='space-between' alignItems="stretch" xs={12}>
+                  {this.renderGroupMembers()}
+                </Grid>
+              </Grid>
+            </Grid>
           </ExpansionPanelDetails>
         </ExpansionPanel>
         <ExpansionPanel style={{border:"1px solid #5a5a5a", margin:4}}>
-        <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography className={classes.heading}>Shoppinglists</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-      <Grid item xs="12" style={{}}>
-            <Grid
-            container
-            direction="column"
-            justify="center"
-            alignItems="center"
-          > 
-        <AddCircleItem style={{alignSelf:"center", margin: 12,fontSize:"40px" }} onClick={() => { handleClickOpen() }}></AddCircleItem>
-        <Grid 
-          style={{marginLeft: 2}}
-          container
-          direction='column'
-          justify='space-between'
-          alignItems="stretch"
-          xs={12}
-      >
-              {this.renderGroupMembers()}
-        </Grid>
-        </Grid>
-        </Grid>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} >
+            <Typography className={classes.heading}>Shoppinglists</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <Grid container>
+              <Grid item xs={12} direction="column" justify="center" alignItems="center" >
+                <AddCircleItem style={{alignSelf:"center", margin: 12,fontSize:"40px" }} onClick={() => { handleClickOpen() }}></AddCircleItem>
+                <Grid style={{marginLeft: 2}} item direction='column' justify='space-between' alignItems="stretch" xs={12}>
+                </Grid>
+              </Grid>
+            </Grid>
           </ExpansionPanelDetails>
         </ExpansionPanel>
         <MainButton className={classes.CreateButton} onclick={() => {saveGroup()} }>Save Group</MainButton>
