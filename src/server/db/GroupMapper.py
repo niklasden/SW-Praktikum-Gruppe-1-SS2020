@@ -138,4 +138,45 @@ class GroupMapper(Mapper):
         except Exception as e:
             return "Error in delete Group GroupMapper: " + str(e)
 
+    def createMembership(self,userid,groupid):
+        """
+        Julius
+        """
+        try:
+            cursor = self._cnx.cursor()
+            command = "INSERT INTO Membership (User_ID,Group_ID) VALUES ('{0}', '{1}')".format(userid,groupid)
+
+            cursor.execute(command)
+            self._cnx.commit()
+            cursor.close()
+            return "added usernr. {0} to groupnr. {1}".format(userid,groupid)
+        
+        except Exception as e:
+            return str(e)
+
+    def deleteMembership(self,userid,groupid):
+
+        try: 
+            cursor = self._cnx.cursor()
+            command = "DELETE FROM dev_shoppingproject.Membership WHERE User_ID = {0} AND Group_ID =  {1}".format(userid,groupid)
+            cursor.execute(command)
+            self._cnx.commit()
+            cursor.close()
+            return "deleted usernr. {0} to groupnr. {1}".format(userid,groupid)
+        
+        except Exception as e:
+            return str(e)
     
+    def get_users_by_gid(self,gid):
+        
+        cursor = self._cnx.cursor()
+        command = "SELECT User_ID from Membership WHERE Group_ID = {0}".format(gid)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+        res = []
+        for i in tuples:
+            res.append(i[0])
+
+        self._cnx.commit()
+        cursor.close()
+        return {"User_IDs": res}

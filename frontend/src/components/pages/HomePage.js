@@ -41,6 +41,9 @@ export class HomePage extends Component {
             {/*<MainButton>
               Insert Group Swiper here
             </MainButton>*/}
+            <Grid item xs={12}>
+            <p style={{textAlign:"center"}}> Select Your Group</p>
+            </Grid>
             <GroupsGridList currentUserID={this.props.currentUserID}></GroupsGridList>
           </Grid>
 
