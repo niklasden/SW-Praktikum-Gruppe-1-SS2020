@@ -169,6 +169,38 @@ class CreateGroup extends Component {
       this.setState({inputval: '', fetchuser: '',groupnameval:''})
     }
 
+    const saveMemberships = async (gid) => {
+      try{
+
+        this.state.groupMembers.forEach(async elem => { 
+          const rb = {
+            User_ID: elem.id,
+            Group_ID: gid // irgendwo her aus der gespeicherten gruppe 
+          }
+          const requestBody = JSON.stringify(rb)
+          const rInit = {
+            method: 'POST', 
+            headers: {
+              'Content-Type': 'application/json'
+            }, 
+            body: requestBody
+          } 
+          
+          const resp = await fetch(Config.apiHost + '/membership', rInit)
+          if(resp.ok){
+            console.log(resp)}
+        })
+        
+        
+
+
+      }catch (error){
+        console.log(error)
+      }
+    
+    }
+
+
     const saveGroup = async () => {
       try {
         const group = {
@@ -189,7 +221,16 @@ class CreateGroup extends Component {
         
         const resp = await fetch(Config.apiHost + '/Group', rInit)
         if(resp.ok){
-          this.props.history.push('/groups')
+          try{
+            var respjson = await resp.json()
+            //console.log(respjson.id)
+            saveMemberships(respjson.id)
+
+          }catch (error){
+            console.log(error)
+          }
+
+            this.props.history.push('/settings')
         } else {
           alert("error")
         }
