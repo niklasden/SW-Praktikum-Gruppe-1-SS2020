@@ -9,6 +9,7 @@ import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 import {Config} from '../../config';
 import { withStyles } from '@material-ui/core/styles';
+import ShoppingSettings from '../../shoppingSettings';
 
 
 /**
@@ -18,6 +19,8 @@ import { withStyles } from '@material-ui/core/styles';
  * 
  */
 
+const settingsOptions = ShoppingSettings.getSettings();
+var i = 0;
 const styles = theme => ({
     formControl: {
       margin: theme.spacing(1),
@@ -32,18 +35,35 @@ class StatisticPage extends Component {
             products: [],
             error: null,
             dataLoading: false,
-            selectedGroup : 0
+            groups: [],
+            selectedGroup : 0,
         }
         this.handleChangeGroup = this.handleChangeGroup.bind(this);
     }
 
     handleChangeGroup(event) {
-        this.setState({selectedGroup: event.target.value})
+        this.setState({selectedGroup: event.target.value});
+        this.fetchTopProducts(event.target.value);
+        this.fetchTopRetailers(event.target.value);
     }
-    async fetchTopProducts() {
+
+    async fetchGroups() {
+        try {
+            const res = await fetch(Config.apiHost + "/Group/Usergroup/" + settingsOptions.currentUserID);
+            const json = await res.json();
+            this.setState({groups: json})
+            this.setState({selectedGroup: json[0].id})
+            this.fetchTopRetailers(json[0].id);
+            this.fetchTopProducts(json[0].id);
+            this.setState({dataLoading: false});
+        }catch(exception) {
+            this.setState({error: exception})
+        }
+    }
+    async fetchTopProducts(group_id) {
         try {
             var topArticlesList = [], articleIDs = [], i = 1;
-            const res = await fetch(Config.apiHost + "/report/1");
+            const res = await fetch(Config.apiHost + "/report/" + group_id);
             const json = await res.json();
             json.top_articles.forEach(article => {
                 if(!articleIDs.includes(article.article_id)) {
@@ -57,12 +77,11 @@ class StatisticPage extends Component {
         }catch(exception) {
             this.setState({error: exception});
         }
-        
     }
-    async fetchTopRetailers() {
+    async fetchTopRetailers(group_id) {
         try {
             var topRetailersList = [], retailerIDs = [], i = 1;
-            const res = await fetch(Config.apiHost + "/report/1");
+            const res = await fetch(Config.apiHost + "/report/" + group_id);
             const json = await res.json();
             json.top_retailers.forEach(retailer => {
                 if(!retailerIDs.includes(retailer.retailer_id)) {
@@ -80,16 +99,20 @@ class StatisticPage extends Component {
     componentDidMount() {
         this.setState({
 			dataLoading: true
-		});
-        this.fetchTopProducts();
-        this.fetchTopRetailers();
-        this.setState({
-			dataLoading: false
         });
+        if(settingsOptions.currentUserID !== 0) {
+            this.fetchGroups();
+        }
+
     }
     render() { 
     const { error, dataLoading } = this.state;
     const classes = this.props.classes;
+    
+    if(settingsOptions.getCurrentUserID() !== 0 && i === 0) {
+        this.fetchGroups();
+        i++;
+    }
     return (
             <>
             {error ?
@@ -100,18 +123,17 @@ class StatisticPage extends Component {
                     <Heading>GRUPPE AUSWÄHLEN</Heading>
                     <FormControl className={classes.formControl} >
                         <InputLabel>Gruppe</InputLabel>
-                        <Select value={this.state.selectedGroup} onChange={this.handleChangeGroup}>
-                            <MenuItem value={0}>Alle</MenuItem>
-                            {/* {this.state.products.map(p=> (
-                                <MenuItem key={p.id} value={p.name}>{p.name}</MenuItem>
-                            ))} */}
+                        <Select value={this.state.selectedGroup} onChange={this.handleChangeGroup} onLoad={this.handleChangeGroup}>
+                            {this.state.groups.map(g=> (
+                                <MenuItem key={g.id} value={g.id}>{g.name}</MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                     <Heading>MEISTBESUCHTE EINZELHÄNDLER</Heading>
                         <MainBarChart retailer data={this.state.retailers} />
                         <Grid item xs={12} container spacing={1}>
                             {this.state.retailers.map(retailer => {
-                                return <StatisticItem retailer key={retailer.retailer_id} number={retailer.retailer_id} name={retailer.retailer_name} amount={retailer.amount} />
+                                return <StatisticItem retailer key={retailer.retailer_id} number={retailer.rank} name={retailer.retailer_name} amount={retailer.amount} />
                             })}
                         </Grid>
                         <Heading>MEISTGEKAUFTE ARTIKEL</Heading>
@@ -122,7 +144,7 @@ class StatisticPage extends Component {
                             })}
                         </Grid>
                         
-                        <Link to="./show">
+                        <Link to={`./show/${this.state.selectedGroup}`}>
                             <MainButton>STATISTIK ANZEIGEN</MainButton>
                         </Link>
 

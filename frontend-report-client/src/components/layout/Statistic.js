@@ -25,11 +25,11 @@ class Statistic extends Component {
     test: [],
     options: {
       data: []
-    }
+    },
   }
   async getBoughtProducts() {
     try {
-      const res = await fetch(Config.apiHost + "/report/1");
+      const res = await fetch(Config.apiHost + "/report/" + this.props.group);
       const json = await res.json();
       var newItem, productList = [], articleIDs = [];
       json._report_listentries.forEach(item => {
@@ -110,7 +110,6 @@ isDateAfterTimeProp(date) {
     render() {
       const classes = this.props.classes;
       const chartItems = this.getOptions();
-      console.log(chartItems);
       return (
         chartItems.data.length > 0 ?
           <Grid item>

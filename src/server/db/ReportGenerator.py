@@ -64,12 +64,12 @@ class ReportGenerator(Mapper):
     def get_top_3_articles(self, group_id):
         """
         Author: Christopher Böhm
-        :return:
+        :return:^   
         """
         result = []
         cursor = self._cnx.cursor()
         statement = """
-            SELECT Article.ID, Article.name, Article.CategoryID, SUM(Listentry.amount) AS number  FROM dev_shoppingproject.Listentry
+            SELECT Article.ID, Article.name, Article.CategoryID, SUM(Listentry.amount), Listentry.Group_ID AS number  FROM dev_shoppingproject.Listentry
             LEFT JOIN dev_shoppingproject.Article
             ON Listentry.Article_ID=Article.ID
             WHERE Listentry.Group_ID={0}
@@ -82,12 +82,12 @@ class ReportGenerator(Mapper):
 
         tuples = cursor.fetchall()
         try:
-            for(id, name, categoryID, number) in tuples:
+            for(id, name, categoryID, number, group_id) in tuples:
                 # article = Article()
                 # article.set_id(id)
                 # article.set_name(name)
                 # article.set_category(categoryID)
-                article_json = {"article_name": name, "article_id": id,
+                article_json = {"article_name": name, "article_id": id, "group_id": group_id,
                                  "article_category": categoryID, "number_bought": int(number)}
                 result.append(article_json)
             self._cnx.commit()
