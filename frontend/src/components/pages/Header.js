@@ -38,31 +38,38 @@ function Header(props){
     "/createGroup": "CREATE A GROUP",
   };
   let location = useLocation();
-    return (
-        <div className={classes.root}>
-            <AppBar position="static">
-                <Toolbar>
-                <Menu user={user} />
-                  {
-                    user ?
-                      <Grid container direction="row" alignItems="center">
-                        <Grid item xs={10}>
-                          <Typography variant="h6" className={classes.title}>
-                                {paths[location.pathname]}
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={2}>
-                          <ProfileDropDown user={user} />
-                        </Grid>
-                      </Grid>
-                    :
-                      <Typography variant="h6" className={classes.title}>
-                        ShoppingProject - SW-Praktikum: Gruppe 1 (SS2020)
-                      </Typography>
-                  }
-                </Toolbar>
-            </AppBar>
-        </div>
-    );
+
+	let title = 'SW-Praktikum'
+	const path = location.pathname
+	console.log(path)
+
+	if (path === '/index.html' && user){
+		title = 'Hi ' + user.displayName
+	} else if (path === '/GroupShoppingList'){
+		title = 'Group'
+	}
+
+  return (
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <Menu user={user} />
+					<Grid container direction="row" alignItems="center">
+						<Grid item xs={10}>
+							<Typography variant="h6" className={classes.title}>
+								{title}
+							</Typography>
+						</Grid>
+						{
+							user &&
+						<Grid item xs={2}>
+							<ProfileDropDown user={user} />
+						</Grid>
+						}
+					</Grid>
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
 }
 export default Header;
