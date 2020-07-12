@@ -90,11 +90,6 @@ class SpecificGroup extends Component {
     }))
   };
 
-  /*
-  addMember(id) {
-    this.setState({groupmembers: [...this.state.groupmembers, {name: this.state.inputval, } ]})
-  }*/
-
   async fetchGroupMembers(){ //fetch group members for specific gorup
     const res = await fetch(Config.apiHost + '/membership/' + settingsobj.onlySettingsGetSettingsGroupID()) //Hier ID übergabe bei getmembersbygroupid = id = settingsobj.onlySettingsGetSettingsGroupID()
     const resjson = await res.json()
@@ -135,7 +130,6 @@ class SpecificGroup extends Component {
   }
 
   render(){
-    console.log(this.state.groupmembers)
     const { classes } = this.props;
     var open = this.state.open;
     
@@ -171,47 +165,6 @@ class SpecificGroup extends Component {
 
     return (
       <div className={classes.accordion}>
-          
-        {/*<div className={classes.Groupnameheader}>{"Gruppenname"}</div>*/}
-
-        {/*
-
-          //commented out, because we don't need multiple lists per group
-
-        <ExpansionPanel style={{border:"1px solid #5a5a5a", margin:4}}>
-        <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography className={classes.heading}>Shopping Lists</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <>
-          <Grid 
-        style={{marginLeft: 2}}
-        container
-        direction='column'
-        justify='space-between'
-        alignItems="stretch"
-        xs={12}
-        spacing={1}        
-      >
-        <IconButton aria-label="add" className={this.props.classes.margin} style={{padding:0}}>
-        <AddCircleItem style={{alignSelf:"center", margin: 12}}></AddCircleItem>
-          </IconButton>
-        
-
-           {this.renderShoppinglists()}
-           </Grid>
-
-        </>
-        </ExpansionPanelDetails>
-        </ExpansionPanel>
-
-        */}
-
-{/* Members: ---------------------------------------------------------*/}
 
         <ExpansionPanel style={{border:"1px solid #5a5a5a", margin:4}}>
         <ExpansionPanelSummary
@@ -220,6 +173,37 @@ class SpecificGroup extends Component {
           id="panel1a-header"
         >
           <Typography className={classes.heading}>Members</Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+      <Grid item xs="12" style={{}}>
+            <Grid
+            container
+            direction="column"
+            justify="center"
+            alignItems="center"
+          > 
+        <AddCircleItem style={{alignSelf:"center", margin: 12,fontSize:"40px" }} onClick={() => { handleClickOpen() }}></AddCircleItem>
+        <Grid 
+          style={{marginLeft: 2}}
+          container
+          direction='column'
+          justify='space-between'
+          alignItems="stretch"
+          xs={12}
+      >
+              {this.renderGroupMembers()}
+        </Grid>
+        </Grid>
+        </Grid>
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+        <ExpansionPanel style={{border:"1px solid #5a5a5a", margin:4}}>
+        <ExpansionPanelSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography className={classes.heading}>Shoppinglists</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
       <Grid item xs="12" style={{}}>

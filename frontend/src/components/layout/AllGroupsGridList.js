@@ -67,7 +67,6 @@ class GroupsGridList extends Component {
         //const res = await fetch('http://localhost:8081/api/shoppa/groups')
         const res = await fetch(Config.apiHost + '/Group/Usergroup/'+ this.props.currentUserID)
         const resjson = await res.json()
-        console.log(resjson)
         this.setState({groupItemss:resjson})
 
       }
