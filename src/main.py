@@ -78,7 +78,7 @@ report = api.inherit('Report',bo, {
 })
 article = api.inherit('Article', bo, {
     'name': fields.String(attribute='_name', description="An Article name"), 
-    'category_id': fields.Integer(attribute='_category', description="Category ID of the specific article")
+    'category': fields.String(attribute='_category', description="Category name of the specific article")
 })
 
 # alle bos hier aufführen!
@@ -415,24 +415,24 @@ class ArticleOperations(Resource):
     #@secured
     def post(self):
         adm = ShoppingAdministration()
-        try: 
-            proposal = Article.from_dict(api.payload)
-            if proposal is not None:
-                article = Article()
-                article.set_id(proposal.get_id())
-                article.set_name(proposal.get_name())
-                article.set_category(proposal.get_category())
-                if (proposal.get_id() == 0):
-                    c = adm.create_article(article)
-                else: 
-                    c = adm.save_article(article)
-                return c, 200
-            else:
-                return "",500  
+        
+        proposal = Article.from_dict(api.payload)
+        
+        if proposal is not None:
+            print(proposal)
+            article = Article()
+            article.set_id(proposal.get_id())
+            article.set_name(proposal.get_name())
+            article.set_category(proposal.get_category())
+            if (proposal.get_id() == 0):
+                c = adm.create_article(article)
+            else: 
+                c = adm.save_article(article)
+            return c, 200
+        else:
+            return "",500  
 
-        except Exception as e:
-            print(str(e))
-            return str(e), 500 
+        
     
 
 @shopping_v1.route('/Article/<int:id>')
