@@ -49,6 +49,7 @@ class Statistic extends Component {
             x: new Date(item.bought),
             y: item.amount
             })
+          newItem.dataPoints.sort((a, b) => b.x - a.x);
           productList.push(newItem);
           articleIDs.push(newItem.id);
         }else {
@@ -63,6 +64,7 @@ class Statistic extends Component {
                   y: item.amount
                 }
               )
+              includedItem.dataPoints.sort((a, b) => b.x - a.x);
             }
           })
         }
