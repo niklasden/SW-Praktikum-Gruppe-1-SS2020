@@ -5,7 +5,10 @@ import Theme from '../../Theme';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import HomeIcon from '@material-ui/icons/Home';
-import TimelineIcon from '@material-ui/icons/Timeline';
+import ListIcon from '@material-ui/icons/List';
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import SettingsIcon from '@material-ui/icons/Settings';
+import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 import {Link} from 'react-router-dom';
 
 const useStyles = (theme) => ({
@@ -17,7 +20,14 @@ const useStyles = (theme) => ({
     alignItems: 'center',
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.white,
+    // backgroundColor + fontcolor should be done via Theme.js file, this is not clean code
   },
+  actionItemStyle: {
+    '&$selected': {
+        color: "#000 !important"
+    },
+    color: '#d8d8d8'
+  }
 });
 
 /**
@@ -32,7 +42,7 @@ const useStyles = (theme) => ({
 
 class BottomNavi extends React.Component {
     state = {
-      value: 'home'
+      value: '4'
     }
 
     changeValue(e, newValue) {
@@ -47,18 +57,46 @@ class BottomNavi extends React.Component {
     const { classes } = this.props;
     return (
       <ThemeProvider theme={Theme}>
-      <BottomNavigation
-      value={this.state.value}
-      onChange={this.changeValue}
-      className={classes.root}
-      >
-      
-      <BottomNavigationAction component={Link} icon={<HomeIcon />} to="./" value="home" onChange={this.changeValue}/>
-      <BottomNavigationAction component={Link} icon={<TimelineIcon />} value="./show" to="/show" onChange={this.changeValue}/>
-    </BottomNavigation>
+        <BottomNavigation
+          value={this.state.value}
+          onChange={this.changeValue}
+          className={classes.root}
+        >     
+          <BottomNavigationAction 
+            className={classes.actionItemStyle} 
+            component={Link} 
+            icon={<ImportContactsIcon />} 
+            to="http://ikaufa.com/products"
+            
+          />
+          <BottomNavigationAction 
+            className={classes.actionItemStyle} 
+            component={Link} 
+            icon={<PeopleAltIcon />} 
+            to="http://ikaufa.com/GroupShoppingList"
+          />
+          <BottomNavigationAction 
+            className={classes.actionItemStyle} 
+            component={Link} 
+            icon={<HomeIcon />} 
+            to="http://ikaufa.com/home"
+          />
+          <BottomNavigationAction 
+            className={classes.actionItemStyle} 
+            component={Link} 
+            icon={<ListIcon />} 
+            to="http://ikaufa.com/lists"
+          />
+          <BottomNavigationAction 
+            className={classes.actionItemStyle +  " Mui-selected"}
+            component={Link} 
+            selected
+            icon={<SettingsIcon />} 
+            to="/settings"
+          />
+      </BottomNavigation>
     </ThemeProvider>
     );
   } 
 }
 export default withStyles(useStyles, { withTheme: true})(BottomNavi)
-

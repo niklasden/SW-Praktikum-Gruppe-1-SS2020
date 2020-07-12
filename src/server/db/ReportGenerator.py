@@ -101,7 +101,7 @@ class ReportGenerator(Mapper):
     def get_top3_retailer(self, group_id):
         result = []
         cursor = self._cnx.cursor()
-        statement = "SELECT r.ID, r.name, r.location, amount, bought FROM dev_shoppingproject.Listentry as l INNER JOIN dev_shoppingproject.Retailer as r ON l.Retailer_ID = r.ID  WHERE l.Group_ID = 5 GROUP BY r.ID, r.name, r.location ORDER BY amount DESC LIMIT 3;".format(group_id)
+        statement = "SELECT r.ID, r.name, r.location, amount, bought FROM dev_shoppingproject.Listentry as l INNER JOIN dev_shoppingproject.Retailer as r ON l.Retailer_ID = r.ID  WHERE l.Group_ID = {0} GROUP BY r.ID, r.name, r.location ORDER BY amount DESC LIMIT 3;".format(group_id)
         cursor.execute(statement)
         tuples = cursor.fetchall()
         try:

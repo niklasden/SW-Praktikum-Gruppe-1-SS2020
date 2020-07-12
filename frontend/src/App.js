@@ -32,8 +32,6 @@ import GroupShoppingList from './components/pages/GroupShoppingList';
 import SettingsPage from './components/pages/SettingsPage';
 import { RetailerPage } from './components/pages/RetailerPage'
 import CreateRetailerPage from './components/pages/CreateRetailerPage'
-//import StatisticPage from './components/pages/StatisticPage';
-//import ShowStatisticPage from './components/pages/ShowStatisticPage';
 import CreateArticlePage from './components/pages/CreateArticlePage'
 
 
@@ -172,6 +170,7 @@ class App extends React.Component {
 		}
 		return (
 			<ThemeProvider theme={Theme}>
+				<Container maxWidthMd>
 				{/* Global CSS reset and browser normalization. CssBaseline kickstarts an elegant, consistent, and simple baseline to build upon. */}
 				<CssBaseline />
 				<Router basename={process.env.PUBLIC_URL}>
@@ -247,15 +246,13 @@ class App extends React.Component {
 								<SignIn onSignIn={this.handleSignIn} />
 							</>
 						}
-						<Container>
 							<LoadingProgress show={authLoading} />
 							<ContextErrorMessage error={authError} contextErrorMsg={`Something went wrong during sign in process.`} onReload={this.handleSignIn} />
 							<ContextErrorMessage error={appError} contextErrorMsg={`Something went wrong inside the app. Please reload the page.`} />
-						</Container>
-				{(this.state.isNavHidden) ? null : <BottomNavigation /> } 
-				{/* <BottomNavigation/>  */}
+				<BottomNavigation/> 
 				{/* Prüfen ob User auf home-page dann menü nicht rendern */}
 				</Router>
+			</Container>
 			</ThemeProvider>
 		);
 	}

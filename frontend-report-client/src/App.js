@@ -69,6 +69,7 @@ class App extends React.Component {
         });
       settingsOptions.setCurrentUserFireBaseID(this.state.currentUser.uid);
       this.fetchCurrentUserID();
+      
 			}).catch(e => {
 				this.setState({
 					authLoading: false
@@ -90,7 +91,8 @@ class App extends React.Component {
 			authLoading: true
 		});
 		const provider = new firebase.auth.GoogleAuthProvider();
-		firebase.auth().signInWithRedirect(provider);
+    firebase.auth().signInWithRedirect(provider);
+    
   }
   componentDidMount() {
     this.setState({

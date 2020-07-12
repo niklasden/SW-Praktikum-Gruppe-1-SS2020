@@ -53,8 +53,8 @@ class StatisticPage extends Component {
             const json = await res.json();
             this.setState({groups: json})
             this.setState({selectedGroup: json[0].id})
-            this.fetchTopRetailers(json[0].id);
             this.fetchTopProducts(json[0].id);
+            this.fetchTopRetailers(json[0].id);
             this.setState({dataLoading: false});
         }catch(exception) {
             this.setState({error: exception})
@@ -82,8 +82,8 @@ class StatisticPage extends Component {
         try {
             var topRetailersList = [], retailerIDs = [], i = 1;
             const res = await fetch(Config.apiHost + "/report/" + group_id);
+            console.log(res);
             const json = await res.json();
-            console.log("json", json);
             json.top_retailers.forEach(retailer => {
                 if(!retailerIDs.includes(retailer.retailer_id)) {
                     retailer.rank = i;
