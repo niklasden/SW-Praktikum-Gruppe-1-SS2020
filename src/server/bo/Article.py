@@ -33,6 +33,6 @@ class Article (bo.BusinessObject):
         obj = Article()
         obj.set_id(dictionary["id"])
         obj.set_name(dictionary["name"])
-        obj.set_category(dictionary["category_id"])
+        obj.set_category(dictionary["category"])
         return obj
 

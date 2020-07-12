@@ -25,6 +25,7 @@ const styles = theme => ({
   */
 export class HomePage extends Component {
 
+ 
   render(){
     return (
       <>       
@@ -40,7 +41,10 @@ export class HomePage extends Component {
             {/*<MainButton>
               Insert Group Swiper here
             </MainButton>*/}
-            <GroupsGridList></GroupsGridList>
+            <Grid item xs={12}>
+            <p style={{textAlign:"center"}}> Select Your Group</p>
+            </Grid>
+            <GroupsGridList currentUserID={this.props.currentUserID}></GroupsGridList>
           </Grid>
 
           <Grid item xs={6} >

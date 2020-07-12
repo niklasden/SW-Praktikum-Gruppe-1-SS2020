@@ -9,6 +9,7 @@ class GroupMapper(Mapper):
         super().__init__()
     
     def find_all(self):
+        
         result = []
         cursor = self._cnx.cursor()
         statement = "Select * from `Group`"
@@ -30,7 +31,33 @@ class GroupMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-        return result       
+        return result 
+        
+    def find_all_by_userid(self,uid):
+        groups = []
+        cursor = self._cnx.cursor()
+        statement = "Select Group_ID from Membership WHERE User_ID = {} ".format(int(uid))
+        cursor.execute(statement)
+        tuples = cursor.fetchall()
+        
+        for gid in tuples:
+            cursor.execute("SELECT * from `Group` WHERE ID = '{}'".format(gid[0]))
+            g = cursor.fetchall()
+            try:
+                for (id, description, name) in g:
+                    gr = Group()
+                    gr.set_id(id)
+                    gr.set_description(description)
+                    gr.set_name(name)
+
+                    groups.append(gr)
+            except IndexError:
+                groups = None 
+        
+        self._cnx.commit()
+        cursor.close()
+
+        return groups 
 
     def find_by_key(self, key):
         """
@@ -111,4 +138,45 @@ class GroupMapper(Mapper):
         except Exception as e:
             return "Error in delete Group GroupMapper: " + str(e)
 
+    def createMembership(self,userid,groupid):
+        """
+        Julius
+        """
+        try:
+            cursor = self._cnx.cursor()
+            command = "INSERT INTO Membership (User_ID,Group_ID) VALUES ('{0}', '{1}')".format(userid,groupid)
+
+            cursor.execute(command)
+            self._cnx.commit()
+            cursor.close()
+            return "added usernr. {0} to groupnr. {1}".format(userid,groupid)
+        
+        except Exception as e:
+            return str(e)
+
+    def deleteMembership(self,userid,groupid):
+
+        try: 
+            cursor = self._cnx.cursor()
+            command = "DELETE FROM dev_shoppingproject.Membership WHERE User_ID = {0} AND Group_ID =  {1}".format(userid,groupid)
+            cursor.execute(command)
+            self._cnx.commit()
+            cursor.close()
+            return "deleted usernr. {0} to groupnr. {1}".format(userid,groupid)
+        
+        except Exception as e:
+            return str(e)
     
+    def get_users_by_gid(self,gid):
+        
+        cursor = self._cnx.cursor()
+        command = "SELECT User_ID from Membership WHERE Group_ID = {0}".format(gid)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+        res = []
+        for i in tuples:
+            res.append(i[0])
+
+        self._cnx.commit()
+        cursor.close()
+        return {"User_IDs": res}

@@ -18,7 +18,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
-import MainButton from '../layout/MainButton'
+import MainButton from '../layout/MainButton';
+import { Config } from '../../config';
+import { withRouter } from "react-router";
 
 import ShoppingSettings from '../../../src/shoppingSettings'
 
@@ -71,124 +73,105 @@ class SpecificGroup extends Component {
     super(props);
 
     this.state ={
-      
+      groupID : settingsobj.onlySettingsGetSettingsGroupID(),
       dense: 'false',
-        open: false,
-        groupmembers: [
-            {
-              id: 'a',
-              name: 'Robin',
-              
-              
-            },
-            {
-              id: 'b',
-              name: 'Dave',
-              
-              
-            },
-          ],
-          inputval: ''
+      open: false,
+      groupmembers: [],
+      inputval: ''
     }
+
     this.deleteMember = this.deleteMember.bind(this);
   }
+
   deleteMember(id) {
     //array kopieren, element löschen, neues array als state setzen
     this.setState(prevState => ({
-        groupmembers: prevState.groupmembers.filter(item => item !== id)
-   }))
-};
+      groupmembers: prevState.groupmembers.filter(item => item !== id)
+    }))
+  };
 
-/*
-addMember(id) {
-  this.setState({groupmembers: [...this.state.groupmembers, {name: this.state.inputval, } ]})
-}*/
+  /*
+  addMember(id) {
+    this.setState({groupmembers: [...this.state.groupmembers, {name: this.state.inputval, } ]})
+  }*/
 
-  async fetchGroupMembers(){
-    const res = await fetch('http://jj-surface:8081/api/shoppa/specificGroupMembers') //Hier ID übergabe bei getmembersbygroupid = id = settingsobj.onlySettingsGetSettingsGroupID()
+  async fetchGroupMembers(){ //fetch group members for specific gorup
+    const res = await fetch(Config.apiHost + '/membership/' + settingsobj.onlySettingsGetSettingsGroupID()) //Hier ID übergabe bei getmembersbygroupid = id = settingsobj.onlySettingsGetSettingsGroupID()
     const resjson = await res.json()
-    console.log( resjson)
-    this.setState({groupmembers:resjson})}
+    const memberids = resjson.User_IDs
+    const gmembers = []
     
+    memberids.forEach(async elem => {
+      const resu = await fetch(Config.apiHost + '/User/'+ elem)
+      const resujson = await resu.json()
+      gmembers.push(resujson)
+      this.setState({groupmembers: gmembers});
 
+    })
+    //for i in memberids fetch get user member by id append gmembers 
+    this.setState({groupmembers:gmembers}) 
+  }
+    
   componentDidMount(){
     this.fetchGroupMembers()
   }
   
   renderShoppinglists(){
-  const ShoppingLists = []
-  ShoppingLs.forEach( elem => {
-    ShoppingLists.push(<GroupListItem key={elem.id} Listname={elem.name} ></GroupListItem>)
-})
-return ShoppingLists
+    const ShoppingLists = []
+    ShoppingLs.forEach( elem => {
+      ShoppingLists.push(<GroupListItem key={elem.id} Listname={elem.name} ></GroupListItem>)
+    })
+    return ShoppingLists
   }
 
   renderGroupMembers(){
     const GroupMembers = []
-    this.state.groupmembers.forEach( elem => {
-      GroupMembers.push(<GroupMember onclick={ this.deleteMember.bind(this, elem)} key={elem.id} imgsrc={elem.imgsrc} membername={elem.name}></GroupMember>)
+    this.state.groupmembers.forEach( elem => {   
+      GroupMembers.push(
+        <GroupMember onclick={ this.deleteMember.bind(this, elem)} key={elem.id} imgsrc={elem.imgsrc} membername={elem.name}></GroupMember>
+      )
     })
     return GroupMembers
   }
 
   render(){
+    console.log(this.state.groupmembers)
     const { classes } = this.props;
-    var dense = this.state.dense;
     var open = this.state.open;
-    var groupMembers = this.state.groupmembers;
     
     const handleClickOpen = () => {
         this.setState({open:true});
     };
     const handleClose = () => {
       this.setState({open:false})
-  };
+    };
 
-/*
-  async function fetchspecificUser_A(email){
-    try {
-        let response = await fetch(`http://localhost:8081/api/shoppa/groupmembers/{$email}`);
-        let data = await response.json()
-        this.setState({groupmembers: this.state.groupMembers.concat(data)})
-        return data;
-    //getUserAsync('yourUsernameHere').then(data => console.log(data)); 
-    }
-    catch (error) {
+    const fetchspecificUser = async () => {
+      try {
+          let response = await fetch(`http://localhost:8081/api/shoppa/groupmembers/$email`);
+          let data = await response.json()
+          this.setState({groupmembers: this.state.groupmembers.concat(data)})
+          
+      }
+      catch (error) {
+          console.log(error)
+      }
+    };
+
+    const saveGroup = async () => {
+      try {
+        //send request with paramets to backend for the group to be saved
+        alert('The group was saved')
+      }
+      catch (error) {
+        //
         console.log(error)
+      } 
     }
-};
-*/
-const fetchspecificUser = async () => {
-  try {
-      let response = await fetch(`http://localhost:8081/api/shoppa/groupmembers/$email`);
-      let data = await response.json()
-      this.setState({groupmembers: this.state.groupmembers.concat(data)}) 
-  }
-  catch (error) {
-      console.log(error)
-  }
-};
 
-
-
-
-const clear = () => {
-  this.setState({inputval: '', fetchuser: ''})
-}
-
-
-const saveGroup = async () => {
-  try {
-      //send request with paramets to backend for the group to be saved
-      alert('The group was saved')
-  }
-  catch (error) {
-      //
-      console.log(error)
-  } 
-}
     return (
-        <div className={classes.accordion}>
+      <div className={classes.accordion}>
+          
         {/*<div className={classes.Groupnameheader}>{"Gruppenname"}</div>*/}
 
         {/*
@@ -239,46 +222,14 @@ const saveGroup = async () => {
           <Typography className={classes.heading}>Members</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-         <> 
-         
-<Grid item xs="12" style={{}}>
-<Dialog onClose={handleClose} aria-labelledby="form-dialog-title" style={{display: 'inline-block'}} open={open}>
-                            <DialogTitle id="form-dialog-title">Add Member</DialogTitle>
-                            <DialogContent>
-                              <DialogContentText>
-                                Please put in the email address, which the user used to signup for our app.
-                              </DialogContentText>
-                              <TextField
-                                autoFocus
-                                margin="dense"
-                                id="name"
-                                label="Email Address"
-                                type="email"
-                                fullWidth
-                                onChange={(e) => this.setState({inputval: e.target.value })}
-                              />
-                            </DialogContent>
-                            <DialogActions>
-                              <Button onClick={handleClose} color="primary">
-                                CANCEL
-                              </Button>
-                              <Button onClick={() => {fetchspecificUser();  handleClose();}} color="primary">
-                                ADD
-                              </Button>
-                            </DialogActions>
-                          </Dialog>
-
+      <Grid item xs="12" style={{}}>
             <Grid
             container
             direction="column"
             justify="center"
             alignItems="center"
-          >               
-        <Grid item xs="12" alignItems="center" >
+          > 
         <AddCircleItem style={{alignSelf:"center", margin: 12,fontSize:"40px" }} onClick={() => { handleClickOpen() }}></AddCircleItem>
-        </Grid>
-        </Grid>
-        <Grid item xs="12">
         <Grid 
           style={{marginLeft: 2}}
           container
@@ -286,34 +237,48 @@ const saveGroup = async () => {
           justify='space-between'
           alignItems="stretch"
           xs={12}
-                
       >
               {this.renderGroupMembers()}
-
-              </Grid>
-              
-        </Grid>
-        <Grid
-            container
-            direction="column"
-            justify="center"
-            alignItems="center"
-          >               
-        <Grid item xs="12" alignItems="center" >
-        <MainButton className={classes.CreateButton} onclick={() => {saveGroup()} }>Save Group</MainButton>
         </Grid>
         </Grid>
         </Grid>
-          </>
           </ExpansionPanelDetails>
         </ExpansionPanel>
-        </div>
+        <MainButton className={classes.CreateButton} onclick={() => {saveGroup()} }>Save Group</MainButton>
+        <Dialog onClose={handleClose} aria-labelledby="form-dialog-title" style={{display: 'inline-block'}} open={open}>
+        <DialogTitle id="form-dialog-title">Add Member</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Please put in the email address, which the user used to signup for our app.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Email Address"
+            type="email"
+            fullWidth
+            onChange={(e) => this.setState({inputval: e.target.value })}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            CANCEL
+          </Button>
+          <Button onClick={() => {fetchspecificUser();  handleClose();}} color="primary">
+            ADD
+          </Button>
+        </DialogActions>
+      </Dialog>
+      </div>
     
     )
   }
 }
+
 SpecificGroup.propTypes = {
   icon: PropTypes.string,
 }
 
-export default withStyles(styles)(SpecificGroup);
+//export default withStyles(styles)(SpecificGroup);
+export default withRouter(withStyles(styles)(SpecificGroup));

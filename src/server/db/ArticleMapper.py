@@ -16,15 +16,15 @@ class ArticleMapper (Mapper):
 
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT * from Article"
+        command = "SELECT Article.ID, Article.name, Category.name from Article LEFT JOIN Category ON Article.CategoryID = Category.ID"
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, category_id) in tuples: 
+        for (id, name, category_name) in tuples: 
             article = Article()
             article.set_id(id)
             article.set_name(name)
-            article.set_category(category_id)
+            article.set_category(category_name)
             result.append(article)
 
         self._cnx.commit()

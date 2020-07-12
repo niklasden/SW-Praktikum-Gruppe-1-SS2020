@@ -20,8 +20,15 @@ const useStyles = (theme) => ({
     alignItems: 'center',
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.white,
+    marginTop: '60px'
     // backgroundColor + fontcolor should be done via Theme.js file, this is not clean code
   },
+  actionItemStyle: {
+    '&$selected': {
+        color: "#000 !important"
+    },
+    color: '#d8d8d8'
+  }
 });
 
 /**
@@ -51,18 +58,42 @@ class BottomNavi extends React.Component {
     const { classes } = this.props;
     return (
       <ThemeProvider theme={Theme}>
-      <BottomNavigation
-      value={this.state.value}
-      onChange={this.changeValue}
-      className={classes.root}
-      >
-      
-      <BottomNavigationAction component={Link} icon={<ImportContactsIcon />} to="/products"/>
-      <BottomNavigationAction component={Link} icon={<PeopleAltIcon />} to="/GroupShoppingList"/>
-      <BottomNavigationAction component={Link} icon={<HomeIcon />} to="/home"/>
-      <BottomNavigationAction component={Link} icon={<ListIcon />} to="/lists"/>
-      <BottomNavigationAction component={Link} icon={<SettingsIcon />} to="/settings"/>
-    </BottomNavigation>
+        <BottomNavigation
+          value={this.state.value}
+          onChange={this.changeValue}
+          className={classes.root}
+        >     
+          <BottomNavigationAction 
+            className={classes.actionItemStyle} 
+            component={Link} 
+            icon={<ImportContactsIcon />} 
+            to="/products"
+          />
+          <BottomNavigationAction 
+            className={classes.actionItemStyle} 
+            component={Link} 
+            icon={<PeopleAltIcon />} 
+            to="/GroupShoppingList"
+          />
+          <BottomNavigationAction 
+            className={classes.actionItemStyle} 
+            component={Link} 
+            icon={<HomeIcon />} 
+            to="/home"
+          />
+          <BottomNavigationAction 
+            className={classes.actionItemStyle} 
+            component={Link} 
+            icon={<ListIcon />} 
+            to="/lists"
+          />
+          <BottomNavigationAction 
+            className={classes.actionItemStyle} 
+            component={Link} 
+            icon={<SettingsIcon />} 
+            to="/settings"
+          />
+      </BottomNavigation>
     </ThemeProvider>
     );
   } 

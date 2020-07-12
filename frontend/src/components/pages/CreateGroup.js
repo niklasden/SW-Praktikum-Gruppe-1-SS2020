@@ -23,6 +23,9 @@ import MainButton from '../layout/MainButton';
 import IconButton from '../layout/IconButton';
 import avatar from '../img/avatar.jpg';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
+import { Config } from '../../config';
+import { withRouter } from "react-router";
+
 
 const useStyles = (theme) => ({
   root: {
@@ -59,20 +62,10 @@ class CreateGroup extends Component {
         dense: 'false',
         open: false,
         groupMembers: [
-            {
-              id: 'a',
-              firstname: 'Robin',
-              lastname: 'Wieruch',
-              
-            },
-            {
-              id: 'b',
-              firstname: 'Dave',
-              lastname: 'Davids',
-              
-            },
+            
           ],
           inputval: '',
+          groupnameval:'',
           fetchuser: ''
       }
       this.deleteMember = this.deleteMember.bind(this);
@@ -86,6 +79,8 @@ class CreateGroup extends Component {
     };
 
     addMember(id) {
+
+
         this.setState({groupMembers: [...this.state.groupMembers, {firstname: this.state.inputval, } ]})
     }
 
@@ -102,25 +97,145 @@ class CreateGroup extends Component {
     const handleClose = () => {
         this.setState({open:false})
     };
+    const UserExistCheck = (id) => {
+      var r = false 
+      this.state.groupMembers.forEach(elem => {
+        if(elem.id == id){r = true }  
+      }
+      
+      )
+      if(r == true){
+        alert("User already exists !")
+        return true
+      }else{return false; }
+    
+      
+    
+    } 
+    
 
-    const fetchUser = async () => {
+    const fetchUser = async (email) => {
         try {
-            let response = await fetch(`http://localhost:8081/api/shoppa/groupmembers/$email`);
+            
+            let response = await fetch(Config.apiHost + '/User/email/' + email );
             let data = await response.json()
-            this.setState({groupMembers: this.state.groupMembers.concat(data)}) 
+            if (data.name != null){
+              
+              
+              if(UserExistCheck(data.id) == false)
+              {
+                this.setState({groupMembers: this.state.groupMembers.concat(data)})
+              }
+              }
+            else{
+              alert("No user with this email!")
+            }
+           
         }
         catch (error) {
             console.log(error)
+            alert(error)
         }
+        
     };
 
-    const clear = () => {
-      this.setState({inputval: '', fetchuser: ''})
+    /** 
+    async deleteGroup(id) {
+      try{
+      const rInit = {
+        method: 'DELETE'
+      }
+      const resp = await fetch(Config.apiHost + '/Group/' + id, rInit)
+      if(resp.ok){
+        this.props.history.push('/Groups')
+      } else {
+       alert("Fehler !")
+      }
+    }catch(e){alert(e)}
+      this.setState({
+              groupItemss: this.state.groupItemss.filter(elem => elem.id !== id)       
+       // request to db! > delete Group      
+     })
+    
+     if(settingsobj.onlySettingsGetSettingsGroupID() == id){
+        settingsobj.onlySettingsSetSettingsGroupID("")
+        settingsobj.onlySettingsSetSettingsGroupName("")
     }
+    }
+
+    */
+
+    const clear = () => {
+      this.setState({inputval: '', fetchuser: '',groupnameval:''})
+    }
+
+    const saveMemberships = async (gid) => {
+      try{
+
+        this.state.groupMembers.forEach(async elem => { 
+          const rb = {
+            User_ID: elem.id,
+            Group_ID: gid // irgendwo her aus der gespeicherten gruppe 
+          }
+          const requestBody = JSON.stringify(rb)
+          const rInit = {
+            method: 'POST', 
+            headers: {
+              'Content-Type': 'application/json'
+            }, 
+            body: requestBody
+          } 
+          
+          const resp = await fetch(Config.apiHost + '/membership', rInit)
+          if(resp.ok){
+            console.log(resp)}
+        })
+        
+        
+
+
+      }catch (error){
+        console.log(error)
+      }
+    
+    }
+
 
     const saveGroup = async () => {
       try {
-          //send request with paramets to backend for the group to be saved
+        const group = {
+          id: 1, 
+          name: this.state.groupnameval, 
+          description: "no description defined in frontend"
+        }
+        const requestBody = JSON.stringify(group)
+        console.log(requestBody)
+
+        const rInit = {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json'
+          }, 
+          body: requestBody
+        } 
+        
+        const resp = await fetch(Config.apiHost + '/Group', rInit)
+        if(resp.ok){
+          try{
+            var respjson = await resp.json()
+            //console.log(respjson.id)
+            saveMemberships(respjson.id)
+
+          }catch (error){
+            console.log(error)
+          }
+
+            this.props.history.push('/settings')
+        } else {
+          alert("error")
+        }
+
+          
           alert('The group was saved')
       }
       catch (error) {
@@ -137,7 +252,7 @@ class CreateGroup extends Component {
                         <PeopleOutlineIcon className={classes.icon} style={{display: "none", padding: 0, textAlign: "center"}}/>
                     </Grid>
                     <Grid item>
-                        <TextField required id="input-with-icon-grid" label="Group Name" style= {{ fontWeight: 'bold'}} />
+                        <TextField onChange= {(e) => this.setState({groupnameval:e.target.value})} required id="input-with-icon-grid" label="Group Name" style= {{ fontWeight: 'bold'}} />
                      </Grid>
                 </Grid>
                 <Grid item xs={12} md={6} style= {{ marginTop: "20px"}}>
@@ -172,7 +287,7 @@ class CreateGroup extends Component {
                               <Button onClick={() => {handleClose(); clear();}} color="primary">
                                 CANCEL
                               </Button>
-                              <Button onClick={() => {fetchUser(); handleClose();}} color="primary">
+                              <Button onClick={() => {fetchUser(this.state.inputval); handleClose();}} color="primary">
                                 ADD
                               </Button>
                             </DialogActions>
@@ -186,7 +301,8 @@ class CreateGroup extends Component {
                                 </Avatar>
                             </ListItemAvatar>
                             <ListItemText
-                                primary={item.firstname +" "+ item.lastname}
+                                //primary={item.firstname +" "+ item.lastname}
+                                primary={item.name}
                             />
                             <ListItemSecondaryAction>
                                 <IconButton edge="end" aria-label="delete" icon="delete" onclick={this.deleteMember.bind(this, item)}></IconButton>
@@ -210,4 +326,5 @@ CreateGroup.propTypes = {
   icon: PropTypes.string,
 }
 
-export default withStyles(useStyles, {withTheme: true})(CreateGroup);
+//export default withStyles(useStyles, {withTheme: true})(CreateGroup);
+export default withRouter(withStyles(useStyles, {withTheme: true})(CreateGroup));
