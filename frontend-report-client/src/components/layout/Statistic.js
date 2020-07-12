@@ -52,7 +52,7 @@ class Statistic extends Component {
           productList.push(newItem);
           articleIDs.push(newItem.id);
         }else {
-          var includedItem = productList.find(productItem => productItem.id == item.id);
+          var includedItem = productList.find(productItem => productItem.id === item.id);
           includedItem.dataPoints.forEach(dP => {
             if (Date.parse(dP.x) === Date.parse(item.bought)) {
               dP.y += item.amount;

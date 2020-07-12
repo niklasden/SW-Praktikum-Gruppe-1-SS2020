@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import Heading from '../layout/Heading';
 import MainButton from '../layout/MainButton';
 import StatisticItem from '../layout/StatisticItem';
-import { Grid } from '@material-ui/core';
+import { Grid, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import MainBarChart from '../layout/MainBarChart';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 import {Config} from '../../config';
+import { withStyles } from '@material-ui/core/styles';
+
 
 /**
  * Displays the statistic page
@@ -15,6 +17,13 @@ import {Config} from '../../config';
  * @author [Kevin Eberhardt](https://github.com/kevin-eberhardt)
  * 
  */
+
+const styles = theme => ({
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: '75%',
+    }
+});
 class StatisticPage extends Component {
     constructor(props) {
         super(props);
@@ -23,9 +32,14 @@ class StatisticPage extends Component {
             products: [],
             error: null,
             dataLoading: false,
+            selectedGroup : 0
         }
+        this.handleChangeGroup = this.handleChangeGroup.bind(this);
     }
 
+    handleChangeGroup(event) {
+        this.setState({selectedGroup: event.target.value})
+    }
     async fetchTopProducts() {
         try {
             var topArticlesList = [], articleIDs = [], i = 1;
@@ -75,13 +89,24 @@ class StatisticPage extends Component {
     }
     render() { 
     const { error, dataLoading } = this.state;
-        return (
+    const classes = this.props.classes;
+    return (
             <>
             {error ?
                     <ContextErrorMessage error={error} contextErrorMsg={`Data could not be loaded. Check if database server is running.`} />
                         :
                 <>
                     <LoadingProgress show={dataLoading} />
+                    <Heading>GRUPPE AUSWÄHLEN</Heading>
+                    <FormControl className={classes.formControl} >
+                        <InputLabel>Gruppe</InputLabel>
+                        <Select value={this.state.selectedGroup} onChange={this.handleChangeGroup}>
+                            <MenuItem value={0}>Alle</MenuItem>
+                            {/* {this.state.products.map(p=> (
+                                <MenuItem key={p.id} value={p.name}>{p.name}</MenuItem>
+                            ))} */}
+                        </Select>
+                    </FormControl>
                     <Heading>MEISTBESUCHTE EINZELHÄNDLER</Heading>
                         <MainBarChart retailer data={this.state.retailers} />
                         <Grid item xs={12} container spacing={1}>
@@ -108,4 +133,4 @@ class StatisticPage extends Component {
     }
 }
  
-export default StatisticPage;
+export default (withStyles)(styles)(StatisticPage);
