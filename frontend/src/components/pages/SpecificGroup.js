@@ -18,7 +18,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
-import MainButton from '../layout/MainButton'
+import MainButton from '../layout/MainButton';
+import { Config } from '../../config';
+import { withRouter } from "react-router";
 
 import ShoppingSettings from '../../../src/shoppingSettings'
 
@@ -71,7 +73,7 @@ class SpecificGroup extends Component {
     super(props);
 
     this.state ={
-      
+      groupID : settingsobj.onlySettingsGetSettingsGroupID(),
       dense: 'false',
         open: false,
         groupmembers: [
@@ -104,7 +106,7 @@ addMember(id) {
   this.setState({groupmembers: [...this.state.groupmembers, {name: this.state.inputval, } ]})
 }*/
 
-  async fetchGroupMembers(){
+  async fetchGroupMembers(){ //fetch group members for specific gorup
     const res = await fetch('http://jj-surface:8081/api/shoppa/specificGroupMembers') //Hier ID übergabe bei getmembersbygroupid = id = settingsobj.onlySettingsGetSettingsGroupID()
     const resjson = await res.json()
     console.log( resjson)
@@ -316,4 +318,5 @@ SpecificGroup.propTypes = {
   icon: PropTypes.string,
 }
 
-export default withStyles(styles)(SpecificGroup);
+//export default withStyles(styles)(SpecificGroup);
+export default withRouter(withStyles(styles)(SpecificGroup));

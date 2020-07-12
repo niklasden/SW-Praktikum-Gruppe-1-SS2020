@@ -93,18 +93,31 @@ class HelloWorld(Resource):
         return {'hello': 'world'}
 
 
+@shopping_v1.route('/Group/Usergroup/<int:userid>')
+@shopping_v1.response(500,'If an server sided error occures')
+@shopping_v1.param('userid', 'Users id')
+class UserGroupOperations(Resource):
+    
+    @shopping_v1.marshal_with(group)
+    #@secured
+    def get(self,userid):
+        adm = ShoppingAdministration()
+        return adm.get_all_user_groups(userid)
+
+
 @shopping_v1.route('/Group')
 @shopping_v1.response(500,'If an server sided error occures')
 class GroupListOperations(Resource):
     @shopping_v1.marshal_with(group)
-    @secured
+    #@secured
     def get(self):
         adm = ShoppingAdministration()
+    
         return adm.get_all_groups()
     
     @shopping_v1.marshal_with(group,code=200)
     @shopping_v1.expect(group)
-    @secured
+    #@secured
     def post(self):
         adm = ShoppingAdministration()
         try:
@@ -123,12 +136,12 @@ class GroupListOperations(Resource):
 @shopping_v1.param('id', 'Group objects id')
 class GroupOperations(Resource):
     @shopping_v1.marshal_with(group)
-    @secured
+    #@secured
     def get(self,id):
         adm = ShoppingAdministration()
         return adm.get_group_by_id(id)
     
-    @secured
+  #  @secured
     def delete(self,id):
         adm = ShoppingAdministration()
         grp = adm.get_group_by_id(id)
@@ -137,7 +150,7 @@ class GroupOperations(Resource):
     
     @shopping_v1.marshal_with(group)
     @shopping_v1.expect(group,validate=True)
-    @secured
+   # @secured
     def put(self,id):
         adm = ShoppingAdministration()
         c = Group.from_dict(api.payload)
@@ -281,7 +294,7 @@ class UserIDOperations(Resource):
     def put(self,id):
         adm = ShoppingAdministration()
         c = User.from_dict(api.payload)
-        print(str(c))
+        
         if c is not None: 
             c.set_id(id)
             adm.save_user(c)
@@ -416,7 +429,7 @@ class testGroupListOperations(Resource):
     def get(self):
         adm = ShoppingAdministration()
         
-        result= adm.get_all_groups()
+        result= adm.get_all_groups(id) # hier dann die id aus der payload
         return result
 
 

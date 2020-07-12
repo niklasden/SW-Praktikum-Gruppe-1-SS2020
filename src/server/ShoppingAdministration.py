@@ -100,7 +100,9 @@ class ShoppingAdministration (object):
         with GroupMapper() as mapper: 
             res = mapper.find_all()
             return res
-    
+    def get_all_user_groups(self,uid):
+        with GroupMapper() as mapper: 
+            return mapper.find_all_by_userid(uid)
     def get_group_by_id(self,id):
         with GroupMapper() as mapper:
             res = mapper.find_by_key(id)
