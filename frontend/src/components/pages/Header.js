@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
       width: '100%',
+      marginBottom: '65px'
     },
     title: {
       textAlign: 'left'
@@ -40,7 +41,7 @@ function Header(props){
   let location = useLocation();
     return (
         <div className={classes.root}>
-            <AppBar position="static">
+            <AppBar position="fixed">
                 <Toolbar>
                 <Menu user={user} />
                   {

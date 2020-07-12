@@ -20,6 +20,7 @@ const useStyles = (theme) => ({
     alignItems: 'center',
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.white,
+    marginTop: '60px'
     // backgroundColor + fontcolor should be done via Theme.js file, this is not clean code
   },
   actionItemStyle: {
