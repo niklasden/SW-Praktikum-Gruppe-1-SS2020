@@ -510,82 +510,83 @@ class testGroupOperations(Resource):
         gr = adm.get_group_by_id(id)
         adm.delete_group(gr)
 
-@testing.route('/testallListEntry')
-@testing.response(500, 'Falls was in die Fritten geht')
+#ListEntry
+@shopping_v1.route('/Listentry/allListEntry')
+@shopping_v1.response(500, 'Falls was in die Fritten geht')
 class testListEntry(Resource):
-    @testing.marshal_with(listentry)
+    @shopping_v1.marshal_with(listentry)
     def get(self):
         adm = ShoppingAdministration()
         result = adm.get_all_listentries()
         return result
 
-@testing.route('/testListEntrybyKey/<int:key>')
-@testing.response(500, 'Falls was in die Fritten geht')
-@testing.param('key', "Listentry object id")
+@shopping_v1.route('/Listentry/byKey/<int:key>')
+@shopping_v1.response(500, 'Falls was in die Fritten geht')
+@shopping_v1.param('key', "Listentry object id")
 class testListEntry(Resource):
-    @testing.marshal_with(listentry)
+    @shopping_v1.marshal_with(listentry)
     def get(self, key):
         adm = ShoppingAdministration()
         result = adm.find_listentry_by_key(key)
         return result
 
-@testing.route('/testListEntrybyRetailer/<int:retailer>')
-@testing.response(500, 'Mach me so hamme kein stress')
-@testing.param('retailer', "Listentry retailer id")
+@shopping_v1.route('/Listentry/find_by_retailer/<int:retailer>')
+@shopping_v1.response(500, 'Mach me so hamme kein stress')
+@shopping_v1.param('retailer', "Listentry retailer id")
 class testListEntry(Resource):
-    @testing.marshal_with(listentry)
+    @shopping_v1.marshal_with(listentry)
     def get(self, retailer):
         adm = ShoppingAdministration()
         result = adm.find_listentry_by_retailer(retailer)
         return result
 
-@testing.route('/testListEntrybyUser/<int:user>')
-@testing.response(500, 'Falls was in die Fritten geht')
-@testing.param('key', "User object id")
+@shopping_v1.route('/Listentry/find_by_date/<int:user>')
+@shopping_v1.response(500, 'Falls was in die Fritten geht')
+@shopping_v1.param('key', "User object id")
 class testListEntry(Resource):
-    @testing.marshal_with(listentry)
+    @shopping_v1.marshal_with(listentry)
     def get(self, user):
         adm = ShoppingAdministration()
         result = adm.find_listentry_by_purchaser(user)
         return result
 
-@testing.route('/testListEntryfindbyPurchaser/ <int:purchaser>')
-@testing.response(500, 'Mach me so hamme kein stress')
-@testing.param('purchaser', "Listentry purchaser id")
+@shopping_v1.route('/Listentry/find_by_purchaser/ <int:purchaser>')
+@shopping_v1.response(500, 'Mach me so hamme kein stress')
+@shopping_v1.param('purchaser', "Listentry purchaser id")
 class testListEntry(Resource):
-    @testing.marshal_list_with(listentry)
+    @shopping_v1.marshal_list_with(listentry)
     def get(self, purchaser):
         adm = ShoppingAdministration()
         result = adm.find_listentry_by_purchaser(purchaser)
         return result
 
-@testing.route('/testListEntryinset/')
-@testing.response(500, 'Falls was in die Fritten geht')
-@testing.param('obj', "Listentry object id")
+@shopping_v1.route('/Listentry/insert/')
+@shopping_v1.response(500, 'Falls was in die Fritten geht')
+@shopping_v1.param('obj', "Listentry object id")
 class testListEntry(Resource):
-    @testing.marshal_with(listentry)
+    @shopping_v1.marshal_with(listentry)
     def get(self, listentry):
         adm = ShoppingAdministration()
         result = adm.insert_listentry(listentry)
         return result
 
-@testing.route('/testListEntryGetGroupItems/<int:group_id>')
-@testing.response(500, 'Falls was in die Fritten geht')
-@testing.param('group_id', "Group_id")
+@shopping_v1.route('Listentry/get_items_of_group/<int:group_id>')
+@shopping_v1.response(500, 'Falls was in die Fritten geht')
+@shopping_v1.param('group_id', "Group_id")
 class testListEntry(Resource):
-    @testing.marshal_with(listentry)
+    @shopping_v1.marshal_with(listentry)
     def get(self, group_id):
         adm = ShoppingAdministration()
         result = adm.get_items_of_group(group_id)
         return result
 
-@testing.route('/testListEntryUpdate')
-@testing.response(500, 'If an server sided error occures')
+@shopping_v1.route('/Listentry/Update')
+@shopping_v1.response(500, 'If an server sided error occures')
 #@testing.param('listentry', "Listentry object id")
 class testListEntry(Resource):
 
-    @testing.marshal_with(listentry, code= 200)
-    @testing.expect(listentry)
+    @shopping_v1.marshal_with(listentry, code= 200)
+    @shopping_v1.expect(listentry)
     def post(self):
         adm = ShoppingAdministration()
        

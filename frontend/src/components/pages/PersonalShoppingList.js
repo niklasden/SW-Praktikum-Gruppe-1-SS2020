@@ -4,6 +4,7 @@ import IconButton from '../layout/IconButton'
 import CategoryDropDown from '../layout/CategoryDropDown';
 import MenuItem from '@material-ui/core/MenuItem';
 import PopUp from '../layout/PopUp';
+import { Config } from '../../config'
 
 /**
  * Displays the PersonalShoppingList as designed in Figa. All items to be purchased by a person are listed on the list and can be ticked off the list. Finally the user can complete the shopping. 
@@ -11,9 +12,6 @@ import PopUp from '../layout/PopUp';
  * @author [Pascal Illg](https://github.com/pasillg)
  */
 export default class PersonalShoppingList extends Component {
-
-
-  
 
   state={
     items: [],
@@ -40,13 +38,13 @@ async getListEntrys(){
   setTimeout(async () => {
     try {
       // TODO: change to real api
-      const res = await fetch(Config.apiHost + '/Retailer')
+      const res = await fetch(Config.apiHost + '/Listentry/get_items_of_group/1')
       const json = await res.json()
 
       this.setState({
         loadingInProgress: false, 
         loadingRetailersError: null, 
-        retailers: json
+        items: json, 
       })
     } catch (e){
       this.setState({
@@ -56,6 +54,8 @@ async getListEntrys(){
     } 
   }, 1000)
 }
+
+
 
 /* All UserItems with the ID 1 */
 getUserItems(){
@@ -216,7 +216,7 @@ render(){
   console.log(this.state.selectedRetailer)
   let shops = this.renderReatailer()
   let all = 'ALL'
-
+  console.log('Das ist Items:    ' + this.state.items)
 
   return (
     <Grid 
