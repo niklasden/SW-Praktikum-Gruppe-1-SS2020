@@ -105,7 +105,7 @@ class SpecificGroup extends Component {
       const resu = await fetch(Config.apiHost + '/User/'+ elem)
       const resujson = await resu.json()
       gmembers.push(resujson)
-      console.log(typeof(resujson))
+      this.setState({groupmembers: gmembers});
 
     })
     //for i in memberids fetch get user member by id append gmembers 
@@ -222,46 +222,14 @@ class SpecificGroup extends Component {
           <Typography className={classes.heading}>Members</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-         <> 
-         
       <Grid item xs="12" style={{}}>
-      <Dialog onClose={handleClose} aria-labelledby="form-dialog-title" style={{display: 'inline-block'}} open={open}>
-                            <DialogTitle id="form-dialog-title">Add Member</DialogTitle>
-                            <DialogContent>
-                              <DialogContentText>
-                                Please put in the email address, which the user used to signup for our app.
-                              </DialogContentText>
-                              <TextField
-                                autoFocus
-                                margin="dense"
-                                id="name"
-                                label="Email Address"
-                                type="email"
-                                fullWidth
-                                onChange={(e) => this.setState({inputval: e.target.value })}
-                              />
-                            </DialogContent>
-                            <DialogActions>
-                              <Button onClick={handleClose} color="primary">
-                                CANCEL
-                              </Button>
-                              <Button onClick={() => {fetchspecificUser();  handleClose();}} color="primary">
-                                ADD
-                              </Button>
-                            </DialogActions>
-                          </Dialog>
-
             <Grid
             container
             direction="column"
             justify="center"
             alignItems="center"
-          >               
-        <Grid item xs="12" alignItems="center" >
+          > 
         <AddCircleItem style={{alignSelf:"center", margin: 12,fontSize:"40px" }} onClick={() => { handleClickOpen() }}></AddCircleItem>
-        </Grid>
-        </Grid>
-        <Grid item xs="12">
         <Grid 
           style={{marginLeft: 2}}
           container
@@ -269,29 +237,40 @@ class SpecificGroup extends Component {
           justify='space-between'
           alignItems="stretch"
           xs={12}
-                
       >
               {this.renderGroupMembers()}
-
-              </Grid>
-              
-        </Grid>
-        <Grid
-            container
-            direction="column"
-            justify="center"
-            alignItems="center"
-          >               
-        <Grid item xs="12" alignItems="center" >
-        
         </Grid>
         </Grid>
         </Grid>
-          </>
           </ExpansionPanelDetails>
         </ExpansionPanel>
         <MainButton className={classes.CreateButton} onclick={() => {saveGroup()} }>Save Group</MainButton>
-        </div>
+        <Dialog onClose={handleClose} aria-labelledby="form-dialog-title" style={{display: 'inline-block'}} open={open}>
+        <DialogTitle id="form-dialog-title">Add Member</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Please put in the email address, which the user used to signup for our app.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Email Address"
+            type="email"
+            fullWidth
+            onChange={(e) => this.setState({inputval: e.target.value })}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            CANCEL
+          </Button>
+          <Button onClick={() => {fetchspecificUser();  handleClose();}} color="primary">
+            ADD
+          </Button>
+        </DialogActions>
+      </Dialog>
+      </div>
     
     )
   }
