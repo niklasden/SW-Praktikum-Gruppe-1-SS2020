@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types';
+import PropTypes, { object } from 'prop-types';
 import AddCircleItem from '@material-ui/icons/AddCircle'
 import MaterialIconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/styles';
@@ -77,7 +77,8 @@ class SpecificGroup extends Component {
       dense: 'false',
       open: false,
       groupmembers: [],
-      inputval: ''
+      inputval: '',
+      groupnameval:settingsobj.onlySettingsGetSettingsGroupName()
     }
 
     this.deleteMember = this.deleteMember.bind(this);
@@ -130,6 +131,7 @@ class SpecificGroup extends Component {
   }
 
   render(){
+    
     const { classes } = this.props;
     var open = this.state.open;
     
@@ -154,17 +156,75 @@ class SpecificGroup extends Component {
 
     const saveGroup = async () => {
       try {
-        //send request with paramets to backend for the group to be saved
+        const group = {
+          id: settingsobj.onlySettingsGetSettingsGroupID(), 
+          name: this.state.groupnameval, 
+          description: "no description defined in frontend"
+        }
+        const requestBody = JSON.stringify(group)
+      
+        const rInit = {
+          method: 'PUT', 
+          headers: {
+            'Content-Type': 'application/json'
+          }, 
+          body: requestBody
+        } 
+        
+        const resp = await fetch(Config.apiHost + '/Group/' + group.id, rInit)
+        if(resp.ok){
+          try{
+            var respjson = await resp.json()
+            //console.log(respjson.id)
+            //saveMemberships(respjson.id)
+
+          }catch (error){
+            console.log(error)
+            alert(error)
+          }
+
+            this.props.history.push('/settings')
+        } else {
+          alert("error")
+        }
+
+          alert('The group was saved')
+      }
+      catch (error) {
+          //needs more advanced error handling
+          console.log(error)
+          
+      } 
+    }
+      
+      /**
+      try {
+        
+        //put oder so zu group //send request with paramets to backend for the group to be saved 
         alert('The group was saved')
+      
       }
       catch (error) {
         //
         console.log(error)
       } 
-    }
+    } */
 
     return (
       <div className={classes.accordion}>
+       <TextField
+          onChange= {(e) => this.setState({groupnameval:e.target.value})}
+          id="standard-helperText"
+          label="Group Name"
+          defaultValue= {settingsobj.onlySettingsGetSettingsGroupName()}
+          helperText=""
+        />
+
+        {/*<div className={classes.Groupnameheader}>{"Gruppenname"}</div>*/}
+
+        {/*
+
+          //commented out, because we don't need multiple lists per group
 
         <ExpansionPanel style={{border:"1px solid #5a5a5a", margin:4}}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} >
@@ -209,7 +269,7 @@ class SpecificGroup extends Component {
             label="Email Address"
             type="email"
             fullWidth
-            onChange={(e) => this.setState({inputval: e.target.value })}
+            onChange={(e) => {this.setState({groupnameval: e.target.value })}}
           />
         </DialogContent>
         <DialogActions>

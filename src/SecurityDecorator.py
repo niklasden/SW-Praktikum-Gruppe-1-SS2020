@@ -21,7 +21,7 @@ def secured(function):
                 decoded_token = google.oauth2.id_token.verify_firebase_token(id_token, firebase_request_adapter)  # it takes an id token and verifies it via our request adapter at firebase and returns the decoded token with all information
 
                 if decoded_token: 
-                    adm = ShoppingAdministration
+                    adm = ShoppingAdministration()
                 
                     firebase_id = decoded_token.get("user_id")    # if get doesn't work maybe ["user_id"]     https://google-auth.readthedocs.io/en/latest/reference/google.oauth2.id_token.html
                     email = claims.get("email")
