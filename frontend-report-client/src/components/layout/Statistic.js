@@ -31,27 +31,43 @@ class Statistic extends Component {
     try {
       const res = await fetch(Config.apiHost + "/report/1");
       const json = await res.json();
-      console.log(json);
-      var newItem, productList = [];
+      var newItem, productList = [], articleIDs = [];
       json._report_listentries.forEach(item => {
-        newItem = {
-          type: "spline",
-          yValueFormatString: "#0.## Stk.",
-          showInLegend: true,
-          name: item.name,
-          category: item.article_category,
-          retailer: item.retailer,
-          dataPoints: []
-        };
-        newItem.dataPoints.push(
-          {
-          x: new Date(item.bought),
-          y: item.amount
+        if(!articleIDs.includes(item.id)) {
+          newItem = {
+            id: item.id,
+            type: "spline",
+            yValueFormatString: "#0.## Stk.",
+            showInLegend: true,
+            name: item.name,
+            category: item.article_category,
+            retailer: item.retailer,
+            dataPoints: []
+          };
+          newItem.dataPoints.push(
+            {
+            x: new Date(item.bought),
+            y: item.amount
+            })
+          productList.push(newItem);
+          articleIDs.push(newItem.id);
+        }else {
+          var includedItem = productList.find(productItem => productItem.id == item.id);
+          includedItem.dataPoints.forEach(dP => {
+            if (Date.parse(dP.x) === Date.parse(item.bought)) {
+              dP.y += item.amount;
+            }else {
+              includedItem.dataPoints.push(
+                {
+                  x: new Date(item.bought),
+                  y: item.amount
+                }
+              )
+            }
           })
+        }
       })
-      productList.push(newItem);
       this.setState({options: {data: [...productList]}})
-      console.log(this.state.options);
     }catch(exception) {
         this.setState({error: exception})
     }
@@ -94,6 +110,7 @@ isDateAfterTimeProp(date) {
     render() {
       const classes = this.props.classes;
       const chartItems = this.getOptions();
+      console.log(chartItems);
       return (
         chartItems.data.length > 0 ?
           <Grid item>
