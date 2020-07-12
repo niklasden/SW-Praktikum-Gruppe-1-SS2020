@@ -28,9 +28,18 @@ class StatisticPage extends Component {
 
     async fetchTopProducts() {
         try {
+            var topArticlesList = [], articleIDs = [], i = 1;
             const res = await fetch(Config.apiHost + "/report/1");
             const json = await res.json();
-            this.setState({products: json.top_articles})
+            json.top_articles.forEach(article => {
+                if(!articleIDs.includes(article.article_id)) {
+                    article.rank = i;
+                    i++;
+                    topArticlesList.push(article);
+                    articleIDs.push(article.article_id);
+                }
+            })
+            this.setState({products: topArticlesList})
         }catch(exception) {
             this.setState({error: exception});
         }
@@ -38,9 +47,18 @@ class StatisticPage extends Component {
     }
     async fetchTopRetailers() {
         try {
+            var topRetailersList = [], retailerIDs = [], i = 1;
             const res = await fetch(Config.apiHost + "/report/1");
             const json = await res.json();
-            this.setState({retailers: json.top_retailers})
+            json.top_retailers.forEach(retailer => {
+                if(!retailerIDs.includes(retailer.retailer_id)) {
+                    retailer.rank = i;
+                    i++;
+                    topRetailersList.push(retailer);
+                    retailerIDs.push(retailer.retailer_id);
+                }
+            })
+            this.setState({retailers: topRetailersList})
         }catch(exception) {
             this.setState({error: exception});
         }
@@ -75,7 +93,7 @@ class StatisticPage extends Component {
                         <MainBarChart products data={this.state.products} />
                         <Grid item xs={12} container spacing={1}>
                             {this.state.products.map(article => {
-                                return <StatisticItem article key={article.article_id} number={article.article_id} name={article.article_name} amount={article.number_bought} />
+                                return <StatisticItem article key={article.article_id} number={article.rank} name={article.article_name} amount={article.number_bought} />
                             })}
                         </Grid>
                         

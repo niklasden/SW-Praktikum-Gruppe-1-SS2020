@@ -69,7 +69,7 @@ class ReportGenerator(Mapper):
         result = []
         cursor = self._cnx.cursor()
         statement = """
-            SELECT Article.ID, Article.name, Article.CategoryID, COUNT(Article.ID) AS number  FROM dev_shoppingproject.Listentry
+            SELECT Article.ID, Article.name, Article.CategoryID, SUM(Listentry.amount) AS number  FROM dev_shoppingproject.Listentry
             LEFT JOIN dev_shoppingproject.Article
             ON Listentry.Article_ID=Article.ID
             WHERE Listentry.Group_ID={0}
@@ -88,7 +88,7 @@ class ReportGenerator(Mapper):
                 # article.set_name(name)
                 # article.set_category(categoryID)
                 article_json = {"article_name": name, "article_id": id,
-                                 "article_category": categoryID, "number_bought": number}
+                                 "article_category": categoryID, "number_bought": int(number)}
                 result.append(article_json)
             self._cnx.commit()
         except Exception as e:

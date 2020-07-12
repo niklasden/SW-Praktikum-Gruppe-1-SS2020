@@ -26,7 +26,8 @@ const styles = theme => ({
 });
 const initStartDate = new Date();
 const initStartDateMonth = initStartDate.getMonth() < 10 ? "0" + (initStartDate.getMonth() + 1) : (initStartDate.getMonth() + 1);
-const initStartDateDay = initStartDate.getDate() < 10 ? "0" + initStartDate.getDate() : initStartDate.getDate();
+// const initStartDateDay = initStartDate.getDate() < 10 ? "0" + initStartDate.getDate() : initStartDate.getDate();
+const initStartDateDay = "01";
 const initStartDateFullDate = initStartDate.getFullYear() + "-" + initStartDateMonth + "-" + initStartDateDay;
 
 const initEndDate = new Date(initStartDate.setDate(initStartDate.getDate() + 7));
@@ -69,18 +70,32 @@ class ShowStatisticPage extends Component {
     }
     async fetchProducts() {
        try {
+           var productIDS = [], productList = [];
             const res = await fetch(Config.apiHost + "/report/1")
             const json = await res.json();
-            this.setState({products: json._report_listentries})
+            json._report_listentries.forEach(lE => {
+                if(!productIDS.includes(lE.id)) {
+                    productList.push(lE);
+                    productIDS.push(lE.id);
+                }
+            })
+            this.setState({products: productList})
        }catch(exception) {
         this.setState({error: exception})
        }
     }
     async fetchRetailers() {
         try {
+            var retailerList = [], retailerIDs = [];
             const res = await fetch(Config.apiHost + "/report/1")
             const json = await res.json();
-            this.setState({retailer: json.report_retailer})
+            json.report_retailer.forEach(retailer => {
+                if(!retailerIDs.includes(retailer.id)) {
+                    retailerList.push(retailer);
+                    retailerIDs.push(retailer.id);
+                }
+            })
+            this.setState({retailer: retailerList})
         }catch(exception) {
             this.setState({error: exception})
         }
