@@ -12,18 +12,49 @@ import PopUp from '../layout/PopUp';
  */
 export default class PersonalShoppingList extends Component {
 
+
+  
+
   state={
-    items: [
-      {id: 1, name: "Apfel", category: "fruits", amount: "5", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: false, retailer: 'Aldi'},
-      {id: 2, name: "Birne", category: "fruits", amount: "2", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: false, retailer: 'Edeka' },
-      {id: 3, name: "Erdbeerkäse", category: "vegetables", amount: "2", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: false, retailer: 'Lidl' },
-      {id: 4, name: "Mango", category: "vegetables", amount: "2", unit: "g", person: 'Manfred', userID: 1, checkbox: false, retailer: 'Aldi' },
-      {id: 5, name: "Lyoner", category: "vegetables", amount: "2", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: false, retailer: 'Edeka' },
-  ],
-  selectedRetailer : 'All',
-  market : null,
-  flag : 'unclicked',
-  solved: false
+    items: [],
+    selectedRetailer : 'All',
+    market : null,
+    flag : 'unclicked',
+    solved: false,
+    loadingInProgress: false, 
+    loadingRetailersError: null, 
+    addingRetailerError: null, 
+}
+
+componentDidMount(){
+  this.getListEntrys()
+}
+
+/** Fetches ListEntrysBOs for the current group */
+async getListEntrys(){
+  this.setState({
+    loadingInProgress: true, 
+    loadingRetailersError: null 
+  })
+
+  setTimeout(async () => {
+    try {
+      // TODO: change to real api
+      const res = await fetch(Config.apiHost + '/Retailer')
+      const json = await res.json()
+
+      this.setState({
+        loadingInProgress: false, 
+        loadingRetailersError: null, 
+        retailers: json
+      })
+    } catch (e){
+      this.setState({
+        loadingInProgress: false, 
+        loadingRetailersError: '', 
+      })
+    } 
+  }, 1000)
 }
 
 /* All UserItems with the ID 1 */

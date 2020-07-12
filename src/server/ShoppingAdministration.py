@@ -171,16 +171,7 @@ class ShoppingAdministration (object):
             return result
     
     #noch nicht fertig
-    def insert_listentry(self, article_id, retailer_id, shoppinglist_id, user_id, group_id, amount):
-        listentry = ListEntry()
-        listentry.set_id(1)
-        listentry.set_article(article_id)
-        listentry.set_retailer(retailer_id)
-        listentry.set_shoppinglist(shoppinglist_id)
-        listentry.set_user(user_id)
-        listentry.set_group(group_id)
-        listentry.set_amount(amount)
-
+    def insert_listentry(self, listentry):
         with ListEntryMapper() as mapper:
             result = mapper.insert(listentry)
             return result
@@ -193,6 +184,11 @@ class ShoppingAdministration (object):
     def delete_listentry(self, listentry):
         with ListEntryMapper() as mapper:
             result = mapper.delete(listentry)
+            return result
+    
+    def get_items_of_group(self, group_id):
+        with ListEntryMapper() as mapper:
+            result = mapper.get_items_of_group(group_id)
             return result
             
     #Report Kevin

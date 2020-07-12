@@ -38,12 +38,6 @@ class ListEntryMapper(Mapper):
         self._cnx.commit()
         cursor.close()
         return result
-    
-    def find_by_name(self, name):
-        """
-        Pascal name:str - ListEntry hat kein Name? :D --> auf Borad schreiben!
-        """                    
-        pass
 
     def find_by_key(self, key):
         """
@@ -236,9 +230,11 @@ class ListEntryMapper(Mapper):
             else:
                 listentry.set_id(1)
 
-        command = "INSERT INTO `Listentry` (ID, Article_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought ) VALUES ('{0}', '{1}', '{2}')".format(listentry.get_id(),listentry.get_article(),listentry.get_name(), listentry.get_user(), listentry.get_group(), listentry.get_amount(), listentry.get_bought())
+        command = "INSERT INTO `Listentry` (ID, Article_ID, Retailer_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought ) VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6}, null)".format(listentry.get_id(),listentry.get_article(),listentry.get_retailer(), listentry.get_shoppinglist(), listentry.get_user(), listentry.get_group(), listentry.get_amount())
+
+        print(command)
                
-        try:
+        try: 
             cursor.execute(command)
             self._cnx.commit()
             cursor.close()
@@ -252,15 +248,17 @@ class ListEntryMapper(Mapper):
         """
         Pascal le:ListEntry
         """
+        try:
+            cursor = self._cnx.cursor()
+            command = "UPDATE Listentry " + "SET Article_ID={0}, Retailer_ID={1}, Shoppinglist_ID={2}, User_ID={3}, Group_ID={4}, amount={5}, bought='{6}' WHERE ID={7}".format(listentry.get_article(), listentry.get_retailer(), listentry.get_shoppinglist(), listentry.get_user(), listentry.get_group(), listentry.get_amount(), listentry.get_buy_date(), listentry.get_id())
+            print(command)
+            cursor.execute(command)
+            self._cnx.commit()
+            cursor.close()
+            return listentry
 
-        cursor = self._cnx.cursor()
-        command = "UPDATE 'Listentry'" + "SET Article_ID=%s, Retailer_ID=%s, Shoppinglist_ID=%s User_ID=%s, Group_ID=%s, amount=%s, bought=%s WHERE id=%s"
-
-        data = (listentry.get_article(), listentry.get_retailer(), listentry.get_shoppinglist(), listentry.get_user(), listentry.get_group(), listentry.get_amount, listentry.get_bought(), listentry.get_id())
-        cursor.execute(command, data)
-        self._cnx.commit()
-        cursor.close()
-        return listentry
+        except Exception as e:
+            return "Error in update ListEntry ListEntryMapper: " + str(e)
 
     def delete(self, listentry):
         """
@@ -278,6 +276,33 @@ class ListEntryMapper(Mapper):
 
         except Exception as e:
             return "Error in delete ListEntry ListEntryMapper: " + str(e)
+
+    def get_items_of_group(self, group_id):
+        """
+        Pascal
+        """
+        result = []
+        cursor = self._cnx.cursor()
+        statement = "SELECT Listentry.ID, Article.name as 'name', Category.name as 'category', Listentry.amount, Listentry.unit, Listentry.User_ID, Retailer.name as 'retailer' FROM Listentry LEFT JOIN Retailer ON Listentry.Retailer_ID = Retailer.ID LEFT JOIN Article ON Listentry.Article_ID = Article.ID LEFT JOIN Category ON Article.CategoryID = Category.ID WHERE Group_ID={0}".format(group_id)
+
+        cursor.execute(statement)
+        tuples = cursor.fetchall()
+        
+        for (id, name, category, amount, unit, user_id, retailer) in tuples:
+            listentry = ListEntry()
+            listentry.set_id(id)
+            listentry.set_article_name(name)
+            listentry.set_category(category)
+            listentry.set_amount(amount)
+            listentry.set_unit(unit)
+            listentry.set_user(user_id)
+            listentry.set_retailer(retailer)
+            result.append(listentry)
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
 
 """
 for test purposes only
