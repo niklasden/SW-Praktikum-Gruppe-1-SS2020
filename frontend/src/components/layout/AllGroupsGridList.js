@@ -71,17 +71,32 @@ class GroupsGridList extends Component {
         this.setState({groupItemss:resjson})
 
       }
+      
+      /**
       componentDidUpdate(){
         if (this.state.groupItemss.length == 0){
         this.fetchGroups()
-      }
-      }
+            }
+           
+      } */
       
       render(){
         const { classes } = this.props;
         var groupI = this.state.groupItems
+        if (this.state.groupItemss.length == 0){
+          this.fetchGroups()
+              }
         
+        if (settingsobj.getGroupID() == 0){
+          fetch(Config.apiHost + '/Group/Usergroup/'+ this.props.currentUserID)
+          .then(response => response.json())
+          .then(data => {if(data.length > 0) {
+            settingsobj.setGroupID(1)
+          }})
+
+        }
         return(
+          
             <div className={classes.rootTwo}>
                 <GridList className={classes.gridList} cellHeight={180} cols={2.5}>
                 
