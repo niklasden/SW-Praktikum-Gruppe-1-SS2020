@@ -7,6 +7,7 @@ import CircularProgress from '@material-ui/core/CircularProgress/CircularProgres
 import ProductListEntry from '../layout/ProductListEntry';
 import { Link } from 'react-router-dom';
 import Heading from '../layout/Heading';
+import { Config } from '../../config'
 
 const styles = theme => ({
     root: {
@@ -20,7 +21,7 @@ const styles = theme => ({
 
 /**
  * Example Categorys with Articles
- */
+ 
 const FRUITS = [
   {
     id: 'art1',
@@ -88,7 +89,7 @@ const MEAT =[
     iconName: 'fish',
 
   }
-]
+]*/
 
 const getProductsDummy = () => {
     let productsJSON = [];
@@ -128,6 +129,25 @@ class ProductsPage extends Component {
       loadingArticleError: null 
     })
 
+  setTimeout(async () => {
+    try {
+      const res = await fetch(Config.apiHost + '/Article')
+      const json = await res.json()
+
+      this.setState({
+        loadingInProgress: false, 
+        loadingArticleError: null, 
+        articles: json, 
+      })
+    } catch (e){
+      this.setState({
+        loadingInProgress: false, 
+        loadingArticleError: '', 
+      })
+    } 
+  }, 1000)
+}
+/**
     setTimeout(() => {
       this.setState({
         loadingInProgress: false, 
@@ -135,7 +155,7 @@ class ProductsPage extends Component {
         articles: this.state.articles.concat(MEAT,FRUITS,VEGETABLES)
       })
     }, 1000)
-  }
+  } */
 
   renderArticles(){
     /*reduce creates an array with all articles of the same category*/ 

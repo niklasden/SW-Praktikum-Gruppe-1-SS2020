@@ -12,6 +12,8 @@ import Snackbar from '@material-ui/core/Snackbar';
 import { Redirect } from 'react-router';
 import Button from '@material-ui/core/Button'
 import { withRouter } from "react-router";
+import { Config } from '../../config';
+
 
 const styles = theme => ({
     root: {
@@ -49,27 +51,82 @@ class CreateArticlePage extends Component {
         snackbarOpen: false, 
         isSaving: false,
         redirectToArticlePage: false,
-        category: "" ,
+
+        id: 0, 
+        name: '', 
+        category: '',
         categorys: [
-            {id: 0, name: "fruits"}, 
-            {id: 1, name: "vegetables"}, 
-            {id: 2, name: "meat"}, 
-            {id: 3, name: "drinks"}, 
-        ],
+            {id: 1, name: "Vegetables"},
+            {id: 2, name: "Meat"},
+            {id: 3, name: "Fruit"},
+            {id: 4, name: "Beverages"},
+            {id: 5, name: "Other"},
+            {id: 6, name: "Snacks"},
+        ], 
     }
 
-    onClickSave(){
+    async onClickSave(){
         this.setState({ isSaving: true })
-        
-        setTimeout(() => {
-            this.setState ({ isSaving: false })
-            this.showErrorSnackBar()
+        setTimeout(async () => {
+            let id = this.state.item
+            if (id == ""){
+                id = 0
+            }
+
+            const article ={
+                id: id, 
+                name: this.state.name, 
+                category: this.state.category,
+            }
+
+            const requestBody = JSON.stringify(article)
+
+            const rInit = {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: requestBody
+            }
+            const resp = await fetch(Config.apiHost + '/Article', rInit)
+            
+            if(resp.ok){
+                this.props.history.push('/products')
+            } else {
+                this.showErrorSnackBar()
+            }
+
+            this.setState({ isSaving: false})
         }, 1000)
     }
 
     onClickDelete(){
-        this.setState({ redirectToArticlePage: true }); 
-        console.log(this.props.location)
+        this.setState({ isSaving: true })
+        setTimeout(async () => {
+            const article = {
+                id: parseInt(this.state.item), 
+                name: this.state.name, 
+                category: this.state.category
+            }
+            console.log(article)
+            console.log('id' + this.state.item)
+
+
+            const rInit = {
+                method: 'DELETE', 
+                headers: {
+                    'Content-Type': 'aplication/jason'
+                }, 
+                body: JSON.stringify(article)
+            }
+            const resp = await fetch(Config.apiHost +'/Article/' + article.id, rInit)
+            if(resp.ok){
+                this.props.history.push('/products')
+            } else {
+                this.showErrorSnackBar()
+            }
+            this.setState({ isSaving: false })
+            }, 1000) 
     }
 
     showErrorSnackBar(){
@@ -82,20 +139,32 @@ class CreateArticlePage extends Component {
     componentDidMount(){
         let name = ''
         let category = ''
+        let id = ''
         /* checks if there has been a article from the article page*/
         /* if yes, it takes name and category from there*/
         if (this.props.location.state != undefined){
+            id = this.props.location.state.id
             name = this.props.location.state.name
-            category = this.props.location.state.category
-        }
+            this.state.categorys.forEach((el, i) => {
+                console.log(el)
+                if (el.name === this.props.location.state.category){
+                    category = el.id 
+                }
+            })
+             console.log(name, category, id)
+        } 
         this.setState({
+            item: id,
             name: name, 
             category: category
         })
     }
 
 
-    render(){        
+    render(){ 
+        console.log('CategoryID: ' + this.state.category) 
+        console.log('ArticleName: ' + this.state.name)
+        console.log('ArticleID ' + this.state.item)
 
         if (this.state.redirectToArticlePage) {
             return <Redirect push to= "/products"/>
@@ -143,7 +212,7 @@ class CreateArticlePage extends Component {
                                     
                                    {
                                    this.state.categorys.map((element) =>{
-                                       return <MenuItem value={element.name}>{element.name}</MenuItem>
+                                       return <MenuItem value={element.id}>{element.name}</MenuItem>
                                    })
                                    }
 
@@ -168,7 +237,7 @@ class CreateArticlePage extends Component {
 
                             <MainButton 
                             className={styles.CreateButton}
-                            onclick={this.onClickSave.bind(this)}>create
+                            onclick={this.onClickSave.bind(this)}>save
                             </MainButton>
 
                             <div style={{marginLeft: 12}}>
