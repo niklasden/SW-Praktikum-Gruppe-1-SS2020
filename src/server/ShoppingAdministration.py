@@ -254,5 +254,9 @@ class ShoppingAdministration (object):
             return mapper.createMembership(uid,gid)
 
     def delete_membership(self,uid,gid):
-        with GroupMapper as mapper:
+        with GroupMapper() as mapper:
             return mapper.deleteMembership(uid,gid)
+    
+    def get_users_by_groupid(self,gid):
+        with GroupMapper() as mapper :
+            return mapper.get_users_by_gid(gid)

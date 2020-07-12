@@ -117,6 +117,7 @@ class MembershipOperations(Resource):
         adm = ShoppingAdministration()
         return adm.create_membership(userid,groupid)
         
+    """
     #@secured
     def delte(self):
         userid = api.payload["User_ID"]
@@ -124,6 +125,7 @@ class MembershipOperations(Resource):
         
         adm = ShoppingAdministration()
         return adm.delete_membership(userid,groupid)
+        """
 
 @shopping_v1.route('/membership/del')    #2. route becuase we cant use delete http method becuase there are no membership ids (otherwise we could use membership/id with delete method )
 @shopping_v1.response(500,'If an server sided error occures')
@@ -142,6 +144,14 @@ class MembershipOperations(Resource):
         adm = ShoppingAdministration
         return str(api.payload), 200
 
+@shopping_v1.route('/membership/<int:groupid>')   
+@shopping_v1.response(500,'If an server sided error occures')
+@shopping_v1.param('groupid', 'Group ID')
+class MembershipGroupOperations(Resource):
+
+    def get(self,groupid):
+        adm = ShoppingAdministration()
+        return adm.get_users_by_groupid(groupid)
 
 @shopping_v1.route('/Group/Usergroup/<int:userid>')
 @shopping_v1.response(500,'If an server sided error occures')
