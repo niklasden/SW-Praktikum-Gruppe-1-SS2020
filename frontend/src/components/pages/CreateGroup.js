@@ -79,8 +79,6 @@ class CreateGroup extends Component {
     };
 
     addMember(id) {
-
-
         this.setState({groupMembers: [...this.state.groupMembers, {firstname: this.state.inputval, } ]})
     }
 

@@ -39,13 +39,16 @@ class Groups extends Component {
   constructor(props){
     super(props);
 
-    this.state ={
-      groupItemss: [],
+    this.state = {
+      groupItems: [],
       loadingInProgress: false,
       loadingError: null,
-      loadingGroupsError: null
+      loadingGroupsError: null,
+      name: "testuser"
     };
     this.deleteGroup = this.deleteGroup.bind(this);
+    this.getGroups = this.getGroups.bind(this);
+    console.log(this.state.name)
   }
 
   async deleteGroup(id) {
@@ -62,7 +65,7 @@ class Groups extends Component {
     }
   }catch(e){alert(e)}
     this.setState({
-            groupItemss: this.state.groupItemss.filter(elem => elem.id !== id)       
+            groupItems: this.state.groupItems.filter(elem => elem.id !== id)       
      // request to db! > delete Group      
    })
   
@@ -77,12 +80,12 @@ class Groups extends Component {
   //   const res = await fetch(Config.apiHost + '/Group/Usergroup/'+ settingsobj.getCurrentUserID())
   //   const resjson = await res.json().then(groupitems => 
   //     this.setState({
-  //       groupItemss:resjson,
+  //       groupItems:resjson,
   //       loadingInProgress: false,
   //       loadingerror: null
   //     })).catch(e =>
   //       this.setState({
-  //         groupItemss: [],
+  //         groupItems: [],
   //         loadingInProgress: false,
   //         loadingError: e
   //       })
@@ -96,20 +99,19 @@ class Groups extends Component {
   // }
 
   getGroups = () => {
-    var a = settingsobj.getCurrentUserID()
-    ShoppingAPI.getAPI().getGroupsforUser(a)
-    .then(groupBOs =>
+    ShoppingAPI.getAPI().getGroupsforUser(settingsobj.getCurrentUserID()).then(groupBOs =>
       this.setState({
-        groupItemss: groupBOs 
-      })).catch(e => 
+        groupItems: "1"
+      })
+      ).catch(e => 
         this.setState({
-          groupItemss: [],
+          // groupItems: [],
           loadingGroupsError: e
         })
       );
+      console.log(this.state.groupItems)
     };
 
- 
 
 
    /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
@@ -123,7 +125,8 @@ class Groups extends Component {
   renderGroups(){
       const { classes } = this.props;
       const Groups =[];
-      this.state.groupItemss.forEach( elem => {
+     if (!this.state.groupItems === null) {
+      this.state.groupItems.forEach( elem => {
           Groups.push(
           <Grid item xs={6}>
               {/* Now by clicking on a group we set the settingsgroupid @Julius here we need a parameter to fetch the right group, all groups a user is part of, then specific group hes clicking on */}
@@ -142,18 +145,17 @@ class Groups extends Component {
                 </Grid>
             </Grid>)
       })
-      return Groups}
-    
+      return Groups
+    }
+  } 
       
   render(){
     const { classes } = this.props;
     const {loadingInProgress, loadingError, loadingGroupsError  } = this.state;
-    var groupI = this.state.groupItems
-    console.log(settingsobj.getCurrentUserID())
     return (
     <>
       <Grid container spacing={3} >
-        {/* {this.renderGroups()} */}
+        {this.renderGroups()}
         <Grid item xs={12}>
           <Link to="/createGroup" className={classes.button}>
             <MainButton className={classes.CreateButton}>Create Group</MainButton>

@@ -163,11 +163,11 @@ class App extends React.Component {
 		document.title = 'iKaufa';
 	  const { currentUser, appError, authError, authLoading,isNavHidden } = this.state;
 
-		// if(currentUser && !this.state.isloaded) {
-		// 	settingsOptions.setCurrentUserFireBaseID(currentUser.uid)
-		// 	this.fetchCurrentUserID()
-		// 	this.setState({isloaded:true})
-		// }
+		if(currentUser && !this.state.isloaded) {
+		 	settingsOptions.setCurrentUserFireBaseID(currentUser.uid)
+		 	this.fetchCurrentUserID()
+		 	this.setState({isloaded:true})
+		}
 		return (
 			<ThemeProvider theme={Theme}>
 				<div>

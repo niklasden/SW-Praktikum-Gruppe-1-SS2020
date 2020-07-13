@@ -69,9 +69,9 @@ export default class ShoppingAPI {
         return this.#fetchAdvanced(this.#getGroupsforUserURL(id)).then((responseJSON) => {
             let groupBOs = GroupBO.fromJSON(responseJSON);
             console.info(groupBOs);
-            // return new Promise(function (resolve) {
-            //     resolve(groupBOs);
-            // })
+            return new Promise(function (resolve) {
+                 resolve(groupBOs);
+            })
         })
     }
 
