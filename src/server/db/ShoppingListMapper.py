@@ -1,7 +1,7 @@
 from server.db.Mapper import Mapper
 from server.bo.ShoppingLIst import ShoppingList
 
-""" A single Retailer
+""" A single ShoppingList
 @author Christopher Böhm
 """
 class ShoppingListMapper (Mapper):
@@ -9,14 +9,17 @@ class ShoppingListMapper (Mapper):
         super().__init__()
 
     def find_all(self):
-        """Auslesen aller Einzelhändler.
+        """We don't need this function, but we need to implement it, so its just a pass"""
+        pass
 
-          :return Eine Sammlung mit Retailer-Objekten, die sämtliche Einzelhändler
-                  repräsentieren.
+    def find_all_by_group_id(self, group_id):
+        """Find all shopping lists of a specific group
+
+          :return A collection of shopping list objects
           """
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT ID, name, Group_ID from Shoppinglist")
+        cursor.execute("SELECT ID, name, Group_ID from Shoppinglist WHERE Group_ID={}".format(group_id))
         tuples = cursor.fetchall()
 
         for (id, name, group_id) in tuples:
@@ -32,30 +35,29 @@ class ShoppingListMapper (Mapper):
         return result
 
     def find_by_key(self, key):
-        """Suchen eines Retailers mit vorgegebener ID. Da diese eindeutig ist,
-        wird genau ein Objekt zurückgegeben.
+        """Find a shopping list objects by it's id in
 
-        :param key Primärschlüsselattribut (->DB)
-        :return Retailer-Objekt, das dem übergebenen Schlüssel entspricht, None bei
-            nicht vorhandenem DB-Tupel.
+        :param key primary key attribute of shopping list in database
+        :return shopping list object. Returns None if there is no shopping list with the specified id
         """
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, location FROM Retailer WHERE id={}".format(key)
+        command = "SELECT id, name, Group_ID FROM Shoppinglist WHERE ID={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (id, name, location) = tuples[0]
-            retailer = ShoppingList()
-            retailer.set_id(id)
-            retailer.set_name(name)
-            retailer.set_group_id(location)
-            result = retailer
+            (id, name, group_id) = tuples[0]
+            shoppingList = ShoppingList()
+            shoppingList.set_id(id)
+            shoppingList.set_name(name)
+            shoppingList.set_group_id(group_id)
+            result = shoppingList
         except IndexError:
-            """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
-            keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
+            """if tuples of cursor.fetchall() is empty we will get IndexError. In this case
+            we didn't find the object with the key in database, result will be none then
+            """
             result = None
 
         self._cnx.commit()
@@ -63,78 +65,56 @@ class ShoppingListMapper (Mapper):
 
         return result
 
-    def find_by_location(self, location):
-        """
-        :param location: Addresse des Einzelhändlers
-        :return: A collection of Retailer-Objects, which contains all Retailers
-        """
-        result = []
-        cursor = self._cnx.cursor()
-        command = "SELECT id, name, location FROM Retailer WHERE location LIKE '{}' ORDER BY name".format(location)
-        cursor.execute(command)
-        tuples = cursor.fetchall()
-
-        for (id, name, location) in tuples:
-            retailer = Retailer()
-            retailer.set_id(id)
-            retailer.set_name(name)
-            retailer.set_location(location)
-            result.append(retailer)
-
-        self._cnx.commit()
-        cursor.close()
-
-        return result
-
-    def insert(self, retailer):
+    def insert(self, shopping_list):
         """Einfügen eines Retailer-Objekts in die Datenbank.
 
         Dabei wird auch der Primärschlüssel des übergebenen Objekts geprüft und ggf.
         berichtigt.
 
-        :param retailer das zu speichernde Objekt
-        :return das bereits übergebene Objekt, jedoch mit ggf. korrigierter ID.
+        :param shopping_list the object we want to save in database
+        :return the shopping list object, maybe slightly altered
         """
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT MAX(id) AS maxid FROM Retailer ")
+        cursor.execute("SELECT MAX(id) AS maxid FROM Shoppinglist ")
         tuples = cursor.fetchall()
 
         for (maxid) in tuples:
-            retailer.set_id(maxid[0] + 1)
+            shopping_list.set_id(maxid[0] + 1)
 
-        command = "INSERT INTO Retailer (id, name, location) VALUES (%s,%s,%s)"
-        data = (retailer.get_id(), retailer.get_name(), retailer.get_location())
+        command = "INSERT INTO Shoppinglist (ID, name, Group_ID) VALUES (%s,%s,%s)"
+        data = (shopping_list.get_id(), shopping_list.get_name(), shopping_list.get_group_id())
         cursor.execute(command, data)
 
         self._cnx.commit()
         cursor.close()
 
-        return retailer
+        return shopping_list
 
-    def update(self, retailer):
-        """Wiederholtes Schreiben eines Objekts in die Datenbank.
+    def update(self, shopping_list):
+        """Overwriting the shopping list object in databse
 
-        :param retailer das Objekt, das in die DB geschrieben werden soll
+        :param shopping_list the object that should be written to database
         """
         cursor = self._cnx.cursor()
 
-        command = "UPDATE Retailer " + "SET name=%s, location=%s WHERE id=%s"
-        data = (retailer.get_name(), retailer.get_location(), retailer.get_id())
-        print('Command, ', command)
-        print('Data: ', data)
+        command = "UPDATE Shoppinglist " + "SET name=%s, Group_ID=%s WHERE ID=%s"
+        data = (shopping_list.get_name(), shopping_list.get_group_id(), shopping_list.get_id())
         cursor.execute(command, data)
 
         self._cnx.commit()
         cursor.close()
 
-    def delete(self, retailer):
-        """Löschen der Daten eines Retailer-Objekts aus der Datenbank.
+        return shopping_list
 
-        :param retailer das aus der DB zu löschende "Objekt"
+    def delete(self, shopping_list):
+        """Deleting a shopping list object from database
+
+        :param shopping_list the shopping list object we want to delete
         """
         cursor = self._cnx.cursor()
 
-        command = "DELETE FROM Retailer WHERE id={}".format(retailer.get_id())
+        command = "DELETE FROM Shoppinglist WHERE ID={}".format(shopping_list.get_id())
+        # print(command)
         cursor.execute(command)
 
         self._cnx.commit()
@@ -145,7 +125,7 @@ um die grundsätzliche Funktion zu überprüfen.
 
 Anmerkung: Nicht professionell aber hilfreich..."""
 if (__name__ == "__main__"):
-    with RetailerMapper() as mapper:
+    with ShoppingListMapper() as mapper:
         result = mapper.find_all()
         for p in result:
             print(p)
