@@ -9,9 +9,8 @@ import Select from '@material-ui/core/Select';
 import MainButton from '../layout/MainButton';
 import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress'
 import Snackbar from '@material-ui/core/Snackbar';
-import { Redirect } from 'react-router';
+import { Redirect, withRouter } from 'react-router';
 import Button from '@material-ui/core/Button'
-import { withRouter } from "react-router";
 import { Config } from '../../config';
 
 
