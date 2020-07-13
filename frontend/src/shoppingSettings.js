@@ -9,14 +9,14 @@ import shadows from "@material-ui/core/styles/shadows"
  */
 export default class ShoppingSettings{
 
-    currentGroupID= 0
-    currentGroupName=""
+    currentGroupID = 0
+    currentGroupName = ""
 
     currentUserID = 0
     currentUserFireBaseID = ""
 
-    onlySettingsGroupID=0      //only used in settings > show specific group
-    onlySettingsGroupName=""    //only used in settings > show specific group
+    onlySettingsGroupID = 0      //only used in settings > show specific group
+    onlySettingsGroupName = ""    //only used in settings > show specific group
 
     static SettingsObject = null
 

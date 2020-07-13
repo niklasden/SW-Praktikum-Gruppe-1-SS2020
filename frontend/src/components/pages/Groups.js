@@ -10,8 +10,12 @@ import IconButton from '@material-ui/core/IconButton';
 import ShoppingSettings from '../../../src/shoppingSettings'
 import { Config } from '../../config'
 import { withRouter } from "react-router"
+import ContextErrorMessage from '../dialogs/ContextErrorMessage';
+import LoadingProgress from '../dialogs/LoadingProgress'
+import ShoppingAPI from '../../api/ShoppingAPI';
 
 const settingsobj = ShoppingSettings.getSettings()
+console.log(settingsobj)
 
 const styles = theme => ({
   root: {
@@ -37,6 +41,9 @@ class Groups extends Component {
 
     this.state ={
       groupItemss: [],
+      loadingInProgress: false,
+      loadingError: null,
+      loadingGroupsError: null
     };
     this.deleteGroup = this.deleteGroup.bind(this);
   }
@@ -65,23 +72,55 @@ class Groups extends Component {
   }
   
 
-  async fetchGroups(){
-    const res = await fetch(Config.apiHost + '/Group/Usergroup/'+ settingsobj.getCurrentUserID())
-    const resjson = await res.json()
-    console.log( resjson)
-    this.setState({groupItemss:resjson}) 
-  }
+  // async fetchGroups(){
+  //   const res = await fetch(Config.apiHost + '/Group/Usergroup/'+ settingsobj.getCurrentUserID())
+  //   const resjson = await res.json().then(groupitems => 
+  //     this.setState({
+  //       groupItemss:resjson,
+  //       loadingInProgress: false,
+  //       loadingerror: null
+  //     })).catch(e =>
+  //       this.setState({
+  //         groupItemss: [],
+  //         loadingInProgress: false,
+  //         loadingError: e
+  //       })
+  //     );
+  //   //set loading to true  
+  //   console.log(resjson)
+  //    this.setState({
+  //      loadingInProgress: true,
+  //      loadingError:null
+  //    })
+  // }
+
+  getGroups = () => {
+    var a = settingsobj.getCurrentUserID()
+    ShoppingAPI.getAPI().getGroupsforUser(a)
+    .then(groupBOs =>
+      this.setState({
+        groupItemss: groupBOs 
+      })).catch(e => 
+        this.setState({
+          groupItemss: [],
+          loadingGroupsError: e
+        })
+      );
+    };
+
+ 
 
 
+   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount(){
-    this.fetchGroups()
+    this.getGroups()
     settingsobj.onlySettingsSetSettingsGroupID("")
     settingsobj.onlySettingsSetSettingsGroupName("")
   };
 
 
   renderGroups(){
-      const {classes } = this.props;
+      const { classes } = this.props;
       const Groups =[];
       this.state.groupItemss.forEach( elem => {
           Groups.push(
@@ -107,18 +146,21 @@ class Groups extends Component {
       
   render(){
     const { classes } = this.props;
+    const {loadingInProgress, loadingError, loadingGroupsError  } = this.state;
     var groupI = this.state.groupItems
-  
+    console.log(settingsobj.getCurrentUserID())
     return (
     <>
       <Grid container spacing={3} >
-        {this.renderGroups()}
+        {/* {this.renderGroups()} */}
         <Grid item xs={12}>
           <Link to="/createGroup" className={classes.button}>
             <MainButton className={classes.CreateButton}>Create Group</MainButton>
           </Link>
         </Grid> 
       </Grid>
+      <LoadingProgress show={loadingInProgress}/>
+      <ContextErrorMessage error={loadingError} contextErrorMsg={'The list of alll groups could not be loaded'} onReload={this.getGroups} />
       </>
       
       )

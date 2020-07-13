@@ -157,9 +157,8 @@ class MembershipGroupOperations(Resource):
 @shopping_v1.response(500,'If an server sided error occures')
 @shopping_v1.param('userid', 'Users id')
 class UserGroupOperations(Resource):
-    
     @shopping_v1.marshal_with(group)
-    #@secured
+    # @secured
     def get(self,userid):
         adm = ShoppingAdministration()
         return adm.get_all_user_groups(userid)
@@ -172,7 +171,6 @@ class GroupListOperations(Resource):
     #@secured
     def get(self):
         adm = ShoppingAdministration()
-    
         return adm.get_all_groups()
     
     @shopping_v1.marshal_with(group,code=200)
@@ -196,7 +194,7 @@ class GroupListOperations(Resource):
 @shopping_v1.param('id', 'Group objects id')
 class GroupOperations(Resource):
     @shopping_v1.marshal_with(group)
-    #@secured
+    @secured
     def get(self,id):
         adm = ShoppingAdministration()
         return adm.get_group_by_id(id)

@@ -1,6 +1,6 @@
 import BusinessObject from './BusinessObject';
 
-export default class ProductBO extends BusinessObject {
+export default class ArticleBO extends BusinessObject {
 
    constructor(n, m, e, d) {
         super();
@@ -48,13 +48,13 @@ export default class ProductBO extends BusinessObject {
 
         if (Array.isArray(products)) {
             products.forEach((p) => {
-                Object.setPrototypeOf(p, ProductBO.prototype)
+                Object.setPrototypeOf(p, ArticleBO.prototype)
                 result.push(p)
             })
         } else {
             // Es handelt sich offenbar um ein singuläres Objekt
             let p = products;
-            Object.setPrototypeOf(p, ProductBO.prototype)
+            Object.setPrototypeOf(p, ArticleBO.prototype)
             result.push(p)
         }
 
