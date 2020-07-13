@@ -278,3 +278,7 @@ class ShoppingAdministration (object):
     def get_shoppinglist_by_id(self, list_id):
         with ShoppingListMapper() as mapper: 
             return mapper.find_by_key(list_id)
+
+    def get_shoppinglists(self):
+        with ShoppingListMapper() as mapper: 
+            return mapper.find_latest()

@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes, { object } from 'prop-types';
 import AddCircleItem from '@material-ui/icons/AddCircle'
-import MaterialIconButton from '@material-ui/core/IconButton';
-import { withStyles } from '@material-ui/styles';
 import TextField from '@material-ui/core/TextField';
-import createPalette from '@material-ui/core/styles/createPalette';
+import { withStyles } from "@material-ui/styles";
 import { Grid, Typography } from '@material-ui/core';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -21,6 +19,9 @@ import Button from '@material-ui/core/Button';
 import MainButton from '../layout/MainButton';
 import { Config } from '../../config';
 import { withRouter } from "react-router";
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+import ListIcon from '@material-ui/icons/List';
 
 import ShoppingSettings from '../../../src/shoppingSettings'
 
@@ -44,6 +45,21 @@ const styles = theme => ({
   accordion:{
     width: '100%',
     marginTop:"3%"
+  },
+  shoppingListItem: {
+    backgroundColor: '#F2F2F2',
+    borderWidth: 1,
+    borderColor: '#BDBDBD',
+    borderRadius: 10,
+    borderColor: '#BDBDBD',
+    borderStyle: 'solid',
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(2),
+    height: '45px'
+  },
+  deleteIcon: {
   },
   heading:{
     fontSize: theme.typography.pxToRem(15),
@@ -75,13 +91,17 @@ class SpecificGroup extends Component {
     this.state ={
       groupID : settingsobj.onlySettingsGetSettingsGroupID(),
       dense: 'false',
-      open: false,
+      openAddMemberDialog: false,
+      openAddShoppinglistDialog: false,
       groupmembers: [],
       inputval: '',
-      groupnameval:settingsobj.onlySettingsGetSettingsGroupName()
+      groupnameval:settingsobj.onlySettingsGetSettingsGroupName(),
+      newShoppinglistName: '',
+      shoppinglists: []
     }
-
     this.deleteMember = this.deleteMember.bind(this);
+    this.deleteShoppingList = this.deleteShoppingList.bind(this);
+    this.fetchspecificShoppinglist = this.fetchspecificShoppinglist.bind(this);
   }
 
   deleteMember(id) {
@@ -90,7 +110,16 @@ class SpecificGroup extends Component {
       groupmembers: prevState.groupmembers.filter(item => item !== id)
     }))
   };
-
+  async fetchspecificShoppinglist() {
+    try {
+        let response = await fetch('http://localhost:5000/shopping/shoppinglist/?group_id=' + settingsobj.onlySettingsGetSettingsGroupID());
+        let data = await response.json();
+        this.setState({shoppinglists: data});
+    }
+    catch (error) {
+        console.log(error)
+    }
+  };
   async fetchGroupMembers(){ //fetch group members for specific gorup
     const res = await fetch(Config.apiHost + '/membership/' + settingsobj.onlySettingsGetSettingsGroupID()) //Hier ID übergabe bei getmembersbygroupid = id = settingsobj.onlySettingsGetSettingsGroupID()
     const resjson = await res.json()
@@ -107,9 +136,65 @@ class SpecificGroup extends Component {
     //for i in memberids fetch get user member by id append gmembers 
     this.setState({groupmembers:gmembers}) 
   }
+  async getAllShoppingLists() {
+    const res = await fetch(Config.apiHost + '/shoppinglist/all')
+    const resjson = await res.json()
+    return resjson[0][0];
+  }
+
+  async addShoppingList(event) {
+    var latestShoppinglistID = await this.getAllShoppingLists();
+    var newShoppinglistName = this.state.newShoppinglistName;
+      try{
+          const rb = {
+            id: latestShoppinglistID,
+            name: newShoppinglistName,
+            group_id: settingsobj.onlySettingsGetSettingsGroupID()
+          }
+          const requestBody = JSON.stringify(rb)
+          console.log(rb);
+          const rInit = {
+            method: 'POST', 
+            headers: {
+              'Content-Type': 'application/json'
+            }, 
+            body: requestBody
+          } 
+          
+          const resp = await fetch(Config.apiHost + '/shoppinglist/', rInit)
+          if(resp.ok){
+            console.log(resp)}
+            this.fetchspecificShoppinglist();
+      }catch(e) {
+        console.log(e);
+      }
+  }
+  async deleteShoppingList(group_id) {
+    try{
+      const rb = {
+        "id": String(group_id),
+      }
+      const requestBody = JSON.stringify(rb)
+      console.log(rb);
+      const rInit = {
+        method: 'DELETE', 
+        headers: {
+          'Content-Type': 'application/json'
+        }, 
+        body: requestBody
+      } 
+      const resp = await fetch(Config.apiHost + '/shoppinglist/' + group_id)
+      if(resp.ok){
+        console.log(resp)}
+        this.fetchspecificShoppinglist();
+  }catch(e) {
+    console.log(e);
+    }
+  }
     
   componentDidMount(){
     this.fetchGroupMembers()
+    this.fetchspecificShoppinglist();
   }
   
   renderShoppinglists(){
@@ -133,14 +218,21 @@ class SpecificGroup extends Component {
   render(){
     
     const { classes } = this.props;
-    var open = this.state.open;
+    var openAddMemberDialog = this.state.openAddMemberDialog;
+    var openAddShoppinglistDialog = this.state.openAddShoppinglistDialog;
     
-    const handleClickOpen = () => {
-        this.setState({open:true});
+    const handleClickOpenAddMemberDialog = () => {
+        this.setState({openAddMemberDialog:true});
     };
-    const handleClose = () => {
-      this.setState({open:false})
+    const handleClickCloseAddMemberDialog = () => {
+      this.setState({openAddMemberDialog:false})
     };
+    const handleClickOpenAddMShoppinglistDialog = () => {
+      this.setState({openAddShoppinglistDialog:true});
+  };
+  const handleClickCloseAddShoppinglistDialog = () => {
+    this.setState({openAddShoppinglistDialog:false})
+  };
 
     const fetchspecificUser = async () => {
       try {
@@ -153,6 +245,7 @@ class SpecificGroup extends Component {
           console.log(error)
       }
     };
+    
 
     const saveGroup = async () => {
       try {
@@ -232,7 +325,7 @@ class SpecificGroup extends Component {
           <ExpansionPanelDetails>
             <Grid container>
               <Grid item xs={12} direction="column" justify="center" alignItems="center" >
-                <AddCircleItem style={{alignSelf:"center", margin: 12,fontSize:"40px" }} onClick={() => { handleClickOpen() }}></AddCircleItem>
+                <AddCircleItem style={{alignSelf:"center", margin: 12,fontSize:"40px" }} onClick={() => { handleClickOpenAddMemberDialog() }}></AddCircleItem>
                 <Grid style={{marginLeft: 2}} item direction='column' justify='space-between' alignItems="stretch" xs={12}>
                   {this.renderGroupMembers()}
                 </Grid>
@@ -247,15 +340,32 @@ class SpecificGroup extends Component {
           <ExpansionPanelDetails>
             <Grid container>
               <Grid item xs={12} direction="column" justify="center" alignItems="center" >
-                <AddCircleItem style={{alignSelf:"center", margin: 12,fontSize:"40px" }} onClick={() => { handleClickOpen() }}></AddCircleItem>
+                <AddCircleItem style={{alignSelf:"center", margin: 12,fontSize:"40px" }} onClick={() => { handleClickOpenAddMShoppinglistDialog() }}></AddCircleItem>
                 <Grid style={{marginLeft: 2}} item direction='column' justify='space-between' alignItems="stretch" xs={12}>
+                  {
+                    this.state.shoppinglists.map(list => (
+                      <Grid container xs={12} className={classes.shoppingListItem}>
+                        <Grid item xs={2}>
+                          <ListIcon />
+                        </Grid>
+                        <Grid item xs={8}>
+                        <t style={{color: '#000000', fontSize: 18}}>{list.name}</t>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <IconButton style={{padding:0}} className={classes.deleteIcon} onClick={() => { this.deleteShoppingList(list.id) }}>
+                              <DeleteIcon fontSize="small" />
+                          </IconButton>
+                        </Grid>
+                      </Grid>
+                    ))
+                  }
                 </Grid>
               </Grid>
             </Grid>
           </ExpansionPanelDetails>
         </ExpansionPanel>
         <MainButton className={classes.CreateButton} onclick={() => {saveGroup()} }>Save Group</MainButton>
-        <Dialog onClose={handleClose} aria-labelledby="form-dialog-title" style={{display: 'inline-block'}} open={open}>
+        <Dialog onClose={handleClickCloseAddMemberDialog} aria-labelledby="form-dialog-title" style={{display: 'inline-block'}} open={openAddMemberDialog}>
         <DialogTitle id="form-dialog-title">Add Member</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -272,10 +382,35 @@ class SpecificGroup extends Component {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClickCloseAddMemberDialog} color="primary">
             CANCEL
           </Button>
-          <Button onClick={() => {fetchspecificUser();  handleClose();}} color="primary">
+          <Button onClick={() => {fetchspecificUser();  handleClickCloseAddMemberDialog();}} color="primary">
+            ADD
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog onClose={handleClickCloseAddShoppinglistDialog} aria-labelledby="form-dialog-title" style={{display: 'inline-block'}} open={openAddShoppinglistDialog}>
+        <DialogTitle id="form-dialog-title">Add Shoppinglist</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Please put in the name of the new shoppinglist.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Name"
+            type="text"
+            fullWidth
+            onChange={(e) => {this.setState({newShoppinglistName: e.target.value })}}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClickCloseAddShoppinglistDialog} color="primary">
+            CANCEL
+          </Button>
+          <Button onClick={(e) => {this.addShoppingList(e); handleClickCloseAddShoppinglistDialog(); }} color="primary">
             ADD
           </Button>
         </DialogActions>

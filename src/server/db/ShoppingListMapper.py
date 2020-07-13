@@ -120,6 +120,25 @@ class ShoppingListMapper (Mapper):
         self._cnx.commit()
         cursor.close()
 
+    def find_latest(self):
+        cursor = self._cnx.cursor()
+        result = []
+        command = "SELECT MAX(id) FROM Shoppinglist"
+        # print(command)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+        try:
+            for id in tuples:
+                result.append(id)
+        except IndexError:
+            """if tuples of cursor.fetchall() is empty we will get IndexError. In this case
+            we didn't find the object with the key in database, result will be none then
+            """
+            result = None
+        self._cnx.commit()
+        cursor.close()
+        return result
+
 """Zu Testzwecken können wir diese Datei bei Bedarf auch ausführen, 
 um die grundsätzliche Funktion zu überprüfen.
 
