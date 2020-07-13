@@ -20,7 +20,7 @@ class ListEntry(bo.BusinessObject):
         self._amount = 0
         self._unit = 0
         self._bought = ""
-        self._article_name = ""
+        self._name = ""
         self._category = ""
         self._retailer = ""
 
@@ -58,7 +58,7 @@ class ListEntry(bo.BusinessObject):
         """
         Pascal
         """
-        return self._purchaser
+        return self._user_id
 
     def set_purchaser(self, purchaser):
         """
@@ -66,17 +66,17 @@ class ListEntry(bo.BusinessObject):
         """
         self._user_id = purchaser
     
-    def get_article_name(self):
+    def get_name(self):
         """
         Pascal
         """
-        return self._article_name
+        return self._name
 
-    def set_article_name(self, article):
+    def set_name(self, article):
         """
         Niklas 
         """
-        self._article_name = article
+        self._name = article
     
     def get_category(self):
         """
@@ -90,18 +90,6 @@ class ListEntry(bo.BusinessObject):
         """
         self._category = category
     
-    def get_retailer(self):
-        """
-        Pascal
-        """
-        return self._retailer
-    
-    def set_retailer(self, retailer):
-        """
-        Niklas 
-        """
-        self._retailer = retailer
-
 
     #renamed from class diagramm quantity to amount to have the same words ;)
     def get_amount(self):
@@ -192,7 +180,7 @@ class ListEntry(bo.BusinessObject):
         return str(self._id) + " " + self._article_id
     @staticmethod
     def from_dict(dictionary=dict()):
-        """Umwandeln eines Python dict() in einen Customer()."""
+        """Umwandeln eines Python dict() in ein ListEntry()."""
         obj = ListEntry()
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
         obj.set_article(dictionary["article_id"])
@@ -201,5 +189,11 @@ class ListEntry(bo.BusinessObject):
         obj.set_user(dictionary["user_id"])
         obj.set_group(dictionary["group_id"])
         obj.set_amount(dictionary["amount"])
+        obj.set_unit(dictionary["unit"])
         obj.set_buy_date(dictionary["bought"])
+        obj.set_name(dictionary["name"])
+        obj.set_category(dictionary["category"])
+
         return obj
+
+    

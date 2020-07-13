@@ -25,6 +25,8 @@ import avatar from '../img/avatar.jpg';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import { Config } from '../../config';
 import { withRouter } from "react-router";
+import ShoppingAPI from '../../api/ShoppingAPI';
+import GroupBO from '../../api/GroupBO';
 
 
 const useStyles = (theme) => ({
@@ -199,48 +201,57 @@ class CreateGroup extends Component {
     }
 
 
-    const saveGroup = async () => {
-      try {
-        const group = {
-          id: 1, 
-          name: this.state.groupnameval, 
-          description: "no description defined in frontend"
-        }
-        const requestBody = JSON.stringify(group)
-        console.log(requestBody)
+    // const saveGroup = async () => {
+    //   try {
+    //     const group = {
+    //       id: 1, 
+    //       name: this.state.groupnameval, 
+    //       description: "no description defined in frontend"
+    //     }
+    //     const requestBody = JSON.stringify(group)
+    //     console.log(requestBody)
 
-        const rInit = {
-          method: 'POST', 
-          headers: {
-            'Content-Type': 'application/json'
-          }, 
-          body: requestBody
-        } 
+    //     const rInit = {
+    //       method: 'POST', 
+    //       headers: {
+    //         'Content-Type': 'application/json'
+    //       }, 
+    //       body: requestBody
+    //     } 
         
-        const resp = await fetch(Config.apiHost + '/Group', rInit)
-        if(resp.ok){
-          try{
-            var respjson = await resp.json()
-            //console.log(respjson.id)
-            saveMemberships(respjson.id)
+    //     const resp = await fetch(Config.apiHost + '/Group', rInit)
+    //     if(resp.ok){
+    //       try{
+    //         var respjson = await resp.json()
+    //         //console.log(respjson.id)
+    //         saveMemberships(respjson.id)
 
-          }catch (error){
-            console.log(error)
-          }
+    //       }catch (error){
+    //         console.log(error)
+    //       }
 
-            this.props.history.push('/settings')
-        } else {
-          alert("error")
-        }
+    //         this.props.history.push('/settings')
+    //     } else {
+    //       alert("error")
+    //     }
 
           
-          alert('The group was saved')
-      }
-      catch (error) {
-          //needs more advanced error handling
-          console.log(error)
-      } 
-    }
+    //       alert('The group was saved')
+    //   }
+    //   catch (error) {
+    //       //needs more advanced error handling
+    //       console.log(error)
+    //   } 
+    // }
+
+
+  const saveGroup = () => {
+      let newGroup = new GroupBO(this.state.groupnameval, "no description defined in frontend")
+      ShoppingAPI.getAPI().saveGroup(newGroup).then(
+        this.props.history.push('/settings')
+      ).catch(e =>
+        alert(e))
+  };
     
     return (
         <Container maxWidth="sm" style={{justifyContent: 'center'}}>

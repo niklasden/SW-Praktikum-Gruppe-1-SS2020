@@ -29,7 +29,7 @@ class ShoppingList(bo.BusinessObject):
         self._name = name
 
     def __str__(self):
-        return "Shopping LIst: {}, name: {}".format(self.get_id(), self._name)
+        return "Shopping List: {}, name: {}".format(self.get_id(), self._name)
 
     @staticmethod
     def from_dict(dictionary=dict()):

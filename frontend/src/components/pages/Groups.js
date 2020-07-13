@@ -15,7 +15,6 @@ import LoadingProgress from '../dialogs/LoadingProgress'
 import ShoppingAPI from '../../api/ShoppingAPI';
 
 const settingsobj = ShoppingSettings.getSettings()
-console.log(settingsobj)
 
 const styles = theme => ({
   root: {
@@ -44,74 +43,44 @@ class Groups extends Component {
       loadingInProgress: false,
       loadingError: null,
       loadingGroupsError: null,
-      name: "testuser"
+      
     };
     this.deleteGroup = this.deleteGroup.bind(this);
-    this.getGroups = this.getGroups.bind(this);
-    console.log(this.state.name)
   }
 
-  async deleteGroup(id) {
-    try{
-    const rInit = {
-      method: 'DELETE'
-    }
-    const resp = await fetch(Config.apiHost + '/Group/' + id, rInit)
-    if(resp.ok){
+  deleteGroup = (id) => {
+    ShoppingAPI.getAPI().deleteGroup(id).then(groupBOs => {
       this.props.history.push('/Groups')
-      alert("group and all memberships deleted")
-    } else {
-     alert("Fehler !")
-    }
-  }catch(e){alert(e)}
-    this.setState({
-            groupItems: this.state.groupItems.filter(elem => elem.id !== id)       
-     // request to db! > delete Group      
-   })
-  
-   if(settingsobj.onlySettingsGetSettingsGroupID() == id){
-      settingsobj.onlySettingsSetSettingsGroupID("")
-      settingsobj.onlySettingsSetSettingsGroupName("")
+      this.setState({groupItems: this.state.groupItems.filter(elem => elem.id !== id)})
+      alert("Group and all Members deleted")
+  }).catch(e =>
+      alert(e)
+      )
+       if(settingsobj.onlySettingsGetSettingsGroupID() == id){
+         settingsobj.onlySettingsSetSettingsGroupID("")
+         settingsobj.onlySettingsSetSettingsGroupName("")
+       }
   }
-  }
-  
-
-  // async fetchGroups(){
-  //   const res = await fetch(Config.apiHost + '/Group/Usergroup/'+ settingsobj.getCurrentUserID())
-  //   const resjson = await res.json().then(groupitems => 
-  //     this.setState({
-  //       groupItems:resjson,
-  //       loadingInProgress: false,
-  //       loadingerror: null
-  //     })).catch(e =>
-  //       this.setState({
-  //         groupItems: [],
-  //         loadingInProgress: false,
-  //         loadingError: e
-  //       })
-  //     );
-  //   //set loading to true  
-  //   console.log(resjson)
-  //    this.setState({
-  //      loadingInProgress: true,
-  //      loadingError:null
-  //    })
-  // }
 
   getGroups = () => {
-    ShoppingAPI.getAPI().getGroupsforUser(settingsobj.getCurrentUserID()).then(groupBOs =>
-      this.setState({
-        groupItems: "1"
+    ShoppingAPI.getAPI().getGroupsforUser(settingsobj.getCurrentUserID()).then(groupBOs => {
+      this.setState({  // Set new state when AccountBOs have been fetched
+        groupItems: groupBOs,
+        loadingInProgress: false,
+        loadingerror: null
       })
-      ).catch(e => 
+     }).catch(e => 
         this.setState({
-          // groupItems: [],
+          groupItems: [],
+          loadingInProgress: false,
           loadingGroupsError: e
         })
       );
-      console.log(this.state.groupItems)
-    };
-
+      this.setState({
+              loadingInProgress: true,
+              loadingError:null
+            })
+     };
 
 
    /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
@@ -124,8 +93,8 @@ class Groups extends Component {
 
   renderGroups(){
       const { classes } = this.props;
-      const Groups =[];
-     if (!this.state.groupItems === null) {
+      const Groups=[];
+      
       this.state.groupItems.forEach( elem => {
           Groups.push(
           <Grid item xs={6}>
@@ -146,12 +115,12 @@ class Groups extends Component {
             </Grid>)
       })
       return Groups
-    }
+    
   } 
       
   render(){
     const { classes } = this.props;
-    const {loadingInProgress, loadingError, loadingGroupsError  } = this.state;
+    const { loadingInProgress, loadingError, loadingGroupsError, groupItems } = this.state;
     return (
     <>
       <Grid container spacing={3} >

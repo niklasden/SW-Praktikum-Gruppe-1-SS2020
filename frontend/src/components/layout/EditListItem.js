@@ -15,6 +15,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
+import ShoppingAPI from '../../api/ShoppingAPI';
+import ListEntryBO from '../../api/ListEntryBO';
 /**
  * Displays an PopUp. 
  * 
@@ -34,11 +36,23 @@ const styles = theme => ({
 class EditListItem extends Component {
   constructor(props) {
     super(props);
+    let amt = '', unt = '', usr = '', rt = '';
+    if(props.listentry) {
+      amt = props.listentry.getAmount();
+      unt = props.listentry.getUnit();
+      usr = props.listentry.getUser();
+      rt  = props.listentry.getRetailer();
+     }
+
     this.state = {
       item: this.props.item,
-      user: this.props.user,
-      retailer: this.props.retailer
+      amount: amt,
+      unit: unt,
+      user: usr,
+      retailer: rt,
     }
+    
+     this.saveItem = this.saveItem.bind(this);
   }
   
   handleChangeUnit(v) {
@@ -48,7 +62,22 @@ class EditListItem extends Component {
   safeChanges() {
     this.props.handleChangeUnit(this.state.item.unit);
   }
+
+  saveItem = () => {
+    let updatedItem = Object.assign(new ListEntryBO(), this.props.listentry);
+    updatedItem.setAmount(69);
+    updatedItem.setUnit("kg");
+    updatedItem.setUserid(4);
+    updatedItem.setRetailer(3)
+
+    console.log(updatedItem);
+    // ShoppingAPI.getAPI().updateListEntry(updatedItem).catch(console.log(e));
+  }
+
+
   render() {
+    const { classes, listentry } = this.props;
+    const { amount, unit, user, retailer} = this.state;
     return (
 <Dialog
         open={this.props.open}
@@ -74,8 +103,8 @@ class EditListItem extends Component {
       <FormControl style={{width: '100%', height: 35, marginLeft: 10, marginBottom: 10}}>
                 <InputLabel>UNIT</InputLabel>
                 <Select
-                  onChange={this.handleChangeUnit.bind(this)}
-                  value={this.state.item.unit}
+                  /*onChange={this.handleChangeUnit.bind(this)}
+                  value={unit}*/
                 >
                  <MenuItem value={'kg'}>Kg</MenuItem>
                 <MenuItem value={'g'}>g</MenuItem>
@@ -90,8 +119,8 @@ class EditListItem extends Component {
       <FormControl style={{width: '100%', height: 35, marginLeft: 10, marginBottom: 10}}>
                 <InputLabel>ASSIGN USER</InputLabel>
                 <Select
-                  /* value={this.props.unit}
-                  onChange={this.props.handleChange} */
+                  /*value={user}
+                  onChange={this.props.handleChange}*/
                 >
                   
                 {this.props.user.map(item =>{
@@ -104,8 +133,8 @@ class EditListItem extends Component {
       <FormControl style={{width: '100%', height: 35, marginLeft: 10, marginBottom: 10}}>
                 <InputLabel>ASSIGN RETAILER</InputLabel>
                 <Select
-                  /* value={this.props.unit}
-                  onChange={this.props.handleChange} */
+                   value={retailer}
+                  /*onChange={this.props.handleChange} */
                 >
                   {this.props.retailer.map(item =>{
                     return <MenuItem value={item.name}>{item.name}</MenuItem>
@@ -116,7 +145,7 @@ class EditListItem extends Component {
       </Grid>
 
       <DialogActions>
-        <Button color="primary">
+        <Button color="primary" onClick={this.saveItem()}>
           SAVE
         </Button>
         <Button onClick={this.props.PressButtonBack} color="primary" autoFocus>

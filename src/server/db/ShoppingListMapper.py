@@ -1,5 +1,5 @@
 from server.db.Mapper import Mapper
-from server.bo.ShoppingLIst import ShoppingList
+from server.bo.ShoppingList import ShoppingList
 
 """ A single ShoppingList
 @author Christopher Böhm

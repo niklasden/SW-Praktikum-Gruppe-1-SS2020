@@ -1,6 +1,7 @@
 
 import ArticleBO from './ArticleBO';
 import GroupBO from './GroupBO';
+import ListEntryBO from './ListEntryBO';
 
 /**
  * Abstracts the REST interface of the Python backend with convenient access methods.
@@ -21,6 +22,10 @@ export default class ShoppingAPI {
     
     //Groups URLs
     #getGroupsforUserURL = (userid) => `${this.#baseServerURL}/Group/Usergroup/${userid}`;
+    #deleteGroupURL = (id) => `${this.#baseServerURL}/Group/${id}`;
+    #saveGroupURL = () => `${this.#baseServerURL}/Group/`;
+    #getunassigneditemssofGroupURL = (group_id) => `${this.#baseServerURL}/Listentry/get_unassigned_items_of_group/${group_id}`; 
+    #updateListEntryURL = (listentry) => `${this.#baseServerURL}/Listentry/update/${listentry}`;
 
     /** 
      * Get the Singelton instance 
@@ -68,17 +73,73 @@ export default class ShoppingAPI {
     getGroupsforUser(id){
         return this.#fetchAdvanced(this.#getGroupsforUserURL(id)).then((responseJSON) => {
             let groupBOs = GroupBO.fromJSON(responseJSON);
-            console.info(groupBOs);
+            //console.info(groupBOs);
             return new Promise(function (resolve) {
                  resolve(groupBOs);
             })
         })
     }
 
-    getURL(){
-        return this.#fetchAdvanced(this.#getArticlesURL())
-        .then((responseJSON) =>
-        console.log(responseJSON))
+    deleteGroup(id) {
+        return this.#fetchAdvanced(this.#deleteGroupURL(id), {
+            method: 'DELETE'
+        })
+        .then((responseJSON) => {
+            let groupBOs = GroupBO.fromJSON(responseJSON)[0];
+            return new Promise(function (resolve) {
+                resolve(groupBOs);
+            })
+        })
+    }
+
+    //not tested because of membership issue, current version works fine
+    /*saveGroup(groupBO){
+        return this.#fetchAdvanced(this.#saveGroupURL(groupBO), {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain',
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(groupBO)
+        })
+        .then((responseJSON) => {
+            let groupBO = GroupBO.fromJSON(responseJSON)[0];
+            return new Promise(function (resolve) {
+                resolve(groupBO);
+            })
+        })
+    }
+    */
+
+    getunassignedItemsofGroup(id) {
+        return this.#fetchAdvanced(this.#getunassigneditemssofGroupURL(id)).then((responseJSON) => {
+            let listentryBOs = ListEntryBO.fromJSON(responseJSON);
+            console.info(listentryBOs);
+            return new Promise(function (resolve) {
+                 resolve(listentryBOs);
+            })
+        })
+    }
+
+    insertListentry(listentryBO){
+
+    }
+    
+    updateListEntry(listentryBO) {
+        return this.#fetchAdvanced(this.#updateListEntryURL(listentryBO), {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain',
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(listentryBO)
+        })
+        .then((responseJSON) => {
+            let listentryBO = ListEntryBO.fromJSON(responseJSON)[0];
+            return new Promise(function (resolve) {
+                resolve(listentryBO);
+            })
+        })
     }
 }
 

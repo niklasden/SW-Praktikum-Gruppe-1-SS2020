@@ -15,7 +15,7 @@ from server.bo.ListEntry import ListEntry
 from server.bo.Retailer import Retailer
 from server.bo.Article import Article
 from server.db.ArticleMapper import ArticleMapper
-from server.bo.ShoppingLIst import ShoppingList
+from server.bo.ShoppingList import ShoppingList
 import json
 
 
@@ -61,16 +61,15 @@ retailer = api.inherit('Retailer',bo,{
 
 listentry = api.inherit('ListEntry',bo, {
     'article_id': fields.Integer(attribute='_article_id',description="Article ID of a listentry"),
-    'retailer_id': fields.Integer(attribute='_retailer_id',description="Retailer ID of the specific listenty"),
     'shoppinglist_id': fields.Integer(attribute='_shoppinglist_id',description="Corresponding Shopping List ID of a listentry"),
     'user_id': fields.Integer(attribute='_user_id',description="User ID which the ListEntry is assigned to"),
     'group_id': fields.Integer(attribute='_group_id',description="Group ID in which the ListEntry belongs to"),
     'amount': fields.Integer(attribute='_amount',description="Amount of item to be bought"),
     'unit': fields.Integer(attribute='_unit', description="Unit of item"),
     'bought': fields.String(attribute='_bought',description="Date when the article was bought"),
-    'article_name': fields.String(attribute='_article_name',description="Name of the article"),
+    'name': fields.String(attribute='_name',description="Name of the article"),
     'category': fields.String(attribute='_category',description="Category of the article"),
-    'retailer': fields.String(attribute='_retailer',description="Retailer where the items/articles were bought"),
+    'retailer': fields.String(attribute='_retailer_id',description="Retailer where the items/articles were bought"),
 })
 
 report = api.inherit('Report',bo, {
@@ -545,7 +544,7 @@ class testGroupListOperations(Resource):
     def get(self):
         adm = ShoppingAdministration()
         
-        result= adm.get_all_groups(id) # hier dann die id aus der payload
+        result = adm.get_all_groups(id) # hier dann die id aus der payload
         return result
 
 
@@ -622,7 +621,7 @@ class testListEntry(Resource):
         result = adm.insert_listentry(listentry)
         return result
 
-@shopping_v1.route('Listentry/get_items_of_group/<int:group_id>')
+@shopping_v1.route('/Listentry/get_items_of_group/<int:group_id>')
 @shopping_v1.response(500, 'Falls was in die Fritten geht')
 @shopping_v1.param('group_id', "Group_id")
 class testListEntry(Resource):
@@ -632,35 +631,44 @@ class testListEntry(Resource):
         result = adm.get_items_of_group(group_id)
         return result
 
-@shopping_v1.route('/Listentry/Update')
+@shopping_v1.route('/Listentry/get_unassigned_items_of_group/<int:group_id>')
+@shopping_v1.response(500, 'Falls was in die Fritten geht')
+@shopping_v1.param('group_id', "Group_id")
+class testListEntry(Resource):
+    @shopping_v1.marshal_with(listentry)
+    def get(self, group_id):
+        adm = ShoppingAdministration()
+        result = adm.get_items_of_group(group_id)
+        return result
+
+
+@shopping_v1.route('/Listentry/update')
 @shopping_v1.response(500, 'If an server sided error occures')
 #@testing.param('listentry', "Listentry object id")
 class testListEntry(Resource):
-
     @shopping_v1.marshal_with(listentry, code= 200)
     @shopping_v1.expect(listentry)
     def post(self):
         adm = ShoppingAdministration()
-       
         proposal = ListEntry.from_dict(api.payload)
         
         if proposal is not None: 
             #le = adm.creata e_listenty
             print(proposal.get_id())
-            c = ListEntry()
-            c.set_id(proposal.get_id())
-            c.set_article(proposal.get_article())
-            c.set_retailer(proposal.get_retailer())
-            c.set_shoppinglist(proposal.get_shoppinglist())
-            c.set_user(proposal.get_user())
-            c.set_group(proposal.get_group())
-            c.set_amount(proposal.get_amount())
-            c.set_buy_date(proposal.get_buy_date())
+            le = ListEntry()
+            le.set_id(proposal.get_id())
+            le.set_article(proposal.get_article())
+            le.set_retailer(proposal.get_retailer())
+            le.set_shoppinglist(proposal.get_shoppinglist())
+            le.set_user(proposal.get_user())
+            le.set_group(proposal.get_group())
+            le.set_amount(proposal.get_amount())
+            le.set_buy_date(proposal.get_buy_date())
             if (proposal.get_id() == 0):
-                j = adm.insert_listentry(c)
+                res = adm.insert_listentry(le)
             else: 
-                j = adm.update_listentry(c)
-            return j, 200
+                res = adm.update_listentry(le)
+            return res, 200
         else:
             return "", 500
         

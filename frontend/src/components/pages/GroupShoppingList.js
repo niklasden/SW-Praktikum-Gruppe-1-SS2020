@@ -8,6 +8,7 @@ import DropDownGSL from '../layout/DropDownGSL'
 import TextInputBar from '../layout/TextInputBar'
 import PopUp from '../layout/PopUp'
 import ShoppingSettings from '../../../src/shoppingSettings'
+import ShoppingAPI from '../../api/ShoppingAPI';
 
 const settingsobj = ShoppingSettings.getSettings()
 
@@ -18,7 +19,7 @@ const settingsobj = ShoppingSettings.getSettings()
 /**
  * 
  * 
- * @author [Pascalv Illg](https://github.com/pasillg)
+ * @author [Pascal Illg](https://github.com/pasillg)
  */
 
 export default class GroupShoppingList extends Component {
@@ -28,13 +29,30 @@ export default class GroupShoppingList extends Component {
     open: false,
     amount: "1",
     unit: '',
-    selectedID: 0
+    selectedID: 0,
+    listentry: this.props.listentry
   }
-  async fetchItems() {
-    var res = await fetch("http://localhost:8081/api/shoppa/listEntries");
-    var json = await res.json();
-    this.setState({items: json})
-  }
+
+  // async fetchItems() {
+  //   var res = await fetch("http://localhost:8081/api/shoppa/listEntries");
+  //   var json = await res.json();
+  //   this.setState({items: json})
+  // }
+
+
+    fetchItems = () => {
+      alert("Did you set the Group ID??")
+      ShoppingAPI.getAPI().getunassignedItemsofGroup(settingsobj.getGroupID()).then(listentryBOs => {
+        this.setState({  // Set new state when AccountBOs have been fetched
+          items: listentryBOs, 
+        })
+        console.log(listentryBOs);
+      }).catch(e => 
+          this.setState({
+            items: [],
+          })
+        );
+      };
 
   componentDidMount() {
     this.fetchItems();
