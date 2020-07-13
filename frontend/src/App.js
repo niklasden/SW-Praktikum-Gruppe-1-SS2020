@@ -170,89 +170,89 @@ class App extends React.Component {
 		}
 		return (
 			<ThemeProvider theme={Theme}>
-				<Container maxWidthMd>
-				{/* Global CSS reset and browser normalization. CssBaseline kickstarts an elegant, consistent, and simple baseline to build upon. */}
-				<CssBaseline />
-				<Router basename={process.env.PUBLIC_URL}>
-					<Header user={currentUser} />
-					{
-						// Is a user signed in?
-						// geändert von chris, um im dev prozess den signin zu umgehen, muss wieder 
-						// TODO: muss wieder in currentUser umbenannt werden
-						// Is a user signed in?
-						currentUser ?
-							<>
-								{/* Here should the redirects go */}
-								<Switch>
-									<Route path="/about">
-										<AboutPage />
-									</Route>
-									<Route path="/users">
-										<UsersPage />
-									</Route> 
-									<Route path="/products">
-										<ProductsPage />
-									</Route>
-									<Route path="/create_article">
-										<CreateArticlePage />
-									</Route>
-									<Route path="/retailers">
-										<RetailerPage />
-									</Route>
-									<Route path="/create_retailer">
-										<CreateRetailerPage />
-									</Route>
-									<Route path="/create_article">
-										<CreateArticlePage />
-									</Route>
-									<Route path="/specificgroup">
-										<SpecificGroup/>
-									</Route>
-									<Route path="/Groups">
-										<Groups></Groups>
-									</Route>
-									<Route path="/GroupShoppingList">
-										<GroupShoppingList/>
-									</Route> 
-									<Route path="/settings">
-										<SettingsPage/>
-									</Route>
-									<Route path="/PersonalShoppingList">
-										<PersonalShoppingList/>
-									</Route>  
-									<Route path="/createGroup">
-										<CreateGroup/>
-									</Route>
-									<Route path="/specificGroup">
-										<SpecificGroup></SpecificGroup>
-									</Route>
-									<Route path="/allGroups">
-										<Groups></Groups>	
-									</Route>
-									<Route path="/settings-accounts">
-										<AccountsPage />
-									</Route>
-									<Route path='/report' component={() => { window.location = 'http://report.ikaufa.com/'; return null;} }/>
-									{/* this must always be the last route */}
-									<Route path="/">
-										<HomePage currentUserID={this.state.currentUserID} />
-									</Route>
-								</Switch>
-							</>
-							:
-							// else show the sign in page
-							<>
-								<Redirect to='/index.html' />
-								<SignIn onSignIn={this.handleSignIn} />
-							</>
-						}
-							<LoadingProgress show={authLoading} />
-							<ContextErrorMessage error={authError} contextErrorMsg={`Something went wrong during sign in process.`} onReload={this.handleSignIn} />
-							<ContextErrorMessage error={appError} contextErrorMsg={`Something went wrong inside the app. Please reload the page.`} />
-				<BottomNavigation/> 
-				{/* Prüfen ob User auf home-page dann menü nicht rendern */}
-				</Router>
-			</Container>
+				<div>
+					{/* Global CSS reset and browser normalization. CssBaseline kickstarts an elegant, consistent, and simple baseline to build upon. */}
+					<CssBaseline />
+					<Router basename={process.env.PUBLIC_URL}>
+						<Header user={currentUser} />
+						{
+							// Is a user signed in?
+							// geändert von chris, um im dev prozess den signin zu umgehen, muss wieder 
+							// TODO: muss wieder in currentUser umbenannt werden
+							// Is a user signed in?
+							currentUser ?
+								<>
+									{/* Here should the redirects go */}
+									<Switch>
+										<Route path="/about">
+											<AboutPage />
+										</Route>
+										<Route path="/users">
+											<UsersPage />
+										</Route> 
+										<Route path="/products">
+											<ProductsPage />
+										</Route>
+										<Route path="/create_article">
+											<CreateArticlePage />
+										</Route>
+										<Route path="/retailers">
+											<RetailerPage />
+										</Route>
+										<Route path="/create_retailer">
+											<CreateRetailerPage />
+										</Route>
+										<Route path="/create_article">
+											<CreateArticlePage />
+										</Route>
+										<Route path="/specificgroup">
+											<SpecificGroup/>
+										</Route>
+										<Route path="/Groups">
+											<Groups></Groups>
+										</Route>
+										<Route path="/GroupShoppingList">
+											<GroupShoppingList/>
+										</Route> 
+										<Route path="/settings">
+											<SettingsPage/>
+										</Route>
+										<Route path="/PersonalShoppingList">
+											<PersonalShoppingList/>
+										</Route>  
+										<Route path="/createGroup">
+											<CreateGroup/>
+										</Route>
+										<Route path="/specificGroup">
+											<SpecificGroup></SpecificGroup>
+										</Route>
+										<Route path="/allGroups">
+											<Groups></Groups>	
+										</Route>
+										<Route path="/settings-accounts">
+											<AccountsPage />
+										</Route>
+										<Route path='/report' component={() => { window.location = 'http://report.ikaufa.com/'; return null;} }/>
+										{/* this must always be the last route */}
+										<Route path="/">
+											<HomePage currentUserID={this.state.currentUserID} />
+										</Route>
+									</Switch>
+								</>
+								:
+								// else show the sign in page
+								<>
+									<Redirect to='/index.html' />
+									<SignIn onSignIn={this.handleSignIn} />
+								</>
+							}
+								<LoadingProgress show={authLoading} />
+								<ContextErrorMessage error={authError} contextErrorMsg={`Something went wrong during sign in process.`} onReload={this.handleSignIn} />
+								<ContextErrorMessage error={appError} contextErrorMsg={`Something went wrong inside the app. Please reload the page.`} />
+						<BottomNavigation/> 
+					{/* Prüfen ob User auf home-page dann menü nicht rendern */}
+					</Router>
+			</div>
 			</ThemeProvider>
 		);
 	}
