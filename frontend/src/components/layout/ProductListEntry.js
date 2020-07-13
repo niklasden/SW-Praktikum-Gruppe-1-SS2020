@@ -36,7 +36,7 @@ const styles = theme => ({
 
   //TODO: Funktion, die Artikel auf die Gruppeneinkaufsliste setzt
   onSave= () => {
-    this.state= {name: this.props.name, category: this.props.category}
+    this.state= {id: this.props.id, name: this.props.name, category: this.props.category}
     }
   
      
