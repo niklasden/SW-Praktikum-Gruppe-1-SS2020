@@ -210,8 +210,14 @@ class GroupOperations(Resource):
     def delete(self,id):
         adm = ShoppingAdministration()
         grp = adm.get_group_by_id(id)
+        user_ids = adm.get_users_by_groupid(id)["User_IDs"]
+        if len(user_ids) > 0:
+            for i in user_ids:
+                adm.delete_membership(i,id)
+                
+            
         adm.delete_group(grp)
-        return "deleted",200
+        return "group and all memberships deleted",200
     
     @shopping_v1.marshal_with(group)
     @shopping_v1.expect(group,validate=True)
