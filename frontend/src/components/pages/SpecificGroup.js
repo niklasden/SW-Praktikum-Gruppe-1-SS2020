@@ -9,19 +9,20 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import GroupMember from '../layout/GroupMember.js'
-import GroupListItem from '../layout/GroupListItem.js'
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
-import MainButton from '../layout/MainButton';
 import { Config } from '../../config';
 import { withRouter } from "react-router";
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ListIcon from '@material-ui/icons/List';
+import ContextErrorMessage from '../dialogs/ContextErrorMessage';
+import MainButton from '../layout/MainButton';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import ShoppingSettings from '../../../src/shoppingSettings'
 
@@ -68,14 +69,6 @@ const styles = theme => ({
     margin: theme.spacing(1),
   }
 });
-
-
-const ShoppingLs=[
-  {id:"1",name:"liste 2"},
-  {id:"2",name:"list 2.4"}
-]
-  
-
 /**
  * Bildet eine Spezifische, editierbare Gruppe ab
  * 
@@ -93,15 +86,42 @@ class SpecificGroup extends Component {
       dense: 'false',
       openAddMemberDialog: false,
       openAddShoppinglistDialog: false,
+      users: [],
       groupmembers: [],
       inputval: '',
       groupnameval:settingsobj.onlySettingsGetSettingsGroupName(),
       newShoppinglistName: '',
-      shoppinglists: []
+      shoppinglists: [],
+      error: null,
+      newMemberName: ''
     }
     this.deleteMember = this.deleteMember.bind(this);
+    this.saveGroup = this.saveGroup.bind(this);
     this.deleteShoppingList = this.deleteShoppingList.bind(this);
     this.fetchspecificShoppinglist = this.fetchspecificShoppinglist.bind(this);
+  }
+
+  async saveGroup() {
+      try{
+          const rb = {
+            id: settingsobj.onlySettingsGetSettingsGroupID(),
+            name: this.state.groupnameval,
+            description: ''
+          }
+          const requestBody = JSON.stringify(rb)
+          const rInit = {
+            method: 'PUT', 
+            headers: {
+              'Content-Type': 'application/json'
+            }, 
+            body: requestBody
+          } 
+          
+          const resp = await fetch(Config.apiHost + '/Group/' + settingsobj.onlySettingsGetSettingsGroupID(), rInit)
+      }catch(e) {
+      this.setState({error: e})
+
+      }
   }
 
   deleteMember(id) {
@@ -112,34 +132,73 @@ class SpecificGroup extends Component {
   };
   async fetchspecificShoppinglist() {
     try {
-        let response = await fetch('http://localhost:5000/shopping/shoppinglist/?group_id=' + settingsobj.onlySettingsGetSettingsGroupID());
+        let response = await fetch(Config.apiHost + '/shoppinglist/?group_id=' + settingsobj.onlySettingsGetSettingsGroupID());
         let data = await response.json();
         this.setState({shoppinglists: data});
     }
-    catch (error) {
-        console.log(error)
+    catch (e) {
+      this.setState({error: e})
     }
   };
+  async fetchspecificUser() {
+    try {
+      let response = await fetch(Config.apiHost + '/User/email/' + this.state.newMemberName);
+      let newUser = await response.json()
+      console.log("NEWUSER?", newUser);
+      if((newUser && newUser.id)) {
+        if(this.state.groupmembers.find(gmember => gmember.id === newUser.id)) {
+          alert("User bereits in der Gruppe");
+        }else {
+          let response = await fetch(Config.apiHost + '/Group/Usergroup/' + newUser.id);
+          alert("User existiert UND ist NICHT in der Gruppe, allerdings gibts noch keine Funktion ihn zur Gruppe hinzuzufügen");
+        }
+      }
+  }
+  catch (e) {
+    this.setState({error: e})
+  }
+  }
+  
   async fetchGroupMembers(){ //fetch group members for specific gorup
-    const res = await fetch(Config.apiHost + '/membership/' + settingsobj.onlySettingsGetSettingsGroupID()) //Hier ID übergabe bei getmembersbygroupid = id = settingsobj.onlySettingsGetSettingsGroupID()
-    const resjson = await res.json()
-    const memberids = resjson.User_IDs
-    const gmembers = []
-    
-    memberids.forEach(async elem => {
-      const resu = await fetch(Config.apiHost + '/User/'+ elem)
-      const resujson = await resu.json()
-      gmembers.push(resujson)
-      this.setState({groupmembers: gmembers});
+    try {
+      const res = await fetch(Config.apiHost + '/membership/' + settingsobj.onlySettingsGetSettingsGroupID()) //Hier ID übergabe bei getmembersbygroupid = id = settingsobj.onlySettingsGetSettingsGroupID()
+      const resjson = await res.json()
+      const memberids = resjson.User_IDs
+      const gmembers = []
+      
+      memberids.forEach(async elem => {
+        const resu = await fetch(Config.apiHost + '/User/'+ elem)
+        const resujson = await resu.json()
+        gmembers.push(resujson)
+        this.setState({groupmembers: gmembers});
+  
+      })
+      //for i in memberids fetch get user member by id append gmembers 
+      this.setState({groupmembers:gmembers}) 
+    }catch(e) {
+      this.setState({error: e});
 
-    })
-    //for i in memberids fetch get user member by id append gmembers 
-    this.setState({groupmembers:gmembers}) 
+    }
+    
   }
   async getAllShoppingLists() {
-    const res = await fetch(Config.apiHost + '/shoppinglist/all')
-    const resjson = await res.json()
-    return resjson[0][0];
+    try {
+      const res = await fetch(Config.apiHost + '/shoppinglist/all')
+      const resjson = await res.json()
+      return resjson[0][0];
+    }catch(e) {
+      this.setState({error: e});
+    }
+  }
+
+  async fetchAllUsers() {
+    try {
+      const res = await fetch(Config.apiHost + '/User')
+      const resjson = await res.json()
+      this.setState({users: resjson})
+    }catch(e) {
+      this.setState({error: e});
+    }
   }
 
   async addShoppingList(event) {
@@ -152,7 +211,6 @@ class SpecificGroup extends Component {
             group_id: settingsobj.onlySettingsGetSettingsGroupID()
           }
           const requestBody = JSON.stringify(rb)
-          console.log(rb);
           const rInit = {
             method: 'POST', 
             headers: {
@@ -163,47 +221,40 @@ class SpecificGroup extends Component {
           
           const resp = await fetch(Config.apiHost + '/shoppinglist/', rInit)
           if(resp.ok){
-            console.log(resp)}
             this.fetchspecificShoppinglist();
+          }
       }catch(e) {
-        console.log(e);
+      this.setState({error: e})
+
       }
   }
-  async deleteShoppingList(group_id) {
-    try{
-      const rb = {
-        "id": String(group_id),
-      }
-      const requestBody = JSON.stringify(rb)
-      console.log(rb);
+  async deleteShoppingList(groupID) {
+    const shoppinglist = {
+      id: parseInt(groupID), 
+    }
+    try {
       const rInit = {
         method: 'DELETE', 
         headers: {
           'Content-Type': 'application/json'
         }, 
-        body: requestBody
+        body: JSON.stringify(shoppinglist)
       } 
-      const resp = await fetch(Config.apiHost + '/shoppinglist/' + group_id)
+      const resp = await fetch(Config.apiHost + '/shoppinglist/' + groupID, rInit)
       if(resp.ok){
-        console.log(resp)}
         this.fetchspecificShoppinglist();
-  }catch(e) {
-    console.log(e);
+      }
+    }catch(e) {
+      this.setState({error: e});
     }
   }
     
   componentDidMount(){
     this.fetchGroupMembers()
+    this.fetchAllUsers();
     this.fetchspecificShoppinglist();
   }
-  
-  renderShoppinglists(){
-    const ShoppingLists = []
-    ShoppingLs.forEach( elem => {
-      ShoppingLists.push(<GroupListItem key={elem.id} Listname={elem.name} ></GroupListItem>)
-    })
-    return ShoppingLists
-  }
+
 
   renderGroupMembers(){
     const GroupMembers = []
@@ -216,7 +267,7 @@ class SpecificGroup extends Component {
   }
 
   render(){
-    
+    const {error, errorMsg} = this.state;
     const { classes } = this.props;
     var openAddMemberDialog = this.state.openAddMemberDialog;
     var openAddShoppinglistDialog = this.state.openAddShoppinglistDialog;
@@ -233,78 +284,12 @@ class SpecificGroup extends Component {
   const handleClickCloseAddShoppinglistDialog = () => {
     this.setState({openAddShoppinglistDialog:false})
   };
-
-    const fetchspecificUser = async () => {
-      try {
-          let response = await fetch(`http://localhost:8081/api/shoppa/groupmembers/$email`);
-          let data = await response.json()
-          this.setState({groupmembers: this.state.groupmembers.concat(data)})
-          
-      }
-      catch (error) {
-          console.log(error)
-      }
-    };
-    
-
-    const saveGroup = async () => {
-      try {
-        const group = {
-          id: settingsobj.onlySettingsGetSettingsGroupID(), 
-          name: this.state.groupnameval, 
-          description: "no description defined in frontend"
-        }
-        const requestBody = JSON.stringify(group)
-      
-        const rInit = {
-          method: 'PUT', 
-          headers: {
-            'Content-Type': 'application/json'
-          }, 
-          body: requestBody
-        } 
-        
-        const resp = await fetch(Config.apiHost + '/Group/' + group.id, rInit)
-        if(resp.ok){
-          try{
-            var respjson = await resp.json()
-            //console.log(respjson.id)
-            //saveMemberships(respjson.id)
-
-          }catch (error){
-            console.log(error)
-            alert(error)
-          }
-
-            this.props.history.push('/settings')
-        } else {
-          alert("error")
-        }
-
-          alert('The group was saved')
-      }
-      catch (error) {
-          //needs more advanced error handling
-          console.log(error)
-          
-      } 
-    }
-      
-      /**
-      try {
-        
-        //put oder so zu group //send request with paramets to backend for the group to be saved 
-        alert('The group was saved')
-      
-      }
-      catch (error) {
-        //
-        console.log(error)
-      } 
-    } */
-
     return (
       <div className={classes.accordion}>
+        {error ? 
+        <ContextErrorMessage error={error} message={errorMsg} />
+        :
+        <>
        <TextField
           onChange= {(e) => this.setState({groupnameval:e.target.value})}
           id="standard-helperText"
@@ -312,12 +297,6 @@ class SpecificGroup extends Component {
           defaultValue= {settingsobj.onlySettingsGetSettingsGroupName()}
           helperText=""
         />
-
-        {/*<div className={classes.Groupnameheader}>{"Gruppenname"}</div>*/}
-
-
-          {/* commented out, because we don't need multiple lists per group */}
-
         <ExpansionPanel style={{border:"1px solid #5a5a5a", margin:4}}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} >
             <Typography className={classes.heading}>Members</Typography>
@@ -343,49 +322,60 @@ class SpecificGroup extends Component {
                 <AddCircleItem style={{alignSelf:"center", margin: 12,fontSize:"40px" }} onClick={() => { handleClickOpenAddMShoppinglistDialog() }}></AddCircleItem>
                 <Grid style={{marginLeft: 2}} item direction='column' justify='space-between' alignItems="stretch" xs={12}>
                   {
-                    this.state.shoppinglists.map(list => (
-                      <Grid container xs={12} className={classes.shoppingListItem}>
-                        <Grid item xs={2}>
-                          <ListIcon />
+                    this.state.shoppinglists.length > 0 ?
+                      this.state.shoppinglists.map(list => (
+                        <Grid container xs={12} className={classes.shoppingListItem}>
+                          <Grid item xs={2}>
+                            <ListIcon />
+                          </Grid>
+                          <Grid item xs={8}>
+                          <t style={{color: '#000000', fontSize: 18}}>{list.name}</t>
+                          </Grid>
+                          <Grid item xs={2}>
+                              <IconButton style={{padding:0}} className={classes.deleteIcon} onClick={() => { this.deleteShoppingList(list.id) }}>
+                                <DeleteIcon fontSize="small" />
+                            </IconButton>
+                          </Grid>
                         </Grid>
-                        <Grid item xs={8}>
-                        <t style={{color: '#000000', fontSize: 18}}>{list.name}</t>
-                        </Grid>
-                        <Grid item xs={2}>
-                            <IconButton style={{padding:0}} className={classes.deleteIcon} onClick={() => { this.deleteShoppingList(list.id) }}>
-                              <DeleteIcon fontSize="small" />
-                          </IconButton>
-                        </Grid>
-                      </Grid>
-                    ))
+                      ))
+                      :
+                      <div />
                   }
                 </Grid>
               </Grid>
             </Grid>
           </ExpansionPanelDetails>
         </ExpansionPanel>
-        <MainButton className={classes.CreateButton} onclick={() => {saveGroup()} }>Save Group</MainButton>
+        <MainButton onclick={this.saveGroup}>SAVE GROUP</MainButton>
+
         <Dialog onClose={handleClickCloseAddMemberDialog} aria-labelledby="form-dialog-title" style={{display: 'inline-block'}} open={openAddMemberDialog}>
         <DialogTitle id="form-dialog-title">Add Member</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Please put in the email address, which the user used to signup for our app.
           </DialogContentText>
-          <TextField
+          <Autocomplete
+            id="combo-box-demo"
+            options={this.state.users}
+            getOptionLabel={(user) => user.email}
+            style={{ width: 300 }}
+            renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}
+          />
+          {/* <TextField
             autoFocus
             margin="dense"
             id="name"
             label="Email Address"
             type="email"
             fullWidth
-            onChange={(e) => {this.setState({groupnameval: e.target.value })}}
-          />
+            onChange={(e) => {this.setState({newMemberName: e.target.value })}}
+          /> */}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClickCloseAddMemberDialog} color="primary">
             CANCEL
           </Button>
-          <Button onClick={() => {fetchspecificUser();  handleClickCloseAddMemberDialog();}} color="primary">
+          <Button onClick={() => {this.fetchspecificUser();  handleClickCloseAddMemberDialog();}} color="primary">
             ADD
           </Button>
         </DialogActions>
@@ -415,8 +405,9 @@ class SpecificGroup extends Component {
           </Button>
         </DialogActions>
       </Dialog>
-      </div>
-    
+      </>
+      }
+    </div>
     )
   }
 }
@@ -425,5 +416,4 @@ SpecificGroup.propTypes = {
   icon: PropTypes.string,
 }
 
-//export default withStyles(styles)(SpecificGroup);
 export default withRouter(withStyles(styles)(SpecificGroup));
