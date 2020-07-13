@@ -24,6 +24,7 @@ import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import MainButton from '../layout/MainButton';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
+import Groups from './Groups'
 import ShoppingSettings from '../../../src/shoppingSettings'
 
 const settingsobj = ShoppingSettings.getSettings()
@@ -88,6 +89,7 @@ class SpecificGroup extends Component {
       openAddShoppinglistDialog: false,
       users: [],
       groupmembers: [],
+      newgroupmembers:[],
       inputval: '',
       groupnameval:settingsobj.onlySettingsGetSettingsGroupName(),
       newShoppinglistName: '',
@@ -123,12 +125,39 @@ class SpecificGroup extends Component {
 
       }
   }
-
-  deleteMember(id) {
+  
+  deleteMember(usr) {
     //array kopieren, element löschen, neues array als state setzen
     this.setState(prevState => ({
-      groupmembers: prevState.groupmembers.filter(item => item !== id)
+      groupmembers: prevState.groupmembers.filter(item => item !== usr)
     }))
+    //fetch request zum delete aus der Membership tabelle
+    try{
+        const rb = {
+          User_ID: usr.id,
+          Group_ID: settingsobj.onlySettingsGetSettingsGroupID() 
+        }
+        const requestBody = JSON.stringify(rb)
+        const rInit = {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json'
+          }, 
+          body: requestBody
+        } 
+        
+        fetch(Config.apiHost + '/membership/del', rInit)
+        alert("Deleted user with id: " +usr.id + " from this group")
+        
+
+        if(this.state.groupmembers.length <1){
+          //delete Group
+        }
+    }catch (error){
+      console.log(error)
+    }
+
+
   };
   async fetchspecificShoppinglist() {
     try {
