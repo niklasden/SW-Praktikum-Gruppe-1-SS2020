@@ -55,9 +55,9 @@ export default function Menu(props) {
 
   return (
     <div>
-      <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer("left", true)}>
+      {/* <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer("left", true)}>
         <MenuIcon />
-      </IconButton>
+      </IconButton> */}
       <SwipeableDrawer
         anchor={"left"}
         open={state["left"]}

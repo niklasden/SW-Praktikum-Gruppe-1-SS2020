@@ -12,7 +12,7 @@ import { blue } from '@material-ui/core/colors';
 import {Link} from 'react-router-dom'
 
 import GroupIcon from '../../icons/Other/users.svg'
-
+import { Config } from '../../config'
 import ShoppingSettings from '../../../src/shoppingSettings'
 
     const styles = theme => ({
@@ -64,21 +64,39 @@ class GroupsGridList extends Component {
     
       /**We have to fetch specific groups with user parameter */
       async fetchGroups(){
-        const res = await fetch('http://localhost:8081/api/shoppa/groups')
+        //const res = await fetch('http://localhost:8081/api/shoppa/groups')
+        const res = await fetch(Config.apiHost + '/Group/Usergroup/'+ this.props.currentUserID)
         const resjson = await res.json()
         console.log(resjson)
         this.setState({groupItemss:resjson})
 
       }
-      componentDidMount(){
+      
+      /**
+      componentDidUpdate(){
+        if (this.state.groupItemss.length == 0){
         this.fetchGroups()
-      }
-
+            }
+           
+      } */
+      
       render(){
         const { classes } = this.props;
         var groupI = this.state.groupItems
+        if (this.state.groupItemss.length == 0){
+          this.fetchGroups()
+              }
         
+        if (settingsobj.getGroupID() == 0){
+          fetch(Config.apiHost + '/Group/Usergroup/'+ this.props.currentUserID)
+          .then(response => response.json())
+          .then(data => {if(data.length > 0) {
+            settingsobj.setGroupID(1)
+          }})
+
+        }
         return(
+          
             <div className={classes.rootTwo}>
                 <GridList className={classes.gridList} cellHeight={180} cols={2.5}>
                 

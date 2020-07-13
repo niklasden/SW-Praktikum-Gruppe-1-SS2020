@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Grid } from '@material-ui/core';
 import CanvasJSReact from './statistic/canvasjs.react'
 import { withStyles } from '@material-ui/core/styles';
+import {Config} from '../../config';
 
 /**
  * Displays the timeline chat for the statistic page
@@ -24,32 +25,49 @@ class Statistic extends Component {
     test: [],
     options: {
       data: []
-    }
+    },
   }
   async getBoughtProducts() {
     try {
-      const res = await fetch("http://localhost:8081/api/shoppa/products/shopped");
+      const res = await fetch(Config.apiHost + "/report/" + this.props.group);
       const json = await res.json();
-      var newItem, productList = [];
-      json.forEach(item => {
-        newItem = {
-          type: "spline",
-          yValueFormatString: "#0.## Stk.",
-          showInLegend: true,
-          name: item.name,
-          category: item.category,
-          retailer: item.retailer,
-          dataPoints: []
-        };
-        item.purchases.forEach(purchase => {
-          var dataPoint = 
-          {
-            x: new Date(purchase.bought),
-            y: purchase.amount
+      var newItem, productList = [], articleIDs = [];
+      json._report_listentries.forEach(item => {
+        if(!articleIDs.includes(item.id)) {
+          newItem = {
+            id: item.id,
+            type: "spline",
+            yValueFormatString: "#0.## Stk.",
+            showInLegend: true,
+            name: item.name,
+            category: item.article_category,
+            retailer: item.retailer,
+            dataPoints: []
           };
-          newItem.dataPoints.push(dataPoint);
-        })
-      productList.push(newItem);
+          newItem.dataPoints.push(
+            {
+            x: new Date(item.bought),
+            y: item.amount
+            })
+          newItem.dataPoints.sort((a, b) => b.x - a.x);
+          productList.push(newItem);
+          articleIDs.push(newItem.id);
+        }else {
+          var includedItem = productList.find(productItem => productItem.id === item.id);
+          includedItem.dataPoints.forEach(dP => {
+            if (Date.parse(dP.x) === Date.parse(item.bought)) {
+              dP.y += item.amount;
+            }else {
+              includedItem.dataPoints.push(
+                {
+                  x: new Date(item.bought),
+                  y: item.amount
+                }
+              )
+              includedItem.dataPoints.sort((a, b) => b.x - a.x);
+            }
+          })
+        }
       })
       this.setState({options: {data: [...productList]}})
     }catch(exception) {

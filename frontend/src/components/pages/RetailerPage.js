@@ -4,6 +4,7 @@ import TextInputBar from '../layout/TextInputBar'
 import IconButton from '../layout/IconButton'
 import RetailerListEntry from '../layout/RetailerListEntry'
 import { Link } from 'react-router-dom';
+import { Config } from '../../config'
 
 /**
  * Renders the retailer page
@@ -35,7 +36,7 @@ export class RetailerPage extends Component {
     setTimeout(async () => {
       try {
         // TODO: change to real api
-        const res = await fetch('http://localhost:8081/api/shoppa/retailers')
+        const res = await fetch(Config.apiHost + '/Retailer')
         const json = await res.json()
   
         this.setState({
@@ -47,7 +48,6 @@ export class RetailerPage extends Component {
         this.setState({
           loadingInProgress: false, 
           loadingRetailersError: '', 
-  
         })
       } 
     }, 1000)

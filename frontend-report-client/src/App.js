@@ -10,7 +10,8 @@ import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
 import SignIn from "./components/pages/SignIn";
 import BottomNavigation from "./components/layout/BottomNavigation";
 import LoadingProgress from "./components/dialogs/LoadingProgress";
-
+import ShoppingSettings from './shoppingSettings';
+import { Config } from './config';
 
 
 //** Start Firebase Import **/
@@ -19,6 +20,7 @@ import * as firebase from "firebase/app";
 // Add the Firebase products that you want to use
 import "firebase/auth";
 //** End Firebase Import **/
+const settingsOptions = ShoppingSettings.getSettings();
 
 class App extends React.Component {
   #firebaseConfig = {
@@ -37,7 +39,15 @@ class App extends React.Component {
       currentUser: null,
       authLoading: false,
     }
+	this.fetchCurrentUserID = this.fetchCurrentUserID.bind(this);
   }
+  async fetchCurrentUserID(){
+		const json = await fetch(Config.apiHost + "/User/firebaseid/" + settingsOptions.getCurrentUserFireBaseID());
+		const res = await json.json();
+		settingsOptions.setCurrentUserID(res.id)
+		this.setState({currentUserID:res.id})
+  }
+  
   handleAuthStateChange = user => {
 		if (user) {
 			this.setState({
@@ -56,7 +66,10 @@ class App extends React.Component {
 				this.setState({
 					currentUser: user,
 					authLoading: false
-				});
+        });
+      settingsOptions.setCurrentUserFireBaseID(this.state.currentUser.uid);
+      this.fetchCurrentUserID();
+      
 			}).catch(e => {
 				this.setState({
 					authLoading: false
@@ -78,7 +91,8 @@ class App extends React.Component {
 			authLoading: true
 		});
 		const provider = new firebase.auth.GoogleAuthProvider();
-		firebase.auth().signInWithRedirect(provider);
+    firebase.auth().signInWithRedirect(provider);
+    
   }
   componentDidMount() {
     this.setState({
@@ -86,7 +100,7 @@ class App extends React.Component {
 		});
 		firebase.initializeApp(this.#firebaseConfig);
 		firebase.auth().languageCode = 'en';
-		firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
+    firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
 	}
   /** 
 	 * Create an error boundary for this app and recieve all errors from below the component tree.
@@ -98,7 +112,7 @@ class App extends React.Component {
 		return { appError: error };
   }
   render() {
-	  const { appError, currentUser, authLoading } = this.state;
+    const { appError, currentUser, authLoading } = this.state;
     return (
       <ThemeProvider theme={Theme}>
         <Router basename={process.env.PUBLIC_URL}>
@@ -107,10 +121,10 @@ class App extends React.Component {
             <>
             <Switch>
               <Route path="/show">
-                <ShowStatisticPage />
+                <ShowStatisticPage currentUser={currentUser} />
               </Route> 
               <Route path="/">
-                <StatisticPage />
+                <StatisticPage currentUser={currentUser} />
               </Route> 
             </Switch>
             </>

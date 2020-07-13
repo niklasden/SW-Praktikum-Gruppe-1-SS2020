@@ -5,15 +5,19 @@ class Group(bo.BusinessObject):
     """
     author: Julius
     """
-    def __init__(self, g_name="Group_name"):
+    def __init__(self, g_name="Group_name",desc = ""):
         super().__init__()
-        #self.members =  []
+        self.description = desc
         self.name = g_name
-        self.description = ""
-        #self.shopping_list = None
+       
 
-    
-    """
+    def set_description(self,d):
+        self.description = d
+
+    def get_description(self):
+        return self.description
+
+    """    
     def add_member(self, user):
         self.members.append(user)
    
@@ -30,24 +34,24 @@ class Group(bo.BusinessObject):
 
     def set_name(self,name):
         self.name = name
-    
-    def set_description(self,d):
-        self.description = d
-    
-    def get_description(self):
-        return self.description
     """
-    def get_shopping_list(self):
+    def get_shopping_lists(self):
         return self.shopping_list
     
-    def set_shopping_list(self,listId):
-        self.shopping_list = listId
-    """
-
+    def add_shopping_list(self,s_list):
+        self.shopping_list = s_list
+"""
     def __str__(self):
         return "GroupName: {0} ; GroupID: {1}".format(self.name,self._id)
 
-
+    
+    @staticmethod
+    def from_dict(dictionary=dict()):
+        obj = Group()
+        obj.set_id(dictionary["id"])
+        obj.set_name(dictionary["name"])
+        obj.set_description(dictionary["description"])
+        return obj
 
 
 

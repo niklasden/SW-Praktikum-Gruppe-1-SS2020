@@ -8,6 +8,7 @@ class RetailerMapper (Mapper):
     def __init__(self):
         super().__init__()
 
+    # TODO: only get group specific retailers
     def find_all(self):
         """Auslesen aller Einzelhändler.
 
@@ -31,6 +32,7 @@ class RetailerMapper (Mapper):
 
         return result
 
+    # TODO: only get group specific retailers
     def find_by_name(self, name):
         """
 
@@ -144,6 +146,8 @@ class RetailerMapper (Mapper):
 
         command = "UPDATE Retailer " + "SET name=%s, location=%s WHERE id=%s"
         data = (retailer.get_name(), retailer.get_location(), retailer.get_id())
+        print('Command, ', command)
+        print('Data: ', data)
         cursor.execute(command, data)
 
         self._cnx.commit()

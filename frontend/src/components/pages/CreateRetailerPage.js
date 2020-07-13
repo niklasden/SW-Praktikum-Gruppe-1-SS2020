@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress'
 import { withRouter } from "react-router";
 import { Redirect } from 'react-router';
+import { Config } from '../../config'
 
 const styles = theme => ({
   root: {
@@ -33,7 +34,7 @@ class CreateRetailerPage extends Component {
     isSaving: false, 
     redirectToRetailerPage: false, 
 
-    id: '', 
+    id: 0, 
     name: '', 
     address: '', 
   }
@@ -41,20 +42,31 @@ class CreateRetailerPage extends Component {
   async onClickSave(){
     this.setState({ isSaving: true })
     setTimeout(async () => {
+      let id = this.state.id
+      if (id == ""){
+        id = 0
+      } 
+      console.log('id: ' + id)
+
       const retailer = {
-        id: this.state.id, 
+        id: id, 
         name: this.state.name, 
-        address: this.state.address
+        location: this.state.address
       }
+
+      console.log(retailer)
   
+      const requestBody = JSON.stringify(retailer)
+      console.log(requestBody)
+
       const rInit = {
         method: 'POST', 
         headers: {
           'Content-Type': 'application/json'
         }, 
-        body: JSON.stringify(retailer)
+        body: requestBody
       } 
-      const resp = await fetch('http://localhost:8081/api/shoppa/retailers', rInit)
+      const resp = await fetch(Config.apiHost + '/Retailer', rInit)
       if(resp.ok){
         this.props.history.push('/retailers')
       } else {
@@ -69,7 +81,7 @@ class CreateRetailerPage extends Component {
     this.setState({ isSaving: true })
     setTimeout(async () => {
       const retailer = {
-        id: this.state.id, 
+        id: parseInt(this.state.id), 
         name: this.state.name, 
         address: this.state.address
       }
@@ -81,7 +93,7 @@ class CreateRetailerPage extends Component {
         }, 
         body: JSON.stringify(retailer)
       } 
-      const resp = await fetch('http://localhost:8081/api/shoppa/retailers', rInit)
+      const resp = await fetch(Config.apiHost + '/Retailer/' + retailer.id, rInit)
       if(resp.ok){
         this.props.history.push('/retailers')
       } else {
@@ -102,15 +114,24 @@ class CreateRetailerPage extends Component {
   componentDidMount(){
     let address = ''
     let name = ''
+    let id = ''
     // checks if there has been a redirect from retailer page to this page with a selected retailer
     // if yes it takes name and address from there
     if (this.props.location.state != undefined){
       address = this.props.location.state.address
+      if (address == undefined){
+        address = ''
+      }
       name = this.props.location.state.name
+      id = this.props.location.state.id
+      if (id == undefined || id === ''){
+        id = 0
+      }
     }
     this.setState({
       name: name, 
-      address: address
+      address: address,
+      id: id
     })
   }
 

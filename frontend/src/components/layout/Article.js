@@ -39,8 +39,8 @@ const styles = theme => ({
   }
 
   handleButtonPress(){
-    this.buttonPressTimer = setTimeout(() => this.props.history.push({pathname: '/create_article', state:{name: this.props.itemname, category: this.props.category}
-    }), 1500)
+    this.buttonPressTimer = setTimeout(() => this.props.history.push({pathname: '/create_article', state:{id: this.props.id, name: this.props.itemname, category: this.props.category}
+    }), 1000)
   }
 
   handleButtonRelease(){
@@ -49,7 +49,7 @@ const styles = theme => ({
 
      render(){
         const classes = this.props.classes;
-        const {history } = this.props;
+        const {history} = this.props;
 
         return(
             
