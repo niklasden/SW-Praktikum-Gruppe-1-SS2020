@@ -525,6 +525,16 @@ class ShoppingListOperations(Resource):
         slist = adm.get_shoppinglist_by_id(id)
         adm.delete_shoppinglist(slist)
         return '', 200
+@shopping_v1.route('/shoppinglist/all')
+@shopping_v1.response(500, 'Server side error occured')
+class ShoppingListOperations(Resource):
+    # @secured
+    def get(self):
+        """Abfragen aller Shoppinglists
+        """
+        adm = ShoppingAdministration()
+        slist = adm.get_shoppinglists()
+        return slist
 
 # TESTING AREA:
 @testing.route('/testSecured')
