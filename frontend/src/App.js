@@ -1,13 +1,13 @@
 import React from 'react';
 import './App.css';
 //** Start React Router Import **/
-import { BrowserRouter as Router, Route, Redirect, Switch, withRouter, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 
 //** End React Router Import **/
 
 
 //** Start React Router Import **/
-import { Container, ThemeProvider, CssBaseline } from '@material-ui/core';
+import { ThemeProvider, CssBaseline } from '@material-ui/core';
 //** End React Router Import **/
 
 //** Start Firebase Import **/

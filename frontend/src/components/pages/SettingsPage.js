@@ -26,7 +26,7 @@ class Settings extends Component {
 	render() {
 		const { classes } = this.props;
 		return (
-			<div style={{marginLeft: 12, marginRight: 12}}>
+			<div style={{marginLeft: 12, marginRight: 12, paddingTop: 1}}>
 				<Link to="/groups" className={classes.link}>
 					<ListEntry 
 						text='Manage Group'
