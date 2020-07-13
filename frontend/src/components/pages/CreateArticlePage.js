@@ -108,9 +108,6 @@ class CreateArticlePage extends Component {
                 name: this.state.name, 
                 category: this.state.category
             }
-            console.log(article)
-            console.log('id' + this.state.item)
-
 
             const rInit = {
                 method: 'DELETE', 
@@ -162,9 +159,6 @@ class CreateArticlePage extends Component {
 
 
     render(){ 
-        console.log('CategoryID: ' + this.state.category) 
-        console.log('ArticleName: ' + this.state.name)
-        console.log('ArticleID ' + this.state.item)
 
         if (this.state.redirectToArticlePage) {
             return <Redirect push to= "/products"/>

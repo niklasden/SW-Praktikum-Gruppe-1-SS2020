@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types';
+import PropTypes, { object } from 'prop-types';
 import AddCircleItem from '@material-ui/icons/AddCircle'
 import MaterialIconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/styles';
@@ -77,7 +77,8 @@ class SpecificGroup extends Component {
       dense: 'false',
       open: false,
       groupmembers: [],
-      inputval: ''
+      inputval: '',
+      groupnameval:settingsobj.onlySettingsGetSettingsGroupName()
     }
 
     this.deleteMember = this.deleteMember.bind(this);
@@ -90,11 +91,6 @@ class SpecificGroup extends Component {
     }))
   };
 
-  /*
-  addMember(id) {
-    this.setState({groupmembers: [...this.state.groupmembers, {name: this.state.inputval, } ]})
-  }*/
-
   async fetchGroupMembers(){ //fetch group members for specific gorup
     const res = await fetch(Config.apiHost + '/membership/' + settingsobj.onlySettingsGetSettingsGroupID()) //Hier ID übergabe bei getmembersbygroupid = id = settingsobj.onlySettingsGetSettingsGroupID()
     const resjson = await res.json()
@@ -105,7 +101,7 @@ class SpecificGroup extends Component {
       const resu = await fetch(Config.apiHost + '/User/'+ elem)
       const resujson = await resu.json()
       gmembers.push(resujson)
-      console.log(typeof(resujson))
+      this.setState({groupmembers: gmembers});
 
     })
     //for i in memberids fetch get user member by id append gmembers 
@@ -135,7 +131,7 @@ class SpecificGroup extends Component {
   }
 
   render(){
-    console.log(this.state.groupmembers)
+    
     const { classes } = this.props;
     var open = this.state.open;
     
@@ -160,138 +156,131 @@ class SpecificGroup extends Component {
 
     const saveGroup = async () => {
       try {
-        //send request with paramets to backend for the group to be saved
+        const group = {
+          id: settingsobj.onlySettingsGetSettingsGroupID(), 
+          name: this.state.groupnameval, 
+          description: "no description defined in frontend"
+        }
+        const requestBody = JSON.stringify(group)
+      
+        const rInit = {
+          method: 'PUT', 
+          headers: {
+            'Content-Type': 'application/json'
+          }, 
+          body: requestBody
+        } 
+        
+        const resp = await fetch(Config.apiHost + '/Group/' + group.id, rInit)
+        if(resp.ok){
+          try{
+            var respjson = await resp.json()
+            //console.log(respjson.id)
+            //saveMemberships(respjson.id)
+
+          }catch (error){
+            console.log(error)
+            alert(error)
+          }
+
+            this.props.history.push('/settings')
+        } else {
+          alert("error")
+        }
+
+          alert('The group was saved')
+      }
+      catch (error) {
+          //needs more advanced error handling
+          console.log(error)
+          
+      } 
+    }
+      
+      /**
+      try {
+        
+        //put oder so zu group //send request with paramets to backend for the group to be saved 
         alert('The group was saved')
+      
       }
       catch (error) {
         //
         console.log(error)
       } 
-    }
+    } */
 
     return (
       <div className={classes.accordion}>
-          
+       <TextField
+          onChange= {(e) => this.setState({groupnameval:e.target.value})}
+          id="standard-helperText"
+          label="Group Name"
+          defaultValue= {settingsobj.onlySettingsGetSettingsGroupName()}
+          helperText=""
+        />
+
         {/*<div className={classes.Groupnameheader}>{"Gruppenname"}</div>*/}
 
-        {/*
 
-          //commented out, because we don't need multiple lists per group
-
-        <ExpansionPanel style={{border:"1px solid #5a5a5a", margin:4}}>
-        <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography className={classes.heading}>Shopping Lists</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <>
-          <Grid 
-        style={{marginLeft: 2}}
-        container
-        direction='column'
-        justify='space-between'
-        alignItems="stretch"
-        xs={12}
-        spacing={1}        
-      >
-        <IconButton aria-label="add" className={this.props.classes.margin} style={{padding:0}}>
-        <AddCircleItem style={{alignSelf:"center", margin: 12}}></AddCircleItem>
-          </IconButton>
-        
-
-           {this.renderShoppinglists()}
-           </Grid>
-
-        </>
-        </ExpansionPanelDetails>
-        </ExpansionPanel>
-
-        */}
-
-{/* Members: ---------------------------------------------------------*/}
+          {/* commented out, because we don't need multiple lists per group */}
 
         <ExpansionPanel style={{border:"1px solid #5a5a5a", margin:4}}>
-        <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography className={classes.heading}>Members</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-         <> 
-         
-      <Grid item xs="12" style={{}}>
-      <Dialog onClose={handleClose} aria-labelledby="form-dialog-title" style={{display: 'inline-block'}} open={open}>
-                            <DialogTitle id="form-dialog-title">Add Member</DialogTitle>
-                            <DialogContent>
-                              <DialogContentText>
-                                Please put in the email address, which the user used to signup for our app.
-                              </DialogContentText>
-                              <TextField
-                                autoFocus
-                                margin="dense"
-                                id="name"
-                                label="Email Address"
-                                type="email"
-                                fullWidth
-                                onChange={(e) => this.setState({inputval: e.target.value })}
-                              />
-                            </DialogContent>
-                            <DialogActions>
-                              <Button onClick={handleClose} color="primary">
-                                CANCEL
-                              </Button>
-                              <Button onClick={() => {fetchspecificUser();  handleClose();}} color="primary">
-                                ADD
-                              </Button>
-                            </DialogActions>
-                          </Dialog>
-
-            <Grid
-            container
-            direction="column"
-            justify="center"
-            alignItems="center"
-          >               
-        <Grid item xs="12" alignItems="center" >
-        <AddCircleItem style={{alignSelf:"center", margin: 12,fontSize:"40px" }} onClick={() => { handleClickOpen() }}></AddCircleItem>
-        </Grid>
-        </Grid>
-        <Grid item xs="12">
-        <Grid 
-          style={{marginLeft: 2}}
-          container
-          direction='column'
-          justify='space-between'
-          alignItems="stretch"
-          xs={12}
-                
-      >
-              {this.renderGroupMembers()}
-
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} >
+            <Typography className={classes.heading}>Members</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <Grid container>
+              <Grid item xs={12} direction="column" justify="center" alignItems="center" >
+                <AddCircleItem style={{alignSelf:"center", margin: 12,fontSize:"40px" }} onClick={() => { handleClickOpen() }}></AddCircleItem>
+                <Grid style={{marginLeft: 2}} item direction='column' justify='space-between' alignItems="stretch" xs={12}>
+                  {this.renderGroupMembers()}
+                </Grid>
               </Grid>
-              
-        </Grid>
-        <Grid
-            container
-            direction="column"
-            justify="center"
-            alignItems="center"
-          >               
-        <Grid item xs="12" alignItems="center" >
-        
-        </Grid>
-        </Grid>
-        </Grid>
-          </>
+            </Grid>
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+        <ExpansionPanel style={{border:"1px solid #5a5a5a", margin:4}}>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} >
+            <Typography className={classes.heading}>Shoppinglists</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <Grid container>
+              <Grid item xs={12} direction="column" justify="center" alignItems="center" >
+                <AddCircleItem style={{alignSelf:"center", margin: 12,fontSize:"40px" }} onClick={() => { handleClickOpen() }}></AddCircleItem>
+                <Grid style={{marginLeft: 2}} item direction='column' justify='space-between' alignItems="stretch" xs={12}>
+                </Grid>
+              </Grid>
+            </Grid>
           </ExpansionPanelDetails>
         </ExpansionPanel>
         <MainButton className={classes.CreateButton} onclick={() => {saveGroup()} }>Save Group</MainButton>
-        </div>
+        <Dialog onClose={handleClose} aria-labelledby="form-dialog-title" style={{display: 'inline-block'}} open={open}>
+        <DialogTitle id="form-dialog-title">Add Member</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Please put in the email address, which the user used to signup for our app.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Email Address"
+            type="email"
+            fullWidth
+            onChange={(e) => {this.setState({groupnameval: e.target.value })}}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            CANCEL
+          </Button>
+          <Button onClick={() => {fetchspecificUser();  handleClose();}} color="primary">
+            ADD
+          </Button>
+        </DialogActions>
+      </Dialog>
+      </div>
     
     )
   }
