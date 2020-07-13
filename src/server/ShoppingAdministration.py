@@ -12,6 +12,7 @@ from .db.GroupMapper import GroupMapper
 from .db.ListEntryMapper import ListEntryMapper
 from .db.ReportGenerator import ReportGenerator
 
+from .db.ShoppingListMapper import ShoppingListMapper
 
 #hier müssen BO Klassen & Mapper importiert werden
 
@@ -256,3 +257,24 @@ class ShoppingAdministration (object):
     def get_users_by_groupid(self,gid):
         with GroupMapper() as mapper :
             return mapper.get_users_by_gid(gid)
+
+    # ShoppingList Chris
+    def get_shoppinglists_by_group_id(self, group_id):
+        with ShoppingListMapper() as mapper:
+            return mapper.find_all_by_group_id(group_id)
+
+    def delete_shoppinglist(self, shopping_list):
+        with ShoppingListMapper() as mapper:
+            return mapper.delete(shopping_list)
+
+    def insert_shoppinglist(self, shopping_list):
+        with ShoppingListMapper() as mapper:
+            return mapper.insert(shopping_list)
+
+    def update_shoppinglist(self, shopping_list):
+        with ShoppingListMapper() as mapper:
+            return mapper.update(shopping_list)
+
+    def get_shoppinglist_by_id(self, list_id):
+        with ShoppingListMapper() as mapper: 
+            return mapper.find_by_key(list_id)

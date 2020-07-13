@@ -143,7 +143,7 @@ class CreateRetailerPage extends Component {
     return (
 
       <div>
-        <div style={{margin: 12}}>
+        <div style={{margin: 12, paddingTop: 12}}>
           <TextInputBar 
             icon='storefront'
             placeholder='Name'

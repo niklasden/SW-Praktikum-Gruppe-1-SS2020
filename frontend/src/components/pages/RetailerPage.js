@@ -71,8 +71,8 @@ export class RetailerPage extends Component {
 
   render(){
     return (
-      <div style={{width: '100%'}}>
-        <div style={{flex: 1, flexDirection: 'row', display: 'flex', margin: 12}}>
+      <div style={{width: '100%', marginBottom: 65}}>
+        <div style={{flex: 1, flexDirection: 'row', display: 'flex', margin: 12, paddingTop: 12}}>
           {/* <text style={{flexGrow: 1}}>hello</text> */}
           <TextInputBar
             placeholder='search'

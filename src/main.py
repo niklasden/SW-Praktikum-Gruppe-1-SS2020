@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_restx import Resource, Api, fields
 from flask_cors import CORS
 from SecurityDecorator import secured
@@ -15,7 +15,7 @@ from server.bo.ListEntry import ListEntry
 from server.bo.Retailer import Retailer
 from server.bo.Article import Article
 from server.db.ArticleMapper import ArticleMapper
-
+from server.bo.ShoppingLIst import ShoppingList
 import json
 
 
@@ -85,10 +85,12 @@ article = api.inherit('Article', bo, {
     'category': fields.String(attribute='_category', description="Category name of the specific article")
 })
 
+shoppingList = api.inherit('ShoppingList', bo, {
+    'name': fields.String(attribute='_name', description="The name of a ShoppingList"),
+    'group_id': fields.Integer(attribute='_group_id', description="The group id the shopping list belongs to")
+})
+
 # alle bos hier aufführen!
-
-
-
 
 @shopping_v1.route('/hello')
 @shopping_v1.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -436,9 +438,6 @@ class ArticleOperations(Resource):
         else:
             return "",500  
 
-        
-    
-
 @shopping_v1.route('/Article/<int:id>')
 @shopping_v1.response(500, 'If an server sided error occures')
 @shopping_v1.param('id', "Article object id")
@@ -455,8 +454,6 @@ class ArticleOperations(Resource):
         ar = adm.get_article_by_id(id)
         adm.delete_article(ar)
         return 'deleted', 200
-    
-    
 
 @shopping_v1.route('/Article/<string:name>')
 @shopping_v1.response(500, 'If an server sided error occures')
@@ -468,14 +465,60 @@ class ArticleOperations(Resource):
         adm = ShoppingAdministration()
         return adm.get_article_by_name(name)
 
+# @Author: Christopher Böhm
+@shopping_v1.route('/shoppinglist/')
+@shopping_v1.response(500, 'Server side error occured')
+class ShoppingListOperations(Resource):
+    @shopping_v1.marshal_list_with(shoppingList)
+    @shopping_v1.param('group_id', 'ID of group to get')
+    # @secured
+    def get(self):
+        group_id = request.args.get('group_id')
+        adm = ShoppingAdministration()
+        return adm.get_shoppinglists_by_group_id(group_id)
 
+    @shopping_v1.marshal_with(shoppingList)
+    @shopping_v1.expect(shoppingList, validate=True)
+    # @secured
+    def post(self):
+        adm = ShoppingAdministration()
+        proposal = ShoppingList.from_dict(api.payload)
 
+        if proposal is not None:
+            c = adm.insert_shoppinglist(proposal)
+            return c, 200
+        else:
+            return "", 500
 
+    @shopping_v1.marshal_with(shoppingList)
+    @shopping_v1.expect(shoppingList, validate=True)
+    # @secured
+    def put(self):
+        adm = ShoppingAdministration()
+        proposal = ShoppingList.from_dict(api.payload)
 
+        if proposal is not None:
+            c = adm.update_shoppinglist(proposal)
+            return c, 200
+        else:
+            return "", 500
+
+# @Author: Christopher Boehm
+@shopping_v1.route('/shoppinglist/<int:id>')
+@shopping_v1.response(500, 'Server side error occured')
+class ShoppingListOperations(Resource):
+    # @secured
+    def delete(self, id):
+        """Löschen eines bestimmten Retailer-Objekts.
+
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = ShoppingAdministration()
+        slist = adm.get_shoppinglist_by_id(id)
+        adm.delete_shoppinglist(slist)
+        return '', 200
 
 # TESTING AREA:
-
-
 @testing.route('/testSecured')
 class testSecured(Resource):
     @secured
