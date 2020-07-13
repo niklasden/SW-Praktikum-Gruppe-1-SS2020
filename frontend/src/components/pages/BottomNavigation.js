@@ -85,7 +85,7 @@ class BottomNavi extends React.Component {
             className={classes.actionItemStyle} 
             component={Link} 
             icon={<ListIcon />} 
-            to="/lists"
+            to="/PersonalShoppingList"
           />
           <BottomNavigationAction 
             className={classes.actionItemStyle} 

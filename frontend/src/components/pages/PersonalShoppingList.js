@@ -4,6 +4,7 @@ import IconButton from '../layout/IconButton'
 import CategoryDropDown from '../layout/CategoryDropDown';
 import MenuItem from '@material-ui/core/MenuItem';
 import PopUp from '../layout/PopUp';
+import { Config } from '../../config'
 
 /**
  * Displays the PersonalShoppingList as designed in Figa. All items to be purchased by a person are listed on the list and can be ticked off the list. Finally the user can complete the shopping. 
@@ -13,18 +14,48 @@ import PopUp from '../layout/PopUp';
 export default class PersonalShoppingList extends Component {
 
   state={
-    items: [
-      {id: 1, name: "Apfel", category: "fruits", amount: "5", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: false, retailer: 'Aldi'},
-      {id: 2, name: "Birne", category: "fruits", amount: "2", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: false, retailer: 'Edeka' },
-      {id: 3, name: "Erdbeerkäse", category: "vegetables", amount: "2", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: false, retailer: 'Lidl' },
-      {id: 4, name: "Mango", category: "vegetables", amount: "2", unit: "g", person: 'Manfred', userID: 1, checkbox: false, retailer: 'Aldi' },
-      {id: 5, name: "Lyoner", category: "vegetables", amount: "2", unit: "Stk.", person: 'Herbert', userID: 1, checkbox: false, retailer: 'Edeka' },
-  ],
-  selectedRetailer : 'All',
-  market : null,
-  flag : 'unclicked',
-  solved: false
+    items: [],
+    selectedRetailer : 'All',
+    market : null,
+    flag : 'unclicked',
+    solved: false,
+    loadingInProgress: false, 
+    loadingRetailersError: null, 
+    addingRetailerError: null, 
 }
+
+componentDidMount(){
+  this.getListEntrys()
+}
+
+/** Fetches ListEntrysBOs for the current group */
+async getListEntrys(){
+  this.setState({
+    loadingInProgress: true, 
+    loadingRetailersError: null 
+  })
+
+  setTimeout(async () => {
+    try {
+      // TODO: change to real api
+      const res = await fetch(Config.apiHost + '/Listentry/get_items_of_group/1')
+      const json = await res.json()
+
+      this.setState({
+        loadingInProgress: false, 
+        loadingRetailersError: null, 
+        items: json, 
+      })
+    } catch (e){
+      this.setState({
+        loadingInProgress: false, 
+        loadingRetailersError: '', 
+      })
+    } 
+  }, 1000)
+}
+
+
 
 /* All UserItems with the ID 1 */
 getUserItems(){
@@ -185,7 +216,7 @@ render(){
   console.log(this.state.selectedRetailer)
   let shops = this.renderReatailer()
   let all = 'ALL'
-
+  console.log('Das ist Items:    ' + this.state.items)
 
   return (
     <Grid 

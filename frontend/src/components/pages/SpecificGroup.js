@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types';
+import PropTypes, { object } from 'prop-types';
 import AddCircleItem from '@material-ui/icons/AddCircle'
 import MaterialIconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/styles';
@@ -21,7 +21,7 @@ import Button from '@material-ui/core/Button';
 import MainButton from '../layout/MainButton';
 import { Config } from '../../config';
 import { withRouter } from "react-router";
-
+import Groups from './Groups'
 import ShoppingSettings from '../../../src/shoppingSettings'
 
 const settingsobj = ShoppingSettings.getSettings()
@@ -77,23 +77,48 @@ class SpecificGroup extends Component {
       dense: 'false',
       open: false,
       groupmembers: [],
-      inputval: ''
+      newgroupmembers:[],
+      inputval: '',
+      groupnameval:settingsobj.onlySettingsGetSettingsGroupName()
+    
     }
 
     this.deleteMember = this.deleteMember.bind(this);
   }
-
-  deleteMember(id) {
+  
+  deleteMember(usr) {
     //array kopieren, element löschen, neues array als state setzen
     this.setState(prevState => ({
-      groupmembers: prevState.groupmembers.filter(item => item !== id)
+      groupmembers: prevState.groupmembers.filter(item => item !== usr)
     }))
-  };
+    //fetch request zum delete aus der Membership tabelle
+    try{
+        const rb = {
+          User_ID: usr.id,
+          Group_ID: settingsobj.onlySettingsGetSettingsGroupID() 
+        }
+        const requestBody = JSON.stringify(rb)
+        const rInit = {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json'
+          }, 
+          body: requestBody
+        } 
+        
+        fetch(Config.apiHost + '/membership/del', rInit)
+        alert("Deleted user with id: " +usr.id + " from this group")
+        
 
-  /*
-  addMember(id) {
-    this.setState({groupmembers: [...this.state.groupmembers, {name: this.state.inputval, } ]})
-  }*/
+        if(this.state.groupmembers.length <1){
+          //delete Group
+        }
+    }catch (error){
+      console.log(error)
+    }
+
+
+  };
 
   async fetchGroupMembers(){ //fetch group members for specific gorup
     const res = await fetch(Config.apiHost + '/membership/' + settingsobj.onlySettingsGetSettingsGroupID()) //Hier ID übergabe bei getmembersbygroupid = id = settingsobj.onlySettingsGetSettingsGroupID()
@@ -135,7 +160,7 @@ class SpecificGroup extends Component {
   }
 
   render(){
-    console.log(this.state.groupmembers)
+    //console.log("specific gorupmembers: ",this.state.groupmembers)
     const { classes } = this.props;
     var open = this.state.open;
     
@@ -145,7 +170,25 @@ class SpecificGroup extends Component {
     const handleClose = () => {
       this.setState({open:false})
     };
+    
+    const UserExistCheck = (id) => {
+      var r = false
+      //console.log("userxc gm: ", this.state.groupmembers)
+      this.state.groupmembers.forEach(elem => {
+        if(elem.id == id){r = true }  
+      }
+      )
+      if(r == true){
+        alert("User already exists !")
+        return true
+      }else{return false; }
+    } 
 
+    const clear = () => {
+      this.setState({ fetchuser: '',groupnameval:''})
+    }
+
+    /*
     const fetchspecificUser = async () => {
       try {
           let response = await fetch(`http://localhost:8081/api/shoppa/groupmembers/$email`);
@@ -157,91 +200,196 @@ class SpecificGroup extends Component {
           console.log(error)
       }
     };
+    */
+    const fetchspecificUser = async (email) => {
+      try {
+          
+          let response = await fetch(Config.apiHost + '/User/email/' + email );
+          let data = await response.json()
+          if (data.name != null){
+            
+            
+            if(UserExistCheck(data.id) == false)
+            {
+              this.setState({groupmembers: this.state.groupmembers.concat(data)})
+              this.setState({newgroupmembers: this.state.newgroupmembers.concat(data)})
+            }
+            }
+          else{
+            alert("No user with this email!")
+          }
+         
+      }
+      catch (error) {
+          console.log(error)
+          alert(error)
+      }
+      
+  };
+
+  const saveMemberships = async (gid) => {
+    try{
+
+      this.state.newgroupmembers.forEach(async elem => { 
+        const rb = {
+          User_ID: elem.id,
+          Group_ID: gid // irgendwo her aus der gespeicherten gruppe 
+        }
+        const requestBody = JSON.stringify(rb)
+        const rInit = {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json'
+          }, 
+          body: requestBody
+        } 
+        
+        const resp = await fetch(Config.apiHost + '/membership', rInit)
+        if(resp.ok){
+          console.log(resp)}
+          else{
+            console.log("savemembership went wrong", requestBody)
+          }
+      })
+      
+
+
+    }catch (error){
+      console.log(error)
+    }try{
+
+      this.state.newgroupmembers.forEach(async elem => { 
+        const rb = {
+          User_ID: elem.id,
+          Group_ID: gid // irgendwo her aus der gespeicherten gruppe 
+        }
+        const requestBody = JSON.stringify(rb)
+        const rInit = {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json'
+          }, 
+          body: requestBody
+        } 
+        
+        const resp = await fetch(Config.apiHost + '/membership', rInit)
+        if(resp.ok){
+          console.log(resp)}
+          else{
+            console.log("savemembership went wrong", requestBody)
+          }
+      })
+      
+
+
+    }catch (error){
+      console.log(error)
+    }
+  
+  }
 
     const saveGroup = async () => {
       try {
-        //send request with paramets to backend for the group to be saved
+        const group = {
+          id: settingsobj.onlySettingsGetSettingsGroupID(), 
+          name: this.state.groupnameval, 
+          description: "no description defined in frontend"
+        }
+        const requestBody = JSON.stringify(group)
+      
+        const rInit = {
+          method: 'PUT', 
+          headers: {
+            'Content-Type': 'application/json'
+          }, 
+          body: requestBody
+        } 
+        
+        const resp = await fetch(Config.apiHost + '/Group/' + group.id, rInit)
+        
+        if(resp.ok){
+          try{
+            var respjson = await resp.json()
+            console.log(respjson)
+            
+            saveMemberships(group.id)
+            
+            this.setState({newgroupmembers:[]})
+
+          }catch (error){
+            console.log(error)
+            alert(error)
+          }
+
+            this.props.history.push('/settings')
+        } else {
+          alert("error")
+        }
+
+          alert('The group was saved')
+      }
+      catch (error) {
+          //needs more advanced error handling
+          console.log(error)
+          
+      } 
+    }
+      
+      /**
+      try {
+        
+        //put oder so zu group //send request with paramets to backend for the group to be saved 
         alert('The group was saved')
+      
       }
       catch (error) {
         //
         console.log(error)
       } 
-    }
+    } */
 
     return (
       <div className={classes.accordion}>
-          
+       <TextField
+          onChange= {(e) => this.setState({groupnameval:e.target.value})}
+          id="standard-helperText"
+          label="Group Name"
+          defaultValue= {settingsobj.onlySettingsGetSettingsGroupName()}
+          helperText=""
+        />
+
         {/*<div className={classes.Groupnameheader}>{"Gruppenname"}</div>*/}
 
-        {/*
 
-          //commented out, because we don't need multiple lists per group
+          {/* commented out, because we don't need multiple lists per group */}
 
         <ExpansionPanel style={{border:"1px solid #5a5a5a", margin:4}}>
-        <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography className={classes.heading}>Shopping Lists</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <>
-          <Grid 
-        style={{marginLeft: 2}}
-        container
-        direction='column'
-        justify='space-between'
-        alignItems="stretch"
-        xs={12}
-        spacing={1}        
-      >
-        <IconButton aria-label="add" className={this.props.classes.margin} style={{padding:0}}>
-        <AddCircleItem style={{alignSelf:"center", margin: 12}}></AddCircleItem>
-          </IconButton>
-        
-
-           {this.renderShoppinglists()}
-           </Grid>
-
-        </>
-        </ExpansionPanelDetails>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} >
+            <Typography className={classes.heading}>Members</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <Grid container>
+              <Grid item xs={12} direction="column" justify="center" alignItems="center" >
+                <AddCircleItem style={{alignSelf:"center", margin: 12,fontSize:"40px" }} onClick={() => { handleClickOpen() }}></AddCircleItem>
+                <Grid style={{marginLeft: 2}} item direction='column' justify='space-between' alignItems="stretch" xs={12}>
+                  {this.renderGroupMembers()}
+                </Grid>
+              </Grid>
+            </Grid>
+          </ExpansionPanelDetails>
         </ExpansionPanel>
-
-        */}
-
-{/* Members: ---------------------------------------------------------*/}
-
         <ExpansionPanel style={{border:"1px solid #5a5a5a", margin:4}}>
-        <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography className={classes.heading}>Members</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-      <Grid item xs="12" style={{}}>
-            <Grid
-            container
-            direction="column"
-            justify="center"
-            alignItems="center"
-          > 
-        <AddCircleItem style={{alignSelf:"center", margin: 12,fontSize:"40px" }} onClick={() => { handleClickOpen() }}></AddCircleItem>
-        <Grid 
-          style={{marginLeft: 2}}
-          container
-          direction='column'
-          justify='space-between'
-          alignItems="stretch"
-          xs={12}
-      >
-              {this.renderGroupMembers()}
-        </Grid>
-        </Grid>
-        </Grid>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} >
+            <Typography className={classes.heading}>Shoppinglists</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <Grid container>
+              <Grid item xs={12} direction="column" justify="center" alignItems="center" >
+                <AddCircleItem style={{alignSelf:"center", margin: 12,fontSize:"40px" }} onClick={() => { handleClickOpen() }}></AddCircleItem>
+                <Grid style={{marginLeft: 2}} item direction='column' justify='space-between' alignItems="stretch" xs={12}>
+                </Grid>
+              </Grid>
+            </Grid>
           </ExpansionPanelDetails>
         </ExpansionPanel>
         <MainButton className={classes.CreateButton} onclick={() => {saveGroup()} }>Save Group</MainButton>
@@ -258,14 +406,14 @@ class SpecificGroup extends Component {
             label="Email Address"
             type="email"
             fullWidth
-            onChange={(e) => this.setState({inputval: e.target.value })}
+            onChange={(e) => {this.setState({inputval: e.target.value })}}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={() => {handleClose();clear();}} color="primary">
             CANCEL
           </Button>
-          <Button onClick={() => {fetchspecificUser();  handleClose();}} color="primary">
+          <Button onClick={() => {fetchspecificUser(this.state.inputval);  handleClose();}} color="primary">
             ADD
           </Button>
         </DialogActions>

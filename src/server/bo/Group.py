@@ -20,7 +20,7 @@ class Group(bo.BusinessObject):
     """    
     def add_member(self, user):
         self.members.append(user)
-    
+   
     def remove_member(self, user):   #wenns nicht über das objekt geht, dann über id
         if user in self.members:
             self.members.remove(user)
@@ -42,7 +42,7 @@ class Group(bo.BusinessObject):
         self.shopping_list = s_list
 """
     def __str__(self):
-        return "Groupobject: Name = {0}".format(self.name)
+        return "GroupName: {0} ; GroupID: {1}".format(self.name,self._id)
 
     
     @staticmethod

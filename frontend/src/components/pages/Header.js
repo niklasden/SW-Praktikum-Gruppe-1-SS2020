@@ -41,7 +41,6 @@ function Header(props){
   let location = useLocation();
 	let title = 'SW-Praktikum'
 	const path = location.pathname
-	// console.log(path)
 
 	if (path === '/index.html' && user){
 		title = 'Hi ' + user.displayName

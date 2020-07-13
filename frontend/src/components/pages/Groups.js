@@ -56,6 +56,7 @@ class Groups extends Component {
     const resp = await fetch(Config.apiHost + '/Group/' + id, rInit)
     if(resp.ok){
       this.props.history.push('/Groups')
+      alert("group and all memberships deleted")
     } else {
      alert("Fehler !")
     }
