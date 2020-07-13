@@ -141,8 +141,13 @@ class MembershipOperations(Resource):
     """
     #@secured
     def post(self):
-        adm = ShoppingAdministration
-        return str(api.payload), 200
+        try:
+            adm = ShoppingAdministration()
+            adm.delete_membership(api.payload["User_ID"],api.payload["Group_ID"])
+            return "deleted "+ str(api.payload), 200
+        except Exception as e:
+            return str(e)
+
 
 @shopping_v1.route('/membership/<int:groupid>')   
 @shopping_v1.response(500,'If an server sided error occures')

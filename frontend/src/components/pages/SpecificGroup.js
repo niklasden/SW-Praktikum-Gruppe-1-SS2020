@@ -21,7 +21,7 @@ import Button from '@material-ui/core/Button';
 import MainButton from '../layout/MainButton';
 import { Config } from '../../config';
 import { withRouter } from "react-router";
-
+import Groups from './Groups'
 import ShoppingSettings from '../../../src/shoppingSettings'
 
 const settingsobj = ShoppingSettings.getSettings()
@@ -85,12 +85,39 @@ class SpecificGroup extends Component {
 
     this.deleteMember = this.deleteMember.bind(this);
   }
-
-  deleteMember(id) {
+  
+  deleteMember(usr) {
     //array kopieren, element löschen, neues array als state setzen
     this.setState(prevState => ({
-      groupmembers: prevState.groupmembers.filter(item => item !== id)
+      groupmembers: prevState.groupmembers.filter(item => item !== usr)
     }))
+    //fetch request zum delete aus der Membership tabelle
+    try{
+        const rb = {
+          User_ID: usr.id,
+          Group_ID: settingsobj.onlySettingsGetSettingsGroupID() 
+        }
+        const requestBody = JSON.stringify(rb)
+        const rInit = {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json'
+          }, 
+          body: requestBody
+        } 
+        
+        fetch(Config.apiHost + '/membership/del', rInit)
+        alert("Deleted user with id: " +usr.id + " from this group")
+        
+
+        if(this.state.groupmembers.length <1){
+          //delete Group
+        }
+    }catch (error){
+      console.log(error)
+    }
+
+
   };
 
   /*
@@ -207,6 +234,34 @@ class SpecificGroup extends Component {
 
   const saveMemberships = async (gid) => {
     try{
+
+      this.state.newgroupmembers.forEach(async elem => { 
+        const rb = {
+          User_ID: elem.id,
+          Group_ID: gid // irgendwo her aus der gespeicherten gruppe 
+        }
+        const requestBody = JSON.stringify(rb)
+        const rInit = {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json'
+          }, 
+          body: requestBody
+        } 
+        
+        const resp = await fetch(Config.apiHost + '/membership', rInit)
+        if(resp.ok){
+          console.log(resp)}
+          else{
+            console.log("savemembership went wrong", requestBody)
+          }
+      })
+      
+
+
+    }catch (error){
+      console.log(error)
+    }try{
 
       this.state.newgroupmembers.forEach(async elem => { 
         const rb = {
