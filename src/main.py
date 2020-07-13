@@ -147,8 +147,13 @@ class MembershipOperations(Resource):
     """
     #@secured
     def post(self):
-        adm = ShoppingAdministration
-        return str(api.payload), 200
+        try:
+            adm = ShoppingAdministration()
+            adm.delete_membership(api.payload["User_ID"],api.payload["Group_ID"])
+            return "deleted "+ str(api.payload), 200
+        except Exception as e:
+            return str(e)
+
 
 @shopping_v1.route('/membership/<int:groupid>')   
 @shopping_v1.response(500,'If an server sided error occures')
@@ -211,8 +216,14 @@ class GroupOperations(Resource):
     def delete(self,id):
         adm = ShoppingAdministration()
         grp = adm.get_group_by_id(id)
+        user_ids = adm.get_users_by_groupid(id)["User_IDs"]
+        if len(user_ids) > 0:
+            for i in user_ids:
+                adm.delete_membership(i,id)
+                
+            
         adm.delete_group(grp)
-        return "deleted",200
+        return "group and all memberships deleted",200
     
     @shopping_v1.marshal_with(group)
     @shopping_v1.expect(group,validate=True)

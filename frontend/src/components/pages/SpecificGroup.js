@@ -21,7 +21,7 @@ import Button from '@material-ui/core/Button';
 import MainButton from '../layout/MainButton';
 import { Config } from '../../config';
 import { withRouter } from "react-router";
-
+import Groups from './Groups'
 import ShoppingSettings from '../../../src/shoppingSettings'
 
 const settingsobj = ShoppingSettings.getSettings()
@@ -77,18 +77,47 @@ class SpecificGroup extends Component {
       dense: 'false',
       open: false,
       groupmembers: [],
+      newgroupmembers:[],
       inputval: '',
       groupnameval:settingsobj.onlySettingsGetSettingsGroupName()
+    
     }
 
     this.deleteMember = this.deleteMember.bind(this);
   }
-
-  deleteMember(id) {
+  
+  deleteMember(usr) {
     //array kopieren, element löschen, neues array als state setzen
     this.setState(prevState => ({
-      groupmembers: prevState.groupmembers.filter(item => item !== id)
+      groupmembers: prevState.groupmembers.filter(item => item !== usr)
     }))
+    //fetch request zum delete aus der Membership tabelle
+    try{
+        const rb = {
+          User_ID: usr.id,
+          Group_ID: settingsobj.onlySettingsGetSettingsGroupID() 
+        }
+        const requestBody = JSON.stringify(rb)
+        const rInit = {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json'
+          }, 
+          body: requestBody
+        } 
+        
+        fetch(Config.apiHost + '/membership/del', rInit)
+        alert("Deleted user with id: " +usr.id + " from this group")
+        
+
+        if(this.state.groupmembers.length <1){
+          //delete Group
+        }
+    }catch (error){
+      console.log(error)
+    }
+
+
   };
 
   async fetchGroupMembers(){ //fetch group members for specific gorup
@@ -131,7 +160,7 @@ class SpecificGroup extends Component {
   }
 
   render(){
-    
+    //console.log("specific gorupmembers: ",this.state.groupmembers)
     const { classes } = this.props;
     var open = this.state.open;
     
@@ -141,7 +170,25 @@ class SpecificGroup extends Component {
     const handleClose = () => {
       this.setState({open:false})
     };
+    
+    const UserExistCheck = (id) => {
+      var r = false
+      //console.log("userxc gm: ", this.state.groupmembers)
+      this.state.groupmembers.forEach(elem => {
+        if(elem.id == id){r = true }  
+      }
+      )
+      if(r == true){
+        alert("User already exists !")
+        return true
+      }else{return false; }
+    } 
 
+    const clear = () => {
+      this.setState({ fetchuser: '',groupnameval:''})
+    }
+
+    /*
     const fetchspecificUser = async () => {
       try {
           let response = await fetch(`http://localhost:8081/api/shoppa/groupmembers/$email`);
@@ -153,6 +200,93 @@ class SpecificGroup extends Component {
           console.log(error)
       }
     };
+    */
+    const fetchspecificUser = async (email) => {
+      try {
+          
+          let response = await fetch(Config.apiHost + '/User/email/' + email );
+          let data = await response.json()
+          if (data.name != null){
+            
+            
+            if(UserExistCheck(data.id) == false)
+            {
+              this.setState({groupmembers: this.state.groupmembers.concat(data)})
+              this.setState({newgroupmembers: this.state.newgroupmembers.concat(data)})
+            }
+            }
+          else{
+            alert("No user with this email!")
+          }
+         
+      }
+      catch (error) {
+          console.log(error)
+          alert(error)
+      }
+      
+  };
+
+  const saveMemberships = async (gid) => {
+    try{
+
+      this.state.newgroupmembers.forEach(async elem => { 
+        const rb = {
+          User_ID: elem.id,
+          Group_ID: gid // irgendwo her aus der gespeicherten gruppe 
+        }
+        const requestBody = JSON.stringify(rb)
+        const rInit = {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json'
+          }, 
+          body: requestBody
+        } 
+        
+        const resp = await fetch(Config.apiHost + '/membership', rInit)
+        if(resp.ok){
+          console.log(resp)}
+          else{
+            console.log("savemembership went wrong", requestBody)
+          }
+      })
+      
+
+
+    }catch (error){
+      console.log(error)
+    }try{
+
+      this.state.newgroupmembers.forEach(async elem => { 
+        const rb = {
+          User_ID: elem.id,
+          Group_ID: gid // irgendwo her aus der gespeicherten gruppe 
+        }
+        const requestBody = JSON.stringify(rb)
+        const rInit = {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json'
+          }, 
+          body: requestBody
+        } 
+        
+        const resp = await fetch(Config.apiHost + '/membership', rInit)
+        if(resp.ok){
+          console.log(resp)}
+          else{
+            console.log("savemembership went wrong", requestBody)
+          }
+      })
+      
+
+
+    }catch (error){
+      console.log(error)
+    }
+  
+  }
 
     const saveGroup = async () => {
       try {
@@ -172,11 +306,15 @@ class SpecificGroup extends Component {
         } 
         
         const resp = await fetch(Config.apiHost + '/Group/' + group.id, rInit)
+        
         if(resp.ok){
           try{
             var respjson = await resp.json()
-            //console.log(respjson.id)
-            //saveMemberships(respjson.id)
+            console.log(respjson)
+            
+            saveMemberships(group.id)
+            
+            this.setState({newgroupmembers:[]})
 
           }catch (error){
             console.log(error)
@@ -268,14 +406,14 @@ class SpecificGroup extends Component {
             label="Email Address"
             type="email"
             fullWidth
-            onChange={(e) => {this.setState({groupnameval: e.target.value })}}
+            onChange={(e) => {this.setState({inputval: e.target.value })}}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={() => {handleClose();clear();}} color="primary">
             CANCEL
           </Button>
-          <Button onClick={() => {fetchspecificUser();  handleClose();}} color="primary">
+          <Button onClick={() => {fetchspecificUser(this.state.inputval);  handleClose();}} color="primary">
             ADD
           </Button>
         </DialogActions>
