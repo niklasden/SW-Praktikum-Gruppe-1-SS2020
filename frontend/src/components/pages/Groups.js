@@ -60,7 +60,7 @@ class Groups extends Component {
    })
   
    if(settingsobj.onlySettingsGetSettingsGroupID() == id){
-      settingsobj.onlySettingsSetSettingsGroupID("")
+      settingsobj.onlySettingsSetSettingsGroupID(0)
       settingsobj.onlySettingsSetSettingsGroupName("")
   }
   }

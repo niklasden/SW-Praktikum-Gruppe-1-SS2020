@@ -85,12 +85,37 @@ class SpecificGroup extends Component {
 
     this.deleteMember = this.deleteMember.bind(this);
   }
+  async deleteGroup(id) {
+    try{
+    const rInit = {
+      method: 'DELETE'
+    }
+    const resp = await fetch(Config.apiHost + '/Group/' + id, rInit)
+    if(resp.ok){
+      this.props.history.push('/Groups')
+      alert("group and all memberships deleted")
+    } else {
+     alert("Fehler !")
+    }
+  }catch(e){alert(e)}
+    this.setState({
+            groupItemss: this.state.groupItemss.filter(elem => elem.id !== id)       
+     // request to db! > delete Group      
+   })
+  
+   if(settingsobj.onlySettingsGetSettingsGroupID() == id){
+      settingsobj.onlySettingsSetSettingsGroupID(0)
+      settingsobj.onlySettingsSetSettingsGroupName("")
+  }
+  }
+  
   
   deleteMember(usr) {
     //array kopieren, element löschen, neues array als state setzen
     this.setState(prevState => ({
       groupmembers: prevState.groupmembers.filter(item => item !== usr)
     }))
+ 
     //fetch request zum delete aus der Membership tabelle
     try{
         const rb = {
@@ -109,16 +134,27 @@ class SpecificGroup extends Component {
         fetch(Config.apiHost + '/membership/del', rInit)
         alert("Deleted user with id: " +usr.id + " from this group")
         
-
-        if(this.state.groupmembers.length <1){
-          //delete Group
+        if(this.checkGroupMembers() == false){
+          alert("deleting group")
+          this.deleteGroup(settingsobj.onlySettingsGetSettingsGroupID())
         }
+        
     }catch (error){
       console.log(error)
     }
 
 
   };
+  async checkGroupMembers(){
+    const res = await fetch(Config.apiHost + '/membership/' + settingsobj.onlySettingsGetSettingsGroupID()) //Hier ID übergabe bei getmembersbygroupid = id = settingsobj.onlySettingsGetSettingsGroupID()
+    const resjson = await res.json()
+    const memberids = resjson.User_IDs
+    if(memberids.lenght < 1){
+      return false
+    }else{
+      return true
+    }
+  }
 
   async fetchGroupMembers(){ //fetch group members for specific gorup
     const res = await fetch(Config.apiHost + '/membership/' + settingsobj.onlySettingsGetSettingsGroupID()) //Hier ID übergabe bei getmembersbygroupid = id = settingsobj.onlySettingsGetSettingsGroupID()
@@ -207,9 +243,10 @@ class SpecificGroup extends Component {
           let response = await fetch(Config.apiHost + '/User/email/' + email );
           let data = await response.json()
           if (data.name != null){
+            const a = UserExistCheck()
+            console.log(a)
             
-            
-            if(UserExistCheck(data.id) == false)
+            /* if(UserExistCheck(data.id) == false)
             {
               this.setState({groupmembers: this.state.groupmembers.concat(data)})
               this.setState({newgroupmembers: this.state.newgroupmembers.concat(data)})
@@ -217,7 +254,8 @@ class SpecificGroup extends Component {
             }
           else{
             alert("No user with this email!")
-          }
+            */
+          } 
          
       }
       catch (error) {
