@@ -9,6 +9,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import ShoppingSettings from '../../../src/shoppingSettings';
+import ShoppingAPI from '../../api/ShoppingAPI';
+import UserBO from '../../api/UserBO';
 import { Config } from '../../config';
 //** Start Firebase Import **/
 // Firebase App (the core Firebase SDK) is always required and must be listed first
@@ -39,6 +41,9 @@ class AccountsPage extends Component {
 			loading: true,
 			uploading: false,
 			image: [],
+			user: [],
+			firstname: "",
+			lastname: "",
 		}
 		this.uploadedImage = React.createRef();
 		this.imageUploader = React.createRef();
@@ -62,6 +67,40 @@ class AccountsPage extends Component {
 			image: uploadedImage,
 			deleteDialog: null,
 		});
+		this.fetchUser();
+	}
+
+	fetchUser = () => {
+		ShoppingAPI.getAPI().getUser(settingsobj.getCurrentUserID()).then(user => {
+			this.setState({
+			  user: user,
+			  /*loadingInProgress: false,
+			  loadingError: null*/
+			})
+			this.splitName(user[0].name);
+			}).catch(e =>
+			  this.setState({ // Reset state with error from catch 
+				user: null,
+				/*loadingInProgress: false,
+				loadingError: e*/
+			  })
+			);
+			
+	}
+
+	splitName(fullname){
+		// Handling of the fetched name, bc Google stores it as one String :(
+			var result = {};
+		if (fullname) {	
+			var nameArr = fullname.split(' ');
+			result.last_name = nameArr.pop();
+			result.first_name = nameArr.join(' ');
+		  this.setState({
+			  firstname : result.first_name,
+			  lastname : result.last_name
+		  })
+		}
+		return result;
 	}
 		
 	handleCloseDeleteConfirmation() {
@@ -99,7 +138,6 @@ class AccountsPage extends Component {
 	render() {
 		const { classes } = this.props;
 		var imageUploader = [];
-
 		const handleImageUpload = e => {
 			const [file] = e.target.files;
 			if (file) {
@@ -140,7 +178,7 @@ class AccountsPage extends Component {
 									/>
 								</Badge>
 								<Grid item xs={3}>
-									<Typography className={classes.Username} style={{}} gutterBottom>Pia Traktorbraut</Typography>
+									<Typography className={classes.Username} style={{}} gutterBottom>{this.state.firstname} {this.state.lastname}</Typography>
 									<Typography className={classes.Location} style={{}}>Riedlingen, Baden-Württemberg</Typography>
 								</Grid>
 							</Box>
