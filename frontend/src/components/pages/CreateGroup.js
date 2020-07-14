@@ -120,6 +120,7 @@ class CreateGroup extends Component {
             
             let response = await fetch(Config.apiHost + '/User/email/' + email );
             let data = await response.json()
+            console.log(data);
             if (data.name != null){
               
               
@@ -201,13 +202,14 @@ class CreateGroup extends Component {
     
     }
 
-
+    
     const saveGroup = async () => {
       try {
         const group = {
           id: 1, 
           name: this.state.groupnameval, 
-          description: "no description defined in frontend"
+          description: "no description defined in frontend",
+          creationdate: "2020-03-20T14:30:43"
         }
         const requestBody = JSON.stringify(group)
         console.log(requestBody)
@@ -242,7 +244,7 @@ class CreateGroup extends Component {
           console.log(error)
       } 
     }
-
+ 
  /*
    const saveGroup = () => {
      alert();
