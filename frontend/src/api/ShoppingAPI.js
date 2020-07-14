@@ -36,7 +36,11 @@ export default class ShoppingAPI {
     
     //ListEntry URLs
     #updateListEntryURL = () => `${this.#baseServerURL}/Listentry/update`;
-    #personalItemsURL = () => `${this.#baseServerURL}/Listentry/get_personal_items_of_group`;
+    #personalItemsURL = (user_id, group_id) => {
+        let val = `${this.#baseServerURL}/Listentry/get_personal_items_of_group/?group_id=` + group_id + `&user_id=` + user_id
+        console.log("Dasist val" + val)
+        return val
+    };
 
 
     //Retailer URLs
@@ -167,17 +171,16 @@ export default class ShoppingAPI {
         })
     }
 
-    personalItems(listentryBO) {
-        return this.#fetchAdvanced(this.#personalItemsURL(listentryBO), {
-            method: 'POST',
+    personalItems(user_id, group_id) {
+        return this.#fetchAdvanced(this.#personalItemsURL(user_id, group_id), {
+            method: 'GET',
             headers: {
                 'Accept': 'application/json, text/plain',
                 'Content-type': 'application/json',
             },
-            body: JSON.stringify(listentryBO)
         })
         .then((responseJSON) => {
-            let listentryBO = ListEntryBO.fromJSON(responseJSON)[0];
+            let listentryBO = ListEntryBO.fromJSON(responseJSON);
             return new Promise(function (resolve) {
                 resolve(listentryBO);
             })

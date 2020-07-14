@@ -32,21 +32,14 @@ export default class PersonalShoppingList extends Component {
     currentUserID: settings.getCurrentUserID(),
     groupID: settings.getGroupID()
 }
-/* log(){
-  this.setState({currentUserID : settings.getCurrentUserID()})
-} */
-newItem = () => {
-  let newItem = Object.assign(new ListEntryBO());
 
-  //Updates the parameters we want to change
-  newItem.setUserid(this.state.currentUserID);
-  newItem.setGroupid(this.state.groupID);
-  
-  ShoppingAPI.getAPI().personalItems(newItem).catch(e => console.log(e))
+newItem = () => {
+  ShoppingAPI.getAPI().personalItems(this.state.currentUserID, this.state.groupID).then(items => {this.setState({items : items})}).catch(e => console.log(e))
 }
 
 componentDidMount(){
   this.getListEntrys()
+  this.newItem()
 }
 
 /** Fetches ListEntrysBOs for the current group */
@@ -76,19 +69,6 @@ async getListEntrys(){
   }, 1000)
 }
 
-<<<<<<< HEAD
-/* All UserItems with the ID 1 */
-getUserItems(){
-  const Useritems = this.state.items.filter(item =>{
-    if (item.userID === 1 ) {
-      return item
-    }
-  });
-  return Useritems
-};
-
-=======
->>>>>>> master
 /* Returns an array with all Useritems that are unchecked  */
 getUncheckedArticles(){
   let ArrUncheckedArticles = []
