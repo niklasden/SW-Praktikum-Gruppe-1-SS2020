@@ -59,7 +59,7 @@ class Group(bo.BusinessObject):
         obj.set_id(dictionary["id"])
         obj.set_name(dictionary["name"])
         obj.set_description(dictionary["description"])
-        #obj.set_creationdate(dictionary["creationdate"])
+        obj.set_creationdate(dictionary["creationdate"])
         return obj
 
 

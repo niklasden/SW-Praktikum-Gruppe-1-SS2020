@@ -109,7 +109,8 @@ class SpecificGroup extends Component {
           const rb = {
             id: settingsobj.onlySettingsGetSettingsGroupID(),
             name: this.state.groupnameval,
-            description: ''
+            description: '',
+            creationdate: "2020-03-20T14:30:43"
           }
           const requestBody = JSON.stringify(rb)
           const rInit = {
