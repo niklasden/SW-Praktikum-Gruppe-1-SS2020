@@ -95,37 +95,36 @@ class App extends React.Component {
 		  this.setState({error: e});
 		}
 	  }
-	async addUser(firebaseUser) {
-		var users = await this.getAllUsers();
-		if(users.find(user => user.email === firebaseUser.email) === undefined) {
-			var latestUserID = await this.getLatestUserID();
-			try{
-			  const rb = {
-				"id": latestUserID,
-				"name": firebaseUser.displayName,
-				"email": firebaseUser.email,
-				"firebase_id": firebaseUser.uid
-			  }
-			  const requestBody = JSON.stringify(rb)
-			  const rInit = {
-				method: 'POST', 
-				headers: {
-				  'Content-Type': 'application/json'
-				}, 
-				body: requestBody
-			  } 
-			  const resp = await fetch(Config.apiHost + '/User', rInit)
-			  if(resp.ok)  {
-				  console.log("User", rb, "erstellt");
-			  }else {
-				  console.log("User", rb, "konnte nicht erstellt werden")
-			  }
-		  }catch(e) {
-		  this.setState({error: e})
-		  }
-		}
-		
-	  }
+	// async addUser(firebaseUser) {
+	// 	var users = await this.getAllUsers();
+	// 	if(users.find(user => user.email === firebaseUser.email) === undefined) {
+	// 		var latestUserID = await this.getLatestUserID();
+	// 		try{
+	// 		  const rb = {
+	// 			"id": latestUserID,
+	// 			"name": firebaseUser.displayName,
+	// 			"email": firebaseUser.email,
+	// 			"firebase_id": firebaseUser.uid
+	// 		  }
+	// 		  const requestBody = JSON.stringify(rb)
+	// 		  const rInit = {
+	// 			method: 'POST', 
+	// 			headers: {
+	// 			  'Content-Type': 'application/json'
+	// 			}, 
+	// 			body: requestBody
+	// 		  } 
+	// 		  const resp = await fetch(Config.apiHost + '/User', rInit)
+	// 		  if(resp.ok)  {
+	// 			  console.log("User", rb, "erstellt");
+	// 		  }else {
+	// 			  console.log("User", rb, "konnte nicht erstellt werden")
+	// 		  }
+	// 	  }catch(e) {
+	// 	  this.setState({error: e})
+	// 	  }
+	// 	}
+	//   }
 	async fetchCurrentUserID(){
 		const json = await fetch(Config.apiHost + "/User/firebaseid/" + settingsOptions.getCurrentUserFireBaseID());
 		const res = await json.json();
@@ -165,7 +164,7 @@ class App extends React.Component {
 				});
 				this.fetchCurrentUserID();
 				if(this.state.currentUserID === null) {
-					this.addUser(user);
+					// this.addUser(user);
 				}else {
 					console.log(this.state.currentUserID);
 				}
