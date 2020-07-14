@@ -252,7 +252,10 @@ class ShoppingAdministration (object):
 
     def delete_membership(self,uid,gid):
         with GroupMapper() as mapper:
-            return mapper.deleteMembership(uid,gid)
+            a = mapper.deleteMembership(uid,gid)
+            print(len(self.get_users_by_groupid(gid)))
+            
+            return a
     
     def get_users_by_groupid(self,gid):
         with GroupMapper() as mapper :
