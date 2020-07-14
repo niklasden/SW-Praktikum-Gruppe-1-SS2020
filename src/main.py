@@ -83,7 +83,8 @@ report = api.inherit('Report',bo, {
 })
 article = api.inherit('Article', bo, {
     'name': fields.String(attribute='_name', description="An Article name"), 
-    'category': fields.String(attribute='_category', description="Category name of the specific article")
+    'category': fields.String(attribute='_category', description="Category name of the specific article"),
+    'creationdate': fields.DateTime(attribute='_creationdate',description="An users creationdate")
 })
 
 shoppingList = api.inherit('ShoppingList', bo, {
