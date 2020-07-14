@@ -647,11 +647,21 @@ class testListEntry(Resource):
     @shopping_v1.marshal_with(listentry, code=200)
     def get(self):
         adm = ShoppingAdministration()
+        print("DAs ist die API" + api.payload)
         proposal = ListEntry.from_dict(api.payload)
         print(proposal)
 
         if proposal is not None:
             le = ListEntry()
+            le.set_id(None)
+            le.set_article(None)
+            le.set_retailer(None)
+            le.set_shoppinglist(None)
+            le.set_amount(None)
+            le.set_unit(None)
+            le.set_buy_date(None)
+            le.set_name(None)
+            le.set_category(None)
             le.set_group(proposal.get_group())
             le.set_user(proposal.get_user())
 
