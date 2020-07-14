@@ -97,7 +97,7 @@ class ShoppingListMapper (Mapper):
         """
         cursor = self._cnx.cursor()
 
-        command = "UPDATE Shoppinglist " + "SET name=%s, Group_ID=%s WHERE ID=%s"
+        command = "UPDATE Shoppinglist " + "SET name=%s, Group_ID=%s, modified_at=NOW() WHERE ID=%s"
         data = (shopping_list.get_name(), shopping_list.get_group_id(), shopping_list.get_id())
         cursor.execute(command, data)
 
