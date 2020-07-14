@@ -36,15 +36,13 @@ export default class PersonalShoppingList extends Component {
   this.setState({currentUserID : settings.getCurrentUserID()})
 } */
 newItem = () => {
-  let newItem = Object.assign(new ListEntryBO(), this.props.listentry);
-  /* //Sets the updated item with the properties of the current item
-  newItem = this.state.item */
+  let newItem = Object.assign(new ListEntryBO());
 
   //Updates the parameters we want to change
   newItem.setUserid(this.state.currentUserID);
   newItem.setGroupid(this.state.groupID);
   
-  ShoppingAPI.getAPI().updateListEntry(newItem).catch(e => console.log(e))
+  ShoppingAPI.getAPI().personalItems(newItem).catch(e => console.log(e))
 }
 
 componentDidMount(){
@@ -78,6 +76,7 @@ async getListEntrys(){
   }, 1000)
 }
 
+<<<<<<< HEAD
 /* All UserItems with the ID 1 */
 getUserItems(){
   const Useritems = this.state.items.filter(item =>{
@@ -88,10 +87,12 @@ getUserItems(){
   return Useritems
 };
 
+=======
+>>>>>>> master
 /* Returns an array with all Useritems that are unchecked  */
 getUncheckedArticles(){
   let ArrUncheckedArticles = []
-  let Useritems = this.getUserItems()
+  let Useritems = this.state.items
   Useritems.filter( item => {
     if(item.checkbox === false && (this.state.selectedRetailer === item.retailer || this.state.selectedRetailer === 'All')){
       ArrUncheckedArticles.push(item)
@@ -128,7 +129,7 @@ renderUncheckedArticles(){
 /* Returns an array with all Useritems that are checked  */
 getCheckedArticles(){
   let ArrCheckedArticles = []
-  let Useritems = this.getUserItems()
+  let Useritems = this.sate.items
   Useritems.filter( item => {
     if(item.checkbox === true && (this.state.selectedRetailer === item.retailer || this.state.selectedRetailer === 'All')){
       ArrCheckedArticles.push(item)
@@ -178,7 +179,7 @@ renderMyShoppingList(){
 /* Renders the list of unchecked or checked Useritems */
 renderReatailer(){
   let retailer = []
-  let Useritems = this.getUserItems()
+  let Useritems = this.state.items
   retailer.push('All')
   Useritems.map(item => {
     if(!retailer.includes(item.retailer)) {
@@ -195,7 +196,7 @@ onClickList(){
 getArticleOfRetailer(){
   let ArrSelectedRetailer = []
   let retailer = this.state.selectedRetailer
-  let Useritems = this.getUseritems()
+  let Useritems = this.state.items
   Useritems.map( item => {
     if(item.retailer === retailer){
       ArrSelectedRetailer.push(item)
