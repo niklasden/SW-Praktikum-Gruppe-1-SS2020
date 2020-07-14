@@ -219,7 +219,7 @@ class ListEntryMapper(Mapper):
     
     def insert(self, listentry):
         """
-        Niklas le:ListEntry
+        Niklas le:ListEntryz
         """
         cursor = self._cnx.cursor()
         cursor.execute("SELECT MAX(id) AS maxid FROM `Listentry`")
@@ -230,7 +230,7 @@ class ListEntryMapper(Mapper):
             else:
                 listentry.set_id(1)
 
-        command = "INSERT INTO `Listentry` (ID, Article_ID, Retailer_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought ) VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6}, null)".format(listentry.get_id(),listentry.get_article(),listentry.get_retailer(), listentry.get_shoppinglist(), listentry.get_user(), listentry.get_group(), listentry.get_amount())
+            command = "INSERT INTO `Listentry` (ID, Article_ID, Retailer_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought ) VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6}, null)".format(listentry.get_id(),listentry.get_article(),listentry.get_retailer(), listentry.get_shoppinglist(), listentry.get_user(), listentry.get_group(), listentry.get_amount())
 
         print(command)
                
