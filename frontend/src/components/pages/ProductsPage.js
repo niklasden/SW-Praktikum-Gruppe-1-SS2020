@@ -19,6 +19,8 @@ const styles = theme => ({
     }
  });
 
+
+ 
 /**
  * Example Categorys with Articles
  
@@ -91,6 +93,7 @@ const MEAT =[
   }
 ]*/
 
+//Braucht man das ???
 const getProductsDummy = () => {
     let productsJSON = [];
     fetch("http://localhost:8081/api/shoppa/products")
