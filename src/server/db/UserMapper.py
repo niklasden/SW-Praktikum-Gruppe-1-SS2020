@@ -37,7 +37,7 @@ class UserMapper(Mapper):
         """
         res = []
         cursor = self._cnx.cursor()
-        cursor.execute(r"SELECT ID, `e-mail`,`firebase-id`, name, creationdate, location FROM User WHERE name LIKE '%{0}%' ORDER BY name".format(name))   
+        cursor.execute("SELECT ID, `e-mail`,`firebase-id`, name, creationdate, location FROM User WHERE name LIKE '%{0}%' ORDER BY name".format(name))   
         tuples = cursor.fetchall()
 
         
