@@ -19,11 +19,22 @@ const styles = theme => ({
     }
  });
 
+const articleIDIconMapper = {
+  1: 'appleIcon', 
+  2: 'bananaIcon',
+  3: 'orangeIcon'
+}
 
+const categoryIconMapper = {
+  fruits: 'fruitsIcon', 
+  meatAndFish: 'meatAndFishIcon'
+}
+
+/**
 const ICONS = [
   {
     id: '1', 
-    iconName: 'fruits'
+    iconName: 'vegetables'
   }, 
   {
     id: '2', 
@@ -39,11 +50,11 @@ const ICONS = [
   }, 
   {
     id: '5', 
-    iconName: ''
+    iconName: 'soap'
   },
   {
     id: '6', 
-    iconName: ''
+    iconName: 'snacks'
   },
   {
     id: '7', 
@@ -58,7 +69,7 @@ const ICONS = [
     iconName: 'convenience'
   },
 ] 
-/**
+
  * Example Categorys with Articles
  
 const FRUITS = [
@@ -157,7 +168,6 @@ class ProductsPage extends Component {
     loadingArticlesError: null, 
     addingArticleError: null, 
     articles: [],
-    iconName: ICONS
   }
 
   componentDidMount(){
@@ -200,13 +210,23 @@ class ProductsPage extends Component {
 
   renderArticles(){
     /*reduce creates an array with all articles of the same category*/
-    let iconName = this.state.iconName 
-    iconName.forEach((icon, i) => {
-      console.log(icon.id)
-    })
-    var categories = this.state.articles.reduce((itemsSoFar, {category, name, id, iconName}) => {
+
+    function getIconName(id, category){
+      if (articleIDIconMapper[id] !== undefined){
+        return articleIDIconMapper[id]
+      } else if (categoryIconMapper[category] !== undefined){
+        return categoryIconMapper[category]
+      }
+      return 'otherIcon'
+    }
+    
+
+    var categories = this.state.articles.reduce((itemsSoFar, {category, name, id}) => {
       if (!itemsSoFar[category]) itemsSoFar[category] = [];
-      itemsSoFar[category].push({name, id, iconName});
+      //itemsSoFar[category].push({name, id, getIconName(id, category)});
+      var iconName = getIconName(id, category)
+      itemsSoFar[category].push({name, id, iconName} );
+
       return itemsSoFar; 
     }, {});
 
