@@ -71,7 +71,7 @@ class UserMapper(Mapper):
         tuples = cursor.fetchall()
 
         try:
-            (id, email, user_id, name,cd) = tuples[0]
+            (id, email, user_id, name, cd, location) = tuples[0]
             user = User()
             user.set_id(id)
             user.set_name(name)
