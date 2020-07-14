@@ -50,7 +50,8 @@ group = api.inherit('Group',bo, {
 user = api.inherit('User',bo,{
     'name': fields.String(attribute='_name',description="An users name"),
     'email': fields.String(attribute='_email',description="An users email"),
-    'firebase_id': fields.String(attribute='_firebase_id',description="An users firebaseid ")
+    'firebase_id': fields.String(attribute='_firebase_id',description="An users firebaseid "),
+    'creationdate': fields.DateTime(attribute='_creationdate',description="An users creationdate")
 })
 
 retailer = api.inherit('Retailer',bo,{
@@ -317,16 +318,18 @@ class UserListOperations(Resource):
     #@secured
     def post(self):
         adm = ShoppingAdministration()
-        try:
-            proposal = User.from_dict(api.payload)
-            if proposal is not None:
-                c = adm.create_user(proposal.get_name(),proposal.get_email(),proposal.get_firebase_id())
-                return c, 200
-            else:
-                return "",500
-
-        except Exception as e:
-            return str(e),500
+        """ try:
+ """
+        proposal = User.from_dict(api.payload)
+        if proposal is not None:
+            c = adm.create_user(proposal.get_name(),proposal.get_email(),proposal.get_firebase_id())
+            return c, 200
+        else:
+            return "",500
+        """ except Exception as e:
+            print(e)
+            return str(e) """
+        
 
 # TODO: uppercase report
 @shopping_v1.route('/report/<int:id>')

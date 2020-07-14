@@ -16,12 +16,13 @@ class UserMapper(Mapper):
         cursor.execute("SELECT * from User")
         tuples = cursor.fetchall()
                 
-        for (id, mail, firebase_id, name) in tuples:
+        for (id, mail, firebase_id, name, creationdate) in tuples:
             user = User()
             user.set_id(id)
             user.set_email(mail)
             user.set_firebase_id(firebase_id)
             user.set_name(name)
+            user.set_creationdate(creationdate)
             result.append(user)
             
         self._cnx.commit()
@@ -40,12 +41,13 @@ class UserMapper(Mapper):
 
         
         
-        for (id, mail, firebase_id, name) in tuples:
+        for (id, mail, firebase_id, name, cd) in tuples:
                 user = User()
                 user.set_id(id)
                 user.set_email(mail)
                 user.set_firebase_id(firebase_id)
                 user.set_name(name)
+                user.set_creationdate(cd)
                 res.append(user)
         
         
@@ -67,12 +69,13 @@ class UserMapper(Mapper):
         tuples = cursor.fetchall()
 
         try:
-            (id, email, user_id, name) = tuples[0]
+            (id, email, user_id, name,cd) = tuples[0]
             user = User()
             user.set_id(id)
             user.set_name(name)
             user.set_email(email)
             user.set_firebase_id(user_id)
+            user.set_creationdate(cd)
             result = user
         except IndexError:
             result = None
@@ -91,12 +94,13 @@ class UserMapper(Mapper):
         tuples = cursor.fetchall()
         
         try:
-            (id, mail, firebase_id, name) = tuples[0]
+            (id, mail, firebase_id, name,cd ) = tuples[0]
             user = User()
             user.set_id(id)
             user.set_email(mail)
             user.set_firebase_id(firebase_id)
             user.set_name(name)
+            user.set_creationdate(cd)
             res = user
         
             self._cnx.commit()
@@ -119,12 +123,13 @@ class UserMapper(Mapper):
         tuples = cursor.fetchall()
 
         try:
-            (id, email, firebase_id, name) = tuples[0]
+            (id, email, firebase_id, name,cd) = tuples[0]
             user = User()
             user.set_id(id)
             user.set_name(name)
             user.set_email(email)
             user.set_firebase_id(firebase_id)
+            user.set_creationdate(cd)
             result = user
 
         except IndexError:
@@ -156,7 +161,7 @@ class UserMapper(Mapper):
                 """
                 user.set_id(1)
         
-        command = "INSERT INTO User (ID, `e-mail`, `firebase-id` , name) VALUES('{0}','{1}','{2}','{3}')".format(user.get_id(),user.get_email(),user.get_firebase_id(),user.get_name())
+        command = "INSERT INTO User (ID, `e-mail`, `firebase-id` , name,`creationdate`) VALUES('{0}','{1}','{2}','{3}', NOW())".format(user.get_id(),user.get_email(),user.get_firebase_id(),user.get_name())
         try:
             cursor.execute(command)
             self._cnx.commit()
