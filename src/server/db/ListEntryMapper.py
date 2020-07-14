@@ -310,20 +310,23 @@ class ListEntryMapper(Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        statement = "SELECT Listentry.ID, Article.name as 'name', Category.name as 'category', Listentry.amount, Listentry.unit, Listentry.User_ID, Retailer.name as 'retailer' FROM Listentry LEFT JOIN Retailer ON Listentry.Retailer_ID = Retailer.ID LEFT JOIN Article ON Listentry.Article_ID = Article.ID LEFT JOIN Category ON Article.CategoryID = Category.ID WHERE (Group_ID={0} AND User_ID IS NULL)".format(group_id)
+        statement = "SELECT Listentry.ID, Article.name as 'name', Category.name as 'category', Listentry.amount, Listentry.unit, Listentry.Shoppinglist_ID as 'shoppinglist_id', Listentry.User_ID as 'user_id', Retailer.name as 'retailer', Listentry.Group_ID as 'group', Listentry.Article_ID as 'article_id' FROM Listentry LEFT JOIN Retailer ON Listentry.Retailer_ID = Retailer.ID LEFT JOIN Article ON Listentry.Article_ID = Article.ID LEFT JOIN Category ON Article.CategoryID = Category.ID WHERE (Group_ID={0} AND User_ID IS NULL)".format(group_id)
 
         cursor.execute(statement)
         tuples = cursor.fetchall()
         
-        for (id, name, category, amount, unit, user_id, retailer) in tuples:
+        for (id, name, category, amount, unit, shoppinglist_id, user_id, retailer, group, article_id) in tuples:
             listentry = ListEntry()
             listentry.set_id(id)
             listentry.set_name(name)
             listentry.set_category(category)
-            listentry.set_amount(amount)
+            listentry.set_amount(amount) 
             listentry.set_unit(unit)
-            listentry.set_user(user_id)
+            listentry.set_shoppinglist(shoppinglist_id)
+            listentry.set_purchaser(user_id)
             listentry.set_retailer(retailer)
+            listentry.set_group(group)
+            listentry.set_article(article_id)
             result.append(listentry)
 
         self._cnx.commit()

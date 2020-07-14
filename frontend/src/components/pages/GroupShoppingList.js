@@ -41,8 +41,9 @@ export default class GroupShoppingList extends Component {
 
 
     fetchItems = () => {
-      alert("Did you set the Group ID??")
-      ShoppingAPI.getAPI().getunassignedItemsofGroup(settingsobj.getGroupID()).then(listentryBOs => {
+      /*alert("Did you set the Group ID??")*/
+      /* needs settingsobj.getGroupID() is changed to 4 */
+      ShoppingAPI.getAPI().getunassignedItemsofGroup(4).then(listentryBOs => {
         this.setState({  // Set new state when AccountBOs have been fetched
           items: listentryBOs, 
         })
@@ -100,6 +101,7 @@ export default class GroupShoppingList extends Component {
   }
   
   render(){
+    console.log(this.state.items);
     return (
       <Grid 
       container

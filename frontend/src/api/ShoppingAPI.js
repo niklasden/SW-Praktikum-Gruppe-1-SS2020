@@ -2,6 +2,8 @@
 import ArticleBO from './ArticleBO';
 import GroupBO from './GroupBO';
 import ListEntryBO from './ListEntryBO';
+import UserBO from './UserBO';
+import RetailerBO from './RetailerBO';
 
 /**
  * Abstracts the REST interface of the Python backend with convenient access methods.
@@ -19,13 +21,25 @@ export default class ShoppingAPI {
 
     // Articles URLs
     #getArticlesURL = () => `${this.#baseServerURL}/Article`;
+
+    //User URLs
+    #getUsersURL = (groupid) => `${this.#baseServerURL}/membership/${groupid}`;
+    #getUserNameURL = (id) => `${this.#baseServerURL}/membership/${id}`;
     
     //Groups URLs
     #getGroupsforUserURL = (userid) => `${this.#baseServerURL}/Group/Usergroup/${userid}`;
     #deleteGroupURL = (id) => `${this.#baseServerURL}/Group/${id}`;
     #saveGroupURL = () => `${this.#baseServerURL}/Group/`;
     #getunassigneditemssofGroupURL = (group_id) => `${this.#baseServerURL}/Listentry/get_unassigned_items_of_group/${group_id}`; 
+    
+    
+    //ListEntry URLs
     #updateListEntryURL = (listentry) => `${this.#baseServerURL}/Listentry/update/${listentry}`;
+
+
+    //Retailer URLs
+    #getRetailers = () => `${this.#baseServerURL}/Retailer`;
+
 
     /** 
      * Get the Singelton instance 
@@ -80,6 +94,12 @@ export default class ShoppingAPI {
         })
     }
 
+    /**
+     * Returns a Promise, which resolves to an Array of groupBOs
+     * 
+     * @param {Number} ud for which group should be deleted
+     * @public
+     */
     deleteGroup(id) {
         return this.#fetchAdvanced(this.#deleteGroupURL(id), {
             method: 'DELETE'
@@ -114,12 +134,13 @@ export default class ShoppingAPI {
     getunassignedItemsofGroup(id) {
         return this.#fetchAdvanced(this.#getunassigneditemssofGroupURL(id)).then((responseJSON) => {
             let listentryBOs = ListEntryBO.fromJSON(responseJSON);
-            console.info(listentryBOs);
+            /*console.info(listentryBOs);*/
             return new Promise(function (resolve) {
                  resolve(listentryBOs);
             })
         })
     }
+
 
     insertListentry(listentryBO){
 
@@ -138,6 +159,28 @@ export default class ShoppingAPI {
             let listentryBO = ListEntryBO.fromJSON(responseJSON)[0];
             return new Promise(function (resolve) {
                 resolve(listentryBO);
+            })
+        })
+    }
+
+
+    getUsers(groupBO){
+        return this.#fetchAdvanced(this.#getUsersURL(groupBO)).then((responseJSON) => {
+            let userBOs = UserBO.fromJSON(responseJSON);
+            // console.info(userBOs);
+            return new Promise(function (resolve)  {
+                resolve(userBOs)
+            })
+        })
+    }
+
+
+    getRetailers(){
+        return this.#fetchAdvanced(this.#getRetailers()).then((responseJSON) => {
+            let retailerBOs = RetailerBO.fromJSON(responseJSON);
+            // console.info(retailerBOs);
+            return new Promise(function (resolve) {
+                resolve(retailerBOs)
             })
         })
     }

@@ -6,7 +6,12 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Grid, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import ListItem from '../layout/ListItem'
+import ListItem from '../layout/ListItem';
+import ShoppingAPI from '../../api/ShoppingAPI';
+import UserBO from '../../api/UserBO';
+import ShoppingSettings from '../../../src/shoppingSettings';
+
+const settingsobj = ShoppingSettings.getSettings()
 
 /**
  * 
@@ -21,14 +26,15 @@ class DropDownGSL extends Component {
     super(props)
   }
   state = {
-    user:[{id: 1, name:'Niklas'},{id: 2, name:'Julius'},{id: 3, name:'Pia'},{id: 4, name:'Chris'},{id: 5, name:'Kevin'},{id: 6, name:'Pascal'}],
-    retailer: [{id: 1, name:'Edeka'},{id: 2, name:'Lidl'},{id: 3, name:'Norma'},{id: 4, name:'BeateUhse'},{id: 5, name:'Rewe'},{id: 6, name:'Kaufland'}],
+    user:[],
+    retailer: [],
   }
-
+  /* userarray was {id: 1, name:'Niklas'},{id: 2, name:'Julius'},{id: 3, name:'Pia'},{id: 4, name:'Chris'},{id: 5, name:'Kevin'},{id: 6, name:'Pascal'} */
 
   handleClick(event){
     this.setState({anchorEl: event.currentTarget});
   };
+
   handleChangeUnit(v) {
     this.setState({unit: v});
     var newList = [...this.state.items];
@@ -40,7 +46,39 @@ class DropDownGSL extends Component {
     this.setState({items: newList});
   }
 
+  fetchGroupMembers = () => {
+    ShoppingAPI.getAPI().getUsers(settingsobj.getGroupID()).then(userBOs => {
+      /*for each user inside user BOs fetch user name; */
+      // ShoppingAPI.getAPI().get 
+      this.setState({
+        user: userBOs
+      })
+      console.info(userBOs);
+    }).catch(e => 
+        console.log(e)
+      );
+    
+  }
+
+  fetchRetailers = () => {
+    ShoppingAPI.getAPI().getRetailers(settingsobj.getGroupID()).then(retailerBOs => {
+      this.setState({
+        retailer: retailerBOs
+      })
+      /* console.info(retailerBOs); */
+    }).catch(e => 
+        console.log(e)
+      );
+  }
+
+  componentDidMount()  {
+    this.fetchRetailers();
+    this.fetchGroupMembers();
+  }
+
   render(){
+    //this.getGroupMembers(); is not working rn, need user objects from julius
+    
     return (
     <ExpansionPanel>
       <ExpansionPanelSummary

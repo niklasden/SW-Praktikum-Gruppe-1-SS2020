@@ -36,23 +36,28 @@ const styles = theme => ({
 class EditListItem extends Component {
   constructor(props) {
     super(props);
-    let amt = '', unt = '', usr = '', rt = '';
+    /*
+    let amt = '', unt = '', usr = '', rt = '', aid ='', sid = '';
     if(props.listentry) {
       amt = props.listentry.getAmount();
       unt = props.listentry.getUnit();
       usr = props.listentry.getUser();
       rt  = props.listentry.getRetailer();
+      aid = props.listentry.getArticleid();
+      sid = props.listentry.getShoppinglistid();
      }
-
+     */
     this.state = {
       item: this.props.item,
-      amount: amt,
-      unit: unt,
-      user: usr,
-      retailer: rt,
+      amount: this.props.item.amount,
+      unit: this.props.item.unit,
+      user: this.props.item.user_id,
+      retailer: this.props.item.retailer_id,
+      article_id: this.props.item.article_id,
+      shoppinglist_id: this.props.item.shoppinglist_id,
     }
     
-     this.saveItem = this.saveItem.bind(this);
+    /* this.saveItem = this.saveItem.bind(this); */
   }
   
   handleChangeUnit(v) {
@@ -65,19 +70,27 @@ class EditListItem extends Component {
 
   saveItem = () => {
     let updatedItem = Object.assign(new ListEntryBO(), this.props.listentry);
-    updatedItem.setAmount(69);
-    updatedItem.setUnit("kg");
-    updatedItem.setUserid(4);
-    updatedItem.setRetailer(3)
+    //Sets the updated item with the properties of the current item
+    updatedItem = this.state.item
 
+    //Updates the parameters we want to change
+    updatedItem.setAmount(this.state.amount);
+    updatedItem.setUnit(this.state.unit);
+    updatedItem.setUserid(this.state.user);
+    updatedItem.setRetailer(this.state.retailer);
+    updatedItem.setArticleid(this.state.article_id);
+    updatedItem.setShoppinglistid(this.state.shoppinglist_id);
+  
     console.log(updatedItem);
+    
     // ShoppingAPI.getAPI().updateListEntry(updatedItem).catch(console.log(e));
   }
 
 
   render() {
     const { classes, listentry } = this.props;
-    const { amount, unit, user, retailer} = this.state;
+    const { amount, unit, user, retailer, article_id, retailer_id} = this.state;
+
     return (
 <Dialog
         open={this.props.open}
@@ -102,25 +115,25 @@ class EditListItem extends Component {
       <Grid item xs={6}>
       <FormControl style={{width: '100%', height: 35, marginLeft: 10, marginBottom: 10}}>
                 <InputLabel>UNIT</InputLabel>
-                <Select
-                  /*onChange={this.handleChangeUnit.bind(this)}
-                  value={unit}*/
+                <Select defaultValue={this.state.item.unit}
+                  onChange={this.handleChangeUnit.bind(this)}
+                  // value={this.state.item.unit}
                 >
-                 <MenuItem value={'kg'}>Kg</MenuItem>
+                <MenuItem value={'kg'}>Kg</MenuItem>
                 <MenuItem value={'g'}>g</MenuItem>
                 <MenuItem value={'l'}>l</MenuItem>
                 <MenuItem value={'ml'}>ml</MenuItem>
                 <MenuItem value={'Stk.'}>Stk.</MenuItem>
-               <MenuItem value={'Pkg.'}>Pkg.</MenuItem>
+                <MenuItem value={'Pkg.'}>Pkg.</MenuItem>
                 </Select>
       </FormControl>
       </Grid>
       <Grid item xs={6} style={{marginTop: 10}}>
       <FormControl style={{width: '100%', height: 35, marginLeft: 10, marginBottom: 10}}>
                 <InputLabel>ASSIGN USER</InputLabel>
-                <Select
-                  /*value={user}
-                  onChange={this.props.handleChange}*/
+                <Select defaultValue={this.state.item.user}
+                  value={this.state.item.user}
+                  onChange={this.props.handleChange}
                 >
                   
                 {this.props.user.map(item =>{
@@ -132,9 +145,9 @@ class EditListItem extends Component {
       <Grid item xs={6} style={{marginTop: 10}}>
       <FormControl style={{width: '100%', height: 35, marginLeft: 10, marginBottom: 10}}>
                 <InputLabel>ASSIGN RETAILER</InputLabel>
-                <Select
-                   value={retailer}
-                  /*onChange={this.props.handleChange} */
+                <Select defaultValue={this.state.item.retailer}
+                   value={this.state.item.retailer}
+                    onChange={this.props.handleChange} 
                 >
                   {this.props.retailer.map(item =>{
                     return <MenuItem value={item.name}>{item.name}</MenuItem>
