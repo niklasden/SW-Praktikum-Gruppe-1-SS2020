@@ -25,6 +25,7 @@ export default class ShoppingAPI {
     //User URLs
     #getUsersURL = (groupid) => `${this.#baseServerURL}/membership/${groupid}`;
     #getUserNameURL = (id) => `${this.#baseServerURL}/membership/${id}`;
+    #getUserURL = (id) => `${this.#baseServerURL}/User/${id}`;
     
     //Groups URLs
     #getGroupsforUserURL = (userid) => `${this.#baseServerURL}/Group/Usergroup/${userid}`;
@@ -189,6 +190,15 @@ export default class ShoppingAPI {
             let userBOs = UserBO.fromJSON(responseJSON);
             // console.info(userBOs);
             return new Promise(function (resolve)  {
+                resolve(userBOs)
+            })
+        })
+    }
+
+    getUser(id){
+        return this.#fetchAdvanced(this.#getUserURL(id)).then((responseJSON) => {
+            let userBOs = UserBO.fromJSON(responseJSON);
+            return new Promise(function (resolve) {
                 resolve(userBOs)
             })
         })

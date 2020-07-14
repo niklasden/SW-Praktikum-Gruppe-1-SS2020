@@ -12,6 +12,7 @@ class User (bo.BusinessObject):
         self._email = "" 
         self._firebase_id = "" 
         self._creationdate = None 
+        self._location = ""
     
     def randomize(self):
         """
@@ -51,8 +52,14 @@ class User (bo.BusinessObject):
     def set_firebase_id(self, val):
         self._firebase_id = val
     
+    def get_location(self):
+        return self._location 
+
+    def set_location(self, val):
+        self._location = val
+    
     def __str__(self):
-        return "Userobject:  ID: {}, Name: {}, Mail: {}, FirebaseID: {}".format(self.get_id(), self._name, self._email, self._firebase_id)
+        return "Userobject:  ID: {}, Name: {}, Mail: {}, FirebaseID: {}, Location: {}".format(self.get_id(), self._name, self._email, self._firebase_id, self._location)
     
     @staticmethod
     def from_dict(dictionary=dict()):
@@ -61,6 +68,7 @@ class User (bo.BusinessObject):
         obj.set_name(dictionary["name"])
         obj.set_email(dictionary["email"])
         obj.set_firebase_id(dictionary["firebase_id"])
+        obj.set_location(dictionary["location"])
         
         return obj
 
