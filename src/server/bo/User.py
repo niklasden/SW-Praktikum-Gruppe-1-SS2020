@@ -61,7 +61,7 @@ class User (bo.BusinessObject):
         obj.set_name(dictionary["name"])
         obj.set_email(dictionary["email"])
         obj.set_firebase_id(dictionary["firebase_id"])
-        obj.set_creationdate(dictionary["creationdate"])
+        
         return obj
 
 

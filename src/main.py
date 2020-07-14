@@ -57,7 +57,8 @@ user = api.inherit('User',bo,{
 retailer = api.inherit('Retailer',bo,{
     'id': fields.Integer(attribute='_id', description="The id of a retailer"),
     'name': fields.String(attribute='_name',description="A retailers name"),
-    'location': fields.String(attribute='_location', description="The address/location of a retailer as single string")
+    'location': fields.String(attribute='_location', description="The address/location of a retailer as single string"),
+    'creationdate': fields.DateTime(attribute='_creationdate',description="An retailers creationdate")
 })
 
 listentry = api.inherit('ListEntry',bo, {

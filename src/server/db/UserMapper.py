@@ -36,7 +36,7 @@ class UserMapper(Mapper):
         """
         res = []
         cursor = self._cnx.cursor()
-        cursor.execute(r"SELECT ID, `e-mail`,`firebase-id`, name FROM User WHERE name LIKE '%{0}%' ORDER BY name".format(name))   
+        cursor.execute(r"SELECT ID, `e-mail`,`firebase-id`, name,creationdate FROM User WHERE name LIKE '%{0}%' ORDER BY name".format(name))   
         tuples = cursor.fetchall()
 
         
@@ -64,7 +64,7 @@ class UserMapper(Mapper):
         result = None
         cursor = self._cnx.cursor()
         
-        command = "SELECT ID, `e-mail`,`firebase-id`, name FROM User WHERE ID='{0}'".format(key)
+        command = "SELECT ID, `e-mail`,`firebase-id`, name,creationdate FROM User WHERE ID='{0}'".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -90,7 +90,7 @@ class UserMapper(Mapper):
         """
         res = None
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT ID, `e-mail`,`firebase-id`, name FROM User WHERE `e-mail` LIKE '{0}' ORDER BY name".format(mail_adress))  
+        cursor.execute("SELECT ID, `e-mail`,`firebase-id`, name,creationdate FROM User WHERE `e-mail` LIKE '{0}' ORDER BY name".format(mail_adress))  
         tuples = cursor.fetchall()
         
         try:
@@ -118,7 +118,7 @@ class UserMapper(Mapper):
         """
         result = None
         cursor = self._cnx.cursor()
-        command = "SELECT ID, `e-mail`,`firebase-id`, name FROM User WHERE `firebase-id` LIKE '{0}'".format(firebase_id)
+        command = "SELECT ID, `e-mail`,`firebase-id`, name,creationdate FROM User WHERE `firebase-id` LIKE '{0}'".format(firebase_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 

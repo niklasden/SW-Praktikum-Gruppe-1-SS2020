@@ -208,5 +208,5 @@ class ListEntry(bo.BusinessObject):
         obj.set_group(dictionary["group_id"])
         obj.set_amount(dictionary["amount"])
         obj.set_buy_date(dictionary["bought"])
-        obj.set_creationdate(dictionary["creationdate"])
+
         return obj

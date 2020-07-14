@@ -17,14 +17,15 @@ class RetailerMapper (Mapper):
           """
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT ID, name, location from Retailer")
+        cursor.execute("SELECT ID, name, location,creationdate from Retailer")
         tuples = cursor.fetchall()
 
-        for (id, name, location) in tuples:
+        for (id, name, location,cd) in tuples:
             retailer = Retailer()
             retailer.set_id(id)
             retailer.set_name(name)
             retailer.set_location(location)
+            retailer.set_creationdate(cd)
             result.append(retailer)
 
         self._cnx.commit()
@@ -41,15 +42,16 @@ class RetailerMapper (Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, location FROM Retailer WHERE name LIKE '{}' ORDER BY name".format(name)
+        command = "SELECT id, name, location,creationdate FROM Retailer WHERE name LIKE '{}' ORDER BY name".format(name)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, location) in tuples:
+        for (id, name, location,cd) in tuples:
             retailer = Retailer()
             retailer.set_id(id)
             retailer.set_name(name)
             retailer.set_location(location)
+            retailer.set_creationdate(cd)
             result.append(retailer)
 
         self._cnx.commit()
@@ -68,16 +70,17 @@ class RetailerMapper (Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, location FROM Retailer WHERE id={}".format(key)
+        command = "SELECT id, name, location,creationdate FROM Retailer WHERE id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (id, name, location) = tuples[0]
+            (id, name, location,cd) = tuples[0]
             retailer = Retailer()
             retailer.set_id(id)
             retailer.set_name(name)
             retailer.set_location(location)
+            retailer.set_creationdate(cd)
             result = retailer
         except IndexError:
             """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
@@ -96,15 +99,16 @@ class RetailerMapper (Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, location FROM Retailer WHERE location LIKE '{}' ORDER BY name".format(location)
+        command = "SELECT id, name, location,creationdate FROM Retailer WHERE location LIKE '{}' ORDER BY name".format(location)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, location) in tuples:
+        for (id, name, location,cd) in tuples:
             retailer = Retailer()
             retailer.set_id(id)
             retailer.set_name(name)
             retailer.set_location(location)
+            retailer.set_creationdate(cd)
             result.append(retailer)
 
         self._cnx.commit()
@@ -128,7 +132,7 @@ class RetailerMapper (Mapper):
         for (maxid) in tuples:
             retailer.set_id(maxid[0] + 1)
 
-        command = "INSERT INTO Retailer (id, name, location) VALUES (%s,%s,%s)"
+        command = "INSERT INTO Retailer (id, name, location,creationdate) VALUES (%s,%s,%s,NOW())"
         data = (retailer.get_id(), retailer.get_name(), retailer.get_location())
         cursor.execute(command, data)
 
