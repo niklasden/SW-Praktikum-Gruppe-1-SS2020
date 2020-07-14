@@ -3,13 +3,13 @@ import BusinessObject from './BusinessObject';
 // By Niklas - not finished not tested
 export default class UserBO extends BusinessObject {
 
-   constructor(n, i, e, fid) {
+   constructor(n, i, e, fid, l) {
         super();
         this.name = n;
         this.id = i
         this.email = e;
-        this.firebase_id = fid
-      
+        this.firebase_id = fid;
+        this.location = l;
    }
 
     setName(n) {
@@ -44,6 +44,13 @@ export default class UserBO extends BusinessObject {
         return this.firebase_id
     }
 
+    setLocation(l) {
+        this.location = l
+    }
+
+    getLocation() {
+        return this.location 
+    }
     // Returns an Array of ProductBOs from a given JSON structure
     static fromJSON(groups) {
         let result = [];

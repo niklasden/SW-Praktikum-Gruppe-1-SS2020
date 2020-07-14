@@ -40,10 +40,14 @@ class AccountsPage extends Component {
 		this.state = {
 			loading: true,
 			uploading: false,
-			image: [],
+			image: firebase.auth().currentUser.photoURL,
 			user: [],
 			firstname: "",
 			lastname: "",
+			location: "",
+			email: "",
+
+
 		}
 		this.uploadedImage = React.createRef();
 		this.imageUploader = React.createRef();
@@ -61,10 +65,10 @@ class AccountsPage extends Component {
 	}
 
 	componentDidMount() {
-		var uploadedImage = require('../img/avatar.jpg');
+		/*var uploadedImage = require('../img/avatar.jpg');*/
 		this.setState({
 			isNavHidden: false,
-			image: uploadedImage,
+			/*image: uploadedImage,*/
 			deleteDialog: null,
 		});
 		this.fetchUser();
@@ -74,9 +78,12 @@ class AccountsPage extends Component {
 		ShoppingAPI.getAPI().getUser(settingsobj.getCurrentUserID()).then(user => {
 			this.setState({
 			  user: user,
+			  location: user[0].location,
+			  email: user[0].email,
 			  /*loadingInProgress: false,
 			  loadingError: null*/
 			})
+			console.log(user);
 			this.splitName(user[0].name);
 			}).catch(e =>
 			  this.setState({ // Reset state with error from catch 
@@ -138,6 +145,8 @@ class AccountsPage extends Component {
 	render() {
 		const { classes } = this.props;
 		var imageUploader = [];
+		
+		/* not needed as image upload is not implemented in backend
 		const handleImageUpload = e => {
 			const [file] = e.target.files;
 			if (file) {
@@ -152,7 +161,7 @@ class AccountsPage extends Component {
 				this.setState({ image: imageUrl });
 			}
 
-		};
+		}; */
 		return (
 			<div>
 				<Container>
@@ -160,13 +169,16 @@ class AccountsPage extends Component {
 					<Grid container justify='center' align='center'>
 						<Grid item xs={6}>
 							<Box align-items='center' display='flex'>
-								<Badge overlap="circle"
+								<Avatar alt="Sabine Mustermann" src={this.state.image} ref={this.uploadedImage} className={classes.Avatar} />
+								{/* Not needed as image upload is not implemented in backend
+								 <Badge overlap="circle"
 									anchorOrigin={{
 										vertical: 'bottom',
 										horizontal: 'right',
 									}}
 									badgeContent={<AddAPhoto onClick={() => this.imageUploader.current.click()} />}>
-									<Avatar alt="Sabine Mustermann" src={this.state.image} ref={this.uploadedImage} className={classes.Avatar} />
+									/* Here should this go: <Avatar alt="Sabine Mustermann" src={this.state.image} ref={this.uploadedImage} className={classes.Avatar} />
+									{/* Not needed as image upload is not implemented in backend */ /*
 									<input
 										type="file"
 										accept="image/*"
@@ -176,10 +188,10 @@ class AccountsPage extends Component {
 											display: "none"
 										}}
 									/>
-								</Badge>
+								</Badge> */}
 								<Grid item xs={3}>
 									<Typography className={classes.Username} style={{}} gutterBottom>{this.state.firstname} {this.state.lastname}</Typography>
-									<Typography className={classes.Location} style={{}}>Riedlingen, Baden-Württemberg</Typography>
+									<Typography className={classes.Location} style={{}}>{this.state.location}</Typography>
 								</Grid>
 							</Box>
 							{/* <FormControlLabel
@@ -189,33 +201,35 @@ class AccountsPage extends Component {
 						</Grid>
 						<Grid item xs={12} align="center" style={{ marginTop: '40px' }}>
 							<div>
-								<TextField
-									id="filled-input-name"
-									label="First Name"
-									defaultValue="Pia"
+								<TextField disabled
+									id="outlined-disabled-helperText"
+									helperText="Google Firstname"
+									label={this.state.firstname}
+									defaultValue={this.state.firstname}
 									InputProps={{
-										readOnly: false,
+										readOnly: true,
 									}}
-									variant="filled"
+									variant="outlined"
 									className={classes.textField}
 								/>
-								<TextField
-									id="filled-input-lastname"
-									label="Last Name"
-									defaultValue="Traktorbraut"
+								<TextField disabled
+									id="outlined-disabled-helperText"
+									helperText="Google Lastname"
+									label={this.state.lastname}
+									defaultValue={this.state.lastname}
 									InputProps={{
-										readOnly: false,
+										readOnly: true,
 									}}
-									variant="filled"
+									variant="outlined"
 									className={classes.textField}
 								/>
 								<Grid item xs={12} style={{ marginTop: '15px' }}>
-									<TextField disabled id="standard-disabled" label="Google E-Mail" defaultValue="pia.traktorbraut@gmail.com" variant="filled" style={{ width: '30ch' }} />
+									<TextField disabled id="outlined-disabled-helperText" helperText="Google E-Mail" label={this.state.email} defaultValue={this.state.email} variant="outlined" style={{ width: '32.5ch' }} />
 								</Grid>
 							</div>
 						</Grid>
 						<Grid item xs={12}>
-							<MainButton variant="contained" onclick={() => { alert('Account saved') }}>Save Changes</MainButton>
+							{/* Not implemented as you cant change anything for a user  <MainButton variant="contained" onclick={() => { alert('Account saved') }}>Save Changes</MainButton> */}
 							<MainButton variant="contained" onclick={this.handleOpenDeleteConfirmation}>Delete Account</MainButton>
 						</Grid>
 					</Grid>
