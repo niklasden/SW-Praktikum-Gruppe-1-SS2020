@@ -147,9 +147,9 @@ class SpecificGroup extends Component {
   };
   async checkGroupMembers(){
     const res = await fetch(Config.apiHost + '/membership/' + settingsobj.onlySettingsGetSettingsGroupID()) //Hier ID übergabe bei getmembersbygroupid = id = settingsobj.onlySettingsGetSettingsGroupID()
-    const resjson = await res.json()
-    const memberids = resjson.User_IDs
-    if(memberids.lenght < 1){
+    const memberobjects = await res.json()
+    
+    if(memberobjects.lenght < 1){
       return false
     }else{
       return true
@@ -158,18 +158,8 @@ class SpecificGroup extends Component {
 
   async fetchGroupMembers(){ //fetch group members for specific gorup
     const res = await fetch(Config.apiHost + '/membership/' + settingsobj.onlySettingsGetSettingsGroupID()) //Hier ID übergabe bei getmembersbygroupid = id = settingsobj.onlySettingsGetSettingsGroupID()
-    const resjson = await res.json()
-    const memberids = resjson.User_IDs
-    const gmembers = []
+    const gmembers = await res.json()
     
-    memberids.forEach(async elem => {
-      const resu = await fetch(Config.apiHost + '/User/'+ elem)
-      const resujson = await resu.json()
-      gmembers.push(resujson)
-      this.setState({groupmembers: gmembers});
-
-    })
-    //for i in memberids fetch get user member by id append gmembers 
     this.setState({groupmembers:gmembers}) 
   }
     
