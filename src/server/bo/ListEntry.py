@@ -23,6 +23,12 @@ class ListEntry(bo.BusinessObject):
         self._article_name = ""
         self._category = ""
         self._retailer = ""
+        self._creationdate = None
+
+    def get_creationdate(self):
+        return self._creationdate
+    def set_creationdate(self,cd):
+        self._creationdate = cd
 
     def get_id(self):
         return self._id
@@ -202,4 +208,5 @@ class ListEntry(bo.BusinessObject):
         obj.set_group(dictionary["group_id"])
         obj.set_amount(dictionary["amount"])
         obj.set_buy_date(dictionary["bought"])
+
         return obj

@@ -9,7 +9,12 @@ class Retailer (bo.BusinessObject):
         self._name = "" # Der Name eines Einzelhändlers, z.B. Rewe
         self._location = "" # Die Adresse des Einzelhändlers als einzelner String
         self._id = "" # The id of a retailer
+        self._creationdate = None
 
+    def get_creationdate(self):
+        return self._creationdate
+    def set_creationdate(self,cd):
+        self._creationdate = cd
     def get_id(self):
         return self._id
 
@@ -38,6 +43,7 @@ class Retailer (bo.BusinessObject):
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
         obj.set_name(dictionary["name"])
         obj.set_location(dictionary["location"])
+        
         return obj
 
 
