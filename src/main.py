@@ -113,7 +113,6 @@ class MembershipOperations(Resource):
 	"Group_ID":5
     }
     """
-
     #@secured
     def post(self):
         
