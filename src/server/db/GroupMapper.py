@@ -1,6 +1,7 @@
 from server.bo.Group import Group
 from server.db.Mapper import Mapper
 
+
 class GroupMapper(Mapper):
     """
     Author: Julius
@@ -169,14 +170,39 @@ class GroupMapper(Mapper):
     
     def get_users_by_gid(self,gid):
         
-        cursor = self._cnx.cursor()
-        command = "SELECT User_ID from Membership WHERE Group_ID = {0}".format(gid)
-        cursor.execute(command)
-        tuples = cursor.fetchall()
-        res = []
-        for i in tuples:
-            res.append(i[0])
+        try:
+            cursor = self._cnx.cursor()
+            command = "SELECT User_ID from Membership WHERE Group_ID = {0}".format(gid)
+            cursor.execute(command)
+            tuples = cursor.fetchall()
+            res = []
+            result =[]
+            for i in tuples:
+                res.append(i[0])
 
-        self._cnx.commit()
-        cursor.close()
-        return {"User_IDs": res}
+            self._cnx.commit()
+            cursor.close()
+            userids = res 
+
+            # creating user objects for userids 
+            """
+            done in shopping admin because can't import shopping admin 
+            
+            adm = ShoppingAdministration()
+            #try:
+            for i in userids: s
+                r = adm.get_user_by_id(i)
+                result.append(r)
+            """
+            return res 
+
+
+
+            
+          
+            #return {"User_IDs": res}
+        except Exception as e:
+            print(e) 
+            
+            return None
+            
