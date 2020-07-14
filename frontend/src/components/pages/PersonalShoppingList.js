@@ -5,12 +5,19 @@ import CategoryDropDown from '../layout/CategoryDropDown';
 import MenuItem from '@material-ui/core/MenuItem';
 import PopUp from '../layout/PopUp';
 import { Config } from '../../config'
+import ShoppingSettings from '../../shoppingSettings'
+import ListEntryBO from '../../api/ListEntryBO';
+import ShoppingAPI from '../../api/ShoppingAPI';
 
 /**
  * Displays the PersonalShoppingList as designed in Figa. All items to be purchased by a person are listed on the list and can be ticked off the list. Finally the user can complete the shopping. 
  * 
  * @author [Pascal Illg](https://github.com/pasillg)
+ * 
  */
+
+const settings = ShoppingSettings.getSettings()
+
 export default class PersonalShoppingList extends Component {
 
   state={
@@ -21,7 +28,23 @@ export default class PersonalShoppingList extends Component {
     solved: false,
     loadingInProgress: false, 
     loadingRetailersError: null, 
-    addingRetailerError: null, 
+    addingRetailerError: null,
+    currentUserID: settings.getCurrentUserID(),
+    groupID: settings.getGroupID()
+}
+/* log(){
+  this.setState({currentUserID : settings.getCurrentUserID()})
+} */
+newItem = () => {
+  let newItem = Object.assign(new ListEntryBO(), this.props.listentry);
+  /* //Sets the updated item with the properties of the current item
+  newItem = this.state.item */
+
+  //Updates the parameters we want to change
+  newItem.setUserid(this.state.currentUserID);
+  newItem.setGroupid(this.state.groupID);
+  
+  ShoppingAPI.getAPI().updateListEntry(newItem).catch(e => console.log(e))
 }
 
 componentDidMount(){
@@ -217,6 +240,8 @@ render(){
   let shops = this.renderReatailer()
   let all = 'ALL'
   console.log('Das ist Items:    ' + this.state.items)
+  console.log("USER ID"  + this.state.userID)
+  console.log("GroupID  " + this.state.groupID)
 
   return (
     <Grid 

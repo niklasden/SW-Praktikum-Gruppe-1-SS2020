@@ -284,13 +284,13 @@ class ListEntryMapper(Mapper):
         except Exception as e:
             return "Error in delete ListEntry ListEntryMapper: " + str(e)
 
-    def get_personal_items_of_group(self, group_id):
+    def get_personal_items_of_group(self, listentry):
         """
         Pascal
         """
         result = []
         cursor = self._cnx.cursor()
-        statement = "SELECT Listentry.ID, Article.name as 'name', Category.name as 'category', Listentry.amount, Listentry.unit, Listentry.User_ID, Retailer.name as 'retailer' FROM Listentry LEFT JOIN Retailer ON Listentry.Retailer_ID = Retailer.ID LEFT JOIN Article ON Listentry.Article_ID = Article.ID LEFT JOIN Category ON Article.CategoryID = Category.ID WHERE (Group_ID={0})".format(group_id)
+        statement = "SELECT Listentry.ID, Article.name as 'name', Category.name as 'category', Listentry.amount, Listentry.unit, Listentry.User_ID, Retailer.name as 'retailer' FROM Listentry LEFT JOIN Retailer ON Listentry.Retailer_ID = Retailer.ID LEFT JOIN Article ON Listentry.Article_ID = Article.ID LEFT JOIN Category ON Article.CategoryID = Category.ID WHERE (Group_ID={0}) AND (User_ID={1})".format(listentry.get_group(), listentry.get_user())
 
         cursor.execute(statement)
         tuples = cursor.fetchall()

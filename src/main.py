@@ -640,14 +640,22 @@ class testListEntry(Resource):
         result = adm.insert_listentry(listentry)
         return result
 
-@shopping_v1.route('/Listentry/get_items_of_group/<int:group_id>')
-@shopping_v1.response(500, 'Falls was in die Fritten geht')
-@shopping_v1.param('group_id', "Group_id")
+@shopping_v1.route('/Listentry/get_personal_items_of_group/')
+@shopping_v1.response(500, 'If an server sided error occures')
+@shopping_v1.param('listentry', "listentry object")
 class testListEntry(Resource):
-    @shopping_v1.marshal_with(listentry)
-    def get(self, group_id):
+    @shopping_v1.marshal_with(listentry, code=200)
+    def get(self):
         adm = ShoppingAdministration()
-        result = adm.get_items_of_group(group_id)
+        proposal = ListEntry.from_dict(api.payload)
+        print(proposal)
+
+        if proposal is not None:
+            le = ListEntry()
+            le.set_group(proposal.get_group())
+            le.set_user(proposal.get_user())
+
+            result = adm.get_personal_items_of_group(le)
         return result
 
 @shopping_v1.route('/Listentry/get_unassigned_items_of_group/<int:group_id>')
