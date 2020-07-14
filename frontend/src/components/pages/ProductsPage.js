@@ -8,6 +8,7 @@ import ProductListEntry from '../layout/ProductListEntry';
 import { Link } from 'react-router-dom';
 import Heading from '../layout/Heading';
 import { Config } from '../../config';
+import { ListItemIcon } from '@material-ui/core';
 
 const styles = theme => ({
     root: {
@@ -20,14 +21,44 @@ const styles = theme => ({
  });
 
 const articleIDIconMapper = {
-  1: 'appleIcon', 
-  2: 'bananaIcon',
-  3: 'orangeIcon'
+  1: 'apple', 
+  2: 'banana',
+  3: 'orange',
+  //4: '', 
+  5: '', 
+  6: '', 
+  7: '', 
+  8: '', 
+  9: '', 
+  10: '', 
+  11: 'cucumber', 
+  12: '', 
+  13: '', 
+  14: '', 
+  15: 'strawberyy', 
+  16: 'tea', 
+  17: 'milk', 
+  18: 'bread', 
+  19: 'beermug', 
+  20: 'orangejuice', 
+  21: 'wine', 
+  22: 'cola', 
+  23: 'water',
+
+
+
 }
 
 const categoryIconMapper = {
-  fruits: 'fruitsIcon', 
-  meatAndFish: 'meatAndFishIcon'
+  1: 'vegetables',
+  2: 'meatAndFish',
+  3: 'fruits', 
+  4: 'beverages', 
+  5: 'soap',
+  6: 'snacks', 
+  7: 'milkAndEggs', 
+  8: 'cosmetics', 
+  9: 'convenience'
 }
 
 /**
@@ -190,7 +221,7 @@ class ProductsPage extends Component {
         loadingArticleError: null, 
         articles: json, 
       })
-    } catch (e){
+    } catch (e) {
       this.setState({
         loadingInProgress: false, 
         loadingArticleError: '', 
@@ -214,8 +245,8 @@ class ProductsPage extends Component {
     function getIconName(id, category){
       if (articleIDIconMapper[id] !== undefined){
         return articleIDIconMapper[id]
-      } else if (categoryIconMapper[category] !== undefined){
-        return categoryIconMapper[category]
+      } else if (categoryIconMapper[category.id] !== undefined){
+        return categoryIconMapper[category.id]
       }
       return 'otherIcon'
     }
@@ -223,9 +254,8 @@ class ProductsPage extends Component {
 
     var categories = this.state.articles.reduce((itemsSoFar, {category, name, id}) => {
       if (!itemsSoFar[category]) itemsSoFar[category] = [];
-      //itemsSoFar[category].push({name, id, getIconName(id, category)});
       var iconName = getIconName(id, category)
-      itemsSoFar[category].push({name, id, iconName} );
+      itemsSoFar[category].push({name, id, iconName});
 
       return itemsSoFar; 
     }, {});
