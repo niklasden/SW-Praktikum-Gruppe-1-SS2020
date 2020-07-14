@@ -76,12 +76,62 @@ class App extends React.Component {
 	};
 	this.fetchCurrentUserID = this.fetchCurrentUserID.bind(this);
 	}
-	
-
+	async getLatestUserID() {
+		try {
+		  const res = await fetch(Config.apiHost + '/User');
+		  const resjson = await res.json();
+		  const latestID = resjson[resjson.length -1].id;
+		  return parseInt(latestID) + 1
+		}catch(e) {
+		  this.setState({error: e});
+		}
+	  }
+	  async getAllUsers() {
+		try {
+		  const res = await fetch(Config.apiHost + '/User');
+		  const resjson = await res.json();
+		  return resjson;
+		}catch(e) {
+		  this.setState({error: e});
+		}
+	  }
+	async addUser(firebaseUser) {
+		var users = await this.getAllUsers();
+		console.log(users);
+		if(users.find(user => user.email === firebaseUser.email) === undefined) {
+			console.log("User noch nicht in der DB vorhanden, erstelle Neuen.");
+			var latestUserID = await this.getLatestUserID();
+			try{
+			  const rb = {
+				"id": latestUserID,
+				"name": firebaseUser.displayName,
+				"email": firebaseUser.email,
+				"firebase_id": firebaseUser.uid
+			  }
+			  const requestBody = JSON.stringify(rb)
+			  const rInit = {
+				method: 'POST', 
+				headers: {
+				  'Content-Type': 'application/json'
+				}, 
+				body: requestBody
+			  } 
+			  const resp = await fetch(Config.apiHost + '/User', rInit)
+			  if(resp.ok)  {
+				  console.log("User", rb, "erstellt");
+			  }else {
+				  console.log("User", rb, "konnte nicht erstellt werden")
+			  }
+		  }catch(e) {
+		  this.setState({error: e})
+		  }
+		}else {
+			console.log("User bereits in der DB vorhanden", firebaseUser);
+		}
+	  }
 	async fetchCurrentUserID(){
-		const json = await fetch(Config.apiHost + "/User/firebaseid/" + settingsOptions.getCurrentUserFireBaseID());
+		const json = await fetch(Config.apiHost + "/User/firebaseid/" + firebase.auth().currentUser.uid);
 		const res = await json.json();
-		//console.log("RES", res);
 		settingsOptions.setCurrentUserID(res.id)
 		this.setState({currentUserID:res.id})
 	}
@@ -94,7 +144,7 @@ class App extends React.Component {
 		// Update state so the next render will show the fallback UI.
 		return { appError: error };
 	}
-
+	
 	/** Handles firebase usres logged in state changes  */
 	handleAuthStateChange = user => {
 		if (user) {
@@ -116,6 +166,12 @@ class App extends React.Component {
 					authError: null,
 					authLoading: false
 				});
+				this.fetchCurrentUserID();
+				if(this.state.currentUserID === null) {
+					this.addUser(user);
+				}else {
+					console.log(this.state.currentUserID);
+				}
 			}).catch(e => {
 				this.setState({
 					authError: e,
@@ -163,11 +219,6 @@ class App extends React.Component {
 		document.title = 'iKaufa';
 	  const { currentUser, appError, authError, authLoading,isNavHidden } = this.state;
 
-		if(currentUser && !this.state.isloaded) {
-			settingsOptions.setCurrentUserFireBaseID(currentUser.uid)
-			this.fetchCurrentUserID()
-			this.setState({isloaded:true})
-		}
 		return (
 			<ThemeProvider theme={Theme}>
 				<div>

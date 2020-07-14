@@ -25,6 +25,8 @@ import avatar from '../img/avatar.jpg';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import { Config } from '../../config';
 import { withRouter } from "react-router";
+import ShoppingAPI from '../../api/ShoppingAPI';
+import GroupBO from '../../api/GroupBO';
 
 
 const useStyles = (theme) => ({
@@ -69,6 +71,7 @@ class CreateGroup extends Component {
           fetchuser: ''
       }
       this.deleteMember = this.deleteMember.bind(this);
+      // this.saveGroup = this.saveGroup.bind(this);
     }
 
     deleteMember(id) {
@@ -79,8 +82,6 @@ class CreateGroup extends Component {
     };
 
     addMember(id) {
-
-
         this.setState({groupMembers: [...this.state.groupMembers, {firstname: this.state.inputval, } ]})
     }
 
@@ -119,6 +120,7 @@ class CreateGroup extends Component {
             
             let response = await fetch(Config.apiHost + '/User/email/' + email );
             let data = await response.json()
+            console.log(data);
             if (data.name != null){
               
               
@@ -200,13 +202,14 @@ class CreateGroup extends Component {
     
     }
 
-
+    
     const saveGroup = async () => {
       try {
         const group = {
           id: 1, 
           name: this.state.groupnameval, 
-          description: "no description defined in frontend"
+          description: "no description defined in frontend",
+          creationdate: "2020-03-20T14:30:43"
         }
         const requestBody = JSON.stringify(group)
         console.log(requestBody)
@@ -234,8 +237,6 @@ class CreateGroup extends Component {
         } else {
           alert("error")
         }
-
-          
           alert('The group was saved')
       }
       catch (error) {
@@ -243,6 +244,16 @@ class CreateGroup extends Component {
           console.log(error)
       } 
     }
+ 
+ /*
+   const saveGroup = () => {
+     alert();
+      let newGroup = new GroupBO(this.state.groupnameval, "no description defined in frontend")
+      ShoppingAPI.getAPI().saveGroup(newGroup).then(
+        this.props.history.push('/settings')
+      ).catch(e =>
+        alert(e))
+  }; */
     
     return (
         <Container maxWidth="sm" style={{justifyContent: 'center'}}>
@@ -313,7 +324,7 @@ class CreateGroup extends Component {
                     </div>
             </Grid>
             <Grid item xs="12" style={{}}>
-                    <MainButton className={classes.CreateButton} onclick={() => {saveGroup()} }>Create Group</MainButton>
+                    <MainButton className={classes.CreateButton} onclick={() => saveGroup() }>Create Group</MainButton>
             </Grid>
         </Grid>
         </Container>

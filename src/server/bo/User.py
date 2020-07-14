@@ -10,7 +10,8 @@ class User (bo.BusinessObject):
         super().__init__()
         self._name = ""
         self._email = "" 
-        self._firebase_id = ""   
+        self._firebase_id = "" 
+        self._creationdate = None 
     
     def randomize(self):
         """
@@ -26,6 +27,11 @@ class User (bo.BusinessObject):
         self.set_email(str(self.get_name())+"@testmail.de")
         self.set_firebase_id(self.get_name() + str(random.randint(2001,3000)))
 
+    def get_creationdate(self):
+        return self._creationdate
+
+    def set_creationdate(self,cd):
+        self._creationdate = cd 
 
     def get_name(self):
         return self._name
@@ -55,6 +61,7 @@ class User (bo.BusinessObject):
         obj.set_name(dictionary["name"])
         obj.set_email(dictionary["email"])
         obj.set_firebase_id(dictionary["firebase_id"])
+        
         return obj
 
 

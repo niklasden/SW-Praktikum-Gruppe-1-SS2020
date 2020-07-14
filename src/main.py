@@ -15,7 +15,7 @@ from server.bo.ListEntry import ListEntry
 from server.bo.Retailer import Retailer
 from server.bo.Article import Article
 from server.db.ArticleMapper import ArticleMapper
-from server.bo.ShoppingLIst import ShoppingList
+from server.bo.ShoppingList import ShoppingList
 import json
 
 
@@ -44,33 +44,36 @@ Business Objects: Group, ListEntry t.b.f
 """
 group = api.inherit('Group',bo, {
     'name': fields.String(attribute='name',description="A groups name"),
-    'description': fields.String(attribute='description',description="A groups description")
+    'description': fields.String(attribute='description',description="A groups description"),
+    'creationdate': fields.DateTime(attribute='creationdate', description="The creationdate of group")
 })
 
 user = api.inherit('User',bo,{
     'name': fields.String(attribute='_name',description="An users name"),
     'email': fields.String(attribute='_email',description="An users email"),
-    'firebase_id': fields.String(attribute='_firebase_id',description="An users firebaseid ")
+    'firebase_id': fields.String(attribute='_firebase_id',description="An users firebaseid "),
+    'creationdate': fields.DateTime(attribute='_creationdate',description="An users creationdate")
 })
 
 retailer = api.inherit('Retailer',bo,{
     'id': fields.Integer(attribute='_id', description="The id of a retailer"),
     'name': fields.String(attribute='_name',description="A retailers name"),
-    'location': fields.String(attribute='_location', description="The address/location of a retailer as single string")
+    'location': fields.String(attribute='_location', description="The address/location of a retailer as single string"),
+    'creationdate': fields.DateTime(attribute='_creationdate',description="An retailers creationdate")
 })
 
 listentry = api.inherit('ListEntry',bo, {
     'article_id': fields.Integer(attribute='_article_id',description="Article ID of a listentry"),
-    'retailer_id': fields.Integer(attribute='_retailer_id',description="Retailer ID of the specific listenty"),
     'shoppinglist_id': fields.Integer(attribute='_shoppinglist_id',description="Corresponding Shopping List ID of a listentry"),
     'user_id': fields.Integer(attribute='_user_id',description="User ID which the ListEntry is assigned to"),
     'group_id': fields.Integer(attribute='_group_id',description="Group ID in which the ListEntry belongs to"),
     'amount': fields.Integer(attribute='_amount',description="Amount of item to be bought"),
-    'unit': fields.Integer(attribute='_unit', description="Unit of item"),
+    'unit': fields.String(attribute='_unit', description="Unit of item"),
     'bought': fields.String(attribute='_bought',description="Date when the article was bought"),
-    'article_name': fields.String(attribute='_article_name',description="Name of the article"),
+    'name': fields.String(attribute='_name',description="Name of the article"),
     'category': fields.String(attribute='_category',description="Category of the article"),
-    'retailer': fields.String(attribute='_retailer',description="Retailer where the items/articles were bought"),
+    'retailer': fields.String(attribute='_retailer_id',description="Retailer where the items/articles were bought"),
+    'creationdate': fields.DateTime(attribute='_creationdate',description="An listentries creationdate")
 })
 
 report = api.inherit('Report',bo, {
@@ -82,12 +85,14 @@ report = api.inherit('Report',bo, {
 })
 article = api.inherit('Article', bo, {
     'name': fields.String(attribute='_name', description="An Article name"), 
-    'category': fields.String(attribute='_category', description="Category name of the specific article")
+    'category': fields.String(attribute='_category', description="Category name of the specific article"),
+    'creationdate': fields.DateTime(attribute='_creationdate',description="An users creationdate")
 })
 
 shoppingList = api.inherit('ShoppingList', bo, {
     'name': fields.String(attribute='_name', description="The name of a ShoppingList"),
-    'group_id': fields.Integer(attribute='_group_id', description="The group id the shopping list belongs to")
+    'group_id': fields.Integer(attribute='_group_id', description="The group id the shopping list belongs to"),
+    'creationdate': fields.DateTime(attribute='_creationdate', description="Create Date of the shopping list")
 })
 
 # alle bos hier aufführen!
@@ -113,7 +118,6 @@ class MembershipOperations(Resource):
 	"Group_ID":5
     }
     """
-
     #@secured
     def post(self):
         
@@ -170,9 +174,8 @@ class MembershipGroupOperations(Resource):
 @shopping_v1.response(500,'If an server sided error occures')
 @shopping_v1.param('userid', 'Users id')
 class UserGroupOperations(Resource):
-    
     @shopping_v1.marshal_with(group)
-    #@secured
+    # @secured
     def get(self,userid):
         adm = ShoppingAdministration()
         return adm.get_all_user_groups(userid)
@@ -185,7 +188,6 @@ class GroupListOperations(Resource):
     #@secured
     def get(self):
         adm = ShoppingAdministration()
-    
         return adm.get_all_groups()
     
     @shopping_v1.marshal_with(group,code=200)
@@ -196,7 +198,7 @@ class GroupListOperations(Resource):
         try:
             proposal = Group.from_dict(api.payload)
             if proposal is not None:
-                c = adm.create_group(proposal.get_name(),proposal.get_description())
+                c = adm.create_group(proposal.get_name(),proposal.get_description(),proposal.get_creationdate())
                 return c, 200
             else:
                 return "",500
@@ -209,7 +211,7 @@ class GroupListOperations(Resource):
 @shopping_v1.param('id', 'Group objects id')
 class GroupOperations(Resource):
     @shopping_v1.marshal_with(group)
-    #@secured
+    @secured
     def get(self,id):
         adm = ShoppingAdministration()
         return adm.get_group_by_id(id)
@@ -318,16 +320,18 @@ class UserListOperations(Resource):
     #@secured
     def post(self):
         adm = ShoppingAdministration()
-        try:
-            proposal = User.from_dict(api.payload)
-            if proposal is not None:
-                c = adm.create_user(proposal.get_name(),proposal.get_email(),proposal.get_firebase_id())
-                return c, 200
-            else:
-                return "",500
-
-        except Exception as e:
-            return str(e),500
+        """ try:
+ """
+        proposal = User.from_dict(api.payload)
+        if proposal is not None:
+            c = adm.create_user(proposal.get_name(),proposal.get_email(),proposal.get_firebase_id())
+            return c, 200
+        else:
+            return "",500
+        """ except Exception as e:
+            print(e)
+            return str(e) """
+        
 
 # TODO: uppercase report
 @shopping_v1.route('/report/<int:id>')
@@ -559,7 +563,7 @@ class testGroupListOperations(Resource):
     def get(self):
         adm = ShoppingAdministration()
         
-        result= adm.get_all_groups(id) # hier dann die id aus der payload
+        result = adm.get_all_groups(id) # hier dann die id aus der payload
         return result
 
 
@@ -636,7 +640,7 @@ class testListEntry(Resource):
         result = adm.insert_listentry(listentry)
         return result
 
-@shopping_v1.route('Listentry/get_items_of_group/<int:group_id>')
+@shopping_v1.route('/Listentry/get_items_of_group/<int:group_id>')
 @shopping_v1.response(500, 'Falls was in die Fritten geht')
 @shopping_v1.param('group_id', "Group_id")
 class testListEntry(Resource):
@@ -646,35 +650,46 @@ class testListEntry(Resource):
         result = adm.get_items_of_group(group_id)
         return result
 
-@shopping_v1.route('/Listentry/Update')
-@shopping_v1.response(500, 'If an server sided error occures')
-#@testing.param('listentry', "Listentry object id")
+@shopping_v1.route('/Listentry/get_unassigned_items_of_group/<int:group_id>')
+@shopping_v1.response(500, 'Falls was in die Fritten geht')
+@shopping_v1.param('group_id', "Group_id")
 class testListEntry(Resource):
+    @shopping_v1.marshal_with(listentry)
+    def get(self, group_id):
+        adm = ShoppingAdministration()
+        result = adm.get_items_of_group(group_id)
+        return result
 
+
+@shopping_v1.route('/Listentry/update')
+@shopping_v1.response(500, 'If an server sided error occures')
+@testing.param('listentry', "Listentry object")
+class testListEntry(Resource):
     @shopping_v1.marshal_with(listentry, code= 200)
     @shopping_v1.expect(listentry)
     def post(self):
         adm = ShoppingAdministration()
-       
         proposal = ListEntry.from_dict(api.payload)
+        print(proposal)
         
         if proposal is not None: 
-            #le = adm.creata e_listenty
-            print(proposal.get_id())
-            c = ListEntry()
-            c.set_id(proposal.get_id())
-            c.set_article(proposal.get_article())
-            c.set_retailer(proposal.get_retailer())
-            c.set_shoppinglist(proposal.get_shoppinglist())
-            c.set_user(proposal.get_user())
-            c.set_group(proposal.get_group())
-            c.set_amount(proposal.get_amount())
-            c.set_buy_date(proposal.get_buy_date())
+            #print(proposal.get_id())
+            le = ListEntry()
+            le.set_id(proposal.get_id())
+            le.set_article(proposal.get_article())
+            le.set_retailer(proposal.get_retailer())
+            le.set_user(proposal.get_user())
+            le.set_amount(proposal.get_amount())
+            le.set_unit(proposal.get_unit())
+            le.set_buy_date(proposal.get_buy_date())
+            le.set_group(proposal.get_group())
+            le.set_shoppinglist(proposal.get_shoppinglist())
+         
             if (proposal.get_id() == 0):
-                j = adm.insert_listentry(c)
+                res = adm.insert_listentry(le)
             else: 
-                j = adm.update_listentry(c)
-            return j, 200
+                res = adm.update_listentry(le)
+            return res, 200
         else:
             return "", 500
         

@@ -10,6 +10,9 @@ import IconButton from '@material-ui/core/IconButton';
 import ShoppingSettings from '../../../src/shoppingSettings'
 import { Config } from '../../config'
 import { withRouter } from "react-router"
+import ContextErrorMessage from '../dialogs/ContextErrorMessage';
+import LoadingProgress from '../dialogs/LoadingProgress'
+import ShoppingAPI from '../../api/ShoppingAPI';
 
 const settingsobj = ShoppingSettings.getSettings()
 
@@ -35,56 +38,64 @@ class Groups extends Component {
   constructor(props){
     super(props);
 
-    this.state ={
-      groupItemss: [],
+    this.state = {
+      groupItems: [],
+      loadingInProgress: false,
+      loadingError: null,
+      loadingGroupsError: null,
+      
     };
     this.deleteGroup = this.deleteGroup.bind(this);
   }
 
-  async deleteGroup(id) {
-    try{
-    const rInit = {
-      method: 'DELETE'
-    }
-    const resp = await fetch(Config.apiHost + '/Group/' + id, rInit)
-    if(resp.ok){
+  deleteGroup = (id) => {
+    ShoppingAPI.getAPI().deleteGroup(id).then(groupBOs => {
       this.props.history.push('/Groups')
-      alert("group and all memberships deleted")
-    } else {
-     alert("Fehler !")
-    }
-  }catch(e){alert(e)}
-    this.setState({
-            groupItemss: this.state.groupItemss.filter(elem => elem.id !== id)       
-     // request to db! > delete Group      
-   })
-  
-   if(settingsobj.onlySettingsGetSettingsGroupID() == id){
-      settingsobj.onlySettingsSetSettingsGroupID(0)
-      settingsobj.onlySettingsSetSettingsGroupName("")
-  }
-  }
-  
-
-  async fetchGroups(){
-    const res = await fetch(Config.apiHost + '/Group/Usergroup/'+ settingsobj.getCurrentUserID())
-    const resjson = await res.json()
-    console.log( resjson)
-    this.setState({groupItemss:resjson}) 
+      this.setState({groupItems: this.state.groupItems.filter(elem => elem.id !== id)})
+      alert("Group and all Members deleted")
+  }).catch(e =>
+      alert(e)
+      )
+       if(settingsobj.onlySettingsGetSettingsGroupID() == id){
+         settingsobj.onlySettingsSetSettingsGroupID("")
+         settingsobj.onlySettingsSetSettingsGroupName("")
+       }
   }
 
+  getGroups = () => {
+    ShoppingAPI.getAPI().getGroupsforUser(settingsobj.getCurrentUserID()).then(groupBOs => {
+      this.setState({  // Set new state when AccountBOs have been fetched
+        groupItems: groupBOs,
+        loadingInProgress: false,
+        loadingerror: null
+      })
+     }).catch(e => 
+        this.setState({
+          groupItems: [],
+          loadingInProgress: false,
+          loadingGroupsError: e
+        })
+      );
+      this.setState({
+              loadingInProgress: true,
+              loadingError:null
+            })
+     };
 
+
+   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount(){
-    this.fetchGroups()
+    this.getGroups()
     settingsobj.onlySettingsSetSettingsGroupID("")
     settingsobj.onlySettingsSetSettingsGroupName("")
   };
 
 
   renderGroups(){
-      const {classes } = this.props;
-      const Groups =[];
-      this.state.groupItemss.forEach( elem => {
+      const { classes } = this.props;
+      const Groups=[];
+      
+      this.state.groupItems.forEach( elem => {
           Groups.push(
           <Grid item xs={6}>
               {/* Now by clicking on a group we set the settingsgroupid @Julius here we need a parameter to fetch the right group, all groups a user is part of, then specific group hes clicking on */}
@@ -103,13 +114,13 @@ class Groups extends Component {
                 </Grid>
             </Grid>)
       })
-      return Groups}
+      return Groups
     
+  } 
       
   render(){
     const { classes } = this.props;
-    var groupI = this.state.groupItems
-  
+    const { loadingInProgress, loadingError, loadingGroupsError, groupItems } = this.state;
     return (
     <>
       <Grid container spacing={3} >
@@ -120,6 +131,8 @@ class Groups extends Component {
           </Link>
         </Grid> 
       </Grid>
+      <LoadingProgress show={loadingInProgress}/>
+      <ContextErrorMessage error={loadingError} contextErrorMsg={'The list of alll groups could not be loaded'} onReload={this.getGroups} />
       </>
       
       )

@@ -11,6 +11,13 @@ class Article (bo.BusinessObject):
         super().__init__()
         self._name = ""
         self._category = None
+        self._creationdate = None
+
+    def get_creationdate(self):
+        return self._creationdate
+
+    def set_creationdate(self,cd):
+        self._creationdate = cd
 
     def get_name(self):
         return self._name
@@ -34,5 +41,6 @@ class Article (bo.BusinessObject):
         obj.set_id(dictionary["id"])
         obj.set_name(dictionary["name"])
         obj.set_category(dictionary["category"])
+        
         return obj
 

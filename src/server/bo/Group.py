@@ -5,10 +5,11 @@ class Group(bo.BusinessObject):
     """
     author: Julius
     """
-    def __init__(self, g_name="Group_name",desc = ""):
+    def __init__(self, g_name="Group_name",desc = "", creationdate=""):
         super().__init__()
         self.description = desc
         self.name = g_name
+        self.creationdate = creationdate
        
 
     def set_description(self,d):
@@ -41,6 +42,13 @@ class Group(bo.BusinessObject):
     def add_shopping_list(self,s_list):
         self.shopping_list = s_list
 """
+
+    def get_creationdate(self):
+        return self.creationdate
+
+    def set_creationdate(self,date):
+        self.creationdate = date
+
     def __str__(self):
         return "GroupName: {0} ; GroupID: {1}".format(self.name,self._id)
 
@@ -51,6 +59,7 @@ class Group(bo.BusinessObject):
         obj.set_id(dictionary["id"])
         obj.set_name(dictionary["name"])
         obj.set_description(dictionary["description"])
+        obj.set_creationdate(dictionary["creationdate"])
         return obj
 
 

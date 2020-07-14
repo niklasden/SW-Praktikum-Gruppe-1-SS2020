@@ -51,6 +51,8 @@ import cosmeticsIcon from '../../icons/cosmetics.svg'
 import fruitsIcon from '../../icons/fruits.svg'
 import meatAndFishIcon from '../../icons/meat_and_fish.svg'
 import milkAndEggsIcon from '../../icons/milk_and_eggs.svg'
+import snacksIcon from '../../icons/snacks.svg'
+import vegetablesIcon from '../../icons/vegetables.svg'
 
 // add your icon here, you can then call it by <CustomIcon iconName='iconname' />
 // place the file in icons and import it the same way the appleIcon has been imported
@@ -99,12 +101,15 @@ const icons = {
   yoghurt: yoghurtIcon, 
   soap: soapIcon, 
 
+  // category icons
   beverages: beveragesIcon,
   convenience: convenienceIcon, 
   cosmetics: cosmeticsIcon,
   fruits: fruitsIcon,
   meatAndFish: meatAndFishIcon,
   milkAndEggs: milkAndEggsIcon,
+  snacks: snacksIcon, 
+  vegetables: vegetablesIcon, 
 
   // non food related icons
   advertising: advertisingIcon, 
