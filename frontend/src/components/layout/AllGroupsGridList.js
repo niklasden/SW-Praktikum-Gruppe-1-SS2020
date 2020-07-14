@@ -3,17 +3,11 @@ import { withStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
-import IconButton from '@material-ui/core/IconButton';
-
-import InfoIcon from '@material-ui/icons/Info';
-import { useRadioGroup } from '@material-ui/core';
-import { blue } from '@material-ui/core/colors';
-
-import {Link} from 'react-router-dom'
-
-import GroupIcon from '../../icons/Other/users.svg'
-import { Config } from '../../config'
-import ShoppingSettings from '../../../src/shoppingSettings'
+import {Link} from 'react-router-dom';
+import MainButton from './MainButton';
+import GroupIcon from '../../icons/Other/users.svg';
+import { Config } from '../../config';
+import ShoppingSettings from '../../../src/shoppingSettings';
 
     const styles = theme => ({
         root: {
@@ -59,6 +53,7 @@ class GroupsGridList extends Component {
         super(props);
         this.state ={
           groupItemss: [],
+          groupsFetched: false
         };
       }
     
@@ -68,6 +63,7 @@ class GroupsGridList extends Component {
         const res = await fetch(Config.apiHost + '/Group/Usergroup/'+ this.props.currentUserID)
         const resjson = await res.json()
         this.setState({groupItemss:resjson})
+        this.setState({groupsFetched: true})
 
       }
       
@@ -81,50 +77,43 @@ class GroupsGridList extends Component {
       
       render(){
         const { classes } = this.props;
-        var groupI = this.state.groupItems
-        if (this.state.groupItemss.length == 0){
+        if (this.state.groupItemss.length == 0 && !this.state.groupsFetched){
           this.fetchGroups()
               }
-        
         if (settingsobj.getGroupID() == 0){
           fetch(Config.apiHost + '/Group/Usergroup/'+ this.props.currentUserID)
           .then(response => response.json())
           .then(data => {if(data.length > 0) {
             settingsobj.setGroupID(1)
           }})
-
         }
         return(
           
             <div className={classes.rootTwo}>
-                <GridList className={classes.gridList} cellHeight={180} cols={2.5}>
-                
-
-                {this.state.groupItemss.map((tile) => (
-
-                  
-                 <GridListTile key={GroupIcon}>
-                     <img src={GroupIcon} alt={tile.name} />
-                     
-                <Link to="" onClick={() => {settingsobj.setGroupID(tile.id);settingsobj.setGroupName(tile.name); alert("Active group set to: " + settingsobj.getGroupName() + "  |  Group ID: "+ settingsobj.getGroupID())}} aria-label={`info about ${tile.title}`} className={classes.icon}>
-                 <GridListTileBar 
-                     title={ tile.name}
-                    classes={{
-                      root: classes.titleBar,
-                     title: classes.title,
-                          }}
-                     
-                            /> </Link>
-                 </GridListTile>
-                 
-                ))}
-
-
+                {this.state.groupItemss.length !== 0 ?
+                  this.state.groupItemss.map((tile) => (
+                <GridList className={classes.gridList} cellHeight={180}>
+                  <GridListTile key={tile.id}>
+                      <img src={GroupIcon} alt={tile.name} />
+                  <Link to="" onClick={() => {settingsobj.setGroupID(tile.id);settingsobj.setGroupName(tile.name); alert("Active group set to: " + settingsobj.getGroupName() + "  |  Group ID: "+ settingsobj.getGroupID())}} aria-label={`info about ${tile.title}`} className={classes.icon}>
+                  <GridListTileBar 
+                      title={ tile.name}
+                      classes={{
+                        root: classes.titleBar,
+                      title: classes.title,
+                            }}
+                      
+                              /> </Link>
+                  </GridListTile>
                 </GridList>
-                
-
-
-
+                  ))
+                  : <div>
+                    There are no groups!
+                    <Link to="/createGroup">
+                      <MainButton>Add one</MainButton>
+                    </Link>
+                  </div>
+                }
             </div>
         )
       }

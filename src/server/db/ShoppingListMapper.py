@@ -88,7 +88,58 @@ class ShoppingListMapper (Mapper):
         self._cnx.commit()
         cursor.close()
 
+        self._insert_default_articles_to_shopping_list(shopping_list.get_id())
+
         return shopping_list
+
+    def _insert_default_articles_to_shopping_list(self, shopping_list_id):
+        """
+        @Author: Christopher Böhm
+        :param shopping_list_id:
+        :return:
+        """
+        cursor = self._cnx.cursor()
+
+        cursor.execute("SELECT MAX(ID) AS maxid FROM Listentry ")
+        tuples = cursor.fetchall()
+
+        new_id = 1
+        for (maxid) in tuples:
+            new_id = maxid[0] + 1
+
+        cursor.execute("SELECT ID FROM Article WHERE standard_article=1")
+        tuples = cursor.fetchall()
+
+        insertArticlesStatemenet = ""
+        for (article_id) in tuples:
+            cursor = self._cnx.cursor()
+
+            insertArticlesStatemenet = """ INSERT INTO Listentry (
+                    ID, 
+                    Article_ID, 
+                    Retailer_ID, 
+                    Shoppinglist_ID, 
+                    User_ID, 
+                    Group_ID, 
+                    amount, 
+                    unit, 
+                    bought
+                )
+                VALUES (
+                    {0}, 
+                    {1}, 
+                    NULL, 
+                    {2}, 
+                    NULL, 
+                    NULL, 
+                    0, 
+                    0, 
+                    NULL
+                );
+            """.format(new_id, article_id[0], shopping_list_id)
+            cursor.execute(insertArticlesStatemenet, {})
+            print("inserted")
+            new_id = new_id + 1
 
     def update(self, shopping_list):
         """Overwriting the shopping list object in databse
