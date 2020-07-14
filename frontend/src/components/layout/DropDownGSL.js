@@ -29,8 +29,7 @@ class DropDownGSL extends Component {
     user:[],
     retailer: [],
   }
-  /* userarray was {id: 1, name:'Niklas'},{id: 2, name:'Julius'},{id: 3, name:'Pia'},{id: 4, name:'Chris'},{id: 5, name:'Kevin'},{id: 6, name:'Pascal'} */
-
+ 
   handleClick(event){
     this.setState({anchorEl: event.currentTarget});
   };
@@ -45,21 +44,19 @@ class DropDownGSL extends Component {
     }
     this.setState({items: newList});
   }
-
+  
   fetchGroupMembers = () => {
     ShoppingAPI.getAPI().getUsers(settingsobj.getGroupID()).then(userBOs => {
-      /*for each user inside user BOs fetch user name; */
-      // ShoppingAPI.getAPI().get 
       this.setState({
         user: userBOs
       })
-      console.info(userBOs);
+      /* console.info(userBOs); */
     }).catch(e => 
         console.log(e)
       );
     
   }
-
+ 
   fetchRetailers = () => {
     ShoppingAPI.getAPI().getRetailers(settingsobj.getGroupID()).then(retailerBOs => {
       this.setState({

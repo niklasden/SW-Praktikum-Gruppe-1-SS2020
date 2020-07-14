@@ -250,7 +250,7 @@ class ListEntryMapper(Mapper):
         """
         try:
             cursor = self._cnx.cursor()
-            command = "UPDATE Listentry " + "SET Article_ID={0}, Retailer_ID={1}, Shoppinglist_ID={2}, User_ID={3}, Group_ID={4}, amount={5}, bought='{6}' WHERE ID={7}".format(listentry.get_article(), listentry.get_retailer(), listentry.get_shoppinglist(), listentry.get_user(), listentry.get_group(), listentry.get_amount(), listentry.get_buy_date(), listentry.get_id())
+            command = "UPDATE Listentry " + "SET Article_ID={0}, Retailer_ID={1}, Shoppinglist_ID={2}, User_ID={3}, Group_ID={4}, amount={5}, unit={6} WHERE ID={7}".format(listentry.get_article(), listentry.get_retailer(), listentry.get_shoppinglist(), listentry.get_user(), listentry.get_group(), listentry.get_amount(), listentry.get_unit(), listentry.get_id())
             print(command)
             cursor.execute(command)
             self._cnx.commit()

@@ -44,7 +44,8 @@ Business Objects: Group, ListEntry t.b.f
 """
 group = api.inherit('Group',bo, {
     'name': fields.String(attribute='name',description="A groups name"),
-    'description': fields.String(attribute='description',description="A groups description")
+    'description': fields.String(attribute='description',description="A groups description"),
+    'creationdate': fields.DateTime(attribute='creationdate', description="The creationdate of group")
 })
 
 user = api.inherit('User',bo,{
@@ -65,7 +66,7 @@ listentry = api.inherit('ListEntry',bo, {
     'user_id': fields.Integer(attribute='_user_id',description="User ID which the ListEntry is assigned to"),
     'group_id': fields.Integer(attribute='_group_id',description="Group ID in which the ListEntry belongs to"),
     'amount': fields.Integer(attribute='_amount',description="Amount of item to be bought"),
-    'unit': fields.Integer(attribute='_unit', description="Unit of item"),
+    'unit': fields.String(attribute='_unit', description="Unit of item"),
     'bought': fields.String(attribute='_bought',description="Date when the article was bought"),
     'name': fields.String(attribute='_name',description="Name of the article"),
     'category': fields.String(attribute='_category',description="Category of the article"),
@@ -193,7 +194,7 @@ class GroupListOperations(Resource):
         try:
             proposal = Group.from_dict(api.payload)
             if proposal is not None:
-                c = adm.create_group(proposal.get_name(),proposal.get_description())
+                c = adm.create_group(proposal.get_name(),proposal.get_description(),proposal.get_creationdate())
                 return c, 200
             else:
                 return "",500
@@ -656,26 +657,28 @@ class testListEntry(Resource):
 
 @shopping_v1.route('/Listentry/update')
 @shopping_v1.response(500, 'If an server sided error occures')
-#@testing.param('listentry', "Listentry object id")
+@testing.param('listentry', "Listentry object")
 class testListEntry(Resource):
     @shopping_v1.marshal_with(listentry, code= 200)
     @shopping_v1.expect(listentry)
     def post(self):
         adm = ShoppingAdministration()
         proposal = ListEntry.from_dict(api.payload)
+        print(proposal)
         
         if proposal is not None: 
-            #le = adm.creata e_listenty
-            print(proposal.get_id())
+            #print(proposal.get_id())
             le = ListEntry()
             le.set_id(proposal.get_id())
             le.set_article(proposal.get_article())
             le.set_retailer(proposal.get_retailer())
-            le.set_shoppinglist(proposal.get_shoppinglist())
             le.set_user(proposal.get_user())
-            le.set_group(proposal.get_group())
             le.set_amount(proposal.get_amount())
+            le.set_unit(proposal.get_unit())
             le.set_buy_date(proposal.get_buy_date())
+            le.set_group(proposal.get_group())
+            le.set_shoppinglist(proposal.get_shoppinglist())
+         
             if (proposal.get_id() == 0):
                 res = adm.insert_listentry(le)
             else: 

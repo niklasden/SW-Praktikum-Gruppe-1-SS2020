@@ -34,7 +34,7 @@ export default class ShoppingAPI {
     
     
     //ListEntry URLs
-    #updateListEntryURL = (listentry) => `${this.#baseServerURL}/Listentry/update/${listentry}`;
+    #updateListEntryURL = () => `${this.#baseServerURL}/Listentry/update`;
 
 
     //Retailer URLs

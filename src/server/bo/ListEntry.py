@@ -11,14 +11,14 @@ class ListEntry(bo.BusinessObject):
     """
     def __init__(self):
         super().__init__()
-        self._id = 0
-        self._article_id = 0
-        self._retailer_id = 0
-        self._shoppinglist_id = 0
-        self._user_id = 0
-        self._group_id = 0
-        self._amount = 0
-        self._unit = 0
+        self._id = ""
+        self._article_id = ""
+        self._retailer_id = ""
+        self._shoppinglist_id = ""
+        self._user_id = ""
+        self._group_id = ""
+        self._amount = ""
+        self._unit = ""
         self._bought = ""
         self._name = ""
         self._category = ""
@@ -106,15 +106,15 @@ class ListEntry(bo.BusinessObject):
     
     def get_unit(self):
         """
-        Pascal unit:int
+        Pascal unit:str
         """
         return self._unit
     
     def set_unit(self, unit):
         """
-        Niklas unit:int
+        Niklas unit:str
         """
-        self._unit = unit
+        self._unit = str(unit)
 
     def get_checkout(self):
         """
@@ -134,11 +134,11 @@ class ListEntry(bo.BusinessObject):
         """
         return self._bought
     
-    def set_buy_date(self, date):
+    def set_buy_date(self, bought):
         """
         Pascal date:Date
         """
-        self._bought = date
+        self._bought = bought
 
     def get_group(self):
         """
@@ -177,7 +177,7 @@ class ListEntry(bo.BusinessObject):
         self._shoppinglist_id = shoppinglist
     
     def __str__(self):
-        return str(self._id) + " " + self._article_id
+        return str(self._id)
     @staticmethod
     def from_dict(dictionary=dict()):
         """Umwandeln eines Python dict() in ein ListEntry()."""
