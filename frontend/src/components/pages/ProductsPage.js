@@ -7,7 +7,7 @@ import CircularProgress from '@material-ui/core/CircularProgress/CircularProgres
 import ProductListEntry from '../layout/ProductListEntry';
 import { Link } from 'react-router-dom';
 import Heading from '../layout/Heading';
-import { Config } from '../../config'
+import { Config } from '../../config';
 
 const styles = theme => ({
     root: {
@@ -20,7 +20,44 @@ const styles = theme => ({
  });
 
 
- 
+const ICONS = [
+  {
+    id: '1', 
+    iconName: 'fruits'
+  }, 
+  {
+    id: '2', 
+    iconName: 'meatAndFish'
+  }, 
+  {
+    id: '3', 
+    iconName: 'fruits'
+  }, 
+  {
+    id: '4', 
+    iconName: 'beverages'
+  }, 
+  {
+    id: '5', 
+    iconName: ''
+  },
+  {
+    id: '6', 
+    iconName: ''
+  },
+  {
+    id: '7', 
+    iconName: 'milkAndEggs'
+  },
+  {
+    id: '8', 
+    iconName: 'cosmetics'
+  },
+  {
+    id: '9', 
+    iconName: 'convenience'
+  },
+] 
 /**
  * Example Categorys with Articles
  
@@ -107,7 +144,7 @@ const getProductsDummy = () => {
 /**
  * Renders a list of ArticleEntry objects
  * 
- * @see ArticleEntry
+ * @see ProductListEntry
  * 
  * @author [Pia Schmid](https://github.com/PiaSchmid)
  */
@@ -120,6 +157,7 @@ class ProductsPage extends Component {
     loadingArticlesError: null, 
     addingArticleError: null, 
     articles: [],
+    iconName: ICONS
   }
 
   componentDidMount(){
@@ -161,7 +199,11 @@ class ProductsPage extends Component {
   } */
 
   renderArticles(){
-    /*reduce creates an array with all articles of the same category*/ 
+    /*reduce creates an array with all articles of the same category*/
+    let iconName = this.state.iconName 
+    iconName.forEach((icon, i) => {
+      console.log(icon.id)
+    })
     var categories = this.state.articles.reduce((itemsSoFar, {category, name, id, iconName}) => {
       if (!itemsSoFar[category]) itemsSoFar[category] = [];
       itemsSoFar[category].push({name, id, iconName});
