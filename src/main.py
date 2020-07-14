@@ -147,14 +147,21 @@ class MembershipOperations(Resource):
     """
     #@secured
     def post(self):
-        adm = ShoppingAdministration
-        return str(api.payload), 200
+        try:
+            adm = ShoppingAdministration()
+            adm.delete_membership(api.payload["User_ID"],api.payload["Group_ID"])
+            return "deleted "+ str(api.payload), 200
+        except Exception as e:
+            return str(e)
+
 
 @shopping_v1.route('/membership/<int:groupid>')   
 @shopping_v1.response(500,'If an server sided error occures')
 @shopping_v1.param('groupid', 'Group ID')
 class MembershipGroupOperations(Resource):
-
+    
+    @shopping_v1.marshal_list_with(user)
+    #@secured
     def get(self,groupid):
         adm = ShoppingAdministration()
         return adm.get_users_by_groupid(groupid)
@@ -211,8 +218,14 @@ class GroupOperations(Resource):
     def delete(self,id):
         adm = ShoppingAdministration()
         grp = adm.get_group_by_id(id)
+        userobj = adm.get_users_by_groupid(id)
+        
+        if len(userobj) > 0:
+            for i in userobj:
+                adm.delete_membership(i.get_id(),id)
+                
         adm.delete_group(grp)
-        return "deleted",200
+        return "group and all memberships deleted",200
     
     @shopping_v1.marshal_with(group)
     @shopping_v1.expect(group,validate=True)
@@ -517,6 +530,16 @@ class ShoppingListOperations(Resource):
         slist = adm.get_shoppinglist_by_id(id)
         adm.delete_shoppinglist(slist)
         return '', 200
+@shopping_v1.route('/shoppinglist/all')
+@shopping_v1.response(500, 'Server side error occured')
+class ShoppingListOperations(Resource):
+    # @secured
+    def get(self):
+        """Abfragen aller Shoppinglists
+        """
+        adm = ShoppingAdministration()
+        slist = adm.get_shoppinglists()
+        return slist
 
 # TESTING AREA:
 @testing.route('/testSecured')

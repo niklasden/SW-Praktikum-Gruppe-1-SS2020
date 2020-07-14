@@ -256,7 +256,14 @@ class ShoppingAdministration (object):
     
     def get_users_by_groupid(self,gid):
         with GroupMapper() as mapper :
-            return mapper.get_users_by_gid(gid)
+            userids = mapper.get_users_by_gid(gid)
+            result = []
+            
+            #creating user objects from ids
+            for i in userids: 
+                r = self.get_user_by_id(i)
+                result.append(r)
+            return result
 
     # ShoppingList Chris
     def get_shoppinglists_by_group_id(self, group_id):
@@ -278,3 +285,7 @@ class ShoppingAdministration (object):
     def get_shoppinglist_by_id(self, list_id):
         with ShoppingListMapper() as mapper: 
             return mapper.find_by_key(list_id)
+
+    def get_shoppinglists(self):
+        with ShoppingListMapper() as mapper: 
+            return mapper.find_latest()
