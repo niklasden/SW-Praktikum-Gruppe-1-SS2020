@@ -3,6 +3,22 @@ import PropTypes from 'prop-types';
 import { Grid, Typography, withStyles, Checkbox, FormControlLabel, Button, Avatar, Box, Container, Badge, TextField } from '@material-ui/core';
 import MainButton from '../layout/MainButton';
 import AddAPhoto from '@material-ui/icons/AddAPhoto';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import ShoppingSettings from '../../../src/shoppingSettings';
+import { Config } from '../../config';
+//** Start Firebase Import **/
+// Firebase App (the core Firebase SDK) is always required and must be listed first
+import * as firebase from "firebase/app";
+// Add the Firebase products that you want to use
+import "firebase/auth";
+//** End Firebase Import **/
+
+const settingsobj = ShoppingSettings.getSettings()
+
 
 /**
  * @author [Niklas Denneler](https://github.com/niklasden): 
@@ -26,6 +42,11 @@ class AccountsPage extends Component {
 		}
 		this.uploadedImage = React.createRef();
 		this.imageUploader = React.createRef();
+		this.handleCloseDeleteConfirmation = this.handleCloseDeleteConfirmation.bind(this);
+		this.handleOpenDeleteConfirmation = this.handleOpenDeleteConfirmation.bind(this);
+		this.getAllUsers = this.getAllUsers.bind(this);
+		this.deleteAccount = this.deleteAccount.bind(this);
+		
 	}
 	/** 
  * Handles the click event of the sign in button an calls the prop onSignIn handler
@@ -39,17 +60,42 @@ class AccountsPage extends Component {
 		this.setState({
 			isNavHidden: false,
 			image: uploadedImage,
+			deleteDialog: null,
 		});
-		//get current settings either from db or local storage?
-		// 	fetch(``)
-		// 	  .then(res => {
-		// 		if (res.ok) {
-		// 		  return this.setState({ loading: false })  
-		// 		}
-		// 		const msg = 'Something is went wrong with the Backend' 
-		// 		alert(msg)
-		// 	  })
 	}
+		
+	handleCloseDeleteConfirmation() {
+		this.setState({deleteDialog: false})
+	}
+
+	handleOpenDeleteConfirmation() {
+		this.setState({deleteDialog: true})
+	}
+	async getAllUsers() {
+		try {
+		  const res = await fetch(Config.apiHost + '/User');
+		  const resjson = await res.json();
+		  return resjson;
+		}catch(e) {
+		  this.setState({error: e});
+		}
+	  }
+	async deleteAccount() {
+		try{
+		const rInit = {
+			method: 'DELETE'
+		}
+		var users = await this.getAllUsers();
+		var currentDBUser = users.find(user => user.email === firebase.auth().currentUser.email);
+		const resp = await fetch(Config.apiHost + '/User/' + currentDBUser.id, rInit)
+		if(resp.ok){
+			firebase.auth().signOut();
+		} else {
+			alert("Fehler !")
+			}
+		}catch(e){alert(e)}   
+	}
+
 	render() {
 		const { classes } = this.props;
 		var imageUploader = [];
@@ -132,10 +178,31 @@ class AccountsPage extends Component {
 						</Grid>
 						<Grid item xs={12}>
 							<MainButton variant="contained" onclick={() => { alert('Account saved') }}>Save Changes</MainButton>
-							<MainButton variant="contained" onclick={() => { alert('Account deleted') }}>Delete Account</MainButton>
+							<MainButton variant="contained" onclick={this.handleOpenDeleteConfirmation}>Delete Account</MainButton>
 						</Grid>
 					</Grid>
 				</Container>
+				<Dialog
+					open={this.state.deleteDialog}
+					onClose={this.handleCloseDeleteConfirmation}
+					aria-labelledby="alert-delete-title"
+					aria-describedby="alert-delete-description"
+				>
+					<DialogTitle id="alert-delete-title">{"Delete Account?"}</DialogTitle>
+					<DialogContent>
+					<DialogContentText id="alert-delete-description">
+						Do you really want to delete your account?
+					</DialogContentText>
+					</DialogContent>
+					<DialogActions>
+					<Button onClick={this.handleCloseDeleteConfirmation} color="primary">
+						CANCEL
+					</Button>
+					<Button onClick={this.deleteAccount} color="primary" autoFocus>
+						DELETE
+					</Button>
+					</DialogActions>
+				</Dialog>
 			</div>
 		);
 	}
