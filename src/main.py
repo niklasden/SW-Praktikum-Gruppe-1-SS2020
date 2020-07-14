@@ -90,7 +90,7 @@ article = api.inherit('Article', bo, {
 shoppingList = api.inherit('ShoppingList', bo, {
     'name': fields.String(attribute='_name', description="The name of a ShoppingList"),
     'group_id': fields.Integer(attribute='_group_id', description="The group id the shopping list belongs to"),
-    'creationdate': fields.Datetime(attribute='_creationdate', description="Create Date of the shopping list")
+    'creationdate': fields.DateTime(attribute='_creationdate', description="Create Date of the shopping list")
 })
 
 # alle bos hier aufführen!
