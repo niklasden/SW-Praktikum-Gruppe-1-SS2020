@@ -159,7 +159,9 @@ class MembershipOperations(Resource):
 @shopping_v1.response(500,'If an server sided error occures')
 @shopping_v1.param('groupid', 'Group ID')
 class MembershipGroupOperations(Resource):
-
+    
+    @shopping_v1.marshal_list_with(user)
+    #@secured
     def get(self,groupid):
         adm = ShoppingAdministration()
         return adm.get_users_by_groupid(groupid)
@@ -216,12 +218,12 @@ class GroupOperations(Resource):
     def delete(self,id):
         adm = ShoppingAdministration()
         grp = adm.get_group_by_id(id)
-        user_ids = adm.get_users_by_groupid(id)["User_IDs"]
-        if len(user_ids) > 0:
-            for i in user_ids:
-                adm.delete_membership(i,id)
+        userobj = adm.get_users_by_groupid(id)
+        
+        if len(userobj) > 0:
+            for i in userobj:
+                adm.delete_membership(i.get_id(),id)
                 
-            
         adm.delete_group(grp)
         return "group and all memberships deleted",200
     

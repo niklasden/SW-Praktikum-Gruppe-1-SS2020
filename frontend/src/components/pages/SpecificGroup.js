@@ -125,12 +125,37 @@ class SpecificGroup extends Component {
 
       }
   }
+  async deleteGroup(id) {
+    try{
+    const rInit = {
+      method: 'DELETE'
+    }
+    const resp = await fetch(Config.apiHost + '/Group/' + id, rInit)
+    if(resp.ok){
+      this.props.history.push('/Groups')
+      alert("group and all memberships deleted")
+    } else {
+     alert("Fehler !")
+    }
+  }catch(e){alert(e)}
+    this.setState({
+            groupItemss: this.state.groupItemss.filter(elem => elem.id !== id)       
+     // request to db! > delete Group      
+   })
+  
+   if(settingsobj.onlySettingsGetSettingsGroupID() == id){
+      settingsobj.onlySettingsSetSettingsGroupID(0)
+      settingsobj.onlySettingsSetSettingsGroupName("")
+  }
+  }
+  
   
   deleteMember(usr) {
     //array kopieren, element löschen, neues array als state setzen
     this.setState(prevState => ({
       groupmembers: prevState.groupmembers.filter(item => item !== usr)
     }))
+ 
     //fetch request zum delete aus der Membership tabelle
     try{
         const rb = {
@@ -149,10 +174,11 @@ class SpecificGroup extends Component {
         fetch(Config.apiHost + '/membership/del', rInit)
         alert("Deleted user with id: " +usr.id + " from this group")
         
-
-        if(this.state.groupmembers.length <1){
-          //delete Group
+        if(this.checkGroupMembers() == false){
+          alert("deleting group")
+          this.deleteGroup(settingsobj.onlySettingsGetSettingsGroupID())
         }
+        
     }catch (error){
       console.log(error)
     }
@@ -188,28 +214,7 @@ class SpecificGroup extends Component {
   }
   }
   
-  async fetchGroupMembers(){ //fetch group members for specific gorup
-    try {
-      const res = await fetch(Config.apiHost + '/membership/' + settingsobj.onlySettingsGetSettingsGroupID()) //Hier ID übergabe bei getmembersbygroupid = id = settingsobj.onlySettingsGetSettingsGroupID()
-      const resjson = await res.json()
-      const memberids = resjson.User_IDs
-      const gmembers = []
-      
-      memberids.forEach(async elem => {
-        const resu = await fetch(Config.apiHost + '/User/'+ elem)
-        const resujson = await resu.json()
-        gmembers.push(resujson)
-        this.setState({groupmembers: gmembers});
-  
-      })
-      //for i in memberids fetch get user member by id append gmembers 
-      this.setState({groupmembers:gmembers}) 
-    }catch(e) {
-      this.setState({error: e});
 
-    }
-    
-  }
   async getAllShoppingLists() {
     try {
       const res = await fetch(Config.apiHost + '/shoppinglist/all')
@@ -275,7 +280,23 @@ class SpecificGroup extends Component {
       }
     }catch(e) {
       this.setState({error: e});
+    }}
+  async checkGroupMembers(){
+    const res = await fetch(Config.apiHost + '/membership/' + settingsobj.onlySettingsGetSettingsGroupID()) //Hier ID übergabe bei getmembersbygroupid = id = settingsobj.onlySettingsGetSettingsGroupID()
+    const memberobjects = await res.json()
+    
+    if(memberobjects.lenght < 1){
+      return false
+    }else{
+      return true
     }
+  }
+
+  async fetchGroupMembers(){ //fetch group members for specific gorup
+    const res = await fetch(Config.apiHost + '/membership/' + settingsobj.onlySettingsGetSettingsGroupID()) //Hier ID übergabe bei getmembersbygroupid = id = settingsobj.onlySettingsGetSettingsGroupID()
+    const gmembers = await res.json()
+    
+    this.setState({groupmembers:gmembers}) 
   }
     
   componentDidMount(){
@@ -311,7 +332,64 @@ class SpecificGroup extends Component {
       this.setState({openAddShoppinglistDialog:true});
   };
   const handleClickCloseAddShoppinglistDialog = () => {
-    this.setState({openAddShoppinglistDialog:false})
+    this.setState({openAddShoppinglistDialog:false})};
+    
+    const UserExistCheck = (id) => {
+      var r = false
+      //console.log("userxc gm: ", this.state.groupmembers)
+      this.state.groupmembers.forEach(elem => {
+        if(elem.id == id){r = true }  
+      }
+      )
+      if(r == true){
+        alert("User already exists !")
+        return true
+      }else{return false; }
+    } 
+
+    const clear = () => {
+      this.setState({ fetchuser: '',groupnameval:''})
+    }
+
+    /*
+    const fetchspecificUser = async () => {
+      try {
+          let response = await fetch(`http://localhost:8081/api/shoppa/groupmembers/$email`);
+          let data = await response.json()
+          this.setState({groupmembers: this.state.groupmembers.concat(data)})
+          
+      }
+      catch (error) {
+          console.log(error)
+      }
+    };
+    */
+    const fetchspecificUser = async (email) => {
+      try {
+          
+          let response = await fetch(Config.apiHost + '/User/email/' + email );
+          let data = await response.json()
+          if (data.name != null){
+            const a = UserExistCheck()
+            console.log(a)
+            
+            /* if(UserExistCheck(data.id) == false)
+            {
+              this.setState({groupmembers: this.state.groupmembers.concat(data)})
+              this.setState({newgroupmembers: this.state.newgroupmembers.concat(data)})
+            }
+            }
+          else{
+            alert("No user with this email!")
+            */
+          } 
+         
+      }
+      catch (error) {
+          console.log(error)
+          alert(error)
+      }
+      
   };
     return (
       <div className={classes.accordion}>
