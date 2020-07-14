@@ -95,7 +95,8 @@ class SpecificGroup extends Component {
       newShoppinglistName: '',
       shoppinglists: [],
       error: null,
-      newMemberName: ''
+      newMemberName: '',
+      
     }
     this.deleteMember = this.deleteMember.bind(this);
     this.saveGroup = this.saveGroup.bind(this);
@@ -120,6 +121,9 @@ class SpecificGroup extends Component {
           } 
           
           const resp = await fetch(Config.apiHost + '/Group/' + settingsobj.onlySettingsGetSettingsGroupID(), rInit)
+          if(resp.ok){
+            this.props.history.push('/Groups')
+          }
       }catch(e) {
       this.setState({error: e})
 
@@ -171,7 +175,7 @@ class SpecificGroup extends Component {
           body: requestBody
         } 
         
-        fetch(Config.apiHost + '/membership/del', rInit)
+        fetch(Config.apiHost + '/membership/del', rInit) 
         alert("Deleted user with id: " +usr.id + " from this group")
         
         if(this.checkGroupMembers() == false){
@@ -196,20 +200,35 @@ class SpecificGroup extends Component {
     }
   };
   async fetchspecificUser() {
-    try {
+    try{
       let response = await fetch(Config.apiHost + '/User/email/' + this.state.newMemberName);
-      let newUser = await response.json()
+      let newUser = await response.json() 
       console.log("NEWUSER?", newUser);
       if((newUser && newUser.id)) {
         if(this.state.groupmembers.find(gmember => gmember.id === newUser.id)) {
           alert("User bereits in der Gruppe");
         }else {
-          let response = await fetch(Config.apiHost + '/Group/Usergroup/' + newUser.id);
-          alert("User existiert UND ist NICHT in der Gruppe, allerdings gibts noch keine Funktion ihn zur Gruppe hinzuzufügen");
+          const rb = {
+            "User_ID": newUser.id,
+            "Group_ID": settingsobj.onlySettingsGetSettingsGroupID()
+              }
+              const requestBody = JSON.stringify(rb)
+              
+              const rInitt = {
+                method: 'POST', 
+                headers: {
+                  'Content-Type': 'application/json'
+                }, 
+                body: requestBody
+              }           
+              let res = await fetch(Config.apiHost + '/membership',rInitt)
+              this.setState({groupmembers: [...this.state.groupmembers, newUser ]})
+
         }
       }
-  }
+    }
   catch (e) {
+    
     this.setState({error: e})
   }
   }
@@ -364,6 +383,7 @@ class SpecificGroup extends Component {
       }
     };
     */
+  /* 
     const fetchspecificUser = async (email) => {
       try {
           
@@ -381,7 +401,7 @@ class SpecificGroup extends Component {
             }
           else{
             alert("No user with this email!")
-            */
+            
           } 
          
       }
@@ -390,7 +410,8 @@ class SpecificGroup extends Component {
           alert(error)
       }
       
-  };
+  }; 
+  */
     return (
       <div className={classes.accordion}>
         {error ? 
@@ -461,14 +482,20 @@ class SpecificGroup extends Component {
           <DialogContentText>
             Please put in the email address, which the user used to signup for our app.
           </DialogContentText>
-          <Autocomplete
+          
+           {/* <Autocomplete
+            inputValue={this.state.inputval}
+            onInputChange={(event) => {this.setState({inputval: event.target.value})}}
+            onChange={() => {this.setState({newMemberName: this.state.inputval})}}
+
             id="combo-box-demo"
             options={this.state.users}
             getOptionLabel={(user) => user.email}
             style={{ width: 300 }}
             renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}
-          />
-          {/* <TextField
+          /> */}
+          
+           <TextField
             autoFocus
             margin="dense"
             id="name"
@@ -476,7 +503,7 @@ class SpecificGroup extends Component {
             type="email"
             fullWidth
             onChange={(e) => {this.setState({newMemberName: e.target.value })}}
-          /> */}
+          /> 
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClickCloseAddMemberDialog} color="primary">
