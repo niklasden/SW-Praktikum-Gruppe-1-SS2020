@@ -191,14 +191,25 @@ class UserMapper(Mapper):
         usrstring = str(user)
         try:
             cursor = self._cnx.cursor()
+            command = "DELETE FROM Membership WHERE User_ID={0}".format(user.get_id())
+            cursor.execute(command)
+            self._cnx.commit()
+        except Exception as e:
+            return "Error in delete User UserMapper: " + str(e)
+        try:
+            cursor = self._cnx.cursor()
+            command = "DELETE FROM Listentry WHERE User_ID={0}".format(user.get_id())
+            cursor.execute(command)
+            self._cnx.commit()
+        except Exception as e:
+            return "Error in delete User UserMapper: " + str(e)
+        try:
+            cursor = self._cnx.cursor()
             command = "DELETE FROM User WHERE ID={0}".format(user.get_id())
             cursor.execute(command)
-
             self._cnx.commit()
             cursor.close()
-
             return "deleted "+ usrstring
-
         except Exception as e:
             return "Error in delete User UserMapper: " + str(e)
 

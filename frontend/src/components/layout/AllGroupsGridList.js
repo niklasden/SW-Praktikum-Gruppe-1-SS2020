@@ -3,17 +3,11 @@ import { withStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
-import IconButton from '@material-ui/core/IconButton';
-
-import InfoIcon from '@material-ui/icons/Info';
-import { useRadioGroup } from '@material-ui/core';
-import { blue } from '@material-ui/core/colors';
-
-import {Link} from 'react-router-dom'
-
-import GroupIcon from '../../icons/Other/users.svg'
-import { Config } from '../../config'
-import ShoppingSettings from '../../../src/shoppingSettings'
+import {Link} from 'react-router-dom';
+import MainButton from './MainButton';
+import GroupIcon from '../../icons/Other/users.svg';
+import { Config } from '../../config';
+import ShoppingSettings from '../../../src/shoppingSettings';
 
     const styles = theme => ({
         root: {
@@ -92,7 +86,6 @@ class GroupsGridList extends Component {
           .then(data => {if(data.length > 0) {
             settingsobj.setGroupID(1)
           }})
-          console.log(this.state.groupsFetched)
         }
         return(
           
@@ -114,7 +107,12 @@ class GroupsGridList extends Component {
                   </GridListTile>
                 </GridList>
                   ))
-                  : <div>There are no groups.</div>
+                  : <div>
+                    There are no groups!
+                    <Link to="/createGroup">
+                      <MainButton>Add one</MainButton>
+                    </Link>
+                  </div>
                 }
             </div>
         )
