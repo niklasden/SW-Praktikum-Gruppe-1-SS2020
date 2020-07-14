@@ -18,11 +18,12 @@ class GroupMapper(Mapper):
         tuples = cursor.fetchall()
 
         try:
-            for (id, description, name) in tuples:
+            for (id, description, name, creationdate) in tuples:
                 gr = Group()
                 gr.set_id(id)
                 gr.set_description(description)
                 gr.set_name(name)
+                gr.set_creationdate(creationdate)
                 
                 result.append(gr)
                 print(result)
@@ -45,11 +46,12 @@ class GroupMapper(Mapper):
             cursor.execute("SELECT * from `Group` WHERE ID = '{}'".format(gid[0]))
             g = cursor.fetchall()
             try:
-                for (id, description, name) in g:
+                for (id, description, name, creationdate) in g:
                     gr = Group()
                     gr.set_id(id)
                     gr.set_description(description)
                     gr.set_name(name)
+                    gr.set_creationdate(creationdate)
 
                     groups.append(gr)
             except IndexError:
@@ -66,16 +68,17 @@ class GroupMapper(Mapper):
         """
         result = None
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, description FROM `Group` WHERE id={}".format(key)
+        command = "SELECT id, name, description, creationdate FROM `Group` WHERE id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (id, name, description) = tuples[0]    #potentieller fehler (erst description dann name)
+            (id, name, description, creationdate) = tuples[0]    #potentieller fehler (erst description dann name)
             group = Group()
             group.set_id(id)
             group.set_name(name)
             group.set_description(description)
+            group.set_creationdate(creationdate)
             result = group
         except IndexError:
             result = None
@@ -97,7 +100,7 @@ class GroupMapper(Mapper):
             else:
                 group.set_id(1)
 
-        command = "INSERT INTO `Group` (ID, description, name) VALUES ('{0}', '{1}', '{2}')".format(group.get_id(),group.get_description(),group.get_name())
+        command = "INSERT INTO `Group` (ID, description, name, creationdate) VALUES ('{0}', '{1}', '{2}', NOW())".format(group.get_id(),group.get_description(),group.get_name())
                
         try:
             cursor.execute(command)

@@ -16,15 +16,17 @@ class ArticleMapper (Mapper):
 
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT Article.ID, Article.name, Category.name from Article LEFT JOIN Category ON Article.CategoryID = Category.ID"
+        command = "SELECT Article.ID, Article.name, Article.creationdate, Category.name from Article LEFT JOIN Category ON Article.CategoryID = Category.ID"
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, category_name) in tuples: 
+        for (id, name, cd,category_name) in tuples: 
             article = Article()
             article.set_id(id)
             article.set_name(name)
             article.set_category(category_name)
+            article.set_creationdate(cd)
+            
             result.append(article)
 
         self._cnx.commit()
@@ -41,15 +43,16 @@ class ArticleMapper (Mapper):
 
         result = []
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, `CategoryID` FROM Article WHERE name LIKE '{}' ORDER BY name".format(name)
+        command = "SELECT id, name, `CategoryID`,`creationdate` FROM Article WHERE name LIKE '{}' ORDER BY name".format(name)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, name, category) in tuples: 
+        for (id, name, category,cd) in tuples: 
             article = Article()
             article.set_id(id)
             article.set_name(name)
             article.set_category(category)
+            article.set_creationdate(cd)
             result.append(article)
 
         self._cnx.commit()
@@ -67,16 +70,17 @@ class ArticleMapper (Mapper):
 
         result = None
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, `CategoryID` FROM Article WHERE id = {}".format(key)
+        command = "SELECT id, name, `CategoryID`,creationdate FROM Article WHERE id = {}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try: 
-            (id, name, category) = tuples [0]
+            (id, name, category,cd ) = tuples [0]
             article = Article()
             article.set_id(id)
             article.set_name(name)
             article.set_category(category)
+            article.set_creationdate(cd)
             result = article
         except IndexError:
             """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
@@ -103,7 +107,7 @@ class ArticleMapper (Mapper):
             article.set_id(maxid[0]+1)
         print("here" ,article)
         #command = "INSERT INTO `Article` (`ID`, `name`, `CategoryID`) VALUES ('{0}', '{1}', '{2}')".format(article.get_id(),article.get_name(),article.get_category())
-        command = "INSERT INTO Article (id, name, CategoryID) VALUES (%s, %s, %s)"
+        command = "INSERT INTO Article (id, name, CategoryID,`creationdate`) VALUES (%s, %s, %s,NOW())"
         data = (article.get_id(), article.get_name(), article.get_category())
         cursor.execute(command, data) #data
 

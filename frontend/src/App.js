@@ -97,7 +97,9 @@ class App extends React.Component {
 	  }
 	async addUser(firebaseUser) {
 		var users = await this.getAllUsers();
+		console.log(users);
 		if(users.find(user => user.email === firebaseUser.email) === undefined) {
+			console.log("User noch nicht in der DB vorhanden, erstelle Neuen.");
 			var latestUserID = await this.getLatestUserID();
 			try{
 			  const rb = {
@@ -123,11 +125,12 @@ class App extends React.Component {
 		  }catch(e) {
 		  this.setState({error: e})
 		  }
+		}else {
+			console.log("User bereits in der DB vorhanden", firebaseUser);
 		}
-		
 	  }
 	async fetchCurrentUserID(){
-		const json = await fetch(Config.apiHost + "/User/firebaseid/" + settingsOptions.getCurrentUserFireBaseID());
+		const json = await fetch(Config.apiHost + "/User/firebaseid/" + firebase.auth().currentUser.uid);
 		const res = await json.json();
 		settingsOptions.setCurrentUserID(res.id)
 		this.setState({currentUserID:res.id})

@@ -1,5 +1,5 @@
 from server.db.Mapper import Mapper
-from server.bo.ShoppingLIst import ShoppingList
+from server.bo.ShoppingList import ShoppingList
 
 """ A single ShoppingList
 @author Christopher Böhm
@@ -19,14 +19,15 @@ class ShoppingListMapper (Mapper):
           """
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT ID, name, Group_ID from Shoppinglist WHERE Group_ID={}".format(group_id))
+        cursor.execute("SELECT ID, name, Group_ID, creationdate from Shoppinglist WHERE Group_ID={}".format(group_id))
         tuples = cursor.fetchall()
 
-        for (id, name, group_id) in tuples:
+        for (id, name, group_id, creationdate) in tuples:
             shoppingList = ShoppingList()
             shoppingList.set_id(id)
             shoppingList.set_name(name)
             shoppingList.set_group_id(group_id)
+            shoppingList.set_creationdate(creationdate)
             result.append(shoppingList)
 
         self._cnx.commit()
@@ -43,16 +44,17 @@ class ShoppingListMapper (Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, Group_ID FROM Shoppinglist WHERE ID={}".format(key)
+        command = "SELECT id, name, Group_ID, creationdate FROM Shoppinglist WHERE ID={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (id, name, group_id) = tuples[0]
+            (id, name, group_id, creationdate) = tuples[0]
             shoppingList = ShoppingList()
             shoppingList.set_id(id)
             shoppingList.set_name(name)
             shoppingList.set_group_id(group_id)
+            shoppingList.set_creationdate(creationdate)
             result = shoppingList
         except IndexError:
             """if tuples of cursor.fetchall() is empty we will get IndexError. In this case

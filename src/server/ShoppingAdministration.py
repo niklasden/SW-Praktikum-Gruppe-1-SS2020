@@ -122,13 +122,12 @@ class ShoppingAdministration (object):
             res = mapper.delete(group)
             return res
     
-    def create_group(self,name,description):
-        group = Group(name,description)
+    def create_group(self,name,description,creationdate):
+        group = Group(name,description,creationdate)
         group.set_id(1)
 
         with GroupMapper() as mapper:
             return mapper.insert(group)
-
 
     #ListEntry:
     def get_all_listentries(self):

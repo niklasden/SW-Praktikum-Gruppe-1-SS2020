@@ -16,12 +16,14 @@ class UserMapper(Mapper):
         cursor.execute("SELECT * from User")
         tuples = cursor.fetchall()
                 
-        for (id, mail, firebase_id, name) in tuples:
+        for (id, mail, firebase_id, name, creationdate, location) in tuples:
             user = User()
             user.set_id(id)
             user.set_email(mail)
             user.set_firebase_id(firebase_id)
             user.set_name(name)
+            user.set_creationdate(creationdate)
+            user.set_location(location)
             result.append(user)
             
         self._cnx.commit()
@@ -35,17 +37,19 @@ class UserMapper(Mapper):
         """
         res = []
         cursor = self._cnx.cursor()
-        cursor.execute(r"SELECT ID, `e-mail`,`firebase-id`, name FROM User WHERE name LIKE '%{0}%' ORDER BY name".format(name))   
+        cursor.execute("SELECT ID, `e-mail`,`firebase-id`, name, creationdate, location FROM User WHERE name LIKE '%{0}%' ORDER BY name".format(name))   
         tuples = cursor.fetchall()
 
         
         
-        for (id, mail, firebase_id, name) in tuples:
+        for (id, mail, firebase_id, name, cd, location) in tuples:
                 user = User()
                 user.set_id(id)
                 user.set_email(mail)
                 user.set_firebase_id(firebase_id)
                 user.set_name(name)
+                user.set_creationdate(cd)
+                user.set_location(location)
                 res.append(user)
         
         
@@ -62,17 +66,19 @@ class UserMapper(Mapper):
         result = None
         cursor = self._cnx.cursor()
         
-        command = "SELECT ID, `e-mail`,`firebase-id`, name FROM User WHERE ID='{0}'".format(key)
+        command = "SELECT ID, `e-mail`,`firebase-id`, name, creationdate, location FROM User WHERE ID='{0}'".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (id, email, user_id, name) = tuples[0]
+            (id, email, user_id, name, cd, location) = tuples[0]
             user = User()
             user.set_id(id)
             user.set_name(name)
             user.set_email(email)
             user.set_firebase_id(user_id)
+            user.set_creationdate(cd)
+            user.set_location(location)
             result = user
         except IndexError:
             result = None
@@ -87,16 +93,18 @@ class UserMapper(Mapper):
         """
         res = None
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT ID, `e-mail`,`firebase-id`, name FROM User WHERE `e-mail` LIKE '{0}' ORDER BY name".format(mail_adress))  
+        cursor.execute("SELECT ID, `e-mail`,`firebase-id`, name, creationdate, location FROM User WHERE `e-mail` LIKE '{0}' ORDER BY name".format(mail_adress))  
         tuples = cursor.fetchall()
         
         try:
-            (id, mail, firebase_id, name) = tuples[0]
+            (id, mail, firebase_id, name, cd, location) = tuples[0]
             user = User()
             user.set_id(id)
             user.set_email(mail)
             user.set_firebase_id(firebase_id)
             user.set_name(name)
+            user.set_creationdate(cd)
+            user.set_location(location)
             res = user
         
             self._cnx.commit()
@@ -114,17 +122,19 @@ class UserMapper(Mapper):
         """
         result = None
         cursor = self._cnx.cursor()
-        command = "SELECT ID, `e-mail`,`firebase-id`, name FROM User WHERE `firebase-id` LIKE '{0}'".format(firebase_id)
+        command = "SELECT ID, `e-mail`,`firebase-id`, name , creationdate, location FROM User WHERE `firebase-id` LIKE '{0}'".format(firebase_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (id, email, firebase_id, name) = tuples[0]
+            (id, email, firebase_id, name, cd, location) = tuples[0]
             user = User()
             user.set_id(id)
             user.set_name(name)
             user.set_email(email)
             user.set_firebase_id(firebase_id)
+            user.set_creationdate(cd)
+            user.set_location(location)
             result = user
 
         except IndexError:
@@ -156,7 +166,7 @@ class UserMapper(Mapper):
                 """
                 user.set_id(1)
         
-        command = "INSERT INTO User (ID, `e-mail`, `firebase-id` , name) VALUES('{0}','{1}','{2}','{3}')".format(user.get_id(),user.get_email(),user.get_firebase_id(),user.get_name())
+        command = "INSERT INTO User (ID, `e-mail`, `firebase-id` , name, `creationdate`, `location` ) VALUES('{0}','{1}','{2}','{3}', NOW()), '{4}".format(user.get_id(),user.get_email(),user.get_firebase_id(),user.get_name(), user.get_location())
         try:
             cursor.execute(command)
             self._cnx.commit()

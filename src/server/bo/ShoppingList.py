@@ -9,6 +9,7 @@ class ShoppingList(bo.BusinessObject):
         self._name = "" # Der Name einer Shopping List
         self._id = "" # The id of a Shopping List
         self._group_id = ""
+        self._creationdate = ""
 
     def get_group_id(self):
         return self._group_id
@@ -28,8 +29,14 @@ class ShoppingList(bo.BusinessObject):
     def set_name(self, name):
         self._name = name
 
+    def get_creationdate(self):
+        return self._creationdate
+
+    def set_creationdate(self, creationdate):
+        self._creationdate = creationdate
+
     def __str__(self):
-        return "Shopping LIst: {}, name: {}".format(self.get_id(), self._name)
+        return "Shopping List: {}, name: {}".format(self.get_id(), self._name)
 
     @staticmethod
     def from_dict(dictionary=dict()):
