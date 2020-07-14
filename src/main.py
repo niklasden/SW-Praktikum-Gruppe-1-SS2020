@@ -58,7 +58,8 @@ user = api.inherit('User',bo,{
 retailer = api.inherit('Retailer',bo,{
     'id': fields.Integer(attribute='_id', description="The id of a retailer"),
     'name': fields.String(attribute='_name',description="A retailers name"),
-    'location': fields.String(attribute='_location', description="The address/location of a retailer as single string")
+    'location': fields.String(attribute='_location', description="The address/location of a retailer as single string"),
+    'creationdate': fields.DateTime(attribute='_creationdate',description="An retailers creationdate")
 })
 
 listentry = api.inherit('ListEntry',bo, {
@@ -72,6 +73,7 @@ listentry = api.inherit('ListEntry',bo, {
     'name': fields.String(attribute='_name',description="Name of the article"),
     'category': fields.String(attribute='_category',description="Category of the article"),
     'retailer': fields.String(attribute='_retailer_id',description="Retailer where the items/articles were bought"),
+    'creationdate': fields.DateTime(attribute='_creationdate',description="An listentries creationdate")
 })
 
 report = api.inherit('Report',bo, {

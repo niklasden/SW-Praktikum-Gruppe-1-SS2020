@@ -126,11 +126,11 @@ class App extends React.Component {
 		  this.setState({error: e})
 		  }
 		}else {
-			console.log("User bereits in der DB vorhanden", firebaseUser,"erstelle Neuen.");
+			console.log("User bereits in der DB vorhanden", firebaseUser);
 		}
 	  }
 	async fetchCurrentUserID(){
-		const json = await fetch(Config.apiHost + "/User/firebaseid/" + settingsOptions.getCurrentUserFireBaseID());
+		const json = await fetch(Config.apiHost + "/User/firebaseid/" + firebase.auth().currentUser.uid);
 		const res = await json.json();
 		settingsOptions.setCurrentUserID(res.id)
 		this.setState({currentUserID:res.id})

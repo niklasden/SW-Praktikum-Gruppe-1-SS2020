@@ -23,6 +23,12 @@ class ListEntry(bo.BusinessObject):
         self._name = ""
         self._category = ""
         self._retailer = ""
+        self._creationdate = None
+
+    def get_creationdate(self):
+        return self._creationdate
+    def set_creationdate(self,cd):
+        self._creationdate = cd
 
     def get_id(self):
         return self._id
