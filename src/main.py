@@ -51,8 +51,9 @@ group = api.inherit('Group',bo, {
 user = api.inherit('User',bo,{
     'name': fields.String(attribute='_name',description="An users name"),
     'email': fields.String(attribute='_email',description="An users email"),
-    'firebase_id': fields.String(attribute='_firebase_id',description="An users firebaseid "),
-    'creationdate': fields.DateTime(attribute='_creationdate',description="An users creationdate")
+    'firebase_id': fields.String(attribute='_firebase_id',description="An users firebaseid"),
+    'creationdate': fields.DateTime(attribute='_creationdate',description="An users creationdate"),
+    'location': fields.String(attribute='_location',description="A users location")
 })
 
 retailer = api.inherit('Retailer',bo,{
