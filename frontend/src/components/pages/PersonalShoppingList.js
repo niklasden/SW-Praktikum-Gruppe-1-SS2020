@@ -61,7 +61,7 @@ async getListEntrys(){
   setTimeout(async () => {
     try {
       // TODO: change to real api
-      const res = await fetch(Config.apiHost + '/Listentry/get_items_of_group/1')
+      const res = await fetch(Config.apiHost + '/Listentry/get_personal_items_of_group/')
       const json = await res.json()
 
       this.setState({
@@ -77,8 +77,6 @@ async getListEntrys(){
     } 
   }, 1000)
 }
-
-
 
 /* All UserItems with the ID 1 */
 getUserItems(){
@@ -240,7 +238,7 @@ render(){
   let shops = this.renderReatailer()
   let all = 'ALL'
   console.log('Das ist Items:    ' + this.state.items)
-  console.log("USER ID"  + this.state.userID)
+  console.log(this.state.currentUserID)
   console.log("GroupID  " + this.state.groupID)
 
   return (

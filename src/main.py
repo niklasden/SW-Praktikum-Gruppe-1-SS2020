@@ -656,7 +656,10 @@ class testListEntry(Resource):
             le.set_user(proposal.get_user())
 
             result = adm.get_personal_items_of_group(le)
-        return result
+            return result, 200
+
+        else:
+            return "", 500
 
 @shopping_v1.route('/Listentry/get_unassigned_items_of_group/<int:group_id>')
 @shopping_v1.response(500, 'Falls was in die Fritten geht')
