@@ -90,14 +90,15 @@ class ShoppingListMapper (Mapper):
         self._cnx.commit()
         cursor.close()
 
-        self._insert_default_articles_to_shopping_list(shopping_list.get_id())
+        self._insert_default_articles_to_shopping_list(shopping_list.get_id(),shopping_list.get_group_id())
 
 
         return shopping_list
 
-    def _insert_default_articles_to_shopping_list(self, shopping_list_id):
+    def _insert_default_articles_to_shopping_list(self, shopping_list_id,group_id):
         """
         @Author: Christopher Böhm
+        @Julius
         :param shopping_list_id:
         :return:
         """
@@ -108,41 +109,48 @@ class ShoppingListMapper (Mapper):
 
         new_id = 1
         for (maxid) in tuples:
-            new_id = maxid[0] + 1
+            new_id = maxid[0] 
 
-        cursor.execute("SELECT ID FROM Article WHERE standard_article=1")
+        cursor.execute("SELECT ID,`Group_ID`,`Article_ID`,`amount`, `unit`,`Retailer_ID` FROM FavoriteArticle WHERE Group_ID={0}".format(group_id))
         tuples = cursor.fetchall()
-
+        print(tuples[0])
         insertArticlesStatemenet = ""
-        for (article_id) in tuples:
-            insertArticlesStatemenet = """ INSERT INTO Listentry (
-                    ID, 
-                    Article_ID, 
-                    Retailer_ID, 
-                    Shoppinglist_ID, 
-                    User_ID, 
-                    Group_ID, 
-                    amount, 
-                    unit, 
-                    bought, 
-                    creationdate
-                )
-                VALUES (
-                    {0}, 
-                    {1}, 
-                    NULL, 
-                    {2}, 
-                    NULL, 
-                    NULL, 
-                    0, 
-                    0, 
-                    NULL, 
-                    NOW()
-                );
-            """.format(new_id, article_id[0], shopping_list_id)
-            cursor.execute(insertArticlesStatemenet)
-            new_id = new_id + 1
-
+        try:
+            for (id,gid,article_id,amount,unit,retailer_id) in tuples:
+                new_id +=1
+                insertArticlesStatemenet = """ INSERT INTO Listentry (
+                        ID, 
+                        Article_ID, 
+                        Retailer_ID, 
+                        Shoppinglist_ID, 
+                        User_ID, 
+                        Group_ID, 
+                        amount, 
+                        unit, 
+                        bought, 
+                        creationdate
+                    )
+                    VALUES (
+                        {0}, 
+                        {1}, 
+                        {2}, 
+                        {3}, 
+                        NULL, 
+                        {4}, 
+                        {5},  
+                        '{6}', 
+                        NULL, 
+                        NOW()
+                    );
+                """.format(new_id, article_id, retailer_id,shopping_list_id,gid,amount,str(unit))
+                
+                cursor.execute(insertArticlesStatemenet)
+                
+        except IndexError:
+            print("no favoritearticles")
+        """ except Exception as e:
+            print("error in _insert_default_articles_to_shopping_list" ,str(e))
+         """
         self._cnx.commit()
         cursor.close()
 
