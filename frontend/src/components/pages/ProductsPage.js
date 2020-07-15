@@ -148,6 +148,7 @@ class ProductsPage extends Component {
       //Erst this.state.articles filtern und dann reducen?
       categories = this.state.articles.reduce((itemsSoFar, {category, name, id, iconName}) => {
         if (!itemsSoFar[category]) itemsSoFar[category] = [];
+        var iconName = getIconName(name, category)
         if (name.toLowerCase().includes(this.state.searchValue.toLowerCase())) itemsSoFar[category].push({name, category,  id, iconName});
         return itemsSoFar;
       }, {});
@@ -182,7 +183,7 @@ class ProductsPage extends Component {
     const classes = this.props.classes
     return(
       <Grid container className={classes.root} >
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
           <Grid item xs={8}>
             <TextInputBar placeholder="search..." icon="search" onChange={(elem) => this.setState({ searchValue: elem.target.value})}/>
           </Grid>
@@ -190,7 +191,7 @@ class ProductsPage extends Component {
             <Link to="/create_article">
               <IconButton icon='add' />
             </Link>
-            <Link to="/favourite_products" style={{marginLeft: "15px"}}>
+            <Link to="/favourite_products" style={{marginLeft: "10px"}}>
               <IconButton icon='star' />
             </Link>
           </Grid>

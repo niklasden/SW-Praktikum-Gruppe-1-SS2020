@@ -32,17 +32,7 @@ const styles = theme => ({
 class EditListItem extends Component {
   constructor(props) {
     super(props);
-    /*
-    let amt = '', unt = '', usr = '', rt = '', aid ='', sid = '';
-    if(props.listentry) {
-      amt = props.listentry.getAmount();
-      unt = props.listentry.getUnit();
-      usr = props.listentry.getUser();
-      rt  = props.listentry.getRetailer();
-      aid = props.listentry.getArticleid();
-      sid = props.listentry.getShoppinglistid();
-     }
-     */
+    
     this.state = {
       item: this.props.item,
       amount: this.props.item.amount,
@@ -94,9 +84,10 @@ class EditListItem extends Component {
     updatedItem.setUserid(this.state.selected_user_id);
     updatedItem.setGroupid(this.state.group_id);
     updatedItem.setBought(this.state.bought);
-    updatedItem.setRetailer(this.state.selected_retailer)
+    updatedItem.setRetailer(this.state.selected_retailer);
     
-    ShoppingAPI.getAPI().updateListEntry(updatedItem).catch(e => console.log(e))
+    ShoppingAPI.getAPI().updateListEntry(updatedItem).then(this.props.PressButtonBack).catch(e => console.log(e))
+
   }
 
 
@@ -109,7 +100,7 @@ class EditListItem extends Component {
         aria-labelledby="alert title"
         aria-describedby="description" 
       >
-      <DialogTitle id="alert title">{"Edit Item"}</DialogTitle>
+      <DialogTitle id="alert title" style={{textAlign: "center"}}>{"Edit "+this.state.item.name}</DialogTitle>
       <DialogContent>
       </DialogContent>
       <Grid
@@ -118,8 +109,9 @@ class EditListItem extends Component {
         justify='center'
         alignItems= 'center'
         spacing={4}
+        style={{width: 'calc(100% + 15px)'}}
       >
-      <Grid item xs={6}>
+      <Grid item xs={6} style={{paddingLeft: 25}}>
         <InputLabel>AMOUNT</InputLabel>
         <TextField onChange={this.handleChangeAmount.bind(this)} value={this.state.amount}></TextField>
       </Grid>
@@ -165,7 +157,7 @@ class EditListItem extends Component {
       </Grid>
       </Grid>
 
-      <DialogActions>
+      <DialogActions style={{justifyContent: "center"}}>
         <Button color="primary" onClick={() => this.saveItem()}>
           SAVE
         </Button>
