@@ -1,0 +1,47 @@
+[
+    {
+        "id": 1,
+        "name": "Apfel",
+        "category":  "fruits",
+        "retailer": "DM",
+        "purchases" : [
+            { "bought": "2020-05-24", "amount": 4},
+            { "bought": "2020-05-25", "amount": 1},
+            { "bought": "2020-05-26", "amount": 1},
+            { "bought": "2020-05-27", "amount": 1},
+            { "bought": "2020-05-28", "amount": 4},
+            { "bought": "2020-05-29", "amount": 2},
+            { "bought": "2020-05-30", "amount": 1}
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Pesto",
+        "category":  "groceries",
+        "retailer": "ALDI",
+        "purchases" : [
+            { "bought": "2020-05-24", "amount": 2},
+            { "bought": "2020-05-25", "amount": 2},
+            { "bought": "2020-05-26", "amount": 1},
+            { "bought": "2020-05-27", "amount": 1},
+            { "bought": "2020-05-28", "amount": 2},
+            { "bought": "2020-05-29", "amount": 2},
+            { "bought": "2020-05-30", "amount": 1}
+        ]
+    },
+    {
+        "id": 3,
+        "name": "Bier",
+        "category":  "groceries",
+        "retailer": "ALDI",
+        "purchases" : [
+            { "bought": "2020-05-24", "amount": 1},
+            { "bought": "2020-05-25", "amount": 3},
+            { "bought": "2020-05-26", "amount": 3},
+            { "bought": "2020-05-27", "amount": 2},
+            { "bought": "2020-05-28", "amount": 10},
+            { "bought": "2020-05-29", "amount": 7},
+            { "bought": "2020-05-30", "amount": 4}
+        ]
+    }
+]

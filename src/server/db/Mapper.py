@@ -5,13 +5,13 @@ from abc import ABC, abstractmethod
 
 
 class Mapper (AbstractContextManager, ABC):
-    """Abstrakte Basisklasse aller Mapper-Klassen"""
+    """Abstract class for mappers"""
 
     def __init__(self):
         self._cnx = None
 
     def __enter__(self):
-        """Was soll geschehen, wenn wir beginnen, mit dem Mapper zu arbeiten?"""
+        """Starts when mapper is called with with"""
 
         """Wir testen, ob der Code im Kontext der lokalen Entwicklungsumgebung oder in der Cloud ausgeführt wird.
         Dies ist erforderlich, da die Modalitäten für den Verbindungsaufbau mit der Datenbank kontextabhängig sind."""
@@ -32,16 +32,13 @@ class Mapper (AbstractContextManager, ABC):
             self._cnx = connector.connect(user='kevin', password='kevin',
                                   host='localhost',
                                   database='dev_shoppingproject')
-
-            
-             
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         """Was soll geschehen, wenn wir (evtl. vorübergehend) aufhören, mit dem Mapper zu arbeiten?"""
         self._cnx.close()
 
-    """Formuliere nachfolgend sämtliche Auflagen, die instanzierbare Mapper-Subklassen mind. erfüllen müssen."""
+   
 
     @abstractmethod
     def find_all(self):

@@ -1,0 +1,43 @@
+[
+    {
+        "id": 1,
+        "name": "ALDI",
+        "category": "Grocery Store",
+        "standort": "irgendwo", 
+        "address": "irgendwo"
+    },
+    {
+        "id": 2,
+        "name": "DM",
+        "category": "Cosmetics Store",
+        "standort": "irgendwo",
+        "address": "irgendwo"
+    },
+    {
+        "id": 3,
+        "name": "EDEKA",
+        "category": "Grocery Store",
+        "standort": "irgendwo",
+        "address": "irgendwo"
+    }, 
+    {
+        "id": "retailer0", 
+        "name": "REWE",
+        "address": "Esslingen"  
+    },
+    {
+        "id": "retailer1", 
+        "name": "REWE",
+        "address": "Stuttgart Königsstraße"
+    },
+    {
+        "id": "retailer2", 
+        "name": "Aldi",  
+        "address": "neben Pigspoint"
+    },
+    {
+        "id": "retailer3", 
+        "name": "Edeka",
+        "address": "Neckarcenter"
+    }
+]

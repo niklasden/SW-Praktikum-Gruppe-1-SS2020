@@ -1,6 +1,15 @@
 # SW-Praktikum-Gruppe-1-SS2020
 Hochschule der Medien - Modul Software Praktikum (335138b) - Gruppe 1 - Sommersemester 2020
 
+## Teilaufgaben und Verantwortlichkeiten
+- Einkaufsverhalten einsehen -> Chris, Kevin
+- Einzelhändler verwalten -> Chris, Kevin
+- Registrieren/Einloggen -> Julius, Niklas
+- Gruppe organisieren -> Julius, Niklas
+- Einkaufen gehen -> Pascal, Pia
+- Planung durchführen -> Pascal, Pia
+
+Arbeitspakte umfassen möglichst immer Backend-Code (Mapper Klassen, Klassen) und Frontend-Code
 
 ## Frontend - tbf
 All code is located under /frontend. <br>
