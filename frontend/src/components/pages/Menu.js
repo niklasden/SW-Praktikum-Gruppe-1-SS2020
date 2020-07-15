@@ -60,7 +60,7 @@ export default function Menu(props) {
       </IconButton> */}
       <SwipeableDrawer
         anchor={"left"}
-        open={state["left"]}
+        open={false}
         onClose={toggleDrawer("left", false)}
         onOpen={toggleDrawer("left", true)}
       >
@@ -90,6 +90,12 @@ export default function Menu(props) {
                   <ListItem button key="2">
                     <ListItemIcon><ArchiveIcon /></ListItemIcon>
                     <ListItemText primary="Products" />
+                  </ListItem>
+                </Link>
+                <Link to="/favourite_products" className={classes.listItem}>
+                  <ListItem button key="2">
+                    <ListItemIcon><ArchiveIcon /></ListItemIcon>
+                    <ListItemText primary="Favourite Products" />
                   </ListItem>
                 </Link>
                 <Link to="/retailers" className={classes.listItem}>

@@ -13,7 +13,6 @@ const styles = theme => ({
     borderColor: '#BDBDBD',
     borderStyle: 'solid',
     borderRadius: 5,
-    padding: 5,
   },
   character: {
     fontSize: 25,
@@ -21,17 +20,17 @@ const styles = theme => ({
   },
 });
 
-
 /**
- * Renders a list of RetailerEntry objects
+ * Renders a RetailerListEntry Object, if you click on a ListEntry object you get 
+ * routet to EditRetailerPage
  * 
  * @see RetailerEntry
  * 
  * @author [Christopher Böhm](https://github.com/christopherboehm1)
  * 
- * @prop id: string with retailer id
- * @prop name: string with retailer name
- * @prop address: string with retailer address
+ * @prop id (string): The id of the retailer
+ * @prop name (string): The name of the retailer to display
+ * @prop address (strign): The address/location of the retailer to display
  */
 class RetailerListEntry extends Component {
   render(){
@@ -46,31 +45,23 @@ class RetailerListEntry extends Component {
         justify='space-between'
         direction='row'
       >
-        <Grid 
-          container 
-          alignItems='center' 
-          xs={9} 
-          direction='row'
-        >
-          <Grid item  >
-            <text 
+          <Grid item xs={1} >
+            <div 
               className={classes.character}
               style={{
                 marginRight: 12,
                 marginLeft: 8, 
               }}
-            >{this.props.name.substr(0, 1).toUpperCase()}</text>
+            >{this.props.name.substr(0, 1).toUpperCase()}</div>
           </Grid>
-          <Grid item>
-            <text style={{display: 'block'}}>{this.props.name.toUpperCase()}</text>
-            <text style={{fontSize: 10}}>{this.props.address}</text>
+          <Grid item xs={10} style={{paddingLeft: '5%'}}>
+            <p style={{display: 'block'}}>{this.props.name.toUpperCase()}</p>
+            <p style={{fontSize: 10}}>{this.props.address}</p>
           </Grid>
-        </Grid>
 
-        <Grid container xs={3} justify='flex-end'>
+        <Grid item xs={1}>
           <Link 
-            to='create_retailer?query=hello'
-            query='hello'
+            to='create_retailer'
             to={{
               pathname: 'create_retailer', 
               state: { 
@@ -81,7 +72,7 @@ class RetailerListEntry extends Component {
             }}
           >
             <SettingsIcon 
-              style={{ color: '#00BCD4' }} 
+              style={{ color: '#00BCD4',float: "right", marginRight: '10%' }} 
             />
           </Link>
         </Grid>

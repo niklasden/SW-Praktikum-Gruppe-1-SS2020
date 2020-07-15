@@ -75,8 +75,9 @@ export default class GroupShoppingList extends Component {
     let Useritems = this.state.items;
     let ArrCategory = this.getCategorys();
     for (let item in ArrCategory){
-      renderdArticles.push( 
+      renderdArticles.push(
         <DropDownGSL 
+        key={ArrCategory[0]}
           onClickDeleteButton={this.onClickDelete.bind(this)} 
           Useritems={Useritems} 
           ArrCategory={ArrCategory} 
@@ -108,16 +109,13 @@ export default class GroupShoppingList extends Component {
       direction='row'
       justify='center'
       alignItems="stretch"
-      xs={12}   
       >
       <Grid item xs={12}>
-        <TextInputBar placeholder="search..." icon="search"></TextInputBar>
+        <TextInputBar key={"search"}placeholder="search..." icon="search" />
       </Grid>
-          
       <Grid item xs={12}>
         {this.renderCategoryArticles()}
       </Grid>
-    
     </Grid>
     ) 
   }

@@ -9,9 +9,8 @@ import Select from '@material-ui/core/Select';
 import MainButton from '../layout/MainButton';
 import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress'
 import Snackbar from '@material-ui/core/Snackbar';
-import { Redirect } from 'react-router';
+import { Redirect, withRouter } from 'react-router';
 import Button from '@material-ui/core/Button'
-import { withRouter } from "react-router";
 import { Config } from '../../config';
 
 
@@ -57,11 +56,14 @@ class CreateArticlePage extends Component {
         category: '',
         categorys: [
             {id: 1, name: "Vegetables"},
-            {id: 2, name: "Meat"},
-            {id: 3, name: "Fruit"},
-            {id: 4, name: "Beverages"},
+            {id: 2, name: "Meat & Fish"},
+            {id: 3, name: "Fruits"},
+            {id: 4, name: "Drinks / Beverages"},
             {id: 5, name: "Other"},
             {id: 6, name: "Snacks"},
+            {id: 7, name: "Milk and Cheese"},
+            {id: 8, name: "Cosmetic"},
+            {id: 9, name: "Convenience and frozen products"},
         ], 
     }
 
@@ -142,13 +144,11 @@ class CreateArticlePage extends Component {
         if (this.props.location.state != undefined){
             id = this.props.location.state.id
             name = this.props.location.state.name
-            this.state.categorys.forEach((el, i) => {
-                console.log(el)
-                if (el.name === this.props.location.state.category){
-                    category = el.id 
+            this.state.categorys.forEach((element, i) => {
+                if (element.name === this.props.location.state.category){
+                    category = element.id 
                 }
             })
-             console.log(name, category, id)
         } 
         this.setState({
             item: id,

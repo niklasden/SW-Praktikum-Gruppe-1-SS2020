@@ -6,13 +6,6 @@ import Checkbox from "@material-ui/core/Checkbox"
 import { withStyles } from "@material-ui/styles";
 import { Grid } from "@material-ui/core";
 
-/**
- * Displays an list item with a checkbox as designed in figma
- * 
- * @author [Pascal Illg](https://github.com/pasillg)
- * 
-*/
-
 const styles = theme => ({
   root: {
     backgroundColor: '#F2F2F2',
@@ -28,8 +21,13 @@ const styles = theme => ({
   },
 });
 
+/**
+ * Displays an list item with a checkbox as designed in figma
+ * 
+ * @author [Pascal Illg](https://github.com/pasillg)
+ * 
+*/
 class ListItemCheckbox extends Component {
-
   render() {
     return (
     <Grid 

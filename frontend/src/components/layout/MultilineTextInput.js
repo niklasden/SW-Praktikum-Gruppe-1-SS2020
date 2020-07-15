@@ -7,8 +7,6 @@ const styles = theme => ({
   inputInput: {
     backgroundColor: "#fafafa",
     borderRadius: 10,
-    // width: "292px",
-    // height: "48px"
     padding: 12
   },
 });
@@ -18,7 +16,10 @@ const styles = theme => ({
  * 
  * @author [Christopher Böhm](https://github.com/christopherboehm1)
  * 
- * @property icon (string): the icon name to display, can be either: add, shopping_cart, shopping_cart_outline, shopping_list, shopping_list_outline, checkmark, people
+ * @property icon (string): The icon name to display, can be either: add, 
+ * shopping_cart, shopping_cart_outline, shopping_list, shopping_list_outline, checkmark, people
+ * @property onChange (func): a callback function that is called when the value changes
+ * @property value (string): the value that is displayed within the input field 
  */
 class MultilineTextInput extends Component {
   render(){

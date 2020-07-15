@@ -6,7 +6,6 @@ import { withStyles } from '@material-ui/styles';
 import Box from '@material-ui/core/Box';
 
 const styles = theme => ({
-  
   root: {
     backgroundColor: '#fafafa', 
     borderRadius: 5, 
@@ -16,11 +15,13 @@ const styles = theme => ({
 });
 
 /**
- * Displays an icon button as designed in figma
+ * Displays an icon button
  * 
  * @author [Christopher Böhm](https://github.com/christopherboehm1)
  * 
- * @property icon (string): the icon name to display, can be either: add, shopping_cart, shopping_cart_outline, shopping_list, shopping_list_outline, checkmark, people
+ * @property icon (string): the name of the icon to display, can be either: add, shopping_cart, 
+ * shopping_cart_outline, shopping_list, shopping_list_outline, checkmark, people
+ * @property onClick (function): a function that is executed when the button is clicked
  */
 class IconButton extends Component {
   render(){
@@ -52,7 +53,6 @@ class IconButton extends Component {
           <MaterialIconButton onClick={this.props.onclick}>
           <Icon 
             style={{ color: '#00BCD4'}}
-            fontSize="medium" 
           >{this.props.icon}</Icon>
           </MaterialIconButton>
         </div>

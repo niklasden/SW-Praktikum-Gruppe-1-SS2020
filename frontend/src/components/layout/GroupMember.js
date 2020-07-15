@@ -27,7 +27,6 @@ const styles = theme => ({
     borderRadius: 10,
     borderColor: '#BDBDBD',
     borderStyle: 'solid',
-    width: 'auto',
     marginLeft: 5,
     height: 35,
     marginRight: 8,
@@ -55,16 +54,13 @@ class GroupMember extends Component {
        >
         <Grid item xs={2}>
           {/*<img style={{height:'25px', width: '25px', marginTop:4}} src={this.props.imgsrc}></img>*/}
-          <Avatar style={{marginLeft:10}} className={this.props.classes.small} alt={this.props.membername} src={this.props.imgsrc}
+          <Avatar style={{marginLeft:5}} className={this.props.classes.small} alt={this.props.membername} src={this.props.imgsrc}
 					/>
         </Grid>
-
         <Grid item xs={8}>
-        <t style={{color: '#000000', fontSize: 18}}>{this.props.membername}</t>
+        {this.props.membername}
         </Grid>
-
         <Grid item xs={2}>
-          
             <IconButton  aria-label="delete" className={this.props.classes.margin} style={{padding:0}}>
               <DeleteIcon onClick={this.props.onclick} fontSize="small" />
               {this.props.children}
@@ -77,8 +73,8 @@ class GroupMember extends Component {
 }
 
 GroupMember.propTypes = {
-  imgsrc: PropTypes.string.isRequired,
-  membername: PropTypes.string.isRequired,
+  imgsrc: PropTypes.string,
+  membername: PropTypes.string,
 }
 
 export default withStyles(styles)(GroupMember);

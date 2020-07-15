@@ -46,10 +46,16 @@ class StatisticPage extends Component {
         this.fetchTopProducts(event.target.value);
         this.fetchTopRetailers(event.target.value);
     }
+    async fetchCurrentUserDBID() {
+        const res = await fetch(Config.apiHost + "/User/firebaseid/" + this.props.currentUser.uid);
+        const json = await res.json();
+        return json.id;
+    }
 
     async fetchGroups() {
         try {
-            const res = await fetch(Config.apiHost + "/Group/Usergroup/" + settingsOptions.currentUserID);
+            const currentUserDBID = await this.fetchCurrentUserDBID();
+            const res = await fetch(Config.apiHost + "/Group/Usergroup/" + currentUserDBID);
             const json = await res.json();
             this.setState({groups: json})
             this.setState({selectedGroup: json[0].id})

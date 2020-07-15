@@ -5,13 +5,14 @@ from .bo.Article import Article
 from .db.ArticleMapper import ArticleMapper
 from .bo.Group import Group
 from .bo.ListEntry import ListEntry
+from .bo.FavoriteArticle import FavoriteArticle
 #from .db.UserMapper import UserMapper ..
 from .db.UserMapper import UserMapper
 from .db.RetailerMapper import RetailerMapper
 from .db.GroupMapper import GroupMapper
 from .db.ListEntryMapper import ListEntryMapper
 from .db.ReportGenerator import ReportGenerator
-
+from .db.FavoriteArticleMapper import FavoriteArticleMapper as fam
 from .db.ShoppingListMapper import ShoppingListMapper
 
 #hier müssen BO Klassen & Mapper importiert werden
@@ -170,6 +171,11 @@ class ShoppingAdministration (object):
             result = mapper.find_by_date_of_purchase(date)
             return result
     
+    def get_personal_items_of_group(self, group_id, user_id):
+        with ListEntryMapper() as mapper:
+            result = mapper.get_personal_items_of_group(group_id, user_id)
+            return result
+    
     #noch nicht fertig
     def insert_listentry(self, listentry):
         with ListEntryMapper() as mapper:
@@ -293,3 +299,31 @@ class ShoppingAdministration (object):
     def get_shoppinglists(self):
         with ShoppingListMapper() as mapper: 
             return mapper.find_latest()
+
+
+#FavoriteArticle 
+    def get_all_FavoriteArticles(self):
+        with fam() as mapper:
+            return mapper.find_all()
+
+    def get_FavoriteArticle_by_id(self,id):
+        with fam() as mapper:
+            return mapper.find_by_key(id)
+            
+    
+    def get_FavoriteArticles_by_groupid(self,gid):
+        
+        with fam() as mapper:
+            return mapper.find_by_group(gid)
+    
+    def insert_FavoriteArticle(self,fa):
+        with fam() as mapper:
+            return mapper.insert(fa)
+
+    def update_FavoriteArticle(self,fa):
+        with fam() as mapper:
+            return mapper.update(fa)
+    
+    def delete_FavoriteArticle(self,fa):
+        with fam() as mapper:
+            return mapper.delete(fa)

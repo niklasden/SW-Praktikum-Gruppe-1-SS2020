@@ -31,9 +31,8 @@ import ProductsPage from './components/pages/ProductsPage';
 import GroupShoppingList from './components/pages/GroupShoppingList';
 import SettingsPage from './components/pages/SettingsPage';
 import { RetailerPage } from './components/pages/RetailerPage'
-import CreateRetailerPage from './components/pages/CreateRetailerPage'
+import EditRetailerPage from './components/pages/EditRetailerPage'
 import CreateArticlePage from './components/pages/CreateArticlePage'
-
 
 import SpecificGroup from './components/pages/SpecificGroup.js';
 import CreateGroup from './components/pages/CreateGroup.js';
@@ -43,6 +42,7 @@ import AccountsPage from './components/pages/AccountsPage';
 
 import ShoppingSettings from './shoppingSettings';
 import {Config} from './config';
+import FavoriteArticlesPage from './components/pages/FavoriteArticlesPage';
 
 
 //** End Layout Import **/
@@ -97,9 +97,8 @@ class App extends React.Component {
 	  }
 	async addUser(firebaseUser) {
 		var users = await this.getAllUsers();
-		console.log(users);
 		if(users.find(user => user.email === firebaseUser.email) === undefined) {
-			console.log("User noch nicht in der DB vorhanden, erstelle Neuen.");
+			// console.log("User noch nicht in der DB vorhanden, erstelle Neuen.");
 			var latestUserID = await this.getLatestUserID();
 			try{
 			  const rb = {
@@ -118,15 +117,15 @@ class App extends React.Component {
 			  } 
 			  const resp = await fetch(Config.apiHost + '/User', rInit)
 			  if(resp.ok)  {
-				  console.log("User", rb, "erstellt");
+				//   console.log("User", rb, "erstellt");
 			  }else {
-				  console.log("User", rb, "konnte nicht erstellt werden")
+				//   console.log("User", rb, "konnte nicht erstellt werden")
 			  }
 		  }catch(e) {
 		  this.setState({error: e})
 		  }
 		}else {
-			console.log("User bereits in der DB vorhanden", firebaseUser);
+			// console.log("User bereits in der DB vorhanden", firebaseUser);
 		}
 	  }
 	async fetchCurrentUserID(){
@@ -247,14 +246,14 @@ class App extends React.Component {
 										<Route path="/create_article">
 											<CreateArticlePage />
 										</Route>
+										<Route path="/favourite_products">
+											<FavoriteArticlesPage />
+										</Route>
 										<Route path="/retailers">
 											<RetailerPage />
 										</Route>
 										<Route path="/create_retailer">
-											<CreateRetailerPage />
-										</Route>
-										<Route path="/create_article">
-											<CreateArticlePage />
+											<EditRetailerPage />
 										</Route>
 										<Route path="/specificgroup">
 											<SpecificGroup/>

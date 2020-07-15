@@ -303,18 +303,20 @@ class ListEntryMapper(Mapper):
         except Exception as e:
             return "Error in delete ListEntry ListEntryMapper: " + str(e)
 
-    def get_personal_items_of_group(self, group_id):
+    def get_personal_items_of_group(self, user_id, group_id):
         """
         Pascal
         """
         result = []
         cursor = self._cnx.cursor()
-        statement = "SELECT Listentry.ID, Article.name as 'name', Category.name as 'category', Listentry.amount, Listentry.unit, Listentry.User_ID, Retailer.name as 'retailer' FROM Listentry LEFT JOIN Retailer ON Listentry.Retailer_ID = Retailer.ID LEFT JOIN Article ON Listentry.Article_ID = Article.ID LEFT JOIN Category ON Article.CategoryID = Category.ID WHERE (Group_ID={0})".format(group_id)
+        print(user_id )
+        print("group" + group_id)
+        statement = "SELECT Listentry.ID, Article.name as 'name', Category.name as 'category', Listentry.amount, Listentry.unit, Listentry.User_ID, Retailer.name as 'retailer', Article.ID FROM Listentry LEFT JOIN Retailer ON Listentry.Retailer_ID = Retailer.ID LEFT JOIN Article ON Listentry.Article_ID = Article.ID LEFT JOIN Category ON Article.CategoryID = Category.ID WHERE (Group_ID={0}) AND (User_ID={1})".format(group_id, user_id)
 
         cursor.execute(statement)
         tuples = cursor.fetchall()
         
-        for (id, name, category, amount, unit, user_id, retailer) in tuples:
+        for (id, name, category, amount, unit, user_id, retailer, article_id) in tuples:
             listentry = ListEntry()
             listentry.set_id(id)
             listentry.set_name(name)
@@ -323,6 +325,9 @@ class ListEntryMapper(Mapper):
             listentry.set_unit(unit)
             listentry.set_user(user_id)
             listentry.set_retailer(retailer)
+            listentry.set_article(article_id)
+            listentry.set_shoppinglist(None)
+            listentry.set_group(group_id)
             result.append(listentry)
 
         self._cnx.commit()

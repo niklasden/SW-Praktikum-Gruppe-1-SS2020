@@ -60,11 +60,14 @@ class GroupsGridList extends Component {
       /**We have to fetch specific groups with user parameter */
       async fetchGroups(){
         //const res = await fetch('http://localhost:8081/api/shoppa/groups')
-        const res = await fetch(Config.apiHost + '/Group/Usergroup/'+ this.props.currentUserID)
-        const resjson = await res.json()
-        this.setState({groupItemss:resjson})
-        this.setState({groupsFetched: true})
-
+            if(this.props.currentUserID != 0 || this.props.currentUserID !== null) {
+              const res = await fetch(Config.apiHost + '/Group/Usergroup/'+ this.props.currentUserID)
+              if(res.ok) {
+                const resjson = await res.json()
+                this.setState({groupItemss:resjson})
+                this.setState({groupsFetched: true})
+              }
+            }
       }
       
       /**
@@ -80,33 +83,30 @@ class GroupsGridList extends Component {
         if (this.state.groupItemss.length == 0 && !this.state.groupsFetched){
           this.fetchGroups()
               }
-        if (settingsobj.getGroupID() == 0){
-          fetch(Config.apiHost + '/Group/Usergroup/'+ this.props.currentUserID)
-          .then(response => response.json())
-          .then(data => {if(data.length > 0) {
-            settingsobj.setGroupID(1)
-          }})
-        }
         return(
           
             <div className={classes.rootTwo}>
                 {this.state.groupItemss.length !== 0 ?
-                  this.state.groupItemss.map((tile) => (
-                <GridList className={classes.gridList} cellHeight={180}>
-                  <GridListTile key={tile.id}>
-                      <img src={GroupIcon} alt={tile.name} />
+                  <GridList className={classes.gridList} cellHeight={180} cols={2.5}>
+                
+                  {this.state.groupItemss.map((tile) => (
+                    
+                   <GridListTile key={GroupIcon}>
+                       <img src={GroupIcon} alt={tile.name} />
+                       
                   <Link to="" onClick={() => {settingsobj.setGroupID(tile.id);settingsobj.setGroupName(tile.name); alert("Active group set to: " + settingsobj.getGroupName() + "  |  Group ID: "+ settingsobj.getGroupID())}} aria-label={`info about ${tile.title}`} className={classes.icon}>
-                  <GridListTileBar 
-                      title={ tile.name}
+                   <GridListTileBar 
+                       title={ tile.name}
                       classes={{
                         root: classes.titleBar,
-                      title: classes.title,
+                       title: classes.title,
                             }}
-                      
+                       
                               /> </Link>
-                  </GridListTile>
-                </GridList>
-                  ))
+                   </GridListTile>
+                   
+                  ))}
+                  </GridList>
                   : <div>
                     There are no groups!
                     <Link to="/createGroup">

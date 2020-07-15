@@ -36,6 +36,11 @@ export default class ShoppingAPI {
     
     //ListEntry URLs
     #updateListEntryURL = () => `${this.#baseServerURL}/Listentry/update`;
+    #personalItemsURL = (user_id, group_id) => {
+        let val = `${this.#baseServerURL}/Listentry/get_personal_items_of_group/?group_id=` + group_id + `&user_id=` + user_id
+        console.log("Dasist val" + val)
+        return val
+    };
 
 
     //Retailer URLs
@@ -113,6 +118,8 @@ export default class ShoppingAPI {
         })
     }
 
+  
+
     //not tested because of membership issue, current version works fine
     /*saveGroup(groupBO){
         return this.#fetchAdvanced(this.#saveGroupURL(groupBO), {
@@ -158,6 +165,22 @@ export default class ShoppingAPI {
         })
         .then((responseJSON) => {
             let listentryBO = ListEntryBO.fromJSON(responseJSON)[0];
+            return new Promise(function (resolve) {
+                resolve(listentryBO);
+            })
+        })
+    }
+
+    personalItems(user_id, group_id) {
+        return this.#fetchAdvanced(this.#personalItemsURL(user_id, group_id), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json, text/plain',
+                'Content-type': 'application/json',
+            },
+        })
+        .then((responseJSON) => {
+            let listentryBO = ListEntryBO.fromJSON(responseJSON);
             return new Promise(function (resolve) {
                 resolve(listentryBO);
             })

@@ -97,7 +97,7 @@ class Groups extends Component {
       
       this.state.groupItems.forEach( elem => {
           Groups.push(
-          <Grid item xs={6}>
+          <Grid item xs={6} key={elem.id}>
               {/* Now by clicking on a group we set the settingsgroupid @Julius here we need a parameter to fetch the right group, all groups a user is part of, then specific group hes clicking on */}
               <Grid
               container
@@ -106,7 +106,7 @@ class Groups extends Component {
               alignItems="center"
               style={{marginTop:20}}>
 
-                  <Link to="" onClick={ () => {settingsobj.onlySettingsSetSettingsGroupID(elem.id); settingsobj.onlySettingsSetSettingsGroupName(elem.name)}}>
+                  <Link to="specificGroup" onClick={ () => {settingsobj.onlySettingsSetSettingsGroupID(elem.id); settingsobj.onlySettingsSetSettingsGroupName(elem.name)}}>
                   <GroupButton key={elem.id} groupname={elem.name}></GroupButton></Link>
                   <IconButton  aria-label="delete" className={this.props.classes.margin} style={{padding:0}}>
                     <DeleteIcon onClick={() => this.deleteGroup(elem.id)}  />

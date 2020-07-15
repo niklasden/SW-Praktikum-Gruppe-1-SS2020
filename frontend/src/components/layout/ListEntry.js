@@ -25,13 +25,15 @@ const styles = theme => ({
 });
 
 /**
- * Renders a list of ListEntry objects
+ * Renders a single list entry item
  * 
  * @see ListEntry
  * 
  * @author [Christopher Böhm](https://github.com/christopherboehm1)
  * 
- * @property text
+ * @property text (string): The text to display of the list entry
+ * @property iconName (string): the name of the icon to display. 
+ * All items of material icons are supported
  */
 class ListEntry extends Component {
   render(){
@@ -50,7 +52,6 @@ class ListEntry extends Component {
         <Grid 
           container 
           alignItems='center' 
-          xs={9} 
           direction='row'
         >
           <Grid item  >
@@ -59,7 +60,7 @@ class ListEntry extends Component {
             >{this.props.iconName}</Icon>
           </Grid>
           <Grid item>
-            <text style={{display: 'block', fontWeight: 'normal', textTransform: 'none'}}>{this.props.text}</text>
+            <p style={{display: 'block', fontWeight: 'normal', textTransform: 'none'}}>{this.props.text}</p>
           </Grid>
         </Grid>
       </Grid> 

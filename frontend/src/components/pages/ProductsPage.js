@@ -7,7 +7,8 @@ import CircularProgress from '@material-ui/core/CircularProgress/CircularProgres
 import ProductListEntry from '../layout/ProductListEntry';
 import { Link } from 'react-router-dom';
 import Heading from '../layout/Heading';
-import { Config } from '../../config'
+import { Config } from '../../config';
+import { ListItemIcon } from '@material-ui/core';
 
 const styles = theme => ({
     root: {
@@ -19,7 +20,87 @@ const styles = theme => ({
     }
  });
 
+const articleIDIconMapper = {
+  1: 'apple', 
+  2: 'banana',
+  3: 'orange',
+  //4: '', 
+  5: '', 
+  6: '', 
+  7: '', 
+  8: '', 
+  9: '', 
+  10: '', 
+  11: 'cucumber', 
+  12: '', 
+  13: '', 
+  14: '', 
+  15: 'strawberyy', 
+  16: 'tea', 
+  17: 'milk', 
+  18: 'bread', 
+  19: 'beermug', 
+  20: 'orangejuice', 
+  21: 'wine', 
+  22: 'cola', 
+  23: 'water',
+
+
+
+}
+
+const categoryIconMapper = {
+  1: 'vegetables',
+  2: 'meatAndFish',
+  3: 'fruits', 
+  4: 'beverages', 
+  5: 'soap',
+  6: 'snacks', 
+  7: 'milkAndEggs', 
+  8: 'cosmetics', 
+  9: 'convenience'
+}
+
 /**
+const ICONS = [
+  {
+    id: '1', 
+    iconName: 'vegetables'
+  }, 
+  {
+    id: '2', 
+    iconName: 'meatAndFish'
+  }, 
+  {
+    id: '3', 
+    iconName: 'fruits'
+  }, 
+  {
+    id: '4', 
+    iconName: 'beverages'
+  }, 
+  {
+    id: '5', 
+    iconName: 'soap'
+  },
+  {
+    id: '6', 
+    iconName: 'snacks'
+  },
+  {
+    id: '7', 
+    iconName: 'milkAndEggs'
+  },
+  {
+    id: '8', 
+    iconName: 'cosmetics'
+  },
+  {
+    id: '9', 
+    iconName: 'convenience'
+  },
+] 
+
  * Example Categorys with Articles
  
 const FRUITS = [
@@ -91,6 +172,7 @@ const MEAT =[
   }
 ]*/
 
+//Braucht man das ???
 const getProductsDummy = () => {
     let productsJSON = [];
     fetch("http://localhost:8081/api/shoppa/products")
@@ -104,7 +186,7 @@ const getProductsDummy = () => {
 /**
  * Renders a list of ArticleEntry objects
  * 
- * @see ArticleEntry
+ * @see ProductListEntry
  * 
  * @author [Pia Schmid](https://github.com/PiaSchmid)
  */
@@ -139,7 +221,7 @@ class ProductsPage extends Component {
         loadingArticleError: null, 
         articles: json, 
       })
-    } catch (e){
+    } catch (e) {
       this.setState({
         loadingInProgress: false, 
         loadingArticleError: '', 
@@ -158,10 +240,23 @@ class ProductsPage extends Component {
   } */
 
   renderArticles(){
-    /*reduce creates an array with all articles of the same category*/ 
-    var categories = this.state.articles.reduce((itemsSoFar, {category, name, id, iconName}) => {
+    /*reduce creates an array with all articles of the same category*/
+
+    function getIconName(id, category){
+      if (articleIDIconMapper[id] !== undefined){
+        return articleIDIconMapper[id]
+      } else if (categoryIconMapper[category.id] !== undefined){
+        return categoryIconMapper[category.id]
+      }
+      return 'otherIcon'
+    }
+    
+
+    var categories = this.state.articles.reduce((itemsSoFar, {category, name, id}) => {
       if (!itemsSoFar[category]) itemsSoFar[category] = [];
+      var iconName = getIconName(id, category)
       itemsSoFar[category].push({name, id, iconName});
+
       return itemsSoFar; 
     }, {});
 
@@ -176,7 +271,7 @@ class ProductsPage extends Component {
     }
   
    return Object.entries(categories).map(category => (
-        <div>
+        <div key={category[1].id}>
 
           <Heading>{category[0]}</Heading>
 
@@ -185,6 +280,7 @@ class ProductsPage extends Component {
            {category[1].map(item => (
 
              <ProductListEntry
+             key={item.id}
              id={item.id}
              category={category[0]}
              name={item.name}
@@ -202,27 +298,21 @@ class ProductsPage extends Component {
   render(){
     const classes = this.props.classes
     return(
-
-      <Grid container 
-        className={classes.root} 
-      >
-
-        <Grid container xs={12} spacing={2}>
-
-          <Grid item xs={10}>
+      <Grid container className={classes.root} >
+        <Grid container spacing={2}>
+          <Grid item xs={8}>
             <TextInputBar placeholder="search..." icon="search" onChange={(elem) => this.setState({ searchValue: elem.target.value})}/>
           </Grid>
-
-          <Grid item xs={2}>
+          <Grid item xs={4}>
             <Link to="/create_article">
               <IconButton icon='add' />
             </Link>
+            <Link to="/favourite_products" style={{marginLeft: "15px"}}>
+              <IconButton icon='star' />
+            </Link>
           </Grid>
-
         </Grid>
-
         <div style={{width: '100%'}}>
-        
           {this.state.loadingInProgress ?
               <div style={{display: 'flex', justifyContent: 'center'}}>
                 <CircularProgress size={25} />
