@@ -128,11 +128,12 @@ class CustomIcon extends Component {
   render(){
     let icon = ''
     if (this.props.iconName != undefined){
-      icon = this.props.iconName
-    }
-
-    if (!(this.props.iconName in icons)) {
-      icon = 
+      if (this.props.iconName in icons){
+        icon = this.props.iconName
+      }
+      else {
+        icon = this.props.category
+      }     
     }
 
     let dimension = 20
