@@ -31,9 +31,8 @@ import ProductsPage from './components/pages/ProductsPage';
 import GroupShoppingList from './components/pages/GroupShoppingList';
 import SettingsPage from './components/pages/SettingsPage';
 import { RetailerPage } from './components/pages/RetailerPage'
-import CreateRetailerPage from './components/pages/CreateRetailerPage'
+import EditRetailerPage from './components/pages/EditRetailerPage'
 import CreateArticlePage from './components/pages/CreateArticlePage'
-
 
 import SpecificGroup from './components/pages/SpecificGroup.js';
 import CreateGroup from './components/pages/CreateGroup.js';
@@ -251,10 +250,7 @@ class App extends React.Component {
 											<RetailerPage />
 										</Route>
 										<Route path="/create_retailer">
-											<CreateRetailerPage />
-										</Route>
-										<Route path="/create_article">
-											<CreateArticlePage />
+											<EditRetailerPage />
 										</Route>
 										<Route path="/specificgroup">
 											<SpecificGroup/>

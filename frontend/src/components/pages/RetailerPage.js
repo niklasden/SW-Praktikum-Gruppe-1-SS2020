@@ -5,9 +5,10 @@ import IconButton from '../layout/IconButton'
 import RetailerListEntry from '../layout/RetailerListEntry'
 import { Link } from 'react-router-dom';
 import { Config } from '../../config'
+import { timeout } from '../../timeout'
 
 /**
- * Renders the retailer page
+ * Renders the retailer page, it fetches the retailers of a group and renders them as list items
  * 
  * @see RetailerPage
  * 
@@ -27,30 +28,29 @@ export class RetailerPage extends Component {
   }
 
   /** Fetches RetailerBOs for the current group */
+  // TODO: add group selection to retailers
   async getRetailers(){
     this.setState({
       loadingInProgress: true, 
       loadingRetailersError: null 
     })
 
-    setTimeout(async () => {
-      try {
-        // TODO: change to real api
-        const res = await fetch(Config.apiHost + '/Retailer')
-        const json = await res.json()
-  
-        this.setState({
-          loadingInProgress: false, 
-          loadingRetailersError: null, 
-          retailers: json
-        })
-      } catch (e){
-        this.setState({
-          loadingInProgress: false, 
-          loadingRetailersError: '', 
-        })
-      } 
-    }, 1000)
+    await timeout(500)
+    try {
+      const res = await fetch(Config.apiHost + '/Retailer')
+      const json = await res.json()
+
+      this.setState({
+        loadingInProgress: false, 
+        loadingRetailersError: null, 
+        retailers: json
+      })
+    } catch (e){
+      this.setState({
+        loadingInProgress: false, 
+        loadingRetailersError: '', 
+      })
+    } 
   }
 
   renderRetailers(){
@@ -96,9 +96,7 @@ export class RetailerPage extends Component {
             }
           </div>
         </div>
-
       </div>
-
     ) 
   }
 }

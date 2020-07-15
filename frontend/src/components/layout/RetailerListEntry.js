@@ -21,17 +21,17 @@ const styles = theme => ({
   },
 });
 
-
 /**
- * Renders a list of RetailerEntry objects
+ * Renders a RetailerListEntry Object, if you click on a ListEntry object you get 
+ * routet to EditRetailerPage
  * 
  * @see RetailerEntry
  * 
  * @author [Christopher Böhm](https://github.com/christopherboehm1)
  * 
- * @prop id: string with retailer id
- * @prop name: string with retailer name
- * @prop address: string with retailer address
+ * @prop id (string): The id of the retailer
+ * @prop name (string): The name of the retailer to display
+ * @prop address (strign): The address/location of the retailer to display
  */
 class RetailerListEntry extends Component {
   render(){
@@ -69,8 +69,7 @@ class RetailerListEntry extends Component {
 
         <Grid container xs={3} justify='flex-end'>
           <Link 
-            to='create_retailer?query=hello'
-            query='hello'
+            to='create_retailer'
             to={{
               pathname: 'create_retailer', 
               state: { 

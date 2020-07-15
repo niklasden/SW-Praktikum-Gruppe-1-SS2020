@@ -44,7 +44,7 @@ import chickenIcon from '../../icons/chicken.svg'
 import soapIcon from '../../icons/soap.svg'
 import advertisingIcon from '../../icons/advertising.svg'
 
-// category icons
+// category icons imports
 import beveragesIcon from '../../icons/beverages.svg'
 import convenienceIcon from '../../icons/convenience.svg'
 import cosmeticsIcon from '../../icons/cosmetics.svg'
@@ -116,9 +116,13 @@ const icons = {
 }
 
 /**
- * Displays an icon button as designed in figma
+ * Displays a custom icon using the icons placed in icons folder. 
+ * To add an icon just place the svg in icons folder, import it at the beginning of CustomIcon
+ * and add it to the icons dictionary 
  * 
  * @author [Christopher Böhm](https://github.com/christopherboehm1)
+ * 
+ * @property iconName (string): the icon name that is defined in icons constant
  */
 class CustomIcon extends Component {
   render(){

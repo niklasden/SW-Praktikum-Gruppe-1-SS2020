@@ -25,13 +25,15 @@ const styles = theme => ({
 });
 
 /**
- * Renders a list of ListEntry objects
+ * Renders a single list entry item
  * 
  * @see ListEntry
  * 
  * @author [Christopher Böhm](https://github.com/christopherboehm1)
  * 
- * @property text
+ * @property text (string): The text to display of the list entry
+ * @property iconName (string): the name of the icon to display. 
+ * All items of material icons are supported
  */
 class ListEntry extends Component {
   render(){
