@@ -5,12 +5,19 @@ import CategoryDropDown from '../layout/CategoryDropDown';
 import MenuItem from '@material-ui/core/MenuItem';
 import PopUp from '../layout/PopUp';
 import { Config } from '../../config'
+import ShoppingSettings from '../../shoppingSettings'
+import ListEntryBO from '../../api/ListEntryBO';
+import ShoppingAPI from '../../api/ShoppingAPI';
 
 /**
  * Displays the PersonalShoppingList as designed in Figa. All items to be purchased by a person are listed on the list and can be ticked off the list. Finally the user can complete the shopping. 
  * 
  * @author [Pascal Illg](https://github.com/pasillg)
+ * 
  */
+
+const settings = ShoppingSettings.getSettings()
+
 export default class PersonalShoppingList extends Component {
 
   state={
@@ -21,11 +28,18 @@ export default class PersonalShoppingList extends Component {
     solved: false,
     loadingInProgress: false, 
     loadingRetailersError: null, 
-    addingRetailerError: null, 
+    addingRetailerError: null,
+    currentUserID: settings.getCurrentUserID(),
+    groupID: settings.getGroupID()
+}
+
+newItem = () => {
+  ShoppingAPI.getAPI().personalItems(this.state.currentUserID, this.state.groupID).then(items => {this.setState({items : items})}).catch(e => console.log(e))
 }
 
 componentDidMount(){
   this.getListEntrys()
+  this.newItem()
 }
 
 /** Fetches ListEntrysBOs for the current group */
@@ -38,7 +52,7 @@ async getListEntrys(){
   setTimeout(async () => {
     try {
       // TODO: change to real api
-      const res = await fetch(Config.apiHost + '/Listentry/get_items_of_group/1')
+      const res = await fetch(Config.apiHost + '/Listentry/get_personal_items_of_group/')
       const json = await res.json()
 
       this.setState({
@@ -55,22 +69,10 @@ async getListEntrys(){
   }, 1000)
 }
 
-
-
-/* All UserItems with the ID 1 */
-getUserItems(){
-  const Useritems = this.state.items.filter(item =>{
-    if (item.userID === 1 ) {
-      return item
-    }
-  });
-  return Useritems
-};
-
 /* Returns an array with all Useritems that are unchecked  */
 getUncheckedArticles(){
   let ArrUncheckedArticles = []
-  let Useritems = this.getUserItems()
+  let Useritems = this.state.items
   Useritems.filter( item => {
     if(item.checkbox === false && (this.state.selectedRetailer === item.retailer || this.state.selectedRetailer === 'All')){
       ArrUncheckedArticles.push(item)
@@ -107,7 +109,7 @@ renderUncheckedArticles(){
 /* Returns an array with all Useritems that are checked  */
 getCheckedArticles(){
   let ArrCheckedArticles = []
-  let Useritems = this.getUserItems()
+  let Useritems = this.sate.items
   Useritems.filter( item => {
     if(item.checkbox === true && (this.state.selectedRetailer === item.retailer || this.state.selectedRetailer === 'All')){
       ArrCheckedArticles.push(item)
@@ -157,7 +159,7 @@ renderMyShoppingList(){
 /* Renders the list of unchecked or checked Useritems */
 renderReatailer(){
   let retailer = []
-  let Useritems = this.getUserItems()
+  let Useritems = this.state.items
   retailer.push('All')
   Useritems.map(item => {
     if(!retailer.includes(item.retailer)) {
@@ -174,7 +176,7 @@ onClickList(){
 getArticleOfRetailer(){
   let ArrSelectedRetailer = []
   let retailer = this.state.selectedRetailer
-  let Useritems = this.getUseritems()
+  let Useritems = this.state.items
   Useritems.map( item => {
     if(item.retailer === retailer){
       ArrSelectedRetailer.push(item)
@@ -217,6 +219,8 @@ render(){
   let shops = this.renderReatailer()
   let all = 'ALL'
   console.log('Das ist Items:    ' + this.state.items)
+  console.log(this.state.currentUserID)
+  console.log("GroupID  " + this.state.groupID)
 
   return (
     <Grid 

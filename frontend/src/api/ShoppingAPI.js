@@ -25,6 +25,7 @@ export default class ShoppingAPI {
     //User URLs
     #getUsersURL = (groupid) => `${this.#baseServerURL}/membership/${groupid}`;
     #getUserNameURL = (id) => `${this.#baseServerURL}/membership/${id}`;
+    #getUserURL = (id) => `${this.#baseServerURL}/User/${id}`;
     
     //Groups URLs
     #getGroupsforUserURL = (userid) => `${this.#baseServerURL}/Group/Usergroup/${userid}`;
@@ -35,6 +36,11 @@ export default class ShoppingAPI {
     
     //ListEntry URLs
     #updateListEntryURL = () => `${this.#baseServerURL}/Listentry/update`;
+    #personalItemsURL = (user_id, group_id) => {
+        let val = `${this.#baseServerURL}/Listentry/get_personal_items_of_group/?group_id=` + group_id + `&user_id=` + user_id
+        console.log("Dasist val" + val)
+        return val
+    };
 
 
     //Retailer URLs
@@ -112,6 +118,8 @@ export default class ShoppingAPI {
         })
     }
 
+  
+
     //not tested because of membership issue, current version works fine
     /*saveGroup(groupBO){
         return this.#fetchAdvanced(this.#saveGroupURL(groupBO), {
@@ -163,12 +171,37 @@ export default class ShoppingAPI {
         })
     }
 
+    personalItems(user_id, group_id) {
+        return this.#fetchAdvanced(this.#personalItemsURL(user_id, group_id), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json, text/plain',
+                'Content-type': 'application/json',
+            },
+        })
+        .then((responseJSON) => {
+            let listentryBO = ListEntryBO.fromJSON(responseJSON);
+            return new Promise(function (resolve) {
+                resolve(listentryBO);
+            })
+        })
+    }
+
 
     getUsers(groupBO){
         return this.#fetchAdvanced(this.#getUsersURL(groupBO)).then((responseJSON) => {
             let userBOs = UserBO.fromJSON(responseJSON);
             // console.info(userBOs);
             return new Promise(function (resolve)  {
+                resolve(userBOs)
+            })
+        })
+    }
+
+    getUser(id){
+        return this.#fetchAdvanced(this.#getUserURL(id)).then((responseJSON) => {
+            let userBOs = UserBO.fromJSON(responseJSON);
+            return new Promise(function (resolve) {
                 resolve(userBOs)
             })
         })

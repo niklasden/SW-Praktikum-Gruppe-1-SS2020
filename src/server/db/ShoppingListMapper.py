@@ -83,7 +83,7 @@ class ShoppingListMapper (Mapper):
         for (maxid) in tuples:
             shopping_list.set_id(maxid[0] + 1)
 
-        command = "INSERT INTO Shoppinglist (ID, name, Group_ID) VALUES (%s,%s,%s)"
+        command = "INSERT INTO Shoppinglist (ID, name, Group_ID, creationdate) VALUES (%s,%s,%s, NOW())"
         data = (shopping_list.get_id(), shopping_list.get_name(), shopping_list.get_group_id())
         cursor.execute(command, data)
 
@@ -91,6 +91,7 @@ class ShoppingListMapper (Mapper):
         cursor.close()
 
         self._insert_default_articles_to_shopping_list(shopping_list.get_id())
+
 
         return shopping_list
 
@@ -114,8 +115,6 @@ class ShoppingListMapper (Mapper):
 
         insertArticlesStatemenet = ""
         for (article_id) in tuples:
-            cursor = self._cnx.cursor()
-
             insertArticlesStatemenet = """ INSERT INTO Listentry (
                     ID, 
                     Article_ID, 
@@ -125,7 +124,8 @@ class ShoppingListMapper (Mapper):
                     Group_ID, 
                     amount, 
                     unit, 
-                    bought
+                    bought, 
+                    creationdate
                 )
                 VALUES (
                     {0}, 
@@ -136,12 +136,15 @@ class ShoppingListMapper (Mapper):
                     NULL, 
                     0, 
                     0, 
-                    NULL
+                    NULL, 
+                    NOW()
                 );
             """.format(new_id, article_id[0], shopping_list_id)
-            cursor.execute(insertArticlesStatemenet, {})
-            print("inserted")
+            cursor.execute(insertArticlesStatemenet)
             new_id = new_id + 1
+
+        self._cnx.commit()
+        cursor.close()
 
     def update(self, shopping_list):
         """Overwriting the shopping list object in databse

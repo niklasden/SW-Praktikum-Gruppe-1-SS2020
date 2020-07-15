@@ -12,7 +12,7 @@ export default class ShoppingSettings{
     currentGroupID = 0
     currentGroupName = ""
 
-    currentUserID = 0
+    currentUserID = 5
     currentUserFireBaseID = ""
 
     onlySettingsGroupID = 0      //only used in settings > show specific group

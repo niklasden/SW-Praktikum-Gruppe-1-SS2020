@@ -170,6 +170,11 @@ class ShoppingAdministration (object):
             result = mapper.find_by_date_of_purchase(date)
             return result
     
+    def get_personal_items_of_group(self, group_id, user_id):
+        with ListEntryMapper() as mapper:
+            result = mapper.get_personal_items_of_group(group_id, user_id)
+            return result
+    
     #noch nicht fertig
     def insert_listentry(self, listentry):
         with ListEntryMapper() as mapper:

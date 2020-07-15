@@ -51,8 +51,9 @@ group = api.inherit('Group',bo, {
 user = api.inherit('User',bo,{
     'name': fields.String(attribute='_name',description="An users name"),
     'email': fields.String(attribute='_email',description="An users email"),
-    'firebase_id': fields.String(attribute='_firebase_id',description="An users firebaseid "),
-    'creationdate': fields.DateTime(attribute='_creationdate',description="An users creationdate")
+    'firebase_id': fields.String(attribute='_firebase_id',description="An users firebaseid"),
+    'creationdate': fields.DateTime(attribute='_creationdate',description="An users creationdate"),
+    'location': fields.String(attribute='_location',description="A users location")
 })
 
 retailer = api.inherit('Retailer',bo,{
@@ -640,16 +641,20 @@ class testListEntry(Resource):
         result = adm.insert_listentry(listentry)
         return result
 
-@shopping_v1.route('/Listentry/get_items_of_group/<int:group_id>')
-@shopping_v1.response(500, 'Falls was in die Fritten geht')
-@shopping_v1.param('group_id', "Group_id")
+@shopping_v1.route('/Listentry/get_personal_items_of_group/')
+@shopping_v1.response(500, 'If an server sided error occures')
+@shopping_v1.param('user_id', "User_ID")
+@shopping_v1.param('group_id', "Group_ID")
 class testListEntry(Resource):
-    @shopping_v1.marshal_with(listentry)
-    def get(self, group_id):
+    @shopping_v1.marshal_list_with(listentry)
+    def get(self):
+        user_id = request.args.get('user_id')
+        group_id = request.args.get('group_id')
+        print("goup" + group_id)
+        print("user" + user_id)
         adm = ShoppingAdministration()
-        result = adm.get_items_of_group(group_id)
-        return result
-
+        return adm.get_personal_items_of_group(user_id, group_id)
+        
 @shopping_v1.route('/Listentry/get_unassigned_items_of_group/<int:group_id>')
 @shopping_v1.response(500, 'Falls was in die Fritten geht')
 @shopping_v1.param('group_id', "Group_id")
