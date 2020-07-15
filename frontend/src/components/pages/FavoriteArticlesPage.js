@@ -27,11 +27,38 @@ class FavoriteArticlesPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            articles: [],
             categories: [],
-            favouriteArticles: [],
+            favArticles: [],
             loadingInProgress: false, 
             error: null,
             currentGroupID: 0
+        }
+    }
+    async getFavArticles() {
+        try {
+            if(this.state.currentGroupID !== 0 || this.state.currentGroupID !== null) {
+                var newFavArticles = [];
+                const res = await fetch(Config.apiHost + '/favoriteArticle/groupid/' + this.state.currentGroupID);
+                const json = await res.json()
+                json.forEach(item => {
+                    var matchingItem = this.state.articles.find(article => article.id === item.article_id);
+                    var favArticle = {
+                        id: item.id,
+                        article_id: item.article_id,
+                        article_name: matchingItem.name,
+                        article_category: matchingItem.category,
+                        amount: item.amount,
+                        group_id: this.state.currentGroupID,
+                        retailer_id: 4,
+                        unit: item.unit
+                    }
+                    newFavArticles.push(favArticle);
+                })
+                this.setState({favArticles: newFavArticles});
+            }
+        }catch(e) {
+            this.setState({error: e})
         }
     }
     async getArticles() {
@@ -39,21 +66,24 @@ class FavoriteArticlesPage extends React.Component {
             loadingInProgress: true
         });
         try {
-            const categoryList = [];
+            const categoryList = [], articleMapping = [];
             const res = await fetch(Config.apiHost + '/Article')
             const json = await res.json()
-            this.setState({
-            loadingInProgress: false, 
-            loadingArticleError: null, 
-            favouriteArticles: json, 
-            })
             json.forEach(article => {
                 if(!categoryList.includes(article.category)) {
                     categoryList.push(article.category)
                 }
+                if(articleMapping.filter(a => a.id === article.id).length === 0) {
+                    articleMapping.push(article);
+                }
             })
-            this.setState({categories: categoryList})
-            this.setState({currentGroupID: settingsObject.currentGroupID});
+            this.setState({
+                articles: articleMapping,
+                categories: categoryList,
+                currentGroupID: settingsObject.currentGroupID,
+                loadingInProgress: false
+                })
+        this.getFavArticles();
         } catch (e){
             this.setState({
             loadingInProgress: false, 
@@ -67,6 +97,7 @@ class FavoriteArticlesPage extends React.Component {
     render() {
     const {classes} = this.props;
     const {error, loadingInProgress} = this.state;
+    console.log(this.state);
     return (
         error ?
         <ContextErrorMessage error={error} contextErrorMsg={error.message} />
@@ -75,19 +106,23 @@ class FavoriteArticlesPage extends React.Component {
             <LoadingProgress />
         :
         <Grid container xs={12} className={classes.wrapper}>
-            {this.state.categories.map(category => (
+        {this.state.currentGroupID === 0 ? 
+            <div>No group found!<br /> Switch to HomePage and select your active group!</div>
+        :
+            this.state.categories.map(category => (
                 <>
                 <Grid item xs={12}>
                     <Heading>{category}</Heading>
                 </Grid>
                 <Grid container xs={12}>
-                    {this.state.favouriteArticles.map(article => (
-                        article.category === category ?
+                    {this.state.favArticles.map(article => (
+                        article.article_category === category ?
                             <ProductListEntry
+                                favArticle
                                 id={article.id}
                                 category={article.category}
-                                name={article.name}
-                                iconName={article.name.toLowerCase()}
+                                name={article.article_name}
+                                iconName={article.article_name.toLowerCase()}
                                 style={{marginBottom:12}}
                             />
                         : null

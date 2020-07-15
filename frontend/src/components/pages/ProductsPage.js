@@ -300,12 +300,15 @@ class ProductsPage extends Component {
     return(
       <Grid container className={classes.root} >
         <Grid container spacing={2}>
-          <Grid item xs={10}>
+          <Grid item xs={8}>
             <TextInputBar placeholder="search..." icon="search" onChange={(elem) => this.setState({ searchValue: elem.target.value})}/>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={4}>
             <Link to="/create_article">
               <IconButton icon='add' />
+            </Link>
+            <Link to="/favourite_products" style={{marginLeft: "15px"}}>
+              <IconButton icon='star' />
             </Link>
           </Grid>
         </Grid>
