@@ -49,10 +49,19 @@ class FavoriteArticle(bo.BusinessObject):
     def set_creationdate(self,cd):
         self.creationdate = cd
 
+    def __str__(self):
+        return "ID: "+str(self._id)+" Group_ID: "+(str(self.Group_ID))+"ArticleID: "+(str(self.Article_ID))
     
     @staticmethod
     def from_dict(dictionary=dict()):
         obj = FavoriteArticle()
+        obj.set_id(dictionary["id"])
+        obj.set_Group_ID(dictionary["group_id"])
+        obj.set_Article_ID(dictionary["article_id"])
+        obj.set_amount(dictionary["amount"])
+        obj.set_unit(dictionary["unit"])
+        obj.set_Retailer_ID(dictionary["retailer_id"])
+        obj.set_creationdate(dictionary["creationdate"])
         return obj
 
 

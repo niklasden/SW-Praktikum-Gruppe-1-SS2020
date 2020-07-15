@@ -34,22 +34,22 @@ class FavoriteArticleMapper(Mapper):
 
 
     def find_by_key(self, key):
-        result = []
+        result = None 
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT ID,Group_ID,Article_ID,amount,unit,Retailer_ID,creationdate from FavoriteArticle WHERE ID ={}".format(key))  
+        cursor.execute("SELECT ID,Group_ID,Article_ID,amount,unit,Retailer_ID,creationdate from FavoriteArticle WHERE ID={0}".format(key))  
         tuples = cursor.fetchall()
         
         try:
-            for(id,groupid,articleid,amount,unit,retailer,cd) in tuples:
-                fa = FavoriteArticle()
-                fa.set_id(id)
-                fa.set_Group_ID(groupid)
-                fa.set_Article_ID(articleid)
-                fa.set_amount(amount)
-                fa.set_unit(unit)
-                fa.set_Retailer_ID(retailer)
-                fa.set_creationdate(cd)
-                result.append(fa)
+            (id,groupid,articleid,amount,unit,retailer,cd) = tuples[0]
+            fa = FavoriteArticle()
+            fa.set_id(id)
+            fa.set_Group_ID(groupid)
+            fa.set_Article_ID(articleid)
+            fa.set_amount(amount)
+            fa.set_unit(unit)
+            fa.set_Retailer_ID(retailer)
+            fa.set_creationdate(cd)
+            result = fa
 
         except IndexError:
             result = None
@@ -60,9 +60,12 @@ class FavoriteArticleMapper(Mapper):
 
 
     def find_by_group(self,gid):
+        
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT ID,Group_ID,Article_ID,amount,unit,Retailer_ID,creationdate from FavoriteArticle WHERE Group_ID ={}".format(gid))  
+        
+        cursor.execute("SELECT ID,Group_ID,Article_ID,amount,unit,Retailer_ID,creationdate from FavoriteArticle WHERE `Group_ID`={0}".format(gid))   
+        
         tuples = cursor.fetchall()
         
         try:
@@ -95,8 +98,8 @@ class FavoriteArticleMapper(Mapper):
             else:
                 fav_article.set_id(1)
         
-        command = "INSERT INTO `FavoriteArticle` (ID,Group_ID,Article_ID,amount,unit,Retailer_ID,creationdate) VALUES ({0},{1},{2},{3},{4},{5},NOW())".format(fav_article.get_id(),fav_article.get_Group_ID(),fav_article.get_Article_ID(),fav_article.get_amount(),fav_article.get_unit(),fav_article.get_Retailer_ID())
-                
+        command = "INSERT INTO FavoriteArticle (`ID`,`Group_ID`,`Article_ID`,`amount`,`unit`,`Retailer_ID`,`creationdate`) VALUES ({0},{1},{2},{3},'{4}',{5},NOW())".format(fav_article.get_id(),fav_article.get_Group_ID(),fav_article.get_Article_ID(),fav_article.get_amount(),fav_article.get_unit(),fav_article.get_Retailer_ID())
+          
         try: 
             cursor.execute(command)
             self._cnx.commit()
@@ -112,8 +115,8 @@ class FavoriteArticleMapper(Mapper):
        
         try:
             cursor = self._cnx.cursor()
-            command = "UPDATE FavoriteArticle " + "SET Group_ID={0}, SET Article_ID={1}, SET amount={2},SET unit={3},SET Retailer_ID={4}".format(fav_article.get_Group_ID(),fav_article.get_Article_ID(),fav_article.get_amount(),fav_article.get_unit(),fav_article.get_Retailer_ID())
-
+            command = "UPDATE FavoriteArticle " + "SET Group_ID={0}, Article_ID={1}, amount={2}, unit='{3}', Retailer_ID={4} WHERE ID={5}".format(fav_article.get_Group_ID(),fav_article.get_Article_ID(),fav_article.get_amount(),fav_article.get_unit(),fav_article.get_Retailer_ID(),fav_article.get_id())
+            
             cursor.execute(command)
             self._cnx.commit()
             cursor.close()
@@ -123,7 +126,7 @@ class FavoriteArticleMapper(Mapper):
             return "Error in update FavoriteArticle FavoriteArticleMapper: " + str(e)
 
     def delete(self, fa):
-        
+        print(str(fa))
         try:
             cursor = self._cnx.cursor()
             command = "DELETE FROM `FavoriteArticle` WHERE ID={0}".format(fa.get_id())
