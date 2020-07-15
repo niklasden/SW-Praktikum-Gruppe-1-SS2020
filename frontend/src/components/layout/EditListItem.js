@@ -100,7 +100,7 @@ class EditListItem extends Component {
         aria-labelledby="alert title"
         aria-describedby="description" 
       >
-      <DialogTitle id="alert title">{"Edit "+this.state.item.name}</DialogTitle>
+      <DialogTitle id="alert title" style={{textAlign: "center"}}>{"Edit "+this.state.item.name}</DialogTitle>
       <DialogContent>
       </DialogContent>
       <Grid
@@ -109,7 +109,7 @@ class EditListItem extends Component {
         justify='center'
         alignItems= 'center'
         spacing={4}
-        
+        style={{width: 'calc(100% + 15px)'}}
       >
       <Grid item xs={6} style={{paddingLeft: 25}}>
         <InputLabel>AMOUNT</InputLabel>
@@ -157,7 +157,7 @@ class EditListItem extends Component {
       </Grid>
       </Grid>
 
-      <DialogActions>
+      <DialogActions style={{justifyContent: "center"}}>
         <Button color="primary" onClick={() => this.saveItem()}>
           SAVE
         </Button>
