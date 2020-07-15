@@ -121,7 +121,7 @@ class EditListItem extends Component {
       >
       <Grid item xs={6}>
         <InputLabel>AMOUNT</InputLabel>
-        <TextField defaultValue={this.state.item.amount} onChange={this.handleChangeAmount.bind(this)} value={this.state.amount}></TextField>
+        <TextField onChange={this.handleChangeAmount.bind(this)} value={this.state.amount}></TextField>
       </Grid>
       <Grid item xs={6}>
       <FormControl style={{width: '100%', height: 35, marginLeft: 10, marginBottom: 10}}>

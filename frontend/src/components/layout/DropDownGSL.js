@@ -84,9 +84,7 @@ class DropDownGSL extends Component {
         id='panel1a-header'
       >
       <Typography>
-        <Grid container spacing={1}>
         {this.props.ArrCategory[this.props.item]}
-        </Grid>
       </Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>

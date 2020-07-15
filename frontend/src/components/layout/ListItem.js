@@ -34,7 +34,7 @@ class ListItem extends Component {
     this.state = {
       item: this.props.item,
       anchorEl: null,
-      open: null
+      open: false
     }
     this.handleClick = this.onClickItem.bind(this);
     this.handleClose = this.handleClose.bind(this);
