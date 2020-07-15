@@ -51,7 +51,8 @@ const styles = theme => ({
             xs={3}
             >
               <ButtonBase
-                onClick={this.onSave}>
+                onClick={this.onSave}
+                >
                 <Article 
                 id = {this.props.id}
                 itemname={this.props.name} 

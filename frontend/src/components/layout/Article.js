@@ -18,9 +18,6 @@ const styles = theme => ({
     iconRoot:{
       textAlign: 'center'
     },
-    textroot:{
-
-    }
 })
 
 /**
@@ -68,9 +65,9 @@ const styles = theme => ({
         
         <MaterialIconButton 
           className={classes.root}
-          style={{padding: '1px' , width:'60px',height:'60px' }}
+          style={{padding: '1px' , width:'60px', height:'60px' }}
         >
-          <div style={{height:'100%',width:'100%',margin:'9px'}}>
+          <div style={{height:'100%',width:'100%',margin:'9px', marginTop: '20px'}}>
 
             <CustomIcon iconName ={this.props.iconName}></CustomIcon>
  

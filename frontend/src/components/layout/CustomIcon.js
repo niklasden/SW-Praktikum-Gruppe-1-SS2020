@@ -142,7 +142,7 @@ class CustomIcon extends Component {
           width: dimension, 
           height: dimension,
           filter: `grayscale(100%)`,
-          marginTop: '15px'      
+          //marginTop: '15px'      
         }} 
         src={icons[icon]}
       />
