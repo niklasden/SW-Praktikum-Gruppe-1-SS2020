@@ -42,7 +42,7 @@ class ListItemCheckbox extends Component {
       xs={12}
     >
         <Grid item xs={2}>
-          <CustomIcon category={this.props.category} iconName={this.props.iconname} style={{magrinTop: 10, marginLeft:10, color: '#00BCD4'}}></CustomIcon>
+          <CustomIcon category={this.props.category} iconName={this.props.iconname} style={{alignItem: 'center', marginLeft:10, marginTop:5, color: '#00BCD4'}}></CustomIcon>
         </Grid>
 
         <Grid item xs={6}>

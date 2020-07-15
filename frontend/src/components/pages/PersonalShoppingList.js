@@ -171,12 +171,13 @@ renderMyShoppingList(){
 /* Renders the list of unchecked or checked Useritems */
 renderReatailer(){
   let retailer = []
-  let Useritems = this.createUserItem()
+  let Useritems = this.state.items
   retailer.push('All')
   Useritems.map(item => {
     if(!retailer.includes(item.retailer)) {
       retailer.push(item.retailer)
     }
+    console.log(retailer)
   })
 return retailer
 }
