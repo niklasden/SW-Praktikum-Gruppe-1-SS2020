@@ -36,17 +36,7 @@ const styles = theme => ({
 class EditListItem extends Component {
   constructor(props) {
     super(props);
-    /*
-    let amt = '', unt = '', usr = '', rt = '', aid ='', sid = '';
-    if(props.listentry) {
-      amt = props.listentry.getAmount();
-      unt = props.listentry.getUnit();
-      usr = props.listentry.getUser();
-      rt  = props.listentry.getRetailer();
-      aid = props.listentry.getArticleid();
-      sid = props.listentry.getShoppinglistid();
-     }
-     */
+    
     this.state = {
       item: this.props.item,
       amount: this.props.item.amount,
@@ -98,9 +88,10 @@ class EditListItem extends Component {
     updatedItem.setUserid(this.state.selected_user_id);
     updatedItem.setGroupid(this.state.group_id);
     updatedItem.setBought(this.state.bought);
-    updatedItem.setRetailer(this.state.selected_retailer)
+    updatedItem.setRetailer(this.state.selected_retailer);
     
-    ShoppingAPI.getAPI().updateListEntry(updatedItem).catch(e => console.log(e))
+    ShoppingAPI.getAPI().updateListEntry(updatedItem).then(this.props.PressButtonBack).catch(e => console.log(e))
+
   }
 
 

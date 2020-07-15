@@ -44,13 +44,13 @@ class ListEntryMapper(Mapper):
         """
         Niklas key:int
         """
-        result = []
+        result = None
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT ID, Article_ID, Retailer_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought,creationdate from `Listentry` WHERE ID={}".format(key))
+        cursor.execute("SELECT ID, Article_ID, Retailer_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought, creationdate from `Listentry` WHERE ID={}".format(key))
         tuples = cursor.fetchall()
         print(tuples)
         try:
-            for (id, article_id, retailer_id, shoppinglist_id, user_id, group_id, amount, bought,cd) in tuples:
+            for (id, article_id, retailer_id, shoppinglist_id, user_id, group_id, amount, bought, cd) in tuples:
                 le = ListEntry()
                 le.set_id(id)
                 le.set_article(article_id)
@@ -61,8 +61,8 @@ class ListEntryMapper(Mapper):
                 le.set_amount(amount)
                 le.set_buy_date(bought)
                 le.set_creationdate(cd)
-                result.append(le)
-                print(result)
+                result = le
+                
         except IndexError:
                 result = None
 
@@ -237,10 +237,8 @@ class ListEntryMapper(Mapper):
             else:
                 listentry.set_id(1)
 
-        command = "INSERT INTO `Listentry` (ID, Article_ID, Retailer_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought,creationdate ) VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6}, null,NOW())".format(listentry.get_id(),listentry.get_article(),listentry.get_retailer(), listentry.get_shoppinglist(), listentry.get_user(), listentry.get_group(), listentry.get_amount())
-
-        print(command)
-               
+        command = "INSERT INTO `Listentry` (ID, Article_ID, Retailer_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought,creationdate ) VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6}, null,NOW())".format(listentry.get_id(),listentry.get_article(),listentry.get_retailer(), listentry.get_shoppinglist(), listentry.get_user(), listentry.get_group(), listentry.get_amount())    
+        
         try: 
             cursor.execute(command)
             self._cnx.commit()
@@ -255,9 +253,30 @@ class ListEntryMapper(Mapper):
         """
         Pascal le:ListEntry
         """
+    
+        le = ListEntry()
+        le = self.find_by_key(listentry.get_id())
+
+        if listentry.get_article() != "":
+            le.set_article(listentry.get_article())
+        if listentry.get_retailer() != "":
+            le.set_retailer(listentry.get_retailer())
+        if listentry.get_shoppinglist() != "":
+            le.set_shoppinglist(listentry.get_shoppinglist())
+        if listentry.get_user() != "":
+            le.set_user(listentry.get_user())
+        if listentry.get_group() != "":
+            le.set_group(listentry.get_group())
+        if listentry.get_amount() != "":
+            le.set_amount(listentry.get_amount())
+        if listentry.get_unit() != "":
+            le.set_amount(listentry.get_unit())
+        
+        print(le)
+
         try:
             cursor = self._cnx.cursor()
-            command = "UPDATE Listentry " + "SET Article_ID={0}, Retailer_ID={1}, Shoppinglist_ID={2}, User_ID={3}, Group_ID={4}, amount={5}, unit={6} WHERE ID={7}".format(listentry.get_article(), listentry.get_retailer(), listentry.get_shoppinglist(), listentry.get_user(), listentry.get_group(), listentry.get_amount(), listentry.get_unit(), listentry.get_id())
+            command = "UPDATE Listentry " + "SET Article_ID={0}, Retailer_ID={1}, Shoppinglist_ID={2}, User_ID={3}, Group_ID={4}, amount={5}, unit='{6}' WHERE ID={7}".format(le.get_article(), le.get_retailer(), le.get_shoppinglist(), le.get_user(), le.get_group(), le.get_amount(), le.get_unit(), le.get_id())
             print(command)
             cursor.execute(command)
             self._cnx.commit()

@@ -73,8 +73,10 @@ listentry = api.inherit('ListEntry',bo, {
     'bought': fields.String(attribute='_bought',description="Date when the article was bought"),
     'name': fields.String(attribute='_name',description="Name of the article"),
     'category': fields.String(attribute='_category',description="Category of the article"),
-    'retailer': fields.String(attribute='_retailer_id',description="Retailer where the items/articles were bought"),
-    'creationdate': fields.DateTime(attribute='_creationdate',description="An listentries creationdate")
+    'retailer': fields.String(attribute='_retailer',description="Retailer where the items/articles were bought"),
+    'creationdate': fields.DateTime(attribute='_creationdate',description="An listentries creationdate"),
+   
+
 })
 
 report = api.inherit('Report',bo, {
