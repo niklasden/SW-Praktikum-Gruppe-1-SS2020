@@ -14,3 +14,4 @@ class BusinessObject(ABC):
         """Setzen der ID."""
         self._id = value
 
+    # im Nachhinein hätte man das creationdate lieber hier platziert

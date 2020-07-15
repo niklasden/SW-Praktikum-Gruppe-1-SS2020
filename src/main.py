@@ -16,6 +16,8 @@ from server.bo.Retailer import Retailer
 from server.bo.Article import Article
 from server.db.ArticleMapper import ArticleMapper
 from server.bo.ShoppingList import ShoppingList
+from server.bo.FavoriteArticle import FavoriteArticle
+from server.db.FavoriteArticleMapper import FavoriteArticleMapper
 import json
 
 
@@ -94,6 +96,15 @@ shoppingList = api.inherit('ShoppingList', bo, {
     'name': fields.String(attribute='_name', description="The name of a ShoppingList"),
     'group_id': fields.Integer(attribute='_group_id', description="The group id the shopping list belongs to"),
     'creationdate': fields.DateTime(attribute='_creationdate', description="Create Date of the shopping list")
+})
+
+favoriteArticle = api.inherit('FavoriteArticle', bo, {
+    'group_id': fields.Integer(attribute='Group_ID', description="The Group id the fa belongs to"),
+    'article_id': fields.Integer(attribute='Article_ID', description="The article id "),
+    'amount': fields.Integer(attribute='amount', description="The amount of the article "),
+    'unit': fields.String(attribute='unit', description="The unit of the amount "),
+    'retailer_id': fields.Integer(attribute='Retailer_ID', description="The retailer id the FA belongs to"),
+    'creationdate': fields.DateTime(attribute='creationdate', description="Create Date of the shopping list")
 })
 
 # alle bos hier aufführen!
@@ -545,6 +556,81 @@ class ShoppingListOperations(Resource):
         adm = ShoppingAdministration()
         slist = adm.get_shoppinglists()
         return slist
+
+
+#FavoriteArticle:
+
+@shopping_v1.route('/favoriteArticle')
+@shopping_v1.response(500,'Server side error occured')
+class FavoriteArticleListOperations(Resource):
+    #@secured
+    @shopping_v1.marshal_with(favoriteArticle)
+    def get(self):
+        adm = ShoppingAdministration()
+        return adm.get_all_FavoriteArticles()
+
+    #@secured
+    @shopping_v1.marshal_with(favoriteArticle)
+    @shopping_v1.expect(favoriteArticle, validate=True)
+    def post(self):
+        adm = ShoppingAdministration()
+        try:
+            print(str(api.payload))
+            proposal = FavoriteArticle.from_dict(api.payload)
+            if proposal is not None:
+                fav = FavoriteArticle()
+                fav.set_id(proposal.get_id())
+                fav.set_Group_ID(proposal.get_Group_ID())
+                fav.set_Article_ID(proposal.get_Article_ID())
+                fav.set_amount(proposal.get_amount())
+                fav.set_unit(proposal.get_unit())
+                fav.set_Retailer_ID(proposal.get_Retailer_ID())
+                fav.set_creationdate(proposal.get_creationdate())
+                
+                """ Upadates if proposal id != 0 """ 
+
+                if (proposal.get_id() == 0):
+                    c = adm.insert_FavoriteArticle(fav)
+                   
+                else:
+                    c = adm.update_FavoriteArticle(fav)
+                    
+                return c, 200
+            else:
+                return "", 500
+
+        except Exception as e:
+            print(str(e))
+            return str(e), 500
+    
+
+@shopping_v1.route('/favoriteArticle/groupid/<int:id>')
+@shopping_v1.response(500,'Server side error occured')
+@shopping_v1.param('id', 'Group objects id')
+class FavoriteArticleGroupOperations(Resource):
+    #@secured
+    @shopping_v1.marshal_with(favoriteArticle)
+    def get(self,id):
+        adm = ShoppingAdministration()
+        return adm.get_FavoriteArticles_by_groupid(id)
+
+@shopping_v1.route('/favoriteArticle/id/<int:id>')
+@shopping_v1.response(500,'Server side error occured')
+@shopping_v1.param('id', 'FA objects id')
+class FavoriteArticleOperations(Resource):
+    #@secured
+    @shopping_v1.marshal_with(favoriteArticle)
+    def get(self,id):
+        adm = ShoppingAdministration()
+        return adm.get_FavoriteArticle_by_id(id)
+
+    #@secured
+    @shopping_v1.marshal_with(favoriteArticle)
+    def delete(self,id):
+        adm = ShoppingAdministration()
+        fa = adm.get_FavoriteArticle_by_id(id)
+        adm.delete_FavoriteArticle(fa)
+
 
 # TESTING AREA:
 @testing.route('/testSecured')
