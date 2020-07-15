@@ -3,7 +3,9 @@ import Icon from "@material-ui/core/Icon";
 import PropTypes from 'prop-types';
 import { withStyles } from "@material-ui/styles";
 import { Grid } from "@material-ui/core";
-import EditListItem from './EditListItem'
+import EditListItem from './EditListItem';
+import CustomIcon from './CustomIcon';
+
 /**
  * Displays an list item as designed in figma
  * 
@@ -54,8 +56,12 @@ class ListItem extends Component {
     this.setState({open : false})
   }
 
+  
+  
+
   render() {
     const open = Boolean(this.state.anchorEl);
+
     return (
     <Grid 
       container
@@ -66,7 +72,8 @@ class ListItem extends Component {
       style={{minWidth:'300px'}}
     >
         <Grid item xs={2}>
-          <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 3}}>fastfood</Icon>
+          <CustomIcon style={{marginLeft:15, marginTop:0}} iconName={this.props.item.name}></CustomIcon>
+          {/* <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 3}}>fastfood</Icon> */}
         </Grid>
         <Grid item xs={5} style={{maxWidth:'165px'}} onClick={() => this.handleClick(this.state.item.id)} >
           {this.state.item.name}
