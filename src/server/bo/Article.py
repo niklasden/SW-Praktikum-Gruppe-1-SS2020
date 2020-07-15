@@ -41,6 +41,7 @@ class Article (bo.BusinessObject):
         obj.set_id(dictionary["id"])
         obj.set_name(dictionary["name"])
         obj.set_category(dictionary["category"])
+        obj.set_creationdate(dictionary["cd"])
         
         return obj
 
