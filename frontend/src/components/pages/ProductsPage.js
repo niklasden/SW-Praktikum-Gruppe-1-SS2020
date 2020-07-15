@@ -148,6 +148,7 @@ class ProductsPage extends Component {
       //Erst this.state.articles filtern und dann reducen?
       categories = this.state.articles.reduce((itemsSoFar, {category, name, id, iconName}) => {
         if (!itemsSoFar[category]) itemsSoFar[category] = [];
+        var iconName = getIconName(name, category)
         if (name.toLowerCase().includes(this.state.searchValue.toLowerCase())) itemsSoFar[category].push({name, category,  id, iconName});
         return itemsSoFar;
       }, {});
