@@ -48,8 +48,7 @@ const styles = theme => ({
           className={classes.article}
           >
             <Grid item 
-            xs={2.4}
-            direction="row"
+            xs={3}
             >
               <ButtonBase
                 onClick={this.onSave}>

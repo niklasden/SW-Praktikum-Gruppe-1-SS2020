@@ -47,7 +47,7 @@ class TextInputBar extends Component {
       <div>
         <div className={this.props.classes.root}>
           <div className={this.props.classes.icon}>
-            <Icon style={{ color: "#00BCD4" }} fontSize="medium" >{this.props.icon}</Icon>
+            <Icon style={{ color: "#00BCD4" }} >{this.props.icon}</Icon>
           </div>
 
           <InputBase

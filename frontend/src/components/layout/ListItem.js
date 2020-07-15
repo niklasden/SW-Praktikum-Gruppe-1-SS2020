@@ -63,7 +63,6 @@ class ListItem extends Component {
       justify='center'
       alignItems='center'
       className={this.props.classes.root}
-      handleChange={this.props.handleChange}
       style={{minWidth:'300px'}}
     >
         <Grid item xs={2}>
