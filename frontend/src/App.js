@@ -34,7 +34,6 @@ import { RetailerPage } from './components/pages/RetailerPage'
 import CreateRetailerPage from './components/pages/CreateRetailerPage'
 import CreateArticlePage from './components/pages/CreateArticlePage'
 
-
 import SpecificGroup from './components/pages/SpecificGroup.js';
 import CreateGroup from './components/pages/CreateGroup.js';
 import Groups from './components/pages/Groups';
@@ -43,6 +42,7 @@ import AccountsPage from './components/pages/AccountsPage';
 
 import ShoppingSettings from './shoppingSettings';
 import {Config} from './config';
+import FavouriteArticlesPage from './components/pages/FavouriteArticlesPage';
 
 
 //** End Layout Import **/
@@ -246,6 +246,9 @@ class App extends React.Component {
 										</Route>
 										<Route path="/create_article">
 											<CreateArticlePage />
+										</Route>
+										<Route path="/favourite_products">
+											<FavouriteArticlesPage />
 										</Route>
 										<Route path="/retailers">
 											<RetailerPage />
