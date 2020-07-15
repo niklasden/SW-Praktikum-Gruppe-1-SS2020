@@ -44,6 +44,7 @@ class Retailer (bo.BusinessObject):
         obj.set_name(dictionary["name"])
         obj.set_location(dictionary["location"])
         
+        
         return obj
 
 

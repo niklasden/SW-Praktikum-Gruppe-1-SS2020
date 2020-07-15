@@ -13,7 +13,6 @@ const styles = theme => ({
     borderColor: '#BDBDBD',
     borderStyle: 'solid',
     borderRadius: 5,
-    padding: 5,
   },
   character: {
     fontSize: 25,
@@ -46,28 +45,21 @@ class RetailerListEntry extends Component {
         justify='space-between'
         direction='row'
       >
-        <Grid 
-          container 
-          alignItems='center' 
-          xs={9} 
-          direction='row'
-        >
-          <Grid item  >
-            <text 
+          <Grid item xs={1} >
+            <div 
               className={classes.character}
               style={{
                 marginRight: 12,
                 marginLeft: 8, 
               }}
-            >{this.props.name.substr(0, 1).toUpperCase()}</text>
+            >{this.props.name.substr(0, 1).toUpperCase()}</div>
           </Grid>
-          <Grid item>
-            <text style={{display: 'block'}}>{this.props.name.toUpperCase()}</text>
-            <text style={{fontSize: 10}}>{this.props.address}</text>
+          <Grid item xs={10} style={{paddingLeft: '5%'}}>
+            <p style={{display: 'block'}}>{this.props.name.toUpperCase()}</p>
+            <p style={{fontSize: 10}}>{this.props.address}</p>
           </Grid>
-        </Grid>
 
-        <Grid container xs={3} justify='flex-end'>
+        <Grid item xs={1}>
           <Link 
             to='create_retailer'
             to={{
@@ -80,7 +72,7 @@ class RetailerListEntry extends Component {
             }}
           >
             <SettingsIcon 
-              style={{ color: '#00BCD4' }} 
+              style={{ color: '#00BCD4',float: "right", marginRight: '10%' }} 
             />
           </Link>
         </Grid>

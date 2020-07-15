@@ -44,7 +44,7 @@ export class HomePage extends Component {
             <Grid item xs={12}>
             <p style={{textAlign:"center"}}> Select Your Group</p>
             </Grid>
-            <GroupsGridList currentUserID={this.props.currentUserID}></GroupsGridList>
+            <GroupsGridList currentUserID={this.props.currentUserID} />
           </Grid>
 
           <Grid item xs={6} >

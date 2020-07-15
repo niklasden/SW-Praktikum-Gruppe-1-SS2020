@@ -61,6 +61,7 @@ export class RetailerPage extends Component {
 
     return retailers.map(retailer => (
       <RetailerListEntry 
+        key={retailer.id}
         id={retailer.id}
         name={retailer.name}
         address={retailer.address}
@@ -84,9 +85,7 @@ export class RetailerPage extends Component {
             <IconButton style={{marginLeft: 12}} icon='add'  />
           </Link>
         </div>
-        
         <div style={{margin: 12}}>
-          <div>
             {this.state.loadingInProgress ?
               <div style={{display: 'flex', justifyContent: 'center'}}>
                 <CircularProgress size={25} />
@@ -95,7 +94,6 @@ export class RetailerPage extends Component {
               this.renderRetailers()
             }
           </div>
-        </div>
       </div>
     ) 
   }

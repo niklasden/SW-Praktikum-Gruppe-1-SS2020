@@ -52,7 +52,7 @@ function Header(props){
     <div className={classes.root}>
       <AppBar position="fixed">
         <Toolbar>
-          <Menu user={user} />
+        <Menu user={user} />
 					<Grid container direction="row" alignItems="center">
 						<Grid item xs={10}>
 							<Typography variant="h6" className={classes.title}>

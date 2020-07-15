@@ -34,6 +34,7 @@ class ListItem extends Component {
     this.state = {
       item: this.props.item,
       anchorEl: null,
+      open: false
     }
     this.handleClick = this.onClickItem.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -55,7 +56,6 @@ class ListItem extends Component {
 
   render() {
     const open = Boolean(this.state.anchorEl);
-    const id = open ? 'simple-popover' : undefined;
     return (
     <Grid 
       container
@@ -63,21 +63,18 @@ class ListItem extends Component {
       justify='center'
       alignItems='center'
       className={this.props.classes.root}
-      handleChange={this.props.handleChange}
       style={{minWidth:'300px'}}
     >
         <Grid item xs={2}>
           <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 3}}>fastfood</Icon>
         </Grid>
-        <Grid item xs={6} style={{maxWidth:'165px'}} onClick={() => this.handleClick(this.state.item.id)} >
-          <t style={{color: '#000000', fontSize: 18, margin:0, padding: 0}}>{this.state.item.name}</t>
+        <Grid item xs={5} style={{maxWidth:'165px'}} onClick={() => this.handleClick(this.state.item.id)} >
+          {this.state.item.name}
         </Grid>         
-
-        <Grid item xs={2}>
-          <t style={{color: '#000000', fontSize: 18}}>{this.state.item.amount}</t>
-          <t style={{color: '#000000', fontSize: 18}}>{this.state.item.unit}</t>
+        <Grid item xs={3}>
+          {this.state.item.amount}
+          {this.state.item.unit}
         </Grid>
-
         <Grid item xs={2} onClick={() => this.props.onClickDeleteButton()} >
           <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 5}}>delete</Icon>
         </Grid>
@@ -94,13 +91,12 @@ class ListItem extends Component {
 }
 
 ListItem.propTypes = {
-  imgsrc: PropTypes.string.isRequired,
-  itemname: PropTypes.string.isRequired,
-  amount: PropTypes.string.isRequired,
-  unit: PropTypes.string.isRequired,
-  handleChange: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
-  onClickListItem: PropTypes.func.isRequired,
+  itemname: PropTypes.string,
+  amount: PropTypes.string,
+  unit: PropTypes.string,
+  handleChange: PropTypes.string,
+  onClick: PropTypes.func,
+  onClickListItem: PropTypes.func,
 }
 
 export default withStyles(styles)(ListItem);

@@ -84,21 +84,15 @@ class DropDownGSL extends Component {
         id='panel1a-header'
       >
       <Typography>
-        <Grid container xs={12} spacing={1}>
         {this.props.ArrCategory[this.props.item]}
-        </Grid>
       </Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
-        <Typography>
               {this.props.Useritems.map(element => {
               if(element.category === this.props.ArrCategory[this.props.item]){
-              return <>
-              <ListItem onClickDeleteButton={()=>this.props.onClickDeleteButton(element.id)} item={element} user={this.state.user} retailer={this.state.retailer}></ListItem>
-              </>
+              return <ListItem key={element.id} onClickDeleteButton={()=>this.props.onClickDeleteButton(element.id)} item={element} user={this.state.user} retailer={this.state.retailer}></ListItem>
             }
           })}
-        </Typography>
       </ExpansionPanelDetails>
     </ExpansionPanel>
     )
@@ -109,10 +103,6 @@ DropDownGSL.propTypes = {
   Useritems: PropTypes.array.isRequired,
   ArrCategory: PropTypes.array.isRequired,
   item: PropTypes.string.isRequired,
-  handleChange: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
-  onClickListItem: PropTypes.func.isRequired,
-
 }
 
 export default (DropDownGSL);

@@ -50,7 +50,6 @@ class ListEntry extends Component {
         <Grid 
           container 
           alignItems='center' 
-          xs={9} 
           direction='row'
         >
           {this.props.iconName != undefined &&
@@ -61,7 +60,7 @@ class ListEntry extends Component {
           </Grid>
           }
           <Grid item>
-            <text style={{display: 'block', fontWeight: 'normal', textTransform: 'none'}}>{this.props.text}</text>
+            <p style={{display: 'block', fontWeight: 'normal', textTransform: 'none'}}>{this.props.text}</p>
           </Grid>
         </Grid>
       </Grid> 

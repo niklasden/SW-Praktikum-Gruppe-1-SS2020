@@ -51,13 +51,10 @@ class GroupButton extends Component {
         
         
         
-        <Link to="specificGroup">
         <Button variant="outlined" color="primary" style={{borderColor: '#BDBDBD', backgroundColor: '#fafafa', width: '100%', fontWeight: 'bold'}}>
           <GroupIcon fontSize="large"/>
           {this.props.groupname}
-          
         </Button>
-        </Link>
         </>
     )
   }

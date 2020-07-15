@@ -7,7 +7,8 @@ import CircularProgress from '@material-ui/core/CircularProgress/CircularProgres
 import ProductListEntry from '../layout/ProductListEntry';
 import { Link } from 'react-router-dom';
 import Heading from '../layout/Heading';
-import { Config } from '../../config'
+import { Config } from '../../config';
+import { ListItemIcon } from '@material-ui/core';
 
 const styles = theme => ({
     root: {
@@ -19,92 +20,67 @@ const styles = theme => ({
     }
  });
 
-/**
- * Example Categorys with Articles
- 
-const FRUITS = [
-  {
-    id: 'art1',
-    category: 'fruits', 
-    name: 'apple', 
-    iconName: 'apple',
-  },
-  {
-    id: 'art2',
-    category: 'fruits', 
-    name: 'banana',
-    iconName: 'banana',
-  },
-  {
-    id: 'art3',
-    category: 'fruits', 
-    name: 'grape',
-    iconName: 'grape',
-  }, 
-  {
-    id: 'art4',
-    category: 'fruits', 
-    name: 'orange', 
-    iconName: 'orange',
-  }, 
-  {
-    id: 'art5',
-    category: 'fruits', 
-    name: 'strawberry',
-    iconName: 'strawberyy',
-  }, 
-]
-  const VEGETABLES = [
-  {
-    id: 'art1',
-    category: 'vegetables', 
-    name: 'tomato',
-    iconName: 'tomato',
-  }, 
-  {
-    id: 'art2',
-    category: 'vegetables', 
-    name: 'lettuce',
-    iconName: 'lettuce',
-  }, {
-    id: 'art3',
-    category: 'vegetables', 
-    name: 'cucumber',
-    iconName: 'cucumber',
+const articleIDIconMapper = {
+  apple: 'apple', 
+  banana: 'banana',
+  oranges: 'orange',
+  grape: 'grape', 
+  chicken: 'chicken', 
+  steak: 'meat', 
+  meat: 'meat', 
+  fish: 'fish', 
+  tomato: 'tomato', 
+  cucumbers: 'cucumber', 
+  lettuce: 'lettuce', 
+  mustard: 'mustard', 
+  strawberry: 'strawberyy', 
+  tea: 'tea', 
+  milk: 'milk', 
+  cread: 'bread', 
+  beer: 'beermug', 
+  "orange juice": 'orangejuice', 
+  wine: 'wine', 
+  cola: 'cola', 
+  water: 'water',
+  cheese: 'cheese',
+  eggs: 'egg',
+  yoghurt: 'yoghurt',
+  noodle: 'noodles',
+  flour: 'flour',
+  pizza: 'pizza',
+  "ice cream": 'icecream',
+  donut: 'donut',
+  chips: 'chips',
+  popcorn: 'popcorn',
+  bombom: 'bomboms',
+  chocolate: 'chocolate',
+  cake: 'cake',
+  cookies: 'cookies',
+  "salt & pepper": 'saltpepper',
+  basil: 'basil',
+  chilli: 'chilli',
+  garlic: 'garlic',
+  ketchup: 'ketchup',
+  lipstick: 'lipstick',
+  soap: 'soap',
+}
 
-  },
-]
-const MEAT =[
-  {
-    id: "art1",
-    category: "meat",
-    name: "meat",
-    iconName: 'meat',
-
-  }, 
-  {
-    id: "art2",
-    category: "meat",
-    name: "fish",
-    iconName: 'fish',
-
-  }
-]*/
-
-const getProductsDummy = () => {
-    let productsJSON = [];
-    fetch("http://localhost:8081/api/shoppa/products")
-    .then(res => res.json())
-    .then(json => {
-        productsJSON.push(json);
-    })
-    return productsJSON;
+const categoryIconMapper = {
+  vegetables: 'vegetables',
+  "meat & fish": 'meatAndFish',
+  fruits: 'fruits', 
+  "drinks": 'beverages', 
+  other: 'soap',
+  snacks: 'snacks', 
+  "milk & cheese": 'milkAndEggs', 
+  cosmetic: 'cosmetics', 
+  "convenience & frozen products": 'convenience'
 }
 
 /**
  * Renders a list of ArticleEntry objects
  * 
- * @see ArticleEntry
+ * @see ProductListEntry
  * 
  * @author [Pia Schmid](https://github.com/PiaSchmid)
  */
@@ -139,7 +115,7 @@ class ProductsPage extends Component {
         loadingArticleError: null, 
         articles: json, 
       })
-    } catch (e){
+    } catch (e) {
       this.setState({
         loadingInProgress: false, 
         loadingArticleError: '', 
@@ -147,20 +123,22 @@ class ProductsPage extends Component {
     } 
   }, 1000)
 }
-/**
-    setTimeout(() => {
-      this.setState({
-        loadingInProgress: false, 
-        loadingArticleError: null, 
-        articles: this.state.articles.concat(MEAT,FRUITS,VEGETABLES)
-      })
-    }, 1000)
-  } */
 
   renderArticles(){
-    /*reduce creates an array with all articles of the same category*/ 
-    var categories = this.state.articles.reduce((itemsSoFar, {category, name, id, iconName}) => {
+    /*reduce creates an array with all articles of the same category*/
+
+    function getIconName(name, category){
+      if (articleIDIconMapper[name] !== undefined){
+        return articleIDIconMapper[name]
+      } else if (categoryIconMapper[category] !== undefined){
+        return categoryIconMapper[category]
+      }
+      return 'advertising'
+    }
+
+    var categories = this.state.articles.reduce((itemsSoFar, {category, name, id}) => {
       if (!itemsSoFar[category]) itemsSoFar[category] = [];
+      var iconName = getIconName(name, category)
       itemsSoFar[category].push({name, id, iconName});
       return itemsSoFar; 
     }, {});
@@ -176,7 +154,7 @@ class ProductsPage extends Component {
     }
   
    return Object.entries(categories).map(category => (
-        <div>
+        <div key={category[1].id}>
 
           <Heading>{category[0]}</Heading>
 
@@ -185,6 +163,7 @@ class ProductsPage extends Component {
            {category[1].map(item => (
 
              <ProductListEntry
+             key={item.id}
              id={item.id}
              category={category[0]}
              name={item.name}
@@ -202,27 +181,21 @@ class ProductsPage extends Component {
   render(){
     const classes = this.props.classes
     return(
-
-      <Grid container 
-        className={classes.root} 
-      >
-
-        <Grid container xs={12} spacing={2}>
-
-          <Grid item xs={10}>
+      <Grid container className={classes.root} >
+        <Grid container spacing={2}>
+          <Grid item xs={8}>
             <TextInputBar placeholder="search..." icon="search" onChange={(elem) => this.setState({ searchValue: elem.target.value})}/>
           </Grid>
-
-          <Grid item xs={2}>
+          <Grid item xs={4}>
             <Link to="/create_article">
               <IconButton icon='add' />
             </Link>
+            <Link to="/favourite_products" style={{marginLeft: "15px"}}>
+              <IconButton icon='star' />
+            </Link>
           </Grid>
-
         </Grid>
-
         <div style={{width: '100%'}}>
-        
           {this.state.loadingInProgress ?
               <div style={{display: 'flex', justifyContent: 'center'}}>
                 <CircularProgress size={25} />
