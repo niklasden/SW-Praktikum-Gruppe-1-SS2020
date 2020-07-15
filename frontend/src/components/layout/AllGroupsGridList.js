@@ -91,22 +91,26 @@ class GroupsGridList extends Component {
           
             <div className={classes.rootTwo}>
                 {this.state.groupItemss.length !== 0 ?
-                  this.state.groupItemss.map((tile) => (
-                <GridList className={classes.gridList} cellHeight={180}>
-                  <GridListTile key={tile.id}>
-                      <img src={GroupIcon} alt={tile.name} />
+                  <GridList className={classes.gridList} cellHeight={180} cols={2.5}>
+                
+                  {this.state.groupItemss.map((tile) => (
+                    
+                   <GridListTile key={GroupIcon}>
+                       <img src={GroupIcon} alt={tile.name} />
+                       
                   <Link to="" onClick={() => {settingsobj.setGroupID(tile.id);settingsobj.setGroupName(tile.name); alert("Active group set to: " + settingsobj.getGroupName() + "  |  Group ID: "+ settingsobj.getGroupID())}} aria-label={`info about ${tile.title}`} className={classes.icon}>
-                  <GridListTileBar 
-                      title={ tile.name}
+                   <GridListTileBar 
+                       title={ tile.name}
                       classes={{
                         root: classes.titleBar,
-                      title: classes.title,
+                       title: classes.title,
                             }}
-                      
+                       
                               /> </Link>
-                  </GridListTile>
-                </GridList>
-                  ))
+                   </GridListTile>
+                   
+                  ))}
+                  </GridList>
                   : <div>
                     There are no groups!
                     <Link to="/createGroup">
