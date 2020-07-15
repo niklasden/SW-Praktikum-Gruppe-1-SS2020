@@ -113,7 +113,7 @@ class EditListItem extends Component {
         aria-labelledby="alert title"
         aria-describedby="description" 
       >
-      <DialogTitle id="alert title">{"Edit Item"}</DialogTitle>
+      <DialogTitle id="alert title">{"Edit "+this.state.item.name}</DialogTitle>
       <DialogContent>
       </DialogContent>
       <Grid
@@ -123,8 +123,9 @@ class EditListItem extends Component {
         justify='center'
         alignItems= 'center'
         spacing={4}
+        
       >
-      <Grid item xs={6}>
+      <Grid item xs={6} style={{paddingLeft: 25}}>
         <InputLabel>AMOUNT</InputLabel>
         <TextField defaultValue={this.state.item.amount} onChange={this.handleChangeAmount.bind(this)} value={this.state.amount}></TextField>
       </Grid>
