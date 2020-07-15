@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import ShoppingSettings from '../../../src/shoppingSettings'
-import { Config } from '../../config'
 import { withRouter } from "react-router"
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress'
@@ -27,7 +26,6 @@ const styles = theme => ({
     textDecoration: 'none'
   }
 });
-
 
 /**
  * Displays all Groups specific for one user 
@@ -50,18 +48,18 @@ class Groups extends Component {
     this.deleteGroup = this.deleteGroup.bind(this);
   }
 
+  // TODO: remove, it is in specific group now
   deleteGroup = (id) => {
     ShoppingAPI.getAPI().deleteGroup(id).then(groupBOs => {
       this.props.history.push('/Groups')
       this.setState({groupItems: this.state.groupItems.filter(elem => elem.id !== id)})
       alert("Group and all Members deleted")
-  }).catch(e =>
-      alert(e)
-      )
-       if(settingsobj.onlySettingsGetSettingsGroupID() == id){
-         settingsobj.onlySettingsSetSettingsGroupID("")
-         settingsobj.onlySettingsSetSettingsGroupName("")
-       }
+    }).catch(e => alert(e))
+    
+    if(settingsobj.onlySettingsGetSettingsGroupID() == id){
+      settingsobj.onlySettingsSetSettingsGroupID("")
+      settingsobj.onlySettingsSetSettingsGroupName("")
+    }
   }
 
   getGroups = () => {
@@ -71,28 +69,28 @@ class Groups extends Component {
         loadingInProgress: false,
         loadingerror: null
       })
-     }).catch(e => 
-        this.setState({
-          groupItems: [],
-          loadingInProgress: false,
-          loadingGroupsError: e
-        })
-      );
+    }).catch(e => {
       this.setState({
-              loadingInProgress: true,
-              loadingError:null
-            })
-     };
+        groupItems: [],
+        loadingInProgress: false,
+        loadingGroupsError: e
+      })
+    });
+    this.setState({
+      loadingInProgress: true,
+      loadingError:null
+    })
+  };
 
 
-   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
+  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount(){
     this.getGroups()
     settingsobj.onlySettingsSetSettingsGroupID("")
     settingsobj.onlySettingsSetSettingsGroupName("")
   };
 
-
+  // TODO: remove 
   renderGroupsBackup(){
     const { classes } = this.props;
     const Groups=[];
@@ -100,15 +98,19 @@ class Groups extends Component {
     this.state.groupItems.forEach( elem => {
       Groups.push(
         <Grid item xs={6}>
-            {/* Now by clicking on a group we set the settingsgroupid @Julius here we need a parameter to fetch the right group, all groups a user is part of, then specific group hes clicking on */}
-            <Grid
+          {/* Now by clicking on a group we set the settingsgroupid @Julius here we need a parameter to fetch the right group, all groups a user is part of, then specific group hes clicking on */}
+          <Grid
             container
             direction="column"
             justify="center"
             alignItems="center"
             style={{marginTop:20}}
           >
-            <Link to="" onClick={ () => {settingsobj.onlySettingsSetSettingsGroupID(elem.id); settingsobj.onlySettingsSetSettingsGroupName(elem.name)}}>
+            <Link 
+              to="" 
+              onClick={ () => {settingsobj.onlySettingsSetSettingsGroupID(elem.id); settingsobj.onlySettingsSetSettingsGroupName(elem.name)}}
+              style={{ textDecoration: 'none' }}
+            >
               <GroupButton key={elem.id} groupname={elem.name}></GroupButton>
             </Link>
             <IconButton  aria-label="delete" className={this.props.classes.margin} style={{padding:0}}>
@@ -126,19 +128,25 @@ class Groups extends Component {
 
     this.state.groupItems.forEach(group => {
       groups.push(
-        <ListEntry 
-          iconName='people'
-          text={group.name} 
-          style={{marginBottom: 12}}
+        <Link 
+          to='specificGroup' 
           onClick={ () => {settingsobj.onlySettingsSetSettingsGroupID(group.id); settingsobj.onlySettingsSetSettingsGroupName(group.name)}}
-          linkTo='specificGroup'
-        />
+          style={{ textDecoration: 'none' }}
+        >
+          <ListEntry 
+            iconName='people'
+            text={group.name} 
+            style={{marginBottom: 12}}
+            onClick={ () => {settingsobj.onlySettingsSetSettingsGroupID(group.id); settingsobj.onlySettingsSetSettingsGroupName(group.name)}}
+          />
+        </Link>
       )
     })
 
     return groups
   }
       
+  // TODO: remove
   render1(){
     const { classes } = this.props;
     const { loadingInProgress, loadingError, loadingGroupsError, groupItems } = this.state;
@@ -150,7 +158,7 @@ class Groups extends Component {
           </div>
           
           <Grid item xs={12}>
-            <Link to="/createGroup" className={classes.button}>
+            <Link to='/createGroup' className={classes.button}>
               <MainButton className={classes.CreateButton}>Create Group</MainButton>
             </Link>
           </Grid> 
@@ -181,11 +189,12 @@ class Groups extends Component {
         <div style={{flex: 1, flexDirection: 'row', display: 'flex', margin: 12, paddingTop: 12}}>
           {/* <text style={{flexGrow: 1}}>hello</text> */}
           <Grid item xs={12}>
-            <Link to="/createGroup" className={classes.button}>
+            <Link to='/createGroup' className={classes.button}>
               <MainButton style={{widht: '100%'}} className={classes.CreateButton}>Create Group</MainButton>
             </Link>
           </Grid> 
         </div>
+        <ContextErrorMessage error={this.state.loadingError} contextErrorMsg={'The list of all groups could not be loaded'} onReload={this.getGroups} />
       </div>
     ) 
   }

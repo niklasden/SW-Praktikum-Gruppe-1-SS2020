@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import Grid from '@material-ui/core/Grid/Grid'
 import { withStyles } from '@material-ui/styles';
-import Box from '@material-ui/core/Box'
-import SettingsIcon from '@material-ui/icons/Settings';
-import { Link } from 'react-router-dom';
 import Icon from '@material-ui/core/Icon'
 import Button from '@material-ui/core/Button'
 
@@ -14,7 +11,7 @@ const styles = theme => ({
     borderColor: '#BDBDBD',
     borderStyle: 'solid',
     borderRadius: 5,
-    padding: 5,
+    padding: 5, 
   },
   character: {
     fontSize: 25,
@@ -53,14 +50,14 @@ class ListEntry extends Component {
           direction='row'
         >
           {this.props.iconName != undefined &&
-          <Grid item  >
+          <Grid item justify='center'  >
             <Icon
               style={{ color: '#00BCD4', marginRight: 12 }}
             >{this.props.iconName}</Icon>
           </Grid>
           }
           <Grid item>
-            <p style={{display: 'block', fontWeight: 'normal', textTransform: 'none'}}>{this.props.text}</p>
+            <text style={{display: 'block', fontWeight: 'normal', textTransform: 'none'}}>{this.props.text}</text>
           </Grid>
         </Grid>
       </Grid> 
