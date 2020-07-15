@@ -271,7 +271,7 @@ class ProductsPage extends Component {
     }
   
    return Object.entries(categories).map(category => (
-        <div>
+        <div key={category[1].id}>
 
           <Heading>{category[0]}</Heading>
 
@@ -280,6 +280,7 @@ class ProductsPage extends Component {
            {category[1].map(item => (
 
              <ProductListEntry
+             key={item.id}
              id={item.id}
              category={category[0]}
              name={item.name}
@@ -297,27 +298,18 @@ class ProductsPage extends Component {
   render(){
     const classes = this.props.classes
     return(
-
-      <Grid container 
-        className={classes.root} 
-      >
-
+      <Grid container className={classes.root} >
         <Grid container spacing={2}>
-
           <Grid item xs={10}>
             <TextInputBar placeholder="search..." icon="search" onChange={(elem) => this.setState({ searchValue: elem.target.value})}/>
           </Grid>
-
           <Grid item xs={2}>
             <Link to="/create_article">
               <IconButton icon='add' />
             </Link>
           </Grid>
-
         </Grid>
-
         <div style={{width: '100%'}}>
-        
           {this.state.loadingInProgress ?
               <div style={{display: 'flex', justifyContent: 'center'}}>
                 <CircularProgress size={25} />

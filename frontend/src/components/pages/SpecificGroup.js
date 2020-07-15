@@ -55,11 +55,8 @@ const styles = theme => ({
     borderRadius: 10,
     borderColor: '#BDBDBD',
     borderStyle: 'solid',
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
     paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(2),
-    height: '45px'
+    paddingLeft: theme.spacing(1),
   },
   deleteIcon: {
   },
@@ -431,12 +428,10 @@ class SpecificGroup extends Component {
             <Typography className={classes.heading}>Members</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <Grid container>
-              <Grid item xs={12} direction="column" justify="center" alignItems="center" >
-                <AddCircleItem style={{alignSelf:"center", margin: 12,fontSize:"40px" }} onClick={() => { handleClickOpenAddMemberDialog() }}></AddCircleItem>
-                <Grid style={{marginLeft: 2}} item direction='column' justify='space-between' alignItems="stretch" xs={12}>
+            <Grid container direction="column" justify="center" alignItems="center" >
+            <Grid item xs={12} style={{width: 'inherit'}}>
+                <AddCircleItem style={{alignSelf:"center", margin: 12,fontSize:"40px", marginLeft: '45%' }} onClick={() => { handleClickOpenAddMemberDialog() }}></AddCircleItem>
                   {this.renderGroupMembers()}
-                </Grid>
               </Grid>
             </Grid>
           </ExpansionPanelDetails>
@@ -446,19 +441,19 @@ class SpecificGroup extends Component {
             <Typography className={classes.heading}>Shoppinglists</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <Grid container>
-              <Grid item xs={12} direction="column" justify="center" alignItems="center" >
-                <AddCircleItem style={{alignSelf:"center", margin: 12,fontSize:"40px" }} onClick={() => { handleClickOpenAddMShoppinglistDialog() }}></AddCircleItem>
-                <Grid style={{marginLeft: 2}} item direction='column' justify='space-between' alignItems="stretch" xs={12}>
+            <Grid container direction="column" justify="center" alignItems="center">
+              <Grid item xs={12} style={{width: 'inherit'}}>
+                <AddCircleItem style={{alignSelf:"center", margin: 12,fontSize:"40px", marginLeft: '45%'}} onClick={() => { handleClickOpenAddMShoppinglistDialog() }}></AddCircleItem>
+                <Grid style={{marginLeft: 2}} item xs={12}>
                   {
                     this.state.shoppinglists.length > 0 ?
                       this.state.shoppinglists.map(list => (
-                        <Grid container xs={12} className={classes.shoppingListItem}>
+                        <Grid container className={classes.shoppingListItem} key={list.id}>
                           <Grid item xs={2}>
                             <ListIcon />
                           </Grid>
                           <Grid item xs={8}>
-                          <t style={{color: '#000000', fontSize: 18}}>{list.name}</t>
+                          {list.name}
                           </Grid>
                           <Grid item xs={2}>
                               <IconButton style={{padding:0}} className={classes.deleteIcon} onClick={() => { this.deleteShoppingList(list.id) }}>

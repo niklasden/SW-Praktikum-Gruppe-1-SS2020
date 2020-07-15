@@ -42,7 +42,7 @@ import AccountsPage from './components/pages/AccountsPage';
 
 import ShoppingSettings from './shoppingSettings';
 import {Config} from './config';
-import FavouriteArticlesPage from './components/pages/FavouriteArticlesPage';
+import FavoriteArticlesPage from './components/pages/FavoriteArticlesPage';
 
 
 //** End Layout Import **/
@@ -248,7 +248,7 @@ class App extends React.Component {
 											<CreateArticlePage />
 										</Route>
 										<Route path="/favourite_products">
-											<FavouriteArticlesPage />
+											<FavoriteArticlesPage />
 										</Route>
 										<Route path="/retailers">
 											<RetailerPage />

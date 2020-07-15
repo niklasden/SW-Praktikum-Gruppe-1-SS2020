@@ -104,7 +104,7 @@ class EditListItem extends Component {
     const { classes, listentry } = this.props;
     const { amount, unit, user, retailer, article_id, retailer_id} = this.state;
     return (
-<Dialog
+<Dialog 
         open={this.props.open}
         aria-labelledby="alert title"
         aria-describedby="description" 
@@ -113,7 +113,6 @@ class EditListItem extends Component {
       <DialogContent>
       </DialogContent>
       <Grid
-        xs={12}
         container
         direction='row'
         justify='center'
@@ -149,7 +148,7 @@ class EditListItem extends Component {
                 >
                   
                 {this.props.user.map(item =>{
-                    return <MenuItem value={item.id}>{item.name}</MenuItem>
+                    return <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
                   })}
                 </Select>
       </FormControl>
@@ -159,7 +158,7 @@ class EditListItem extends Component {
                 <InputLabel>ASSIGN RETAILER</InputLabel>
                 <Select defaultValue={this.state.item.retailer} value={this.state.item.retailer.id} onChange={this.handleChangeRetailer.bind(this)}>
                   {this.props.retailer.map(item =>{
-                    return <MenuItem value={item.id}>{item.name}</MenuItem>
+                    return <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
                   })}
                 </Select>
       </FormControl>
@@ -181,15 +180,14 @@ class EditListItem extends Component {
 }}
 
 EditListItem.propTypes = {
-  open: PropTypes.string.isRequired,
-  amount: PropTypes.string.isRequired,
-  onChange: PropTypes.string.isRequired,
-  unit: PropTypes.string.isRequired,
-  handleChange: PropTypes.string.isRequired,
-  PressButtonBack: PropTypes.string.isRequired,
-  PressButtonConfirm: PropTypes.string.isRequired,
-  retailer: PropTypes.string.isRequired,
-  user: PropTypes.string.isRequired,
+  amount: PropTypes.string,
+  onChange: PropTypes.func,
+  unit: PropTypes.string,
+  handleChange: PropTypes.string,
+  PressButtonBack: PropTypes.func,
+  PressButtonConfirm: PropTypes.func,
+  retailer: PropTypes.array,
+  user: PropTypes.array,
 }
 
 export default withStyles(styles)(EditListItem);

@@ -1,13 +1,15 @@
 import React from 'react';
-import { withStyles, makeStyles } from '@material-ui/styles';
-import { Grid, FormControl } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
+import { Grid } from '@material-ui/core';
 import { withRouter } from "react-router";
 import { Config } from '../../config';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 import Heading from '../layout/Heading';
 import ProductListEntry from '../layout/ProductListEntry';
+import shoppingSettings from '../../shoppingSettings';
 
+const settingsObject = shoppingSettings.getSettings();
   /**
  * Renders the page to create  a favourite article
 
@@ -21,14 +23,15 @@ const styles =  theme => ({
         padding: theme.spacing(2),
     }
 });
-class CreateArticlePage extends React.Component {
+class FavoriteArticlesPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             categories: [],
             favouriteArticles: [],
             loadingInProgress: false, 
-            error: null, 
+            error: null,
+            currentGroupID: 0
         }
     }
     async getArticles() {
@@ -50,6 +53,7 @@ class CreateArticlePage extends React.Component {
                 }
             })
             this.setState({categories: categoryList})
+            this.setState({currentGroupID: settingsObject.currentGroupID});
         } catch (e){
             this.setState({
             loadingInProgress: false, 
@@ -95,4 +99,4 @@ class CreateArticlePage extends React.Component {
     )
     }
 }
-export default withRouter(withStyles(styles)(CreateArticlePage)); 
+export default withRouter(withStyles(styles)(FavoriteArticlesPage)); 
