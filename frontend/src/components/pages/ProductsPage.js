@@ -21,166 +21,60 @@ const styles = theme => ({
  });
 
 const articleIDIconMapper = {
-  1: 'apple', 
-  2: 'banana',
-  3: 'orange',
-  //4: '', 
-  5: '', 
-  6: '', 
-  7: '', 
-  8: '', 
-  9: '', 
-  10: '', 
-  11: 'cucumber', 
-  12: '', 
-  13: '', 
-  14: '', 
-  15: 'strawberyy', 
-  16: 'tea', 
-  17: 'milk', 
-  18: 'bread', 
-  19: 'beermug', 
-  20: 'orangejuice', 
-  21: 'wine', 
-  22: 'cola', 
-  23: 'water',
-
-
-
+  apple: 'apple', 
+  banana: 'banana',
+  oranges: 'orange',
+  grape: 'grape', 
+  chicken: 'chicken', 
+  steak: 'meat', 
+  meat: 'meat', 
+  fish: 'fish', 
+  tomato: 'tomato', 
+  cucumbers: 'cucumber', 
+  lettuce: 'lettuce', 
+  mustard: 'mustard', 
+  strawberry: 'strawberyy', 
+  tea: 'tea', 
+  milk: 'milk', 
+  cread: 'bread', 
+  beer: 'beermug', 
+  "orange juice": 'orangejuice', 
+  wine: 'wine', 
+  cola: 'cola', 
+  water: 'water',
+  cheese: 'cheese',
+  eggs: 'egg',
+  yoghurt: 'yoghurt',
+  noodle: 'noodles',
+  flour: 'flour',
+  pizza: 'pizza',
+  "ice cream": 'icecream',
+  donut: 'donut',
+  chips: 'chips',
+  popcorn: 'popcorn',
+  bombom: 'bomboms',
+  chocolate: 'chocolate',
+  cake: 'cake',
+  cookies: 'cookies',
+  "salt & pepper": 'saltpepper',
+  basil: 'basil',
+  chilli: 'chilli',
+  garlic: 'garlic',
+  ketchup: 'ketchup',
+  lipstick: 'lipstick',
+  soap: 'soap',
 }
 
 const categoryIconMapper = {
-  1: 'vegetables',
-  2: 'meatAndFish',
-  3: 'fruits', 
-  4: 'beverages', 
-  5: 'soap',
-  6: 'snacks', 
-  7: 'milkAndEggs', 
-  8: 'cosmetics', 
-  9: 'convenience'
-}
-
-/**
-const ICONS = [
-  {
-    id: '1', 
-    iconName: 'vegetables'
-  }, 
-  {
-    id: '2', 
-    iconName: 'meatAndFish'
-  }, 
-  {
-    id: '3', 
-    iconName: 'fruits'
-  }, 
-  {
-    id: '4', 
-    iconName: 'beverages'
-  }, 
-  {
-    id: '5', 
-    iconName: 'soap'
-  },
-  {
-    id: '6', 
-    iconName: 'snacks'
-  },
-  {
-    id: '7', 
-    iconName: 'milkAndEggs'
-  },
-  {
-    id: '8', 
-    iconName: 'cosmetics'
-  },
-  {
-    id: '9', 
-    iconName: 'convenience'
-  },
-] 
-
- * Example Categorys with Articles
- 
-const FRUITS = [
-  {
-    id: 'art1',
-    category: 'fruits', 
-    name: 'apple', 
-    iconName: 'apple',
-  },
-  {
-    id: 'art2',
-    category: 'fruits', 
-    name: 'banana',
-    iconName: 'banana',
-  },
-  {
-    id: 'art3',
-    category: 'fruits', 
-    name: 'grape',
-    iconName: 'grape',
-  }, 
-  {
-    id: 'art4',
-    category: 'fruits', 
-    name: 'orange', 
-    iconName: 'orange',
-  }, 
-  {
-    id: 'art5',
-    category: 'fruits', 
-    name: 'strawberry',
-    iconName: 'strawberyy',
-  }, 
-]
-  const VEGETABLES = [
-  {
-    id: 'art1',
-    category: 'vegetables', 
-    name: 'tomato',
-    iconName: 'tomato',
-  }, 
-  {
-    id: 'art2',
-    category: 'vegetables', 
-    name: 'lettuce',
-    iconName: 'lettuce',
-  }, {
-    id: 'art3',
-    category: 'vegetables', 
-    name: 'cucumber',
-    iconName: 'cucumber',
-
-  },
-]
-const MEAT =[
-  {
-    id: "art1",
-    category: "meat",
-    name: "meat",
-    iconName: 'meat',
-
-  }, 
-  {
-    id: "art2",
-    category: "meat",
-    name: "fish",
-    iconName: 'fish',
-
-  }
-]*/
-
-//Braucht man das ???
-const getProductsDummy = () => {
-    let productsJSON = [];
-    fetch("http://localhost:8081/api/shoppa/products")
-    .then(res => res.json())
-    .then(json => {
-        productsJSON.push(json);
-    })
-    return productsJSON;
+  vegetables: 'vegetables',
+  "meat & fish": 'meatAndFish',
+  fruits: 'fruits', 
+  "drinks": 'beverages', 
+  other: 'soap',
+  snacks: 'snacks', 
+  "milk & cheese": 'milkAndEggs', 
+  cosmetic: 'cosmetics', 
+  "convenience & frozen products": 'convenience'
 }
 
 /**
@@ -229,34 +123,23 @@ class ProductsPage extends Component {
     } 
   }, 1000)
 }
-/**
-    setTimeout(() => {
-      this.setState({
-        loadingInProgress: false, 
-        loadingArticleError: null, 
-        articles: this.state.articles.concat(MEAT,FRUITS,VEGETABLES)
-      })
-    }, 1000)
-  } */
 
   renderArticles(){
     /*reduce creates an array with all articles of the same category*/
 
-    function getIconName(id, category){
-      if (articleIDIconMapper[id] !== undefined){
-        return articleIDIconMapper[id]
-      } else if (categoryIconMapper[category.id] !== undefined){
-        return categoryIconMapper[category.id]
+    function getIconName(name, category){
+      if (articleIDIconMapper[name] !== undefined){
+        return articleIDIconMapper[name]
+      } else if (categoryIconMapper[category] !== undefined){
+        return categoryIconMapper[category]
       }
-      return 'otherIcon'
+      return 'advertising'
     }
-    
 
     var categories = this.state.articles.reduce((itemsSoFar, {category, name, id}) => {
       if (!itemsSoFar[category]) itemsSoFar[category] = [];
-      var iconName = getIconName(id, category)
+      var iconName = getIconName(name, category)
       itemsSoFar[category].push({name, id, iconName});
-
       return itemsSoFar; 
     }, {});
 
