@@ -71,7 +71,7 @@ class HeaderButton extends Component {
               <div className={classes.button1}>
                 <FormatListBulletedIcon />
               </div>
-              <div disableRipple className={classes.button2}>
+              <div className={classes.button2}>
                 <ShoppingCartIcon />
               </div>
             </Grid>

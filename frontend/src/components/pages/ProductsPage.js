@@ -302,7 +302,7 @@ class ProductsPage extends Component {
         className={classes.root} 
       >
 
-        <Grid container xs={12} spacing={2}>
+        <Grid container spacing={2}>
 
           <Grid item xs={10}>
             <TextInputBar placeholder="search..." icon="search" onChange={(elem) => this.setState({ searchValue: elem.target.value})}/>

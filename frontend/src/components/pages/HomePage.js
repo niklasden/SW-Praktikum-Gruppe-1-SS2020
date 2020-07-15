@@ -85,6 +85,13 @@ export class HomePage extends Component {
         </Grid>
          
         </Grid>
+        <Grid item xs={12}>
+        <Link to="/favourite_products">
+          <MainButton>
+            Favourite Products
+          </MainButton>
+          </Link>
+        </Grid>
         
  {/*    <Button />
         {this.renderStatistics()}

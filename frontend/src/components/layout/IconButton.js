@@ -53,7 +53,6 @@ class IconButton extends Component {
           <MaterialIconButton onClick={this.props.onclick}>
           <Icon 
             style={{ color: '#00BCD4'}}
-            fontSize="medium" 
           >{this.props.icon}</Icon>
           </MaterialIconButton>
         </div>

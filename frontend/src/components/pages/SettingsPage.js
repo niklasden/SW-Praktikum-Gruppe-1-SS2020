@@ -55,9 +55,9 @@ class Settings extends Component {
 								fontSize: 100
 							}} 
 						/>
-						<text>HIER KÖNNTE IHRE</text>
-						<text style={{fontSize: 25, margin: 12}}>WERBUNG</text>
-						<text>STEHEN!</text>
+						<p>HIER KÖNNTE IHRE</p>
+						<p style={{fontSize: 25, margin: 12}}>WERBUNG</p>
+						<p>STEHEN!</p>
 					</div>
 			</div>
 		);
