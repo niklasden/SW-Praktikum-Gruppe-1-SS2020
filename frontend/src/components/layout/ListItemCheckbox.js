@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import SearchIcon from "@material-ui/icons/Search";
-import Icon from "@material-ui/core/Icon";
+import CustomIcon from "../layout/CustomIcon";
 import PropTypes from 'prop-types';
 import Checkbox from "@material-ui/core/Checkbox"
 import { withStyles } from "@material-ui/styles";
@@ -14,10 +14,12 @@ const styles = theme => ({
     borderRadius: 10,
     borderColor: '#BDBDBD',
     borderStyle: 'solid',
-    width: 'auto',
     marginLeft: 5,
+    maxWidth: '100vh',
     height: 35,
     marginRight: 8,
+    marginTop: '2px',
+    marginBottom: '4px',
   },
 });
 
@@ -36,10 +38,11 @@ class ListItemCheckbox extends Component {
       justify='center'
       alignItems='center'
       className={this.props.classes.root}
+      style={{minWidth:'300px'}}
       xs={12}
     >
         <Grid item xs={2}>
-          <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 3}}>fastfood</Icon>
+          <CustomIcon category={this.props.category} iconName={this.props.iconname} style={{magrinTop: 10, marginLeft:10, color: '#00BCD4'}}></CustomIcon>
         </Grid>
 
         <Grid item xs={6}>
@@ -67,6 +70,8 @@ ListItemCheckbox.propTypes = {
   unit: PropTypes.string.isRequired,
   handleChange: PropTypes.string.isRequired,
   Checked: PropTypes.bool.isRequired,
+  iconname: PropTypes.string.isRequired,
+  category: PropTypes.string.isRequired,
 }
 
 export default withStyles(styles)(ListItemCheckbox);
