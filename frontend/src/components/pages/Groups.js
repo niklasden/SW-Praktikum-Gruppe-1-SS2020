@@ -13,6 +13,8 @@ import { withRouter } from "react-router"
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress'
 import ShoppingAPI from '../../api/ShoppingAPI';
+import ListEntry from '../layout/ListEntry'
+import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress'
 
 const settingsobj = ShoppingSettings.getSettings()
 
@@ -91,56 +93,106 @@ class Groups extends Component {
   };
 
 
-  renderGroups(){
-      const { classes } = this.props;
-      const Groups=[];
-      
-      this.state.groupItems.forEach( elem => {
-          Groups.push(
-          <Grid item xs={6}>
-              {/* Now by clicking on a group we set the settingsgroupid @Julius here we need a parameter to fetch the right group, all groups a user is part of, then specific group hes clicking on */}
-              <Grid
-              container
-              direction="column"
-              justify="center"
-              alignItems="center"
-              style={{marginTop:20}}>
-
-                  <Link to="" onClick={ () => {settingsobj.onlySettingsSetSettingsGroupID(elem.id); settingsobj.onlySettingsSetSettingsGroupName(elem.name)}}>
-                  <GroupButton key={elem.id} groupname={elem.name}></GroupButton></Link>
-                  <IconButton  aria-label="delete" className={this.props.classes.margin} style={{padding:0}}>
-                    <DeleteIcon onClick={() => this.deleteGroup(elem.id)}  />
-                  </IconButton>
-                </Grid>
-            </Grid>)
-      })
-      return Groups
+  renderGroupsBackup(){
+    const { classes } = this.props;
+    const Groups=[];
     
+    this.state.groupItems.forEach( elem => {
+      Groups.push(
+        <Grid item xs={6}>
+            {/* Now by clicking on a group we set the settingsgroupid @Julius here we need a parameter to fetch the right group, all groups a user is part of, then specific group hes clicking on */}
+            <Grid
+            container
+            direction="column"
+            justify="center"
+            alignItems="center"
+            style={{marginTop:20}}
+          >
+            <Link to="" onClick={ () => {settingsobj.onlySettingsSetSettingsGroupID(elem.id); settingsobj.onlySettingsSetSettingsGroupName(elem.name)}}>
+              <GroupButton key={elem.id} groupname={elem.name}></GroupButton>
+            </Link>
+            <IconButton  aria-label="delete" className={this.props.classes.margin} style={{padding:0}}>
+              <DeleteIcon onClick={() => this.deleteGroup(elem.id)}  />
+            </IconButton>
+          </Grid>
+        </Grid>
+      )
+    })
+    return Groups
   } 
+
+  renderGroups(){
+    const groups = []
+
+    this.state.groupItems.forEach(group => {
+      groups.push(
+        <ListEntry 
+          iconName='people'
+          text={group.name} 
+          style={{marginBottom: 12}}
+          onClick={ () => {settingsobj.onlySettingsSetSettingsGroupID(group.id); settingsobj.onlySettingsSetSettingsGroupName(group.name)}}
+          linkTo='specificGroup'
+        />
+      )
+    })
+
+    return groups
+  }
       
-  render(){
+  render1(){
     const { classes } = this.props;
     const { loadingInProgress, loadingError, loadingGroupsError, groupItems } = this.state;
     return (
-    <>
-      <Grid container spacing={3} >
-        {this.renderGroups()}
-        <Grid item xs={12}>
-          <Link to="/createGroup" className={classes.button}>
-            <MainButton className={classes.CreateButton}>Create Group</MainButton>
-          </Link>
-        </Grid> 
-      </Grid>
-      <LoadingProgress show={loadingInProgress}/>
-      <ContextErrorMessage error={loadingError} contextErrorMsg={'The list of alll groups could not be loaded'} onReload={this.getGroups} />
-      </>
-      
-      )
+      <>
+        <Grid container spacing={3} >
+          <div>
+            {this.renderGroupsBackup()}
+          </div>
+          
+          <Grid item xs={12}>
+            <Link to="/createGroup" className={classes.button}>
+              <MainButton className={classes.CreateButton}>Create Group</MainButton>
+            </Link>
+          </Grid> 
+        </Grid>
+        <LoadingProgress show={loadingInProgress}/>
+        <ContextErrorMessage error={loadingError} contextErrorMsg={'The list of alll groups could not be loaded'} onReload={this.getGroups} />
+      </>  
+    )
+  }
+
+  render(){
+    const { classes } = this.props;
+
+    return (
+      <div style={{width: '100%', marginBottom: 65}}>
+        <div style={{margin: 12, paddingTop: 12}}>
+          <div>
+            {this.state.loadingInProgress ?
+              <div style={{display: 'flex', justifyContent: 'center'}}>
+                <CircularProgress size={25} />
+              </div>
+            :  
+              this.renderGroups()
+            }
+          </div>
+        </div>
+
+        <div style={{flex: 1, flexDirection: 'row', display: 'flex', margin: 12, paddingTop: 12}}>
+          {/* <text style={{flexGrow: 1}}>hello</text> */}
+          <Grid item xs={12}>
+            <Link to="/createGroup" className={classes.button}>
+              <MainButton style={{widht: '100%'}} className={classes.CreateButton}>Create Group</MainButton>
+            </Link>
+          </Grid> 
+        </div>
+      </div>
+    ) 
   }
 }
-    Groups.propTypes = {
-      icon: PropTypes.string,
-      }
 
+Groups.propTypes = {
+  icon: PropTypes.string,
+}
 
 export default withRouter(withStyles(styles)(Groups));
