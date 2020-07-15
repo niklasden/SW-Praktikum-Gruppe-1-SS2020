@@ -60,11 +60,14 @@ class GroupsGridList extends Component {
       /**We have to fetch specific groups with user parameter */
       async fetchGroups(){
         //const res = await fetch('http://localhost:8081/api/shoppa/groups')
-        const res = await fetch(Config.apiHost + '/Group/Usergroup/'+ this.props.currentUserID)
-        const resjson = await res.json()
-        this.setState({groupItemss:resjson})
-        this.setState({groupsFetched: true})
-
+            if(this.props.currentUserID != 0 || this.props.currentUserID !== null) {
+              const res = await fetch(Config.apiHost + '/Group/Usergroup/'+ this.props.currentUserID)
+              if(res.ok) {
+                const resjson = await res.json()
+                this.setState({groupItemss:resjson})
+                this.setState({groupsFetched: true})
+              }
+            }
       }
       
       /**
@@ -80,13 +83,6 @@ class GroupsGridList extends Component {
         if (this.state.groupItemss.length == 0 && !this.state.groupsFetched){
           this.fetchGroups()
               }
-        if (settingsobj.getGroupID() == 0){
-          fetch(Config.apiHost + '/Group/Usergroup/'+ this.props.currentUserID)
-          .then(response => response.json())
-          .then(data => {if(data.length > 0) {
-            settingsobj.setGroupID(1)
-          }})
-        }
         return(
           
             <div className={classes.rootTwo}>
