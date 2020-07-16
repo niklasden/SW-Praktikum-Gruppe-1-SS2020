@@ -6,8 +6,11 @@ import { Config } from '../../config';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 import Heading from '../layout/Heading';
-import ProductListEntry from '../layout/ProductListEntry';
+import FavoriteArticlesListEntry from '../layout/FavoriteArticlesListEntry';
 import shoppingSettings from '../../shoppingSettings';
+import { Link } from 'react-router-dom';
+import IconButton from '../layout/IconButton';
+
 
 const settingsObject = shoppingSettings.getSettings();
   /**
@@ -97,7 +100,7 @@ class FavoriteArticlesPage extends React.Component {
     render() {
     const {classes} = this.props;
     const {error, loadingInProgress} = this.state;
-    console.log(this.state);
+    const link = "/add_favorite_article/" + this.state.currentGroupID;
     return (
         error ?
         <ContextErrorMessage error={error} contextErrorMsg={error.message} />
@@ -106,6 +109,14 @@ class FavoriteArticlesPage extends React.Component {
             <LoadingProgress />
         :
         <Grid container xs={12} className={classes.wrapper}>
+        <Grid item xs={10}>
+            <Heading>Favorite Articles</Heading>
+        </Grid>
+        <Grid item xs={2}>
+            <Link to={link}>
+              <IconButton icon='add' />
+            </Link>
+        </Grid>
         {this.state.currentGroupID === 0 ? 
             <div>No group found!<br /> Switch to HomePage and select your active group!</div>
         :
@@ -117,10 +128,9 @@ class FavoriteArticlesPage extends React.Component {
                 <Grid container xs={12}>
                     {this.state.favArticles.map(article => (
                         article.article_category === category ?
-                            <ProductListEntry
-                                favArticle
+                            <FavoriteArticlesListEntry
                                 id={article.id}
-                                category={article.category}
+                                category={article.article_category}
                                 name={article.article_name}
                                 iconName={article.article_name.toLowerCase()}
                                 style={{marginBottom:12}}

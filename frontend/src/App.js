@@ -43,7 +43,8 @@ import AccountsPage from './components/pages/AccountsPage';
 import ShoppingSettings from './shoppingSettings';
 import {Config} from './config';
 import FavoriteArticlesPage from './components/pages/FavoriteArticlesPage';
-
+import EditFavoriteArticle from './components/pages/EditFavoriteArticle';
+import AddFavoriteArticle from './components/pages/AddFavoriteArticle';
 
 //** End Layout Import **/
 const settingsOptions = ShoppingSettings.getSettings();
@@ -248,6 +249,12 @@ class App extends React.Component {
 										</Route>
 										<Route path="/favourite_products">
 											<FavoriteArticlesPage />
+										</Route>
+										<Route path="/add_favorite_article">
+											<AddFavoriteArticle />
+										</Route>
+										<Route path="/edit_favorite_article">
+											<EditFavoriteArticle />
 										</Route>
 										<Route path="/retailers">
 											<RetailerPage />
