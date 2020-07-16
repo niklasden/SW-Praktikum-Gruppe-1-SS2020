@@ -112,11 +112,16 @@ class FavoriteArticlesPage extends React.Component {
         <Grid item xs={10}>
             <Heading>Favorite Articles</Heading>
         </Grid>
-        <Grid item xs={2}>
-            <Link to={link}>
-              <IconButton icon='add' />
-            </Link>
-        </Grid>
+        {this.state.currentGroupID === 0 ?
+            <div />
+        :   
+            <Grid item xs={2}>
+                <Link to={link}>
+                <IconButton icon='add' disabled={this.state.currentGroupID === 0 ? true : false}/>
+                </Link>
+            </Grid>
+        }
+        
         {this.state.currentGroupID === 0 ? 
             <div>No group found!<br /> Switch to HomePage and select your active group!</div>
         :
