@@ -33,13 +33,7 @@ export default class GroupShoppingList extends Component {
     listentry: this.props.listentry
   }
 
-  // async fetchItems() {
-  //   var res = await fetch("http://localhost:8081/api/shoppa/listEntries");
-  //   var json = await res.json();
-  //   this.setState({items: json})
-  // }
-
-
+ 
     fetchItems = () => {
       alert("Did you set the Group ID? It wont work otherwise")
       /* needs settingsobj.getGroupID() is changed to 4 */
@@ -110,9 +104,10 @@ export default class GroupShoppingList extends Component {
       justify='center'
       alignItems="stretch"
       >
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}> 
         <TextInputBar key={"search"}placeholder="search..." icon="search" />
       </Grid>
+      */}
       <Grid item xs={12}>
         {this.renderCategoryArticles()}
       </Grid>
