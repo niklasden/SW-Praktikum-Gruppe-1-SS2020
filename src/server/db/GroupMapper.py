@@ -34,8 +34,11 @@ class GroupMapper(Mapper):
         cursor.close()
 
         return result 
-        
+    
+    
+
     def find_all_by_userid(self,uid):
+        
         groups = []
         cursor = self._cnx.cursor()
         statement = "Select Group_ID from Membership WHERE User_ID = {} ".format(int(uid))
@@ -142,22 +145,45 @@ class GroupMapper(Mapper):
         except Exception as e:
             return "Error in delete Group GroupMapper: " + str(e)
 
+    def checkMembership(self,userid,groupid):
+            
+            try:
+                cursor = self._cnx.cursor()
+                command = "SELECT `User_ID`,`Group_ID` FROM Membership WHERE `User_ID`={0} AND `Group_ID`={1}".format(userid,groupid)
+                cursor.execute(command)
+                tuples = cursor.fetchall()
+                
+                if len(tuples) < 1:
+                    return False
+                else:
+                    return True
+
+                print("tuples: ", tuples)
+            except IndexError:
+                return True
+            except Exception as e:
+                print("exception in checkMembership",e)
+                return True 
+
     def createMembership(self,userid,groupid):
         """
         Julius
         """
-        try:
-            cursor = self._cnx.cursor()
-            command = "INSERT INTO Membership (User_ID,Group_ID) VALUES ('{0}', '{1}')".format(userid,groupid)
-
-            cursor.execute(command)
-            self._cnx.commit()
-            cursor.close()
-            return "added usernr. {0} to groupnr. {1}".format(userid,groupid)
-        
-        except Exception as e:
-            return str(e)
-
+        if not self.checkMembership(userid,groupid):
+            print("membership does not exist yet")
+            try:
+                cursor = self._cnx.cursor()
+                command = "INSERT INTO Membership (User_ID,Group_ID) VALUES ('{0}', '{1}')".format(userid,groupid)
+                cursor.execute(command)
+                self._cnx.commit()
+                cursor.close()
+                return "added usernr. {0} to groupnr. {1}".format(userid,groupid)
+            
+            except Exception as e:
+                return str(e)
+        else:
+            return "membership already exists"
+    
     def deleteMembership(self,userid,groupid):
 
         try: 
