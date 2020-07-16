@@ -12,6 +12,7 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import MainButton from '../layout/MainButton';
 import Heading from '../layout/Heading';
+import { Link } from 'react-router-dom';
 
 const styles = theme => ({
     root: {},
@@ -48,6 +49,7 @@ class EditFavoriteArticle extends Component {
         this.saveFavArticle = this.saveFavArticle.bind(this);
         this.saveFavArticleASNEW = this.saveFavArticleASNEW.bind(this);
         this.handleChangeUnit = this.handleChangeUnit.bind(this);
+        this.deleteFavArticle = this.deleteFavArticle.bind(this)
     }
     handleChangeArticleName(event) {
         this.setState({currentArticleID: event.target.value});
@@ -98,6 +100,26 @@ class EditFavoriteArticle extends Component {
             currentRetailerID: res.retailer_id,
             currentCreationDate: res.creationdate
         });
+    }
+    async deleteFavArticle() {
+        const favoriteArticle = {
+            id: parseInt(this.state.currentID), 
+          }
+          try {
+            const rInit = {
+              method: 'DELETE', 
+              headers: {
+                'Content-Type': 'application/json'
+              }, 
+              body: JSON.stringify(favoriteArticle)
+            } 
+            const resp = await fetch(Config.apiHost + '/favoriteArticle/id/' + this.state.currentID, rInit)
+            if(resp.ok){
+              this.props.history.push('/favorite_products')
+            }
+          }catch(e) {
+            this.setState({error: e});
+          }
     }
 
     async saveFavArticle() {
@@ -152,7 +174,7 @@ class EditFavoriteArticle extends Component {
             } 
             const resp = await fetch(Config.apiHost + '/favoriteArticle', rInit)
             if(resp.ok){
-                this.props.history.push('/favourite_products')
+                this.props.history.push('/favorite_products')
             }else {
                 this.setState({error: resp});
             }
@@ -220,14 +242,19 @@ class EditFavoriteArticle extends Component {
             </Grid>
         </Grid>
         <Grid container spacing={2} direction="row" justify="space-between" alignItems="center">
-            <Grid item xs={4}>
-              <MainButton className={classes.button}>CANCEL</MainButton>
+            <Grid item xs={3}>
+                <Link to ="/favorite_products">
+                    <MainButton className={classes.button}>CANCEL</MainButton>
+                </Link>
+            </Grid>
+            <Grid item xs={3}>
+              <MainButton className={classes.button} onclick={this.deleteFavArticle}>DELETE</MainButton>
             </Grid>
             <Grid item xs={3}>
               <MainButton className={classes.button} onclick={this.saveFavArticle}>SAVE</MainButton>
             </Grid>
-            <Grid item xs={5}>
-              <MainButton className={classes.button} onclick={this.saveFavArticleASNEW}>SAVE AS NEW</MainButton>
+            <Grid item xs={3}>
+              <MainButton className={classes.button} onclick={this.saveFavArticleASNEW}>NEW</MainButton>
             </Grid>
         </Grid>
         </>

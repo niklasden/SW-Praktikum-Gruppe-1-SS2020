@@ -247,7 +247,7 @@ class App extends React.Component {
 										<Route path="/create_article">
 											<CreateArticlePage />
 										</Route>
-										<Route path="/favourite_products">
+										<Route path="/favorite_products">
 											<FavoriteArticlesPage />
 										</Route>
 										<Route path="/add_favorite_article">

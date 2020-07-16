@@ -108,7 +108,7 @@ class AddFavoriteArticle extends Component {
             } 
             const resp = await fetch(Config.apiHost + '/favoriteArticle', rInit)
             if(resp.ok){
-                this.props.history.push('/favourite_products')
+                this.props.history.push('/favorite_products')
             }else {
                 this.setState({error: resp});
             }
