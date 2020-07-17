@@ -191,7 +191,7 @@ class ProductsPage extends Component {
             <Link to="/create_article">
               <IconButton icon='add' />
             </Link>
-            <Link to="/favourite_products" style={{marginLeft: "10px"}}>
+            <Link to="/favorite_products" style={{marginLeft: "10px"}}>
               <IconButton icon='star' />
             </Link>
           </Grid>
