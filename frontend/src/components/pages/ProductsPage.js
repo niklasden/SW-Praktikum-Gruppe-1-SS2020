@@ -33,7 +33,7 @@ const articleIDIconMapper = {
   cucumbers: 'cucumber', 
   lettuce: 'lettuce', 
   mustard: 'mustard', 
-  strawberry: 'strawberyy', 
+  strawberry: 'strawberry', 
   tea: 'tea', 
   milk: 'milk', 
   cread: 'bread', 
