@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
-import { Grid, Typography, Button } from '@material-ui/core';
-import ListItem from '../layout/ListItem'
-import Heading from '../layout/Heading'
-import Popover from '@material-ui/core/Popover'
+import { Grid, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
+import ListItem from '../layout/ListItem';
+import Heading from '../layout/Heading';
+import Popover from '@material-ui/core/Popover';
 import { checkPropTypes } from 'prop-types';
 import DropDownGSL from '../layout/DropDownGSL'
-import TextInputBar from '../layout/TextInputBar'
-import PopUp from '../layout/PopUp'
-import ShoppingSettings from '../../../src/shoppingSettings'
+import PopUp from '../layout/PopUp';
+import ShoppingSettings from '../../../src/shoppingSettings';
 import ShoppingAPI from '../../api/ShoppingAPI';
+import ShoppinglistBO from '../../api/ShoppinglistBO';
+import PropTypes, { array } from 'prop-types';
 
 const settingsobj = ShoppingSettings.getSettings()
 
@@ -23,47 +24,65 @@ const settingsobj = ShoppingSettings.getSettings()
  */
 
 export default class GroupShoppingList extends Component {
+    constructor(props) {
+      super(props)
+    
+      this.state = {
+        items: [],
+        open: false,
+        amount: "1",
+        unit: '',
+        selectedID: 0,
+        listentry: this.props.listentry,
+        shoppinglists: [],
+        selected_shoppinglist: []
+      }
 
-  state={
-    items: [],
-    open: false,
-    amount: "1",
-    unit: '',
-    selectedID: 0,
-    listentry: this.props.listentry
-  }
-
+    }
  
+
+    fetchShoppinglists = () => {
+      ShoppingAPI.getAPI().getShoppinglistofGroup(settingsobj.getGroupID()).then(shoppinglistBOs => {
+        this.setState({
+          shoppinglists: shoppinglistBOs,
+        })
+      }).catch(e => {
+        this.setState({
+          shoppinglists: [],
+        })  
+      }
+      );
+    };
+
     fetchItems = () => {
-      alert("Did you set the Group ID? It wont work otherwise")
-      /* needs settingsobj.getGroupID() is changed to 4 */
-      ShoppingAPI.getAPI().getunassignedItemsofGroup(4).then(listentryBOs => {
-        this.setState({  // Set new state when AccountBOs have been fetched
+      ShoppingAPI.getAPI().getunassignedItemsofGroup(settingsobj.getGroupID(), settingsobj.getCurrentShoppinglist()).then(listentryBOs => {
+        // Set new state when AccountBOs have been fetched
+        this.setState({  
           items: listentryBOs, 
         })
-        // console.log(listentryBOs);
+        console.log(listentryBOs);
+    
       }).catch(e => 
           this.setState({
             items: [],
           })
         );
       };
-
+  
   componentDidMount() {
-    this.fetchItems();
+    this.fetchShoppinglists();
   }
 
   getCategorys(){
     let ArrCategory = []
-    let Useritems = this.state.items
-    Useritems.map(item => {
+    this.state.items.map(item => {
       if(!ArrCategory.includes(item.category)){
         ArrCategory.push(item.category)
       }
     });
     return ArrCategory
   }  
-
+  /*
   renderCategoryArticles(){
     let renderdArticles = []
     let Useritems = this.state.items;
@@ -75,11 +94,32 @@ export default class GroupShoppingList extends Component {
           onClickDeleteButton={this.onClickDelete.bind(this)} 
           Useritems={Useritems} 
           ArrCategory={ArrCategory} 
-          item={item} 
+          item={item}
+          fetchItems={this.fetchItems}
           />
       )}
     return renderdArticles
   };
+  */
+
+ renderCategoryArticles(){
+  let renderdArticles = []
+  
+  let ArrCategory = this.getCategorys();
+  for (let item in ArrCategory){
+    renderdArticles.push(
+      <DropDownGSL 
+      key={ArrCategory[0]}
+        onClickDeleteButton={this.onClickDelete.bind(this)} 
+        ArrCategory={ArrCategory} 
+        item={item}
+        fetchItems={this.fetchItems}
+        {...this.state}
+        />
+    )}
+  return renderdArticles
+};
+
   onClickDelete(id){
     let Items = [...this.state.items]
     Items.map( item => {
@@ -95,8 +135,13 @@ export default class GroupShoppingList extends Component {
     })
   }
   
+  handleChangeShoppinglist(v){
+    this.setState({selected_shoppinglist: v.target.value});
+    settingsobj.setCurrentShoppinglist(v.target.value);
+    this.fetchItems();
+  }
+  
   render(){
-    
     return (
       <Grid 
       container
@@ -108,10 +153,26 @@ export default class GroupShoppingList extends Component {
         <TextInputBar key={"search"}placeholder="search..." icon="search" />
       </Grid>
       */}
+       <Grid item xs={6} style={{marginTop: 10, marginBottom: 10}}>
+            <FormControl style={{width: '170px', height: 35, marginLeft: 10, marginBottom: 10}}>
+                <InputLabel>Select Shopping List</InputLabel>
+                <Select value={this.state.selected_shoppinglist} onChange={this.handleChangeShoppinglist.bind(this)}>
+                 
+                 {this.state.shoppinglists.map((item, key) => 
+                      <MenuItem value={item.id}>{item.name}</MenuItem> 
+                    )}
+                  
+                </Select>
+            </FormControl>
+          </Grid>
       <Grid item xs={12}>
         {this.renderCategoryArticles()}
       </Grid>
     </Grid>
     ) 
   }
+}
+
+GroupShoppingList.propTypes = {
+  
 }

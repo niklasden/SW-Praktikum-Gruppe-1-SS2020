@@ -15,6 +15,8 @@ export default class ShoppingSettings{
     currentUserID = 5
     currentUserFireBaseID = ""
 
+    currentShoppinglist = 0
+
     onlySettingsGroupID = 0      //only used in settings > show specific group
     onlySettingsGroupName = ""    //only used in settings > show specific group
 
@@ -57,6 +59,14 @@ export default class ShoppingSettings{
 
     getCurrentUserFireBaseID() {
         return this.currentUserFireBaseID;
+    }
+
+    setCurrentShoppinglist(id) {
+        this.currentShoppinglist = id;
+    }
+
+    getCurrentShoppinglist() {
+        return this.currentShoppinglist;
     }
 
     //only used in settings > show specific group

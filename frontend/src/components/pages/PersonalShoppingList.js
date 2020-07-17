@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import { Grid, FormControl, InputLabel, Select } from '@material-ui/core';
+import { Grid, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import IconButton from '../layout/IconButton'
 import CategoryDropDown from '../layout/CategoryDropDown';
-import MenuItem from '@material-ui/core/MenuItem';
 import PopUp from '../layout/PopUp';
 import { Config } from '../../config'
 import ShoppingSettings from '../../shoppingSettings'

@@ -80,7 +80,6 @@ class ListEntryMapper(Mapper):
         cursor.execute("SELECT ID, Article_ID, Retailer_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought,creationdate from `Listentry` WHERE Retailer_ID={}".format(retailer))
         tuples = cursor.fetchall()
         print(tuples)
-
         try: 
             for (id, article_id, retailer_id, shoppinglist_id, user_id, group_id, amount, bought,cd) in tuples:
                 le = ListEntry()
@@ -264,21 +263,20 @@ class ListEntryMapper(Mapper):
         if listentry.get_shoppinglist() != "":
             le.set_shoppinglist(listentry.get_shoppinglist())
         if listentry.get_user() != "":
-            le.set_user(listentry.get_user())
+            le.set_user(listentry.get_user())  
         if listentry.get_group() != "":
             le.set_group(listentry.get_group())
         if listentry.get_amount() != "":
             le.set_amount(listentry.get_amount())
         if listentry.get_unit() != "":
-            le.set_amount(listentry.get_unit())
+            le.set_unit(listentry.get_unit())
         
-        print(le)
-
         try:
             cursor = self._cnx.cursor()
-            command = "UPDATE Listentry " + "SET Article_ID={0}, Retailer_ID={1}, Shoppinglist_ID={2}, User_ID={3}, Group_ID={4}, amount={5}, unit='{6}' WHERE ID={7}".format(le.get_article(), le.get_retailer(), le.get_shoppinglist(), le.get_user(), le.get_group(), le.get_amount(), le.get_unit(), le.get_id())
-            print(command)
-            cursor.execute(command)
+            command = """UPDATE Listentry SET Article_ID=%s, Retailer_ID=%s, Shoppinglist_ID=%s, User_ID=%s, Group_ID=%s, amount=%s, unit=%s WHERE ID=%s"""
+            data = (le.get_article(), le.get_retailer(), le.get_shoppinglist(), le.get_user(), le.get_group(), le.get_amount(), str(le.get_unit()), le.get_id())
+            
+            cursor.execute(command, data)
             self._cnx.commit()
             cursor.close()
             return listentry
@@ -335,18 +333,18 @@ class ListEntryMapper(Mapper):
 
         return result
 
-    def get_items_of_group(self, group_id):
+    def get_items_of_group(self, group_id, shoppinglist_id):
         """
         Niklas - items are unassigned
         """
         result = []
         cursor = self._cnx.cursor()
-        statement = "SELECT Listentry.ID, Article.name as 'name', Category.name as 'category', Listentry.amount, Listentry.unit, Listentry.Shoppinglist_ID as 'shoppinglist_id', Listentry.User_ID as 'user_id', Retailer.name as 'retailer', Listentry.Group_ID as 'group', Listentry.Article_ID as 'article_id' FROM Listentry LEFT JOIN Retailer ON Listentry.Retailer_ID = Retailer.ID LEFT JOIN Article ON Listentry.Article_ID = Article.ID LEFT JOIN Category ON Article.CategoryID = Category.ID WHERE (Group_ID={0} AND User_ID IS NULL)".format(group_id)
+        statement = "SELECT Listentry.ID, Article.name as 'name', Category.name as 'category', Listentry.amount, Listentry.unit, Listentry.Shoppinglist_ID as 'shoppinglist_id', Listentry.User_ID as 'user_id', Retailer.name as 'retailer', Listentry.Group_ID as 'group_id', Listentry.Article_ID as 'article_id' FROM Listentry LEFT JOIN Retailer ON Listentry.Retailer_ID = Retailer.ID LEFT JOIN Article ON Listentry.Article_ID = Article.ID LEFT JOIN Category ON Article.CategoryID = Category.ID WHERE (Group_ID={0} AND User_ID IS NULL AND Shoppinglist_ID={1})".format(group_id, shoppinglist_id)
 
         cursor.execute(statement)
         tuples = cursor.fetchall()
         
-        for (id, name, category, amount, unit, shoppinglist_id, user_id, retailer, group, article_id) in tuples:
+        for (id, name, category, amount, unit, shoppinglist_id, user_id, retailer, group_id, article_id) in tuples:
             listentry = ListEntry()
             listentry.set_id(id)
             listentry.set_name(name)
@@ -356,7 +354,7 @@ class ListEntryMapper(Mapper):
             listentry.set_shoppinglist(shoppinglist_id)
             listentry.set_purchaser(user_id)
             listentry.set_retailer(retailer)
-            listentry.set_group(group)
+            listentry.set_group(group_id)
             listentry.set_article(article_id)
             result.append(listentry)
 
