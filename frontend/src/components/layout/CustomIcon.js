@@ -58,7 +58,7 @@ import vegetablesIcon from '../../icons/vegetables.svg'
 // place the file in icons and import it the same way the appleIcon has been imported
 // e.g. <CustomIcon name='apple' /> in case you want an apple icon
 const icons = { 
-  apple: appleIcon, 
+  apple: appleIcon,
   milk: milkIcon, 
   bread: breadIcon,
   beermug:beermugIcon,
@@ -85,7 +85,7 @@ const icons = {
   pizza:pizzaIcon,
   bread: breadIcon, 
   orange: orangeIcon, 
-  strawberyy: strawberryIcon, 
+  strawberry: strawberryIcon, 
   banana: bananaIcon, 
   grape: grapeIcon, 
   cucumber: cucumberIcon, 
@@ -128,7 +128,12 @@ class CustomIcon extends Component {
   render(){
     let icon = ''
     if (this.props.iconName != undefined){
-      icon = this.props.iconName
+      if (this.props.iconName in icons){
+        icon = this.props.iconName
+      }
+      else {
+        icon = this.props.category
+      }     
     }
 
     let dimension = 20
@@ -142,7 +147,7 @@ class CustomIcon extends Component {
           width: dimension, 
           height: dimension,
           filter: `grayscale(100%)`,
-          //marginTop: '15px'      
+          ...this.props.style    
         }} 
         src={icons[icon]}
       />

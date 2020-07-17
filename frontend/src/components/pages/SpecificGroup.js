@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import PropTypes, { object } from 'prop-types';
+import PropTypes from 'prop-types';
 import AddCircleItem from '@material-ui/icons/AddCircle'
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from "@material-ui/styles";
@@ -22,9 +22,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import ListIcon from '@material-ui/icons/List';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import MainButton from '../layout/MainButton';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress'
+import ShoppingAPI from '../../api/ShoppingAPI';
 
-import Groups from './Groups'
 import ShoppingSettings from '../../../src/shoppingSettings'
 
 const settingsobj = ShoppingSettings.getSettings()
@@ -73,6 +73,7 @@ const styles = theme => ({
  * Beim Aufruf der Specific group muss der name auf den Gruppennamen gesetzt werden
  * 
  * @author [Julius Jacobitz](https://github.com/JuliusJacobitz)
+ * @author [Christopher Böhm](https://github.com/christopherboehm1)
  * 
  */
 class SpecificGroup extends Component {
@@ -99,6 +100,7 @@ class SpecificGroup extends Component {
     this.saveGroup = this.saveGroup.bind(this);
     this.deleteShoppingList = this.deleteShoppingList.bind(this);
     this.fetchspecificShoppinglist = this.fetchspecificShoppinglist.bind(this);
+    this.deleteGroup = this.deleteGroup.bind(this);
   }
 
   async saveGroup() {
@@ -148,7 +150,7 @@ class SpecificGroup extends Component {
    if(settingsobj.onlySettingsGetSettingsGroupID() == id){
       settingsobj.onlySettingsSetSettingsGroupID(0)
       settingsobj.onlySettingsSetSettingsGroupName("")
-  }
+    }
   }
   
   
@@ -294,6 +296,7 @@ class SpecificGroup extends Component {
       const resp = await fetch(Config.apiHost + '/shoppinglist/' + groupID, rInit)
       if(resp.ok){
         this.fetchspecificShoppinglist();
+        this.props.history.push('/groups')
       }
     }catch(e) {
       this.setState({error: e});
@@ -331,6 +334,20 @@ class SpecificGroup extends Component {
       )
     })
     return GroupMembers
+  }
+
+  deleteGroup = (id) => {
+    ShoppingAPI.getAPI().deleteGroup(id).then(groupBOs => {
+      this.props.history.push('/Groups')
+      this.setState({groupItems: this.state.groupItems.filter(elem => elem.id !== id)})
+      alert("Group and all Members deleted")
+  }).catch(e =>
+      alert(e)
+      )
+       if(settingsobj.onlySettingsGetSettingsGroupID() == id){
+         settingsobj.onlySettingsSetSettingsGroupID("")
+         settingsobj.onlySettingsSetSettingsGroupName("")
+       }
   }
 
   render(){
@@ -470,8 +487,24 @@ class SpecificGroup extends Component {
             </Grid>
           </ExpansionPanelDetails>
         </ExpansionPanel>
-        <MainButton onclick={this.saveGroup}>SAVE GROUP</MainButton>
+        
+        <Grid item>
+          <div style={{display: 'flex', flexDirection: 'row'}}>
+            <MainButton onclick={this.saveGroup}>SAVE GROUP</MainButton>
+            <div style={{marginLeft: 12}}>
+              <MainButton onclick={() => this.deleteGroup(this.state.groupID)}>DELETE GROUP</MainButton>
+            </div>
+          </div>
 
+          {this.state.isSaving &&
+            <div style={{display: 'flex', justifyContent: 'center', marginTop: 12}}>
+              <CircularProgress size={20} />
+            </div>
+          }
+        </Grid>
+
+
+        {/* Dialogs, not part of ui anymore */}
         <Dialog onClose={handleClickCloseAddMemberDialog} aria-labelledby="form-dialog-title" style={{display: 'inline-block'}} open={openAddMemberDialog}>
         <DialogTitle id="form-dialog-title">Add Member</DialogTitle>
         <DialogContent>

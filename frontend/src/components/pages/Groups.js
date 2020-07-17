@@ -8,11 +8,12 @@ import { Link } from 'react-router-dom';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import ShoppingSettings from '../../../src/shoppingSettings'
-import { Config } from '../../config'
 import { withRouter } from "react-router"
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress'
 import ShoppingAPI from '../../api/ShoppingAPI';
+import ListEntry from '../layout/ListEntry'
+import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress'
 
 const settingsobj = ShoppingSettings.getSettings()
 
@@ -25,7 +26,6 @@ const styles = theme => ({
     textDecoration: 'none'
   }
 });
-
 
 /**
  * Displays all Groups specific for one user 
@@ -48,18 +48,18 @@ class Groups extends Component {
     this.deleteGroup = this.deleteGroup.bind(this);
   }
 
+  // TODO: remove, it is in specific group now
   deleteGroup = (id) => {
     ShoppingAPI.getAPI().deleteGroup(id).then(groupBOs => {
       this.props.history.push('/Groups')
       this.setState({groupItems: this.state.groupItems.filter(elem => elem.id !== id)})
       alert("Group and all Members deleted")
-  }).catch(e =>
-      alert(e)
-      )
-       if(settingsobj.onlySettingsGetSettingsGroupID() == id){
-         settingsobj.onlySettingsSetSettingsGroupID("")
-         settingsobj.onlySettingsSetSettingsGroupName("")
-       }
+    }).catch(e => alert(e))
+    
+    if(settingsobj.onlySettingsGetSettingsGroupID() == id){
+      settingsobj.onlySettingsSetSettingsGroupID("")
+      settingsobj.onlySettingsSetSettingsGroupName("")
+    }
   }
 
   getGroups = () => {
@@ -69,78 +69,139 @@ class Groups extends Component {
         loadingInProgress: false,
         loadingerror: null
       })
-     }).catch(e => 
-        this.setState({
-          groupItems: [],
-          loadingInProgress: false,
-          loadingGroupsError: e
-        })
-      );
+    }).catch(e => {
       this.setState({
-              loadingInProgress: true,
-              loadingError:null
-            })
-     };
+        groupItems: [],
+        loadingInProgress: false,
+        loadingGroupsError: e
+      })
+    });
+    this.setState({
+      loadingInProgress: true,
+      loadingError:null
+    })
+  };
 
 
-   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
+  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount(){
     this.getGroups()
     settingsobj.onlySettingsSetSettingsGroupID("")
     settingsobj.onlySettingsSetSettingsGroupName("")
   };
 
+  // TODO: remove 
+  renderGroupsBackup(){
+    const { classes } = this.props;
+    const Groups=[];
+    
+    this.state.groupItems.forEach( elem => {
+      Groups.push(
+        <Grid item xs={6}>
+          {/* Now by clicking on a group we set the settingsgroupid @Julius here we need a parameter to fetch the right group, all groups a user is part of, then specific group hes clicking on */}
+          <Grid
+            container
+            direction="column"
+            justify="center"
+            alignItems="center"
+            style={{marginTop:20}}
+          >
+            <Link 
+              to="" 
+              onClick={ () => {settingsobj.onlySettingsSetSettingsGroupID(elem.id); settingsobj.onlySettingsSetSettingsGroupName(elem.name)}}
+              style={{ textDecoration: 'none' }}
+            >
+              <GroupButton key={elem.id} groupname={elem.name}></GroupButton>
+            </Link>
+            <IconButton  aria-label="delete" className={this.props.classes.margin} style={{padding:0}}>
+              <DeleteIcon onClick={() => this.deleteGroup(elem.id)}  />
+            </IconButton>
+          </Grid>
+        </Grid>
+      )
+    })
+    return Groups
+  } 
 
   renderGroups(){
-      const { classes } = this.props;
-      const Groups=[];
-      
-      this.state.groupItems.forEach( elem => {
-          Groups.push(
-          <Grid item xs={6} key={elem.id}>
-              {/* Now by clicking on a group we set the settingsgroupid @Julius here we need a parameter to fetch the right group, all groups a user is part of, then specific group hes clicking on */}
-              <Grid
-              container
-              direction="column"
-              justify="center"
-              alignItems="center"
-              style={{marginTop:20}}>
+    const groups = []
 
-                  <Link to="specificGroup" onClick={ () => {settingsobj.onlySettingsSetSettingsGroupID(elem.id); settingsobj.onlySettingsSetSettingsGroupName(elem.name)}}>
-                  <GroupButton key={elem.id} groupname={elem.name}></GroupButton></Link>
-                  <IconButton  aria-label="delete" className={this.props.classes.margin} style={{padding:0}}>
-                    <DeleteIcon onClick={() => this.deleteGroup(elem.id)}  />
-                  </IconButton>
-                </Grid>
-            </Grid>)
-      })
-      return Groups
-    
-  } 
+    this.state.groupItems.forEach(group => {
+      groups.push(
+        <Link 
+          to='specificGroup' 
+          onClick={ () => {settingsobj.onlySettingsSetSettingsGroupID(group.id); settingsobj.onlySettingsSetSettingsGroupName(group.name)}}
+          style={{ textDecoration: 'none' }}
+        >
+          <ListEntry 
+            iconName='people'
+            text={group.name} 
+            style={{marginBottom: 12}}
+            onClick={ () => {settingsobj.onlySettingsSetSettingsGroupID(group.id); settingsobj.onlySettingsSetSettingsGroupName(group.name)}}
+          />
+        </Link>
+      )
+    })
+
+    return groups
+  }
       
-  render(){
+  // TODO: remove
+  render1(){
     const { classes } = this.props;
     const { loadingInProgress, loadingError, loadingGroupsError, groupItems } = this.state;
     return (
-    <>
-      <Grid container spacing={3} >
-        {this.renderGroups()}
-        <Grid item xs={12}>
-          <Link to="/createGroup" className={classes.button}>
-            <MainButton className={classes.CreateButton}>Create Group</MainButton>
-          </Link>
-        </Grid> 
-      </Grid>
-      <LoadingProgress show={loadingInProgress}/>
-      <ContextErrorMessage error={loadingError} contextErrorMsg={'The list of alll groups could not be loaded'} onReload={this.getGroups} />
-      </>
-      
-      )
+      <>
+        <Grid container spacing={3} >
+          <div>
+            {this.renderGroupsBackup()}
+          </div>
+          
+          <Grid item xs={12}>
+            <Link to='/createGroup' className={classes.button}>
+              <MainButton className={classes.CreateButton}>Create Group</MainButton>
+            </Link>
+          </Grid> 
+        </Grid>
+        <LoadingProgress show={loadingInProgress}/>
+        <ContextErrorMessage error={loadingError} contextErrorMsg={'The list of alll groups could not be loaded'} onReload={this.getGroups} />
+      </>  
+    )
+  }
+
+  render(){
+    const { classes } = this.props;
+
+    return (
+      <div style={{width: '100%', marginBottom: 65}}>
+        <div style={{margin: 12, paddingTop: 12}}>
+          <div>
+            {this.state.loadingInProgress ?
+              <div style={{display: 'flex', justifyContent: 'center'}}>
+                <CircularProgress size={25} />
+              </div>
+            :  
+              this.renderGroups()
+            }
+          </div>
+        </div>
+
+        <div style={{flex: 1, flexDirection: 'row', display: 'flex', margin: 12, paddingTop: 12}}>
+          {/* <text style={{flexGrow: 1}}>hello</text> */}
+          <Grid item xs={12}>
+            <Link to='/createGroup' className={classes.button}>
+              <MainButton style={{widht: '100%'}} className={classes.CreateButton}>Create Group</MainButton>
+            </Link>
+          </Grid> 
+        </div>
+        <ContextErrorMessage error={this.state.loadingError} contextErrorMsg={'The list of all groups could not be loaded'} onReload={this.getGroups} />
+      </div>
+    ) 
   }
 }
-    Groups.propTypes = {
-      icon: PropTypes.string,
-      }
 
+Groups.propTypes = {
+  icon: PropTypes.string,
+}
 
 export default withRouter(withStyles(styles)(Groups));

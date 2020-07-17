@@ -31,15 +31,11 @@ class CategoryDropDown extends Component {
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
         <Typography>
-          <Grid container xs={12} spacing={1}>
               {this.props.Useritems.map(element => {
               if(element.category === this.props.ArrCategory[this.props.item]){
-              return <Grid item xs={12}>
-              <ListItemCheckbox Checked={element.checkbox}  handleChange={()=>this.props.handleChange(element.id)} itemname={element.name} amount={element.amount} unit={element.unit}></ListItemCheckbox>
-              </Grid>
+              return <ListItemCheckbox Checked={element.checkbox} handleChange={()=>this.props.handleChange(element.id)} itemname={element.name} amount={element.amount} unit={element.unit} category={element.category} iconname={element.name}></ListItemCheckbox>
             }
           })}
-          </Grid>
         </Typography>
       </ExpansionPanelDetails>
     </ExpansionPanel>
