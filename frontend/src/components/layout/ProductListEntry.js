@@ -10,10 +10,6 @@ import { withRouter } from "react-router-dom";
 
 
 const styles = theme => ({
-    root: {
-      flexGrow: 1,
-      padding: theme.spacing(2),
-    },
     article: {
       padding: theme.spacing(0), 
     }
@@ -36,12 +32,7 @@ const styles = theme => ({
 
   //TODO: Funktion, die Artikel auf die Gruppeneinkaufsliste setzt
   onSave= () => {
-    //this.state= {id: this.props.id, name: this.props.name, category: this.props.category}
-    /**<GroupShoppingList 
-    id={item.id}
-    name={item.name}
-    category = {item.category} 
-      />*/
+    this.state= {id: this.props.id, name: this.props.name, category: this.props.category}
     }
   
      

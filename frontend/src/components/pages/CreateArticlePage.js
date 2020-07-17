@@ -56,7 +56,7 @@ class CreateArticlePage extends Component {
         category: '',
         categorys: [
             {id: 1, name: "vegetables"},
-            {id: 2, name: "veat & fish"},
+            {id: 2, name: "meat & fish"},
             {id: 3, name: "fruits"},
             {id: 4, name: "drinks"},
             {id: 5, name: "other"},
@@ -198,7 +198,7 @@ class CreateArticlePage extends Component {
                             className={styles.formControl}
                             style={{ color: "#00BCD4", marginLeft:"20px", width:"85%" }}>
 
-                                <InputLabel >select category</InputLabel>
+                                <InputLabel>select category</InputLabel>
 
                                 <Select 
                                 onChange={(e) => this.setState({category: e.target.value})}
