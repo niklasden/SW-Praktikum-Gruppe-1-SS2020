@@ -21,8 +21,6 @@ const settingsobj = ShoppingSettings.getSettings()
 */
 
 class DropDownGSL extends Component {
-
-
   constructor(props) {
     super(props)
   }

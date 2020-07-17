@@ -1,6 +1,13 @@
 import BusinessObject from './BusinessObject';
 
-// By Niklas - not finished not tested
+/**
+ * @author [Niklas Denneler](https://github.com/niklasden): 
+ * 
+ * Implementation of the User BusinessObject for the frontend.
+ * Basic methods to set class variables, like in the backend.
+ * 
+ * 
+ */
 export default class UserBO extends BusinessObject {
 
    constructor(n, i, e, fid, l) {

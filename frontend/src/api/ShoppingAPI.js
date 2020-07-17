@@ -7,11 +7,15 @@ import RetailerBO from './RetailerBO';
 import ShoppinglistBO from './ShoppinglistBO';
 
 /**
+ * @author [Niklas Denneler])(https://github.com/niklasden)
+ * @author [Pascal Illg]) (https://github.com/pasillg)
+ * 
  * Abstracts the REST interface of the Python backend with convenient access methods.
  * The class is implemented as a singleton. 
+ * We wanted to use this Shopping Administration to handle every fetch request on the frontend, but were short on time.
  * 
- * @author [Niklas Denneler])
  */
+
 export default class ShoppingAPI {
 
     static #api = null;
@@ -37,16 +41,10 @@ export default class ShoppingAPI {
     
     //ListEntry URLs
     #updateListEntryURL = () => `${this.#baseServerURL}/Listentry/update`;
-    #personalItemsURL = (user_id, group_id) => {
-        let val = `${this.#baseServerURL}/Listentry/get_personal_items_of_group/?group_id=` + group_id + `&user_id=` + user_id
-        console.log("Dasist val" + val)
-        return val
-    };
-
-
+    #personalItemsURL = (user_id, group_id) => `${this.#baseServerURL}/Listentry/get_personal_items_of_group/?group_id=` + group_id + `&user_id=` + user_id;
+        
     //Retailer URLs
     #getRetailersURL = () => `${this.#baseServerURL}/Retailer`;
-
 
     //Shoppinglist URLS
     #getShoppinglistsofGroupURL = (groupid) => `${this.#baseServerURL}/shoppinglist/?group_id=${groupid}`;
@@ -78,7 +76,13 @@ export default class ShoppingAPI {
             return res.json();
         }
     );
-
+    
+    /**
+     * Returns a Promise, which resolves to an Array of GroupBOs
+     * This Array will be all Articles stored in the DB
+     * @param  
+     * @public
+     */
     getArticles() {
         return this.#fetchAdvanced(this.#getArticlesURL()).then((responseJSON) => {
             let articleBOs = ArticleBO.fromJSON(responseJSON);
@@ -91,8 +95,8 @@ export default class ShoppingAPI {
 
     /**
      * Returns a Promise, which resolves to an Array of GroupBOs
-     * 
-     * @param {Number} user_ID for which the the groups should be retrieved
+     * This will be all Groups which a user is part of
+     * @param {Number} id for which the the groups should be retrieved
      * @public
      */
     getGroupsforUser(id){
@@ -106,9 +110,9 @@ export default class ShoppingAPI {
     }
 
     /**
-     * Returns a Promise, which resolves to an Array of groupBOs
-     * 
-     * @param {Number} ud for which group should be deleted
+     * Returns a Promise, which resolves to an specific groupBO.
+     * This promise will be the group that was deleted.
+     * @param {Number} id for which group should be deleted
      * @public
      */
     deleteGroup(id) {
@@ -122,8 +126,6 @@ export default class ShoppingAPI {
             })
         })
     }
-
-  
 
     //not tested because of membership issue, current version works fine
     /*saveGroup(groupBO){
@@ -144,6 +146,12 @@ export default class ShoppingAPI {
     }
     */
 
+     /**
+     * Returns a Promise, which resolves to an Array of listentryBOs
+     * This promise will be all listentries, which have not been assigend to a user to be bought yet.
+     * @param {Number} group_id and @param {Number} shoppinglist_id for which group should be deleted
+     * @public
+     */
     getunassignedItemsofGroup(group_id, shoppinglist_id) {
         return this.#fetchAdvanced(this.#getunassigneditemssofGroupURL(group_id, shoppinglist_id), {
             method: 'GET',
@@ -159,10 +167,12 @@ export default class ShoppingAPI {
         })
     }
 
-    insertListentry(listentryBO){
-
-    }
-    
+     /**
+     * Returns a Promise, which resolves to a single listentryBO
+     * This promise will be the listentry that was updated
+     * @param {ListEntryBO} listentryBO for which the listentry should be updated
+     * @public
+     */
     updateListEntry(listentryBO) {
         return this.#fetchAdvanced(this.#updateListEntryURL(listentryBO), {
             method: 'POST',
@@ -180,6 +190,12 @@ export default class ShoppingAPI {
         })
     }
 
+     /**
+     * Returns a Promise, which resolves to a Array of listentryBOs.
+     * This promise will be the all the listentries, which belong to a user / that group.
+     * @param {Number} user_id and @param {Number} group_id for which personal items should be retrieved.
+     * @public
+     */
     personalItems(user_id, group_id) {
         return this.#fetchAdvanced(this.#personalItemsURL(user_id, group_id), {
             method: 'GET',
@@ -196,6 +212,12 @@ export default class ShoppingAPI {
         })
     }
 
+     /**
+     * Returns a Promise, which resolves to an Array of userBOs
+     * This promise will be the Users which are part of a group.
+     * @param {groupBO} groupBO for which Users should be retrieved.
+     * @public
+     */
     getUsers(groupBO){
         return this.#fetchAdvanced(this.#getUsersURL(groupBO)).then((responseJSON) => {
             let userBOs = UserBO.fromJSON(responseJSON);
@@ -206,6 +228,12 @@ export default class ShoppingAPI {
         })
     }
 
+    /**
+     * Returns a Promise, which resolves to an Array of userBOs
+     * This promise will be the User with that specific ID.
+     * @param {number} id for which User should be retrieved.
+     * @public
+     */
     getUser(id){
         return this.#fetchAdvanced(this.#getUserURL(id)).then((responseJSON) => {
             let userBOs = UserBO.fromJSON(responseJSON);
@@ -215,6 +243,12 @@ export default class ShoppingAPI {
         })
     }
 
+    /**
+     * Returns a Promise, which resolves to an Array of retailerBOs
+     * This promise will be the Retailers.
+     * For now this is a global list and so there are no parameters needed
+     * @public
+     */
     getRetailers(){
         return this.#fetchAdvanced(this.#getRetailersURL()).then((responseJSON) => {
             let retailerBOs = RetailerBO.fromJSON(responseJSON);
@@ -225,8 +259,13 @@ export default class ShoppingAPI {
         })
     }
 
-    getShoppinglistofGroup(groupid){
-        return this.#fetchAdvanced(this.#getShoppinglistsofGroupURL(groupid)).then((responseJSON) => {
+    /**
+     * Returns a Promise, which resolves to an Array of shoppinglistBOs
+     * @param {number} group_id for which Group the lists should be retrieved
+     * @public
+     */
+    getShoppinglistofGroup(group_id){
+        return this.#fetchAdvanced(this.#getShoppinglistsofGroupURL(group_id)).then((responseJSON) => {
             let shoppinglistBOs = ShoppinglistBO.fromJSON(responseJSON);
             //console.info(shoppinglistBOs);
             return new Promise(function (resolve) {
