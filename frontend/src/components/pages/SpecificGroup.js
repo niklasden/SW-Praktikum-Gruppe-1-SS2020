@@ -94,6 +94,7 @@ class SpecificGroup extends Component {
       shoppinglists: [],
       error: null,
       newMemberName: '',
+      isLoading: false, 
       
     }
     this.deleteMember = this.deleteMember.bind(this);
@@ -104,32 +105,32 @@ class SpecificGroup extends Component {
   }
 
   async saveGroup() {
-      try{
-          const rb = {
-            id: settingsobj.onlySettingsGetSettingsGroupID(),
-            name: this.state.groupnameval,
-            description: '',
-            creationdate: "2020-03-20T14:30:43"
-          }
-          const requestBody = JSON.stringify(rb)
-          const rInit = {
-            method: 'PUT', 
-            headers: {
-              'Content-Type': 'application/json'
-            }, 
-            body: requestBody
-          } 
-          
-          const resp = await fetch(Config.apiHost + '/Group/' + settingsobj.onlySettingsGetSettingsGroupID(), rInit)
-          if(resp.ok){
-            this.props.history.push('/Groups')
-          }
-      }catch(e) {
-      this.setState({error: e})
-
+    try{
+      const rb = {
+        id: settingsobj.onlySettingsGetSettingsGroupID(),
+        name: this.state.groupnameval,
+        description: '',
+        creationdate: "2020-03-20T14:30:43"
       }
+      const requestBody = JSON.stringify(rb)
+      const rInit = {
+        method: 'PUT', 
+        headers: {
+          'Content-Type': 'application/json'
+        }, 
+        body: requestBody
+      } 
+      
+      const resp = await fetch(Config.apiHost + '/Group/' + settingsobj.onlySettingsGetSettingsGroupID(), rInit)
+      if(resp.ok){
+        this.props.history.push('/Groups')
+      }
+    } catch(e) {
+      this.setState({error: e})
+    }
   }
   async deleteGroup(id) {
+    this.setState({ isLoading: true })
     try{
     const rInit = {
       method: 'DELETE'
@@ -141,16 +142,18 @@ class SpecificGroup extends Component {
     } else {
      alert("Fehler !")
     }
-  }catch(e){alert(e)}
+  } catch(e){alert(e)}
     this.setState({
-            groupItemss: this.state.groupItemss.filter(elem => elem.id !== id)       
+      groupItemss: this.state.groupItemss.filter(elem => elem.id !== id)       
      // request to db! > delete Group      
-   })
+    })
   
-   if(settingsobj.onlySettingsGetSettingsGroupID() == id){
+    if(settingsobj.onlySettingsGetSettingsGroupID() == id){
       settingsobj.onlySettingsSetSettingsGroupID(0)
       settingsobj.onlySettingsSetSettingsGroupName("")
     }
+
+    this.setState({ isLoading: false })
   }
   
   
@@ -255,33 +258,36 @@ class SpecificGroup extends Component {
   }
 
   async addShoppingList(event) {
+    this.setState({ isLoading: true })
     var latestShoppinglistID = await this.getAllShoppingLists();
     var newShoppinglistName = this.state.newShoppinglistName;
-      try{
-          const rb = {
-            id: latestShoppinglistID,
-            name: newShoppinglistName,
-            group_id: settingsobj.onlySettingsGetSettingsGroupID()
-          }
-          const requestBody = JSON.stringify(rb)
-          const rInit = {
-            method: 'POST', 
-            headers: {
-              'Content-Type': 'application/json'
-            }, 
-            body: requestBody
-          } 
-          
-          const resp = await fetch(Config.apiHost + '/shoppinglist/', rInit)
-          if(resp.ok){
-            this.fetchspecificShoppinglist();
-          }
-      }catch(e) {
-      this.setState({error: e})
-
+    try{
+      const rb = {
+        id: latestShoppinglistID,
+        name: newShoppinglistName,
+        group_id: settingsobj.onlySettingsGetSettingsGroupID()
       }
+      const requestBody = JSON.stringify(rb)
+      const rInit = {
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json'
+        }, 
+        body: requestBody
+      } 
+      
+      const resp = await fetch(Config.apiHost + '/shoppinglist/', rInit)
+      if(resp.ok){
+        this.fetchspecificShoppinglist();
+      }
+    } catch(e) {
+      this.setState({error: e})
+    }
+    this.setState({ isLoading: false })
+
   }
   async deleteShoppingList(groupID) {
+    this.setState({ isLoading: true })
     const shoppinglist = {
       id: parseInt(groupID), 
     }
@@ -298,9 +304,12 @@ class SpecificGroup extends Component {
         this.fetchspecificShoppinglist();
         this.props.history.push('/groups')
       }
-    }catch(e) {
+    } catch(e) {
       this.setState({error: e});
-    }}
+    }
+    this.setState({ isLoading: false })
+  }
+
   async checkGroupMembers(){
     const res = await fetch(Config.apiHost + '/membership/' + settingsobj.onlySettingsGetSettingsGroupID()) //Hier ID übergabe bei getmembersbygroupid = id = settingsobj.onlySettingsGetSettingsGroupID()
     const memberobjects = await res.json()
@@ -488,19 +497,26 @@ class SpecificGroup extends Component {
           </ExpansionPanelDetails>
         </ExpansionPanel>
         
-        <Grid item>
-          <div style={{display: 'flex', flexDirection: 'row'}}>
-            <MainButton onclick={this.saveGroup}>SAVE GROUP</MainButton>
-            <div style={{marginLeft: 12}}>
-              <MainButton onclick={() => this.deleteGroup(this.state.groupID)}>DELETE GROUP</MainButton>
+        <Grid
+            container
+            direction="row"
+            justify="center"
+            alignItems="flex-end"
+          >
+          <Grid item>
+            <div style={{display: 'flex', flexDirection: 'row'}}>
+              <MainButton onclick={this.saveGroup}>SAVE GROUP</MainButton>
+              <div style={{marginLeft: 12}}>
+                <MainButton onclick={() => this.deleteGroup(this.state.groupID)}>DELETE GROUP</MainButton>
+              </div>
             </div>
-          </div>
 
-          {this.state.isSaving &&
-            <div style={{display: 'flex', justifyContent: 'center', marginTop: 12}}>
-              <CircularProgress size={20} />
-            </div>
-          }
+            {this.state.isLoading &&
+              <div style={{display: 'flex', justifyContent: 'center', marginTop: 12}}>
+                <CircularProgress size={20} />
+              </div>
+            }
+          </Grid>
         </Grid>
 
 
