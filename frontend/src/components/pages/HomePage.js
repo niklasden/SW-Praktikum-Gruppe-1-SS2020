@@ -9,6 +9,7 @@ import {Link} from 'react-router-dom'
 import GroupsGridList from '../layout/AllGroupsGridList'
 import ShoppingSettings from '../../../src/shoppingSettings'
 
+import SettingsContext from '../../settingsContext'
 
 const styles = theme => ({
   root: {
@@ -24,13 +25,34 @@ const styles = theme => ({
   *  
   */
 export class HomePage extends Component {
+  static contextType = SettingsContext //Consuming context 
+  
+   componentDidMount(){
+    const userr = this.context
+    console.log("userr: "  +userr+userr.name)
+    
 
- 
+  } 
+
   render(){
+    const { userr, setUser } = this.context
+    
     return (
-      <>       
+      
+      <><div>
+      <button
+        onClick={() => {
+          const newUser = { name: 'Joe', loggedIn: true }
+
+          setUser(newUser)
+        }}
+      >
+        Update User
+      </button>
+      <p>{`Current User: ${userr.name}`}</p>
+    </div>
+    
         <HeaderButton/>
-        
         <Grid
           container
           direction="row"
@@ -96,6 +118,7 @@ export class HomePage extends Component {
         
  */}
 </>
+
     )
   }
 }

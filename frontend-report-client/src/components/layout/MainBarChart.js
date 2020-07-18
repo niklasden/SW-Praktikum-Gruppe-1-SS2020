@@ -5,7 +5,7 @@ var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 export default class MainBarChart extends Component {
 	render() {
-        const data = this.props.data;
+		const data = this.props.data;
 		var itemList = [];
 		if(this.props.retailer) {
 			data.forEach(d => {
@@ -15,7 +15,7 @@ export default class MainBarChart extends Component {
 				}
 			itemList.push(item);
 			})
-		}else {
+		} else {
 			data.forEach(d => {
 				var item = {
 					label: d.article_name,
@@ -26,17 +26,15 @@ export default class MainBarChart extends Component {
 		}
         
 		const options = {
-			data: [
-			{
+			data: [{
 				type: "column",
 				dataPoints: itemList
-			}
-			]
+			}]
 		}
 		return (
-		<div>
-			<CanvasJSChart options = {options} />
-		</div>
+			<div>
+				<CanvasJSChart options = {options} />
+			</div>
 		);
 	}
 }
