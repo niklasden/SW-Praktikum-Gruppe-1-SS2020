@@ -12,9 +12,6 @@ import { withStyles } from '@material-ui/styles';
  * @param {*} endY 
  * @param {*} color 
  */
-
-
-
 function drawLine(ctx, startX, startY, endX, endY,color){
   ctx.save();
   ctx.strokeStyle = color;
@@ -32,17 +29,18 @@ function drawBar(ctx, upperLeftCornerX, upperLeftCornerY, width, height,color){
   ctx.restore();
 }
 
-var myVinyls = {
-  "Classical music": 10,
-  "Alternative rock": 14,
-  "Pop": 2,
-  "Jazz": 12
-};
+function drawText(ctx, startX, startY, text){
+  ctx.save()
+	ctx.fillText(text, startX, startY)
+	ctx.font = "bold 10px Arial"
+  ctx.restore()
+}
+
+
 
 const styles = theme => ({
   root: {
-    // height: '300px', 
-    // width: '300px',
+
   },
   indicator: {
     display: 'flex',
@@ -56,24 +54,20 @@ const styles = theme => ({
 class BarChart extends Component {
   componentDidMount() {
     const canvas = this.refs.canvas
-    // canvas.width = 300;
-    // canvas.width = '100%';
     canvas.height = 300;
-    canvas.width = window.innerWidth
+    canvas.width = this.props.width
     const ctx = canvas.getContext("2d")
     // const img = this.refs.image
 
-    var myBarchart = new Barchart(
-      {
-        canvas:canvas,
-        seriesName:"Vinyl records",
-        padding:10,
-        gridScale:5,
-        gridColor:"#eeeeee",
-        data:myVinyls,
-        colors:["#a55ca5","#67b6c7", "#bccd7a","#eb9743"]
-      }
-    );
+    var myBarchart = new Barchart({
+			canvas:canvas,
+			title:"Vinyl records",
+			padding:10,
+			gridScale:5,
+			gridColor:"#eeeeee",
+			data: this.props.data,
+			colors:["#a55ca5","#67b6c7", "#bccd7a","#eb9743"]
+		});
     myBarchart.draw();
   }
 
@@ -81,7 +75,7 @@ class BarChart extends Component {
     return(
       <>
         <canvas ref="canvas" className={styles.root}></canvas>
-        <legend for="canvas"></legend>
+        {/* <legend for="canvas"></legend> */}
       </>
     )
   }
@@ -94,65 +88,60 @@ var Barchart = function(options){
   this.colors = options.colors;
 
   this.draw = function(){
-      var maxValue = 0;
-      for (var categ in this.options.data){
-          maxValue = Math.max(maxValue,this.options.data[categ]);
-      }
-      var canvasActualHeight = this.canvas.height - this.options.padding * 2;
-      var canvasActualWidth = this.canvas.width - this.options.padding * 2;
+		var maxValue = 0;
+		// find highest value of data
+		// for (var categ in this.options.data){
+		// 	maxValue = Math.max(maxValue,this.options.data[categ]);
+		// }
 
-      //drawing the grid lines
-      var gridValue = 0;
-      while (gridValue <= maxValue){
-          var gridY = canvasActualHeight * (1 - gridValue/maxValue) + this.options.padding;
-          drawLine(
-              this.ctx,
-              0,
-              gridY,
-              this.canvas.width,
-              gridY,
-              this.options.gridColor
-          );
-           
-          //writing grid markers
-          this.ctx.save();
-          this.ctx.fillStyle = this.options.gridColor;
-          this.ctx.font = "bold 10px Arial";
-          this.ctx.fillText(gridValue, 10,gridY - 2);
-          this.ctx.restore();
+		this.options.data.forEach(el => {
+			maxValue = Math.max(maxValue, el.value)
+		})
 
-          gridValue+=this.options.gridScale;
-      }
 
-      //drawing the bars
-      var barIndex = 0;
-      var numberOfBars = Object.keys(this.options.data).length;
-      var barSize = (canvasActualWidth)/numberOfBars;
+		var canvasActualHeight = this.canvas.height - this.options.padding * 2;
+		var canvasActualWidth = this.canvas.width - this.options.padding * 2;
 
-      for (categ in this.options.data){
-          var val = this.options.data[categ];
-          var barHeight = Math.round( canvasActualHeight * val/maxValue) ;
-          drawBar(
-              this.ctx,
-              this.options.padding + barIndex * barSize,
-              this.canvas.height - barHeight - this.options.padding,
-              barSize,
-              barHeight,
-              this.colors[barIndex%this.colors.length]
-          );
+		//drawing the grid lines
+		var gridValue = 0;
+		while (gridValue <= maxValue){
+			var gridY = (canvasActualHeight - 10) * (1 - gridValue/maxValue) + this.options.padding;
+			drawLine(
+				this.ctx,
+				0,
+				gridY,
+				this.canvas.width,
+				gridY,
+				this.options.gridColor
+			);
 
-          barIndex++;
-      }
+			drawText(this.ctx, 0, gridY, "" + gridValue)
 
-      //drawing series name
-      this.ctx.save();
-      this.ctx.textBaseline="bottom";
-      this.ctx.textAlign="center";
-      this.ctx.fillStyle = "#000000";
-      this.ctx.font = "bold 14px Arial";
-      this.ctx.fillText(this.options.seriesName, this.canvas.width/2,this.canvas.height);
-      this.ctx.restore();  
+			gridValue+=this.options.gridScale;
+		}
 
+		//drawing the bars
+		var barIndex = 0;
+		var numberOfBars = this.options.data.length;
+		var barSize = (canvasActualWidth)/numberOfBars;
+
+		this.options.data.forEach((el) => {
+			console.log("categ" + el.title)
+			var val = el.value;
+			var barHeight = Math.round( (canvasActualHeight - 10) * val/maxValue);
+			drawBar(
+				this.ctx,
+				this.options.padding + barIndex * barSize + 20,
+				this.canvas.height - barHeight - this.options.padding - 10,
+				barSize,
+				barHeight,
+				this.colors[barIndex%this.colors.length]
+			);
+
+			barIndex++;
+			drawText(this.ctx, barIndex * barSize - barSize + 30, this.canvas.height - 10, "" + el.title)
+
+		}) 
   }
 }
 

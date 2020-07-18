@@ -64,7 +64,7 @@ export class RetailerPage extends Component {
         key={retailer.id}
         id={retailer.id}
         name={retailer.name}
-        address={retailer.address}
+        address={retailer.location}
         style={{marginBottom: 12}}
       /> 
     ))

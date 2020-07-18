@@ -55,8 +55,8 @@ class RetailerListEntry extends Component {
             >{this.props.name.substr(0, 1).toUpperCase()}</div>
           </Grid>
           <Grid item xs={10} style={{paddingLeft: '5%'}}>
-            <p style={{display: 'block'}}>{this.props.name.toUpperCase()}</p>
-            <p style={{fontSize: 10}}>{this.props.address}</p>
+            <text style={{display: 'block'}}>{this.props.name.toUpperCase()}</text>
+            <text style={{fontSize: 10}}>{this.props.address}</text>
           </Grid>
 
         <Grid item xs={1}>

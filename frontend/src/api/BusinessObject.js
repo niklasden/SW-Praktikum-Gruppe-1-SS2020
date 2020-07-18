@@ -1,3 +1,10 @@
+/**
+ * @author [Niklas Denneler](https://github.com/niklasden): 
+ * 
+ * Implementation of the BusinessObject for the frontend.
+ * Will be inherited to other classes.
+ *
+ */
 export default class BusinessObject {
 
     constructor() {

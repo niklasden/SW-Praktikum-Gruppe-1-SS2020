@@ -1,6 +1,13 @@
 import BusinessObject from './BusinessObject';
 
-// By Niklas - 
+/**
+ * @author [Niklas Denneler](https://github.com/niklasden): 
+ * 
+ * Implementation of the Retailer BusinessObject for the frontend.
+ * Basic methods to set class variables, like in the backend
+ * 
+ * 
+ */
 export default class RetailerBO extends BusinessObject {
 
    constructor(n, i, l) {

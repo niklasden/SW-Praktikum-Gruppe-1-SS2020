@@ -145,26 +145,26 @@ export default class GroupShoppingList extends Component {
     return (
       <Grid 
       container
-      direction='row'
+      direction='column' //was row
       justify='center'
-      alignItems="stretch"
+      alignItems='center'
+      /*alignItems="stretch"*/
       >
       {/* <Grid item xs={12}> 
         <TextInputBar key={"search"}placeholder="search..." icon="search" />
       </Grid>
       */}
        <Grid item xs={6} style={{marginTop: 10, marginBottom: 10}}>
-            <FormControl style={{width: '170px', height: 35, marginLeft: 10, marginBottom: 10}}>
-                <InputLabel>Select Shopping List</InputLabel>
+            <FormControl style={{width: '25ch', height: 35, marginBottom: 15, textAlign: 'center'}}>
+                <InputLabel style={{left:'13%'}}>Select Shopping List</InputLabel>
                 <Select value={this.state.selected_shoppinglist} onChange={this.handleChangeShoppinglist.bind(this)}>
-                 
                  {this.state.shoppinglists.map((item, key) => 
                       <MenuItem value={item.id}>{item.name}</MenuItem> 
-                    )}
+                  )}
                   
                 </Select>
             </FormControl>
-          </Grid>
+      </Grid>
       <Grid item xs={12}>
         {this.renderCategoryArticles()}
       </Grid>

@@ -9,35 +9,35 @@ import GroupIcon from '../../icons/Other/users.svg';
 import { Config } from '../../config';
 import ShoppingSettings from '../../../src/shoppingSettings';
 
-    const styles = theme => ({
-        root: {
-          backgroundColor: '#fafafa', 
-          borderRadius: 5, 
-        },
-        rootTwo: {
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'space-around',
-            overflow: 'hidden',
-            backgroundColor: theme.palette.background.paper,
-            margin:10,
-            marginTop:30,
-            
-          },
-          gridList: {
-            flexWrap: 'nowrap',
-        
-            // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-            transform: 'translateZ(0)',
-          },
-          title: {
-            color:"#ffffff"/*theme.palette.primary.light-blue*/
-          },
-          titleBar: {
-            background:
-              'linear-gradient(to top, rgba(0,188,212,1) 100%, rgba(0,188,212,0.3) 70%, rgba(0,88,212,0) 100%)',
-          },
-      });
+const styles = theme => ({
+  root: {
+    backgroundColor: '#fafafa', 
+    borderRadius: 5, 
+  },
+  rootTwo: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    overflow: 'hidden',
+    backgroundColor: theme.palette.background.paper,
+    margin:10,
+    marginTop:30,
+    
+  },
+  gridList: {
+    flexWrap: 'nowrap',
+
+    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+    transform: 'translateZ(0)',
+  },
+  title: {
+    color:"#ffffff"/*theme.palette.primary.light-blue*/
+  },
+  titleBar: {
+    background:
+      'linear-gradient(to top, rgba(0,188,212,1) 100%, rgba(0,188,212,0.3) 70%, rgba(0,88,212,0) 100%)',
+  },
+});
       
 /**
  * Displays all Groups specific for one user in a gridlist

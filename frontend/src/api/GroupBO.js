@@ -1,6 +1,13 @@
 import BusinessObject from './BusinessObject';
 
-// By Niklas - not finished not tested
+/**
+ * @author [Niklas Denneler](https://github.com/niklasden): 
+ * 
+ * Implementation of the Group BusinessObject for the frontend.
+ * Basic methods to set class variables, like in the backend
+ * 
+ * 
+ */
 export default class GroupBO extends BusinessObject {
 
    constructor(n, d) {

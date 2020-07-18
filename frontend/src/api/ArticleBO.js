@@ -1,5 +1,13 @@
 import BusinessObject from './BusinessObject';
 
+/**
+ * @author [Niklas Denneler](https://github.com/niklasden): 
+ * 
+ * Implementation of the Article BusinessObject for the frontend.
+ * Basic methods to set class variables, like in the backend.
+ * 
+ * 
+ */
 export default class ArticleBO extends BusinessObject {
 
    constructor(n, m, e, d) {

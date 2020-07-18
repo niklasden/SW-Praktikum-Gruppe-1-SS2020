@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Typography, withStyles, Checkbox, FormControlLabel, Button, Avatar, Box, Container, Badge, TextField } from '@material-ui/core';
 import MainButton from '../layout/MainButton';
-import AddAPhoto from '@material-ui/icons/AddAPhoto';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -10,7 +9,6 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import ShoppingSettings from '../../../src/shoppingSettings';
 import ShoppingAPI from '../../api/ShoppingAPI';
-import UserBO from '../../api/UserBO';
 import { Config } from '../../config';
 //** Start Firebase Import **/
 // Firebase App (the core Firebase SDK) is always required and must be listed first
@@ -26,10 +24,11 @@ const settingsobj = ShoppingSettings.getSettings()
  * @author [Niklas Denneler](https://github.com/niklasden): 
  * Renders a Settings Page, so the User can edit his personal details and delete his account
  * Most paramets can not be changed, because of the connection to Googles Firebase.
- * For this reason, we decided that it would be feasible to change the name which is displayed and profile pcutre
+ * For this reason, there was a profile picture upload function implented, which is not enabled at the moment.
+ * Setting up the DB side of things took more time, then I anticipated.
  * 
  * ToDo:
- * Integrate more TextFields?
+ * 
  * More advanced error handling
  * 
  * 
@@ -46,8 +45,6 @@ class AccountsPage extends Component {
 			lastname: "",
 			location: "",
 			email: "",
-
-
 		}
 		this.uploadedImage = React.createRef();
 		this.imageUploader = React.createRef();
@@ -83,7 +80,7 @@ class AccountsPage extends Component {
 			  /*loadingInProgress: false,
 			  loadingError: null*/
 			})
-			console.log(user);
+			/*console.log(user);*/
 			this.splitName(user[0].name);
 			}).catch(e =>
 			  this.setState({ // Reset state with error from catch 

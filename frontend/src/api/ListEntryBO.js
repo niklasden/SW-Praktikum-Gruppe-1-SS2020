@@ -1,10 +1,16 @@
 import BusinessObject from './BusinessObject';
 
+/**
+ * @author [Niklas Denneler](https://github.com/niklasden): 
+ * 
+ * Implementation of the ListEntry BusinessObject for the frontend.
+ * Basic methods to set class variables, like in the backend
+ * 
+ * 
+ */
 export default class ListEntryBO extends BusinessObject {
-
    constructor(i, ai, rei, shi, uid, gid, a, u, b, n, c, r) {
         super();
-        
         this.id = i
         this.article_id = ai
         this.retailer_id = rei
@@ -130,8 +136,6 @@ export default class ListEntryBO extends BusinessObject {
             Object.setPrototypeOf(p, ListEntryBO.prototype)
             result.push(p)
         }
-
         return result;
     }
-
 }

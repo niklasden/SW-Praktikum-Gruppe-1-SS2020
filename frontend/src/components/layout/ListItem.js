@@ -71,13 +71,13 @@ class ListItem extends Component {
       justify='center'
       alignItems='center'
       className={this.props.classes.root}
-      style={{minWidth:'300px'}}
+      style={{minWidth:'100%', marginLeft: '0'}}
     >
         <Grid item xs={2}>
           <CustomIcon style={{marginLeft:15, marginTop:0}} iconName={this.state.item.name}></CustomIcon>
           {/* <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 3}}>fastfood</Icon> */}
         </Grid>
-        <Grid item xs={5} style={{maxWidth:'165px'}} onClick={() => this.handleClick(this.state.item.id)} >
+        <Grid item xs={5} style={{maxWidth:'100%'}} onClick={() => this.handleClick(this.state.item.id)} >
           {this.props.item.name}
         </Grid>         
         <Grid item xs={3}>
