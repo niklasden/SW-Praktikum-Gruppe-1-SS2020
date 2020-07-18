@@ -75,7 +75,6 @@ class DropDownGSL extends Component {
   }
 
   render(){   
-    console.log(this.props.items);
     return (
     <ExpansionPanel>
       <ExpansionPanelSummary
@@ -87,10 +86,10 @@ class DropDownGSL extends Component {
         {this.props.ArrCategory[this.props.item]}
       </Typography>
       </ExpansionPanelSummary>
-      <ExpansionPanelDetails>
+      <ExpansionPanelDetails style={{display: 'grid'}}>
               {this.props.items.map(element => {
               if(element.category === this.props.ArrCategory[this.props.item]){
-              return <ListItem key={element.id} onClickDeleteButton={()=>this.props.onClickDeleteButton(element.id)} item={element} user={this.state.user} retailer={this.state.retailer} fetchItems={this.props.fetchItems}></ListItem>
+              return <ListItem style={{marginLeft: 0}} key={element.id} onClickDeleteButton={()=>this.props.onClickDeleteButton(element.id)} item={element} user={this.state.user} retailer={this.state.retailer} fetchItems={this.props.fetchItems}></ListItem>
             }
           })}
       </ExpansionPanelDetails>

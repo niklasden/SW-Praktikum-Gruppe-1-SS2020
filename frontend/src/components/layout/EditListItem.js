@@ -95,21 +95,17 @@ class EditListItem extends Component {
   render() {
     
     return (
-<Dialog 
-        open={this.props.open}
-        aria-labelledby="alert title"
-        aria-describedby="description" 
-      >
+
+    <Dialog open={this.props.open} aria-labelledby="alert title" aria-describedby="description">
       <DialogTitle id="alert title" style={{textAlign: "center"}}>{"Edit "+this.state.item.name}</DialogTitle>
       <DialogContent>
-      </DialogContent>
       <Grid
         container
         direction='row'
         justify='center'
         alignItems= 'center'
         spacing={4}
-        style={{width: 'calc(100% + 15px)'}}
+        style={{width: 'calc(100% + 15px)', fontSize: '15px'}}
       >
       <Grid item xs={6} style={{paddingLeft: 25}}>
         <InputLabel>AMOUNT</InputLabel>
@@ -161,7 +157,7 @@ class EditListItem extends Component {
           BACK
         </Button>
       </DialogActions>
-      
+      </DialogContent>
     </Dialog>
     )
 }}
