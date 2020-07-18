@@ -261,7 +261,8 @@ class SpecificGroup extends Component {
           const rb = {
             id: latestShoppinglistID,
             name: newShoppinglistName,
-            group_id: settingsobj.onlySettingsGetSettingsGroupID()
+            group_id: settingsobj.onlySettingsGetSettingsGroupID(),
+            creationdate: "2020-03-20T14:30:43"
           }
           const requestBody = JSON.stringify(rb)
           const rInit = {
