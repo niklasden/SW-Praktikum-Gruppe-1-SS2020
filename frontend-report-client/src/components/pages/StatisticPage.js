@@ -114,11 +114,21 @@ class StatisticPage extends Component {
 
 	}
 	render() { 
-		const retailerChartData = {}
+		const retailerChartData = []
 		this.state.retailers.forEach(d => {
-			retailerChartData["" + d.retailer_name.toString()] =  d.amount
+			retailerChartData.push({
+				title: d.retailer_name,
+				value: d.amount
+			})
 		})
-		retailerChartData["jkfldas"] = 20
+
+		const productsChartData = []
+		this.state.products.forEach(d => {
+			productsChartData.push({
+				title: d.article_name,
+				value: d.number_bought
+			})
+		})
 
 		var myVinyls = [
 			{
@@ -151,11 +161,27 @@ class StatisticPage extends Component {
 											:
 							<>
 									<Grid align='center'>
-										<BarChart 
-											width={window.innerWidth - 50}
-											data={myVinyls}
-											title='Einzelhändler'
-										/>
+											<BarChart 
+												width={window.innerWidth - 50}
+												data={myVinyls}
+												title='Einzelhändler'
+											/>
+
+										{retailerChartData.length != 0 &&
+											<BarChart 
+												width={window.innerWidth - 50}
+												data={retailerChartData}
+												title='Einzelhändler'
+											/>
+										}
+
+										{productsChartData.length != 0 &&
+											<BarChart 
+												width={window.innerWidth - 50}
+												data={productsChartData}
+												title='Einzelhändler'
+											/>
+										}
 										
 									</Grid>
 									<LoadingProgress show={dataLoading} />
