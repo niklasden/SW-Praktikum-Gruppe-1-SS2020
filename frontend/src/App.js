@@ -72,15 +72,12 @@ class App extends React.Component {
         
     // Init an empty state
     this.state = {
-	  currentUser: {
-		  displayName: "",
-		
-		},
+	  currentUser: null,
       appError: null,
       authError: null,
 	  authLoading: false,
 	  isNavHidden: false,
-	  currentUserID: 0,
+	  currentUserID: null,
 	  isloaded:false
 	  
 	};
@@ -146,6 +143,7 @@ class App extends React.Component {
 		const res = await json.json();
 		settingsOptions.setCurrentUserID(res.id)
 		this.setState({currentUserID:res.id})
+		//console.log("here" + this.state.currentUserID)
 	}
   /** 
 	 * Create an error boundary for this app and recieve all errors from below the component tree.
@@ -230,8 +228,9 @@ class App extends React.Component {
     render(){
 		//const userr = { name: this.state.currentUser.displayName, id:this.state.currentUserID } //hier muss dann die id übergeben werden .. 
 		document.title = 'iKaufa';
-		const { currentUser, appError, authError, authLoading,isNavHidden } = this.state;
-		console.log(this.state.currentUser)
+		const { currentUser,currentUserID, appError, authError, authLoading,isNavHidden } = this.state;
+		//console.log(this.state.currentUser, this.state.currentUserID)
+		//const ID = this.state.currentUserID
 		//Context set init values 
 		
 		
@@ -250,10 +249,11 @@ class App extends React.Component {
 								// geändert von chris, um im dev prozess den signin zu umgehen, muss wieder 
 								// TODO: muss wieder in currentUser umbenannt werden
 								// Is a user signed in?
-								currentUser ?
+								currentUser && currentUserID ?  //currentUserID for context 
+							
 									<>
 										{/* Here should the redirects go */}
-										<SettingsContextProvider value={{user:{ name: this.state.currentUser.displayName, id:this.state.currentUserID }}}>
+										<SettingsContextProvider value={{user:{ name: currentUser.displayName, id:currentUserID } ,currentGroupID:0}}>
 											<Switch>
 												<Route path="/about">
 													<AboutPage />

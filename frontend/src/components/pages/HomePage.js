@@ -9,7 +9,7 @@ import {Link} from 'react-router-dom'
 import GroupsGridList from '../layout/AllGroupsGridList'
 import ShoppingSettings from '../../../src/shoppingSettings'
 
-import {SettingsContext} from '../../settingsContext'
+import {SettingsContext} from '../../settingsContext' //only for context
 
 const styles = theme => ({
   root: {
@@ -25,27 +25,20 @@ const styles = theme => ({
   *  
   */
 export class HomePage extends Component {
-  static contextType = SettingsContext 
+  static contextType = SettingsContext   //only for context  
   
   
   render(){
-    console.log(this.context)
+    // context:
     const { user} = this.context;
+    const {currentGroupID}  = this.context;
     const {setUser} = this.context;
+    const {setCurrentGroupID} = this.context;
     const cu = {name:"cu", id:2}
+    //end context
+    
     return (
       <>
-       <div>
-      <button
-        onClick={() => {
-          setUser(cu)
-        }}
-      >
-        Update User
-      </button>
-      
-    </div>  
-        <div>{user.name}   {user.id}</div>
         <HeaderButton/>
         <Grid
           container
