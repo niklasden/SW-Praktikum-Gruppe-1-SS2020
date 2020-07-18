@@ -282,7 +282,7 @@ class ShoppingAdministration (object):
 
     def delete_shoppinglist(self, shopping_list):
         with ShoppingListMapper() as mapper:
-            return mapper.delete(shopping_list)
+            return mapper.delete(shopping_list)  #check if any listentry exists -> delete them 
 
     def insert_shoppinglist(self, shopping_list):
         with ShoppingListMapper() as mapper:

@@ -113,7 +113,7 @@ class ShoppingListMapper (Mapper):
 
         cursor.execute("SELECT ID,`Group_ID`,`Article_ID`,`amount`, `unit`,`Retailer_ID` FROM FavoriteArticle WHERE Group_ID={0}".format(group_id))
         tuples = cursor.fetchall()
-        print(tuples[0])
+        
         insertArticlesStatemenet = ""
         try:
             for (id,gid,article_id,amount,unit,retailer_id) in tuples:
