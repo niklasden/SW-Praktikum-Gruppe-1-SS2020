@@ -14,9 +14,17 @@ const styles = theme => ({
     root: {
       flexGrow: 1,
       padding: theme.spacing(2),
+      marginBottom: 50
     },
     article: {
-      padding: theme.spacing(0), 
+      display: 'flex', 
+      justifyContent: 'center' 
+    },
+    loading: {
+      width: '100%'
+    }, 
+    favProducts: {
+      marginLeft: 10
     }
  });
 
@@ -182,7 +190,8 @@ class ProductsPage extends Component {
   render(){
     const classes = this.props.classes
     return(
-      <Grid container className={classes.root} >
+      <Grid container 
+      className={classes.root}>
         <Grid container spacing={1}>
           <Grid item xs={8}>
             <TextInputBar placeholder="search..." icon="search" onChange={(elem) => this.setState({ searchValue: elem.target.value})}/>
@@ -191,14 +200,16 @@ class ProductsPage extends Component {
             <Link to="/create_article">
               <IconButton icon='add' />
             </Link>
-            <Link to="/favorite_products" style={{marginLeft: "10px"}}>
-              <IconButton icon='star' />
+            <Link to="/favorite_products" className = {classes.favProducts}>
+              <IconButton icon='star'/>
             </Link>
           </Grid>
         </Grid>
-        <div style={{width: '100%'}}>
+        <div 
+        className= {classes.loading}
+        >
           {this.state.loadingInProgress ?
-              <div style={{display: 'flex', justifyContent: 'center'}}>
+              <div className = {classes.article}>
                 <CircularProgress size={25} />
               </div>
             :  
