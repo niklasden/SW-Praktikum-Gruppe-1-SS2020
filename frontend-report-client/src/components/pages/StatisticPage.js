@@ -159,7 +159,7 @@ class StatisticPage extends Component {
 				{error ?
 					<ContextErrorMessage error={error} contextErrorMsg={`Data could not be loaded. Check if database server is running.`} />
 				:
-					<>
+					<div style={{marginBottom: 70}}>
 						<LoadingProgress show={dataLoading} />
 						<Heading>GRUPPE AUSWÄHLEN</Heading>
 						<FormControl className={classes.formControl} >
@@ -206,7 +206,7 @@ class StatisticPage extends Component {
 						<Link to={`./show/${this.state.selectedGroup}`}>
 							<MainButton>STATISTIK ANZEIGEN</MainButton>
 						</Link>
-					</>
+					</div>
 				}
 			</>
 		);
