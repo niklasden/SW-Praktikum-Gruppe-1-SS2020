@@ -4,6 +4,7 @@ import GroupBO from './GroupBO';
 import ListEntryBO from './ListEntryBO';
 import UserBO from './UserBO';
 import RetailerBO from './RetailerBO';
+import ShoppinglistBO from './ShoppinglistBO';
 
 /**
  * Abstracts the REST interface of the Python backend with convenient access methods.
@@ -31,7 +32,7 @@ export default class ShoppingAPI {
     #getGroupsforUserURL = (userid) => `${this.#baseServerURL}/Group/Usergroup/${userid}`;
     #deleteGroupURL = (id) => `${this.#baseServerURL}/Group/${id}`;
     #saveGroupURL = () => `${this.#baseServerURL}/Group/`;
-    #getunassigneditemssofGroupURL = (group_id) => `${this.#baseServerURL}/Listentry/get_unassigned_items_of_group/${group_id}`; 
+    #getunassigneditemssofGroupURL = (group_id, shoppinglist_id) => `${this.#baseServerURL}/Listentry/get_unassigned_items_of_group/?group_id=`+ group_id +`&shoppinglist_id=`+ shoppinglist_id; 
     
     
     //ListEntry URLs
@@ -44,7 +45,11 @@ export default class ShoppingAPI {
 
 
     //Retailer URLs
-    #getRetailers = () => `${this.#baseServerURL}/Retailer`;
+    #getRetailersURL = () => `${this.#baseServerURL}/Retailer`;
+
+
+    //Shoppinglist URLS
+    #getShoppinglistsofGroupURL = (groupid) => `${this.#baseServerURL}/shoppinglist/?group_id=${groupid}`;
 
 
     /** 
@@ -139,16 +144,20 @@ export default class ShoppingAPI {
     }
     */
 
-    getunassignedItemsofGroup(id) {
-        return this.#fetchAdvanced(this.#getunassigneditemssofGroupURL(id)).then((responseJSON) => {
+    getunassignedItemsofGroup(group_id, shoppinglist_id) {
+        return this.#fetchAdvanced(this.#getunassigneditemssofGroupURL(group_id, shoppinglist_id), {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json, text/plain',
+                'Content-type': 'application/json',
+            },
+        }).then((responseJSON) => {
             let listentryBOs = ListEntryBO.fromJSON(responseJSON);
-            /*console.info(listentryBOs);*/
             return new Promise(function (resolve) {
-                 resolve(listentryBOs);
+                resolve(listentryBOs);
             })
         })
     }
-
 
     insertListentry(listentryBO){
 
@@ -187,7 +196,6 @@ export default class ShoppingAPI {
         })
     }
 
-
     getUsers(groupBO){
         return this.#fetchAdvanced(this.#getUsersURL(groupBO)).then((responseJSON) => {
             let userBOs = UserBO.fromJSON(responseJSON);
@@ -207,9 +215,8 @@ export default class ShoppingAPI {
         })
     }
 
-
     getRetailers(){
-        return this.#fetchAdvanced(this.#getRetailers()).then((responseJSON) => {
+        return this.#fetchAdvanced(this.#getRetailersURL()).then((responseJSON) => {
             let retailerBOs = RetailerBO.fromJSON(responseJSON);
             // console.info(retailerBOs);
             return new Promise(function (resolve) {
@@ -217,5 +224,17 @@ export default class ShoppingAPI {
             })
         })
     }
+
+    getShoppinglistofGroup(groupid){
+        return this.#fetchAdvanced(this.#getShoppinglistsofGroupURL(groupid)).then((responseJSON) => {
+            let shoppinglistBOs = ShoppinglistBO.fromJSON(responseJSON);
+            //console.info(shoppinglistBOs);
+            return new Promise(function (resolve) {
+                resolve(shoppinglistBOs)
+            })
+        })
+    }
+
+
 }
 

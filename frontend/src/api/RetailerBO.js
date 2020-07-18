@@ -1,6 +1,6 @@
 import BusinessObject from './BusinessObject';
 
-// By Niklas - not finished not tested
+// By Niklas - 
 export default class RetailerBO extends BusinessObject {
 
    constructor(n, i, l) {
@@ -35,19 +35,19 @@ export default class RetailerBO extends BusinessObject {
     }
 
     // Returns an Array of ProductBOs from a given JSON structure
-    static fromJSON(groups) {
+    static fromJSON(retailers) {
         let result = [];
 
-        if (Array.isArray(groups)) {
-            groups.forEach((group) => {
-                Object.setPrototypeOf(group, RetailerBO.prototype)
-                result.push(group)
+        if (Array.isArray(retailers)) {
+            retailers.forEach((retailer) => {
+                Object.setPrototypeOf(retailer, RetailerBO.prototype)
+                result.push(retailer)
             })
         } else {
             // Es handelt sich offenbar um ein singuläres Objekt
-            let group = groups;
-            Object.setPrototypeOf(group, RetailerBO.prototype)
-            result.push(group)
+            let retailer = retailers;
+            Object.setPrototypeOf(retailer, RetailerBO.prototype)
+            result.push(retailer)
         }
         return result;
     }

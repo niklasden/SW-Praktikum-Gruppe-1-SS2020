@@ -41,7 +41,8 @@ class ListItem extends Component {
     this.handleClick = this.onClickItem.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.PressButtonBack = this.PressButtonBack.bind(this);
-
+    this.PressButtonConfirm = this.PressButtonConfirm.bind(this);
+    
   }
   onClickItem(id) {
     this.setState({open : true})
@@ -55,9 +56,10 @@ class ListItem extends Component {
   PressButtonBack(){
     this.setState({open : false})
   }
-
-  
-  
+  PressButtonConfirm(){
+    this.setState({open : false})
+    console.log(this.props.fetchItems());
+  }
 
   render() {
     const open = Boolean(this.state.anchorEl);
@@ -72,15 +74,15 @@ class ListItem extends Component {
       style={{minWidth:'300px'}}
     >
         <Grid item xs={2}>
-          <CustomIcon style={{marginLeft:15, marginTop:0}} iconName={this.props.item.name}></CustomIcon>
+          <CustomIcon style={{marginLeft:15, marginTop:0}} iconName={this.state.item.name}></CustomIcon>
           {/* <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 3}}>fastfood</Icon> */}
         </Grid>
         <Grid item xs={5} style={{maxWidth:'165px'}} onClick={() => this.handleClick(this.state.item.id)} >
-          {this.state.item.name}
+          {this.props.item.name}
         </Grid>         
         <Grid item xs={3}>
-          {this.state.item.amount}
-          {this.state.item.unit}
+          {this.props.item.amount}
+          {this.props.item.unit}
         </Grid>
         <Grid item xs={2} onClick={() => this.props.onClickDeleteButton()} >
           <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 5}}>delete</Icon>
@@ -91,6 +93,7 @@ class ListItem extends Component {
           user={this.props.user} 
           retailer={this.props.retailer} 
           PressButtonBack={() => this.PressButtonBack()}
+          PressButtonConfirm={() => this.PressButtonConfirm()}
         />
     </Grid>
     );

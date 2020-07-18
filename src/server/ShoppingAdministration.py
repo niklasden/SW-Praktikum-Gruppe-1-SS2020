@@ -192,9 +192,9 @@ class ShoppingAdministration (object):
             result = mapper.delete(listentry)
             return result
     
-    def get_items_of_group(self, group_id):
+    def get_items_of_group(self, group_id, shoppinglist_id):
         with ListEntryMapper() as mapper:
-            result = mapper.get_items_of_group(group_id)
+            result = mapper.get_items_of_group(group_id, shoppinglist_id)
             return result
             
     #Report Kevin
@@ -310,9 +310,7 @@ class ShoppingAdministration (object):
         with fam() as mapper:
             return mapper.find_by_key(id)
             
-    
     def get_FavoriteArticles_by_groupid(self,gid):
-        
         with fam() as mapper:
             return mapper.find_by_group(gid)
     
