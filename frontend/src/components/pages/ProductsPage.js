@@ -26,8 +26,6 @@ const styles = theme => ({
     favProducts: {
       marginLeft: 10
     }
-
-
  });
 
 const articleIDIconMapper = {
