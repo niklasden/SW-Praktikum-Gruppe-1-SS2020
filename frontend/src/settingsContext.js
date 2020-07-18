@@ -1,41 +1,40 @@
-import React, { Component } from 'react'
+import React, { Component,createContext } from 'react'
 
-const SettingsContext = React.createContext({name: "default"})
+
+export const SettingsContext = createContext();
 
 /* export const SettingsProvider = SettingsContext.Provider
 export const SettingsConsumer = SettingsContext.Consumer
 
  */
 
-class SettingsProvider extends Component {
+class SettingsContextProvider extends Component {
     state = {
-        userr: {},
+        user: this.props.value.user
+    }
+    
+    setUser = (uc) => { 
+        /* this.setState({user:{name:"changed"}}) */
+        this.setState({user:uc})
     }
 
-    setUser = (userr) => {
-        this.setState((prevState) => ({userr}))
-    }
+    
+    
+
+    
 
     render(){
-        const { children } = this.props
-        const { userr } = this.state    //multiple ? 
-        const { setUser } = this
-
+        console.log(this.state.user)
         return ( 
-            <SettingsContext.Provider
-                value={{
-                    userr,
-                    setUser,
-                }}
-                >
-                    {children}
-                </SettingsContext.Provider>
+            <SettingsContext.Provider value={{...this.state, setUser: this.setUser}}>
+                {this.props.children}
+            </SettingsContext.Provider>
+            
+
         )
 
     }
 
 
 } 
-export default SettingsContext
-
-export {SettingsProvider}
+export default SettingsContextProvider
