@@ -30,17 +30,18 @@ import GroupBO from '../../api/GroupBO';
 import ShoppingSettings from '../../shoppingSettings'
 
 const settingsObject = ShoppingSettings.getSettings()
+
 const useStyles = (theme) => ({
   root: {
   },
   icon: {
-      fontSize: 48,
+		fontSize: 48,
   },
   CreateButton: {
-      justifyContent: 'left'
+		justifyContent: 'left'
   },
   title: {
-      fontWeight: "bold"
+		fontWeight: "bold"
   }
 });
 
@@ -59,32 +60,32 @@ const useStyles = (theme) => ({
  * 
  */
 class CreateGroup extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        dense: 'false',
-        open: false,
-        groupMembers: [
-            
-          ],
-          inputval: '',
-          groupnameval:'',
-          fetchuser: ''
-      }
-      this.deleteMember = this.deleteMember.bind(this);
-      // this.saveGroup = this.saveGroup.bind(this);
+  constructor(props) {
+    super(props);
+    this.state = {
+    dense: 'false',
+    open: false,
+    groupMembers: [
+        
+      ],
+      inputval: '',
+      groupnameval:'',
+      fetchuser: ''
     }
+    this.deleteMember = this.deleteMember.bind(this);
+    // this.saveGroup = this.saveGroup.bind(this);
+  }
 
-    deleteMember(id) {
-        //array kopieren, element löschen, neues array als state setzen
-        this.setState(prevState => ({
-            groupMembers: prevState.groupMembers.filter(item => item !== id)
-       }))
-    };
+  deleteMember(id) {
+    //array kopieren, element löschen, neues array als state setzen
+    this.setState(prevState => ({
+      groupMembers: prevState.groupMembers.filter(item => item !== id)
+    }))
+  };
 
-    addMember(id) {
-        this.setState({groupMembers: [...this.state.groupMembers, {firstname: this.state.inputval, } ]})
-    }
+  addMember(id) {
+    this.setState({groupMembers: [...this.state.groupMembers, {firstname: this.state.inputval, } ]})
+  }
 
   render(){
     const { classes } = this.props;
@@ -93,52 +94,44 @@ class CreateGroup extends Component {
     var groupMembers = this.state.groupMembers;
     
     const handleClickOpen = () => {
-        this.setState({open:true})
+			this.setState({open:true})
     };
     
     const handleClose = () => {
-        this.setState({open:false})
+			this.setState({open:false})
     };
     const UserExistCheck = (id) => {
       var r = false 
       this.state.groupMembers.forEach(elem => {
         if(elem.id == id){r = true }  
-      }
-      
-      )
+			})
+			
       if(r == true){
         alert("User already exists !")
         return true
-      }else{return false; }
- 
-    
+      } else {
+				return false; 
+			}  
     } 
-    
 
     const fetchUser = async (email) => {
-        try {
-            
-            let response = await fetch(Config.apiHost + '/User/email/' + email );
-            let data = await response.json()
-            console.log(data);
-            if (data.name != null){
-              
-              
-              if(UserExistCheck(data.id) == false)
-              {
-                this.setState({groupMembers: this.state.groupMembers.concat(data)})
-              }
-              }
-            else{
-              alert("No user with this email!")
-            }
-           
-        }
-        catch (error) {
-            console.log(error)
-            alert(error)
-        }
-        
+			try {
+					
+				let response = await fetch(Config.apiHost + '/User/email/' + email );
+				let data = await response.json()
+				console.log(data);
+				if (data.name != null){
+					if(UserExistCheck(data.id) == false){
+						this.setState({groupMembers: this.state.groupMembers.concat(data)})
+					}
+				} else {
+					alert("No user with this email!")
+				}
+			}
+			catch (error) {
+				console.log(error)
+				alert(error)
+			}
     };
 
     /** 
@@ -174,27 +167,27 @@ class CreateGroup extends Component {
 
     const saveMembershipForCurrentUser = async (gid) => {
       try{
-          const rb = {
-            User_ID: settingsObject.getCurrentUserID(), 
-            Group_ID: gid 
-          }
-          const requestBody = JSON.stringify(rb)
-            const rInit = {
-              method: 'POST', 
-              headers: {
-                'Content-Type': 'application/json'
-              }, 
-              body: requestBody
-            } 
-            const resp = await fetch(Config.apiHost + '/membership', rInit)
-            if(resp.ok){
-              console.log(resp)}
-          }
-        catch (error){
-          console.log(error)
-        }
-        
-      }
+				const rb = {
+					User_ID: settingsObject.getCurrentUserID(), 
+					Group_ID: gid 
+				}
+				const requestBody = JSON.stringify(rb)
+				const rInit = {
+					method: 'POST', 
+					headers: {
+						'Content-Type': 'application/json'
+					}, 
+					body: requestBody
+				} 
+				const resp = await fetch(Config.apiHost + '/membership', rInit)
+				if(resp.ok){
+					console.log(resp)
+				}
+			}
+			catch (error){
+				console.log(error)
+			} 
+		}
 
     const saveMemberships = async (gid) => {
       try{
@@ -252,19 +245,19 @@ class CreateGroup extends Component {
             saveMembershipForCurrentUser(respjson.id)
             saveMemberships(respjson.id)
 
-          }catch (error){
+          } catch (error){
             console.log(error)
           }
 
-            this.props.history.push('/settings')
+					this.props.history.push('/settings')
         } else {
           alert("error")
         }
-          alert('The group was saved')
+        // alert('The group was saved')
       }
       catch (error) {
-          //needs more advanced error handling
-          console.log(error)
+				//needs more advanced error handling
+				console.log(error)
       } 
     }
  

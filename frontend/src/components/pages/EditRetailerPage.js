@@ -173,7 +173,10 @@ class CreateRetailerPage extends Component {
               <div style={{display: 'flex', flexDirection: 'row'}}>
                 <MainButton onclick={this.onClickSave.bind(this)}>Speichern</MainButton>
                 <div style={{marginLeft: 12}}>
-                  <MainButton onclick={this.onClickDelete.bind(this)}>Löschen</MainButton>
+                  <MainButton 
+                    onclick={this.onClickDelete.bind(this)}
+                    disabled={this.state.id === ''}
+                  >Löschen</MainButton>
                 </div>
               </div>
   

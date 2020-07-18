@@ -45,7 +45,7 @@ class ShoppingList(bo.BusinessObject):
         obj.set_id(dictionary["id"])
         obj.set_name(dictionary["name"])
         obj.set_group_id(dictionary["group_id"])
-        obj.set_creationdate(dictionary["creationdate"])
+        #obj.set_creationdate(dictionary["creationdate"])
         return obj
 
 

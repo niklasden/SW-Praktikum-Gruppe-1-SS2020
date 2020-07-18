@@ -57,9 +57,9 @@ class ReportGenerator(Mapper):
         except Exception as e:
             print(e)
             print("Error while fetching report tuple! Something's wrong with the database-result!")
-        finally:
-            cursor.close()
-            return report
+
+        cursor.close()
+        return report
 
     def get_top_3_articles(self, group_id):
         """
