@@ -52,19 +52,19 @@ export default class UserBO extends BusinessObject {
         return this.location 
     }
     // Returns an Array of ProductBOs from a given JSON structure
-    static fromJSON(groups) {
+    static fromJSON(users) {
         let result = [];
 
-        if (Array.isArray(groups)) {
-            groups.forEach((group) => {
-                Object.setPrototypeOf(group, UserBO.prototype)
-                result.push(group)
+        if (Array.isArray(users)) {
+            users.forEach((user) => {
+                Object.setPrototypeOf(user, UserBO.prototype)
+                result.push(user)
             })
         } else {
             // Es handelt sich offenbar um ein singuläres Objekt
-            let group = groups;
-            Object.setPrototypeOf(group, UserBO.prototype)
-            result.push(group)
+            let user = users;
+            Object.setPrototypeOf(user, UserBO.prototype)
+            result.push(user)
         }
         return result;
     }

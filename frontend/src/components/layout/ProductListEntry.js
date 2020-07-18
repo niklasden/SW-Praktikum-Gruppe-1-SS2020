@@ -36,7 +36,12 @@ const styles = theme => ({
 
   //TODO: Funktion, die Artikel auf die Gruppeneinkaufsliste setzt
   onSave= () => {
-    this.state= {id: this.props.id, name: this.props.name, category: this.props.category}
+    //this.state= {id: this.props.id, name: this.props.name, category: this.props.category}
+    /**<GroupShoppingList 
+    id={item.id}
+    name={item.name}
+    category = {item.category} 
+      />*/
     }
   
      
@@ -51,7 +56,8 @@ const styles = theme => ({
             xs={3}
             >
               <ButtonBase
-                onClick={this.onSave}>
+                onClick={this.onSave}
+                >
                 <Article 
                 id = {this.props.id}
                 itemname={this.props.name} 

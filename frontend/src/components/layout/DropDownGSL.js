@@ -16,6 +16,7 @@ const settingsobj = ShoppingSettings.getSettings()
 /**
  * 
  * @author [Pascal Illg](https://github.com/pasillg)
+ * @author [Niklas Denneler] (https://github.com/niklasden)
  * 
 */
 
@@ -34,6 +35,7 @@ class DropDownGSL extends Component {
     this.setState({anchorEl: event.currentTarget});
   };
 
+  /*
   handleChangeUnit(v) {
     this.setState({unit: v});
     var newList = [...this.state.items];
@@ -44,6 +46,7 @@ class DropDownGSL extends Component {
     }
     this.setState({items: newList});
   }
+  */
   
   fetchGroupMembers = () => {
     ShoppingAPI.getAPI().getUsers(settingsobj.getGroupID()).then(userBOs => {
@@ -73,9 +76,8 @@ class DropDownGSL extends Component {
     this.fetchGroupMembers();
   }
 
-  render(){
-    //this.getGroupMembers(); is not working rn, need user objects from julius
-    
+  render(){   
+    console.log(this.props.items);
     return (
     <ExpansionPanel>
       <ExpansionPanelSummary
@@ -88,9 +90,9 @@ class DropDownGSL extends Component {
       </Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
-              {this.props.Useritems.map(element => {
+              {this.props.items.map(element => {
               if(element.category === this.props.ArrCategory[this.props.item]){
-              return <ListItem key={element.id} onClickDeleteButton={()=>this.props.onClickDeleteButton(element.id)} item={element} user={this.state.user} retailer={this.state.retailer}></ListItem>
+              return <ListItem key={element.id} onClickDeleteButton={()=>this.props.onClickDeleteButton(element.id)} item={element} user={this.state.user} retailer={this.state.retailer} fetchItems={this.props.fetchItems}></ListItem>
             }
           })}
       </ExpansionPanelDetails>
@@ -100,7 +102,6 @@ class DropDownGSL extends Component {
 }
 
 DropDownGSL.propTypes = {
-  Useritems: PropTypes.array.isRequired,
   ArrCategory: PropTypes.array.isRequired,
   item: PropTypes.string.isRequired,
 }
