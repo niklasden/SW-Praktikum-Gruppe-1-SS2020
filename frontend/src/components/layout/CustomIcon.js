@@ -67,7 +67,7 @@ const icons = {
   wine:wineIcon,
   cola:colaIcon,
   water:waterIcon,
-  icecream:icecreamIcon,
+  "ice cream":icecreamIcon,
   donut:donutIcon,
   chips:chipsIcon,
   popcorn:popcornIcon,
