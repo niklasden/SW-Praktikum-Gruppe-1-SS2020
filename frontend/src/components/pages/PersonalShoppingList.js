@@ -7,6 +7,7 @@ import { Config } from '../../config'
 import ShoppingSettings from '../../shoppingSettings'
 import ListEntryBO from '../../api/ListEntryBO';
 import ShoppingAPI from '../../api/ShoppingAPI';
+import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress'
 
 /**
  * Displays the PersonalShoppingList as designed in Figma. All items to be purchased by a person are listed on the list and can be ticked off the list. Finally the user can complete the shopping. 
@@ -32,38 +33,34 @@ export default class PersonalShoppingList extends Component {
 }
 
 newItem = () => {
-  ShoppingAPI.getAPI().personalItems(this.state.currentUserID, this.state.groupID).then(items => {this.setState({items : items})}).catch(e => console.log(e))
+  this.setState({loadingInProgress : true})
+  ShoppingAPI.getAPI().personalItems(this.state.currentUserID, this.state.groupID)
+  .then(items => {
+    this.setState({items : items, loadingInProgress : false})
+  })
+  .catch(e => {
+    console.log(e) 
+    this.setState({loadingInProgress : false})
+  })
 }
 
 componentDidMount(){
-  this.getListEntrys()
   this.newItem()
+  this.getItemsFromLocalStorage()  
 }
 
-/** Fetches ListEntrysBOs for the current group */
-async getListEntrys(){
-  this.setState({
-    loadingInProgress: true, 
-  })
+async getItemsFromLocalStorage(){
 
-  setTimeout(async () => {
-    try {
-      // TODO: change to real api
-      const res = await fetch(Config.apiHost + '/Listentry/get_personal_items_of_group/')
-      const json = await res.json()
-
-      this.setState({
-        loadingInProgress: false, 
-        loadingRetailersError: null, 
-        items: json, 
-      })
-    } catch (e){
-      this.setState({
-        loadingInProgress: false, 
-        loadingRetailersError: '', 
-      })
-    } 
-  }, 1000)
+  try {
+    let itemsunparsed = localStorage.getItem('checkeditems')
+    console.log(itemsunparsed)
+    let items = await JSON.parse(itemsunparsed)
+    console.log(items)
+    if (items.length > 0){
+      this.setState({checkedItems : items})
+    }
+  }
+  catch{}
 }
 
 createUserItem(){
@@ -206,6 +203,7 @@ handleChangeCheckbox(id){
         }
       }
     })
+    localStorage.setItem('checkeditems', JSON.stringify(this.state.checkedItems))
   }
   else {
   checkedItems.map( item => {
@@ -222,6 +220,7 @@ handleChangeCheckbox(id){
       }
     }
   })
+  localStorage.setItem('checkeditems', JSON.stringify(this.state.checkedItems))
  }
 }
 
@@ -237,7 +236,7 @@ PurchaseCompleted(){
   
   Arr.map( item => {
     let updatedItem = Object.assign(new ListEntryBO(), item);
-    updatedItem.setBought(Date.now());
+    updatedItem.setBought("date");
     updatedItem.setRetailerid(null)
 
     console.log(updatedItem)
@@ -314,7 +313,11 @@ render(){
       </Grid>
     </Grid>
     <Grid>
-      {this.renderMyShoppingList()}
+      {this.state.loadingInProgress ?
+      <div style={{display: 'flex', justifyContent: 'center'}}>
+        <CircularProgress size={25} />
+      </div> : 
+      this.renderMyShoppingList()}
       {this.handlePopUp()}
     </Grid>
     </Grid>

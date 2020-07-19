@@ -257,38 +257,46 @@ class ListEntryMapper(Mapper):
         le = ListEntry()
         le = self.find_by_key(listentry.get_id())
 
-        if listentry.get_article() != "":
+        if listentry.get_article() != "" and listentry.get_article() is not None:
             le.set_article(listentry.get_article())
-        if listentry.get_retailer() != "":
+        if listentry.get_retailer() != "" and listentry.get_retailer() is not None:
             le.set_retailer(listentry.get_retailer())
-        if listentry.get_shoppinglist() != "":
+        if listentry.get_shoppinglist() != "" and listentry.get_shoppinglist() is not None:
             le.set_shoppinglist(listentry.get_shoppinglist())
-        if listentry.get_user() != "":
+        if listentry.get_user() != "" and listentry.get_user() is not None:
             le.set_user(listentry.get_user())  
-        if listentry.get_group() != "":
+        if listentry.get_group() != "" and listentry.get_group() is not None:
             le.set_group(listentry.get_group())
-        if listentry.get_amount() != "":
+        if listentry.get_amount() != "" and listentry.get_amount() is not None:
             le.set_amount(listentry.get_amount())
-        if listentry.get_unit() != "":
+        elif le.get_amount() is None:
+            le.set_amount('NULL')
+        if listentry.get_unit() != "" and listentry.get_unit() is not None:
             le.set_unit(listentry.get_unit())
-        if listentry.get_buy_date() != None:
+        if listentry.get_buy_date() != "" and listentry.get_buy_date() is not None:
             date = datetime.date.today()
             print(date)
             le.set_buy_date(date)
-            print(listentry.get_buy_date())
+            print(le.get_buy_date())
 
         try:
             cursor = self._cnx.cursor()
-            command = """UPDATE Listentry SET Article_ID=%s, Retailer_ID=%s, Shoppinglist_ID=%s, User_ID=%s, Group_ID=%s, amount=%s, unit=%s, bought=%s WHERE ID=%s"""
-            data = (le.get_article(), le.get_retailer(), le.get_shoppinglist(), le.get_user(), le.get_group(), le.get_amount(), str(le.get_unit()), le.get_buy_date(), le.get_id())
+            unit = "'" + le.get_unit() + "'"
+            if le.get_unit() == "None":
+                unit = "NULL"
+            command = """UPDATE Listentry SET Article_ID={0}, Retailer_ID={1}, Shoppinglist_ID={2}, User_ID={3}, Group_ID={4}, amount={5}, unit={6}, bought='{7}' WHERE ID={8}""".format(le.get_article(), le.get_retailer(), le.get_shoppinglist(), le.get_user(), le.get_group(), le.get_amount(), unit, le.get_buy_date(), le.get_id())
+
+            print(command)
             
-            cursor.execute(command, data)
+            cursor.execute(command)
             self._cnx.commit()
             cursor.close()
             return listentry
 
         except Exception as e:
+            print(str(e))
             return "Error in update ListEntry ListEntryMapper: " + str(e)
+           
 
     def delete(self, listentry):
         """
@@ -315,7 +323,7 @@ class ListEntryMapper(Mapper):
         cursor = self._cnx.cursor()
         print(user_id )
         print("group" + group_id)
-        statement = "SELECT Listentry.ID, Article.name as 'name', Category.name as 'category', Listentry.amount, Listentry.unit, Listentry.User_ID, Retailer.name as 'retailer', Article.ID FROM Listentry LEFT JOIN Retailer ON Listentry.Retailer_ID = Retailer.ID LEFT JOIN Article ON Listentry.Article_ID = Article.ID LEFT JOIN Category ON Article.CategoryID = Category.ID WHERE (Group_ID={0}) AND (User_ID={1})".format(group_id, user_id)
+        statement = "SELECT Listentry.ID, Article.name as 'name', Category.name as 'category', Listentry.amount, Listentry.unit, Listentry.User_ID, Retailer.name as 'retailer', Article.ID FROM Listentry LEFT JOIN Retailer ON Listentry.Retailer_ID = Retailer.ID LEFT JOIN Article ON Listentry.Article_ID = Article.ID LEFT JOIN Category ON Article.CategoryID = Category.ID WHERE (Group_ID={0}) AND (User_ID={1} AND (bought is NULL))".format(group_id, user_id)
 
         cursor.execute(statement)
         tuples = cursor.fetchall()
@@ -345,7 +353,7 @@ class ListEntryMapper(Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        statement = "SELECT Listentry.ID, Article.name as 'name', Category.name as 'category', Listentry.amount, Listentry.unit, Listentry.Shoppinglist_ID as 'shoppinglist_id', Listentry.User_ID as 'user_id', Retailer.name as 'retailer', Listentry.Group_ID as 'group_id', Listentry.Article_ID as 'article_id' FROM Listentry LEFT JOIN Retailer ON Listentry.Retailer_ID = Retailer.ID LEFT JOIN Article ON Listentry.Article_ID = Article.ID LEFT JOIN Category ON Article.CategoryID = Category.ID WHERE (Group_ID={0} AND Shoppinglist_ID={1})".format(group_id, shoppinglist_id)
+        statement = "SELECT Listentry.ID, Article.name as 'name', Category.name as 'category', Listentry.amount, Listentry.unit, Listentry.Shoppinglist_ID as 'shoppinglist_id', Listentry.User_ID as 'user_id', Retailer.name as 'retailer', Listentry.Group_ID as 'group_id', Listentry.Article_ID as 'article_id' FROM Listentry LEFT JOIN Retailer ON Listentry.Retailer_ID = Retailer.ID LEFT JOIN Article ON Listentry.Article_ID = Article.ID LEFT JOIN Category ON Article.CategoryID = Category.ID WHERE (Group_ID={0} AND Shoppinglist_ID={1} AND (bought is NULL))".format(group_id, shoppinglist_id)
 
         cursor.execute(statement)
         tuples = cursor.fetchall()

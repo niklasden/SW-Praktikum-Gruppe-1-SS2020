@@ -36,11 +36,10 @@ export default class ShoppingAPI {
     #getGroupsforUserURL = (userid) => `${this.#baseServerURL}/Group/Usergroup/${userid}`;
     #deleteGroupURL = (id) => `${this.#baseServerURL}/Group/${id}`;
     #saveGroupURL = () => `${this.#baseServerURL}/Group/`;
-    #getitemssofGroupURL = (group_id, shoppinglist_id) => `${this.#baseServerURL}/Listentry/get_items_of_group/?group_id=`+ group_id +`&shoppinglist_id=`+ shoppinglist_id; 
+    #getitemssofGroupURL = (group_id, shoppinglist_id) => `${this.#baseServerURL}/Listentry/get_unassigned_items_of_group/?group_id=`+ group_id +`&shoppinglist_id=`+ shoppinglist_id; 
     
     
     //ListEntry URLs
-    #insertListEntryURL = () => `${this.#baseServerURL}/Listentry/insert`;
     #updateListEntryURL = () => `${this.#baseServerURL}/Listentry/update`;
     #personalItemsURL = (user_id, group_id) => `${this.#baseServerURL}/Listentry/get_personal_items_of_group/?group_id=` + group_id + `&user_id=` + user_id;
         
@@ -156,27 +155,6 @@ export default class ShoppingAPI {
     getItemsofGroup(group_id, shoppinglist_id) {
         return this.#fetchAdvanced(this.#getitemssofGroupURL(group_id, shoppinglist_id), {
             method: 'GET',
-            headers: {
-                'Accept': 'application/json, text/plain',
-                'Content-type': 'application/json',
-            },
-        }).then((responseJSON) => {
-            let listentryBOs = ListEntryBO.fromJSON(responseJSON);
-            return new Promise(function (resolve) {
-                resolve(listentryBOs);
-            })
-        })
-    }
-
-    /**
-     * Returns a Promise, which resolves to a single listentryBO
-     * This promise will be the listentry that was updated
-     * @param {ListEntryBO} listentryBO for which the listentry should be updated
-     * @public
-     */
-    insertListEntry(listentryBO) {
-        return this.#fetchAdvanced(this.#insertListEntryURL(listentryBO), {
-            method: 'POST',
             headers: {
                 'Accept': 'application/json, text/plain',
                 'Content-type': 'application/json',
