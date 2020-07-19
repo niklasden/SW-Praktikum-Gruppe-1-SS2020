@@ -157,6 +157,8 @@ class App extends React.Component {
 	
 	/** Handles firebase usres logged in state changes  */
 	handleAuthStateChange = user => {
+
+		console.log("handleAuthStateChange ausgeführt")
 		if (user) {
 			this.setState({
 				authLoading: true
@@ -204,12 +206,19 @@ class App extends React.Component {
 	 * @see See Google [firebase.auth()](https://firebase.google.com/docs/reference/js/firebase.auth.Auth)
 	 * @see See Google [firebase.auth().signInWithRedirect](https://firebase.google.com/docs/reference/js/firebase.auth.Auth#signinwithredirect)
 	 */
-	handleSignIn = () => {
+	handleSignIn = async () => {
 		this.setState({
 			authLoading: true
 		});
 		const provider = new firebase.auth.GoogleAuthProvider();
-		firebase.auth().signInWithRedirect(provider);
+		try {
+			console.log("hello")
+			let resp = await firebase.auth().signInWithRedirect(provider);
+			console.log("redirect successfull")
+		} catch (e){
+			console.log("Error")
+			console.log(e)
+		}
 	}
 
 	/**
@@ -219,10 +228,9 @@ class App extends React.Component {
 	 * @see See Googles [firebase init process](https://firebase.google.com/docs/web/setup)
 	 */
 	componentDidMount() {
-		firebase.initializeApp(this.#firebaseConfig);
+		let app = firebase.initializeApp(this.#firebaseConfig);
 		firebase.auth().languageCode = 'en';
-		firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
-
+		firebase.auth().onAuthStateChanged(this.handleAuthStateChange, () => console.log("Error signing in"));
 	}
 	
     render(){

@@ -49,10 +49,12 @@ class App extends React.Component {
   }
   
   handleAuthStateChange = user => {
+    console.log(user)
+
 		if (user) {
 			this.setState({
 				authLoading: true
-			});
+      });
 			// The user is signed in
 			user.getIdToken().then(token => {
 				// Add the token to the browser's cookies. The server will then be

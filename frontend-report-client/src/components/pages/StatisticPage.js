@@ -164,7 +164,13 @@ class StatisticPage extends Component {
 					<ContextErrorMessage error={error} contextErrorMsg={`Data could not be loaded. Check if database server is running.`} />
 				:
 				<Grid container style={{padding: '1em', marginBottom: 70}} ref={this.statRef}>
-					<LineChart />
+					{/* {this.statRef.current != null &&
+						<LineChart
+							width={this.statRef.current.offsetWidth - 50}
+							data={retailerChartData}
+							title='Einzelhändler'
+						/>
+					} */}
 					{/* <div style={{marginBottom: 70}} ref={this.statRef}> */}
 						{/* <div style={{width: (this.statRef.current != null && this.statRef.current.offsetWidth > 500) ? 0 : 700}}/> */}
 						<LoadingProgress show={dataLoading} />
@@ -180,7 +186,7 @@ class StatisticPage extends Component {
 						<Heading>MEISTBESUCHTE EINZELHÄNDLER</Heading>
 						{/* <MainBarChart retailer data={this.state.retailers} /> */}
 						<Grid align='center'>
-							{retailerChartData.length != 0 &&
+							{( (this.statRef.current != null) && (retailerChartData.length != 0)) &&
 								<BarChart 
 									// width={window.innerWidth - 50}
 									width={this.statRef.current.offsetWidth - 50}
@@ -197,7 +203,7 @@ class StatisticPage extends Component {
 						<Heading>MEISTGEKAUFTE ARTIKEL</Heading>
 						{/* <MainBarChart products data={this.state.products} /> */}
 						<Grid align='center'>
-							{productsChartData.length != 0 &&
+							{ ((this.statRef.current != null) && (productsChartData.length != 0)) &&
 								<BarChart 
 									// width={window.innerWidth - 50}
 									width={this.statRef.current.offsetWidth - 50}

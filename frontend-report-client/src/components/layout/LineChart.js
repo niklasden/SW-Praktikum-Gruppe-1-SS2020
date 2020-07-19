@@ -54,9 +54,20 @@ class LineChart extends Component {
     canvas.width = this.props.width
     const ctx = canvas.getContext("2d")
 
-    var myChart = new LineChartGenerator({
-
+    var lineChart = new LineChartGenerator({
+      canvas: canvas, 
+      title: this.props.title,
+      padding: 10, 
+      gridColor: '#eeeeee', 
+      data: this.props.data, 
+      colors:["#a55ca5","#67b6c7", "#bccd7a","#eb9743"]
     })
+
+    lineChart.draw()
+  }
+
+  render(){
+    return <canvas ref="canvas" className={styles.root}></canvas>
   }
 }
 
@@ -64,6 +75,7 @@ var LineChartGenerator = function(options){
   this.options = options
   this.canvas = options.canvas
   this.ctx = this.canvas.getContext("2d")
+  this.colors = options.colors;
 
   this.draw = function(){
     var maxValue = 5
