@@ -9,6 +9,10 @@ import { Link } from 'react-router-dom';
 import Heading from '../layout/Heading';
 import { Config } from '../../config';
 import { ListItemIcon } from '@material-ui/core';
+import ShoppingAPI from '../../api/ShoppingAPI';
+import ShoppingSettings from '../../../src/shoppingSettings';
+
+
 
 const styles = theme => ({
     root: {
@@ -56,7 +60,7 @@ const articleIDIconMapper = {
   noodle: 'noodles',
   flour: 'flour',
   pizza: 'pizza',
-  "ice cream": 'icecream',
+  icecream: 'icecream',
   donut: 'donut',
   chips: 'chips',
   popcorn: 'popcorn',
@@ -85,6 +89,9 @@ const categoryIconMapper = {
   "convenience & frozen products": 'convenience'
 }
 
+const settingsobj = ShoppingSettings.getSettings()
+
+
 /**
  * Renders a list of ArticleEntry objects
  * 
@@ -101,6 +108,8 @@ class ProductsPage extends Component {
     loadingArticlesError: null, 
     addingArticleError: null, 
     articles: [],
+    shoppinglists: [],
+    selected_shoppinglist: [] 
   }
 
   componentDidMount(){
@@ -112,6 +121,7 @@ class ProductsPage extends Component {
       loadingInProgress: true, 
       loadingArticleError: null 
     })
+
 
   setTimeout(async () => {
     try {
@@ -173,6 +183,7 @@ class ProductsPage extends Component {
 
              <ProductListEntry
              key={item.id}
+             item={item}
              id={item.id}
              category={category[0]}
              name={item.name}
@@ -189,7 +200,7 @@ class ProductsPage extends Component {
 
   render(){
     const classes = this.props.classes
-    console.log(this.state.articles)
+    //console.log(this.state.articles)
     //console.log(categories)
     return(
       <Grid container 
