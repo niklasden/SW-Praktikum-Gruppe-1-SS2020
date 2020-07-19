@@ -2,13 +2,8 @@ import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { withStyles, ButtonBase } from '@material-ui/core';
 import Article from '../layout/Article';
-import { Link } from 'react-router-dom';
-import { push } from "react-router";
-import GroupShoppingList from '../pages/GroupShoppingList';
 import { withRouter } from "react-router-dom";
-import ListEntryBO from '../../api/ListEntryBO';
-import PropTypes, { array } from 'prop-types';
-import ShoppingAPI from '../../api/ShoppingAPI';
+import PropTypes from 'prop-types';
 import AddListItem from './AddListItem';
 
 const styles = theme => ({
@@ -35,9 +30,9 @@ const styles = theme => ({
     super(props);
    
     this.state = {
-     //item: this.props.item, 
      item : this.props.item,
-     name: this.props.item.name, 
+     name: this.props.item.name,
+     category: this.props.category, 
      anchorEl: null, 
      open: false
     }
@@ -51,6 +46,7 @@ const styles = theme => ({
   onClickItem(name) {
     this.setState({open : true})
     console.log(this.state.name)
+    console.log(this.state.category)
   }
   onCloseItem() {
     this.setState({open: false})
@@ -63,35 +59,12 @@ const styles = theme => ({
   }
   PressButtonConfirm(){
     this.setState({open : false})
-    console.log(this.props.fetchItems());
   }
-
-
-
-    /**
-     
-     shoppinglist_id: this.props.item.shoppinglist_id, 
-   }
-   this.onSave = this.onSave.bind(this);*/
-  
-
-
- /** onSave= () => {
-    let insertedItem = Object.assign(new ListEntryBO(), this.state.item);
-    insertedItem = setArticle(this.state.article);
-    insertedItem = setShoppingList(this.state.shoppinglist_id);
-
-    ShoppingAPI.getAPI().insertListEntry(insertedItem).then(this.props.PressButton).catch(e => console.log(e))
-
-    } */
-
-  
-     
+    
 
   render(){
       const { classes } = this.props
       const open = Boolean(this.state.anchorEl)
-      //console.log(this.state.article_id)
 
       return (     
           <Grid item 
@@ -115,7 +88,6 @@ const styles = theme => ({
               <AddListItem
                open={this.state.open}
                item={this.state.item}
-               //shoppinglist={this.props.shoppinglist}
                PressButtonBack={() => this.PressButtonBack()}
                PressButtonConfirm={() => this.PressButtonConfirm()}
               />
@@ -125,13 +97,5 @@ const styles = theme => ({
   }
 }
 
-ProductListEntry.propTypes = {
-  itemname: PropTypes.string,
-  amount: PropTypes.string,
-  unit: PropTypes.string,
-  handleChange: PropTypes.string,
-  onClick: PropTypes.func,
-  onClickListItem: PropTypes.func,
-}
 
  export default withRouter(withStyles(styles)(ProductListEntry));

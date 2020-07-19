@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
-import { Grid, TextField } from "@material-ui/core";
-import PropTypes, { array } from 'prop-types';
+import { Grid } from "@material-ui/core";
+import PropTypes from 'prop-types';
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
@@ -15,6 +15,7 @@ import ShoppingAPI from '../../api/ShoppingAPI';
 import ListEntryBO from '../../api/ListEntryBO';
 import ShoppingSettings from '../../../src/shoppingSettings';
 import { Config } from '../../config';
+import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress'
 
 
 /**
@@ -40,49 +41,59 @@ class AddListItem extends Component {
     this.state = {
         item: this.props.item, 
         article_id: this.props.item.id,
-        //shoppinglist: this.props.item.shoppinglist_id,
-        selected_list_id:"",
+        category: this.props.item.category,
         shoppinglists: [],
-        selected_shoppinglist:[], 
-        selectedID: 0,
+        selected_shoppinglist:"", 
+        
+        
+        //shoppinglist_id:"",
+        //selectedID: 0,
+        isloading: false,
+
         
     }
      this.saveItem = this.saveItem.bind(this); 
   }
 
    async fetchShoppinglists() {
+       this.setState({isloading: true})
        let response = await fetch(Config.apiHost + '/shoppinglist/?group_id=' +settingsobj.getGroupID())
        let data = await response.json()
-       //console.log(data)
-       this.setState({shoppinglists: data})
+       this.setState({shoppinglists: data, isloading:false})
   }; 
 
   componentDidMount(){
       this.fetchShoppinglists();
   }
-    
 
-  handleChangeList(v) {
-    this.setState({selected_list_id: v.target.value});
-    this.fetchShoppinglists();
-}
-  saveItem = () => {
-    let insertedItem = Object.assign(new ListEntryBO(), this.state.item);
-    //Updates the parameters we want to change
-    insertedItem.setArticle(this.state.article_id);
-    //insertedItem.setGroupid(this.state.group_id);
-    insertedItem.setShoppinglistid(this.state.shoppinglist_id)
     
-    //Sends updated ListEntry Object to the API, in case of Error it logs it
-    ShoppingAPI.getAPI().insertListEntry(insertedItem).then(this.props.PressButtonConfirm).catch(e => console.log(e))
+  saveItem = () => {
+    console.log(this.state.selected_shoppinglist)
+    console.log(this.state.article_id)
+
+    let insertedItem = Object.assign(new ListEntryBO(), this.state.item);
+    //Insert the parameters of the new ListEnty
+    insertedItem.setArticleid(this.state.article_id);
+    insertedItem.setShoppinglistid(this.state.selected_shoppinglist)
+    insertedItem.setRetailerid(123456789);
+    insertedItem.setUserid('123456789');
+    //insertedItem.setId(123456789);
+    insertedItem.setGroupid(settingsobj.getGroupID())
+    insertedItem.setAmount(123456789)
+    insertedItem.setUnit('123456789')
+    insertedItem.setBought('123456789')
+    insertedItem.setName('123456789');
+    insertedItem.setCategory('123456789');
+    insertedItem.setRetailer('123456789')
+
+    
+    //Sends new ListEntry Object to the API, in case of Error it logs it
+    ShoppingAPI.getAPI().insertListEntry(insertedItem).then(() => {console.log('test'); this.props.PressButtonConfirm()}).catch(e => console.log(e))
   }
 
   
   render() {
-      console.log(settingsobj.getGroupID())
-      console.log(this.state.shoppinglists)
 
-    
     return (
 
     <Dialog open={this.props.open} aria-labelledby="alert title" aria-describedby="description">
@@ -99,9 +110,18 @@ class AddListItem extends Component {
       <Grid item xs={12} >
       <FormControl style={{width: '100%', height: 35, marginLeft: 10, marginBottom: 10}}>
                 <InputLabel>SHOPPING LIST</InputLabel>
-                <Select defaultValue={this.state.selected_shoppinglist} value={this.state.selected_shoppinglist} onChange={this.handleChangeList.bind(this)}>
-                    {this.state.shoppinglists.map((item, key) => 
-                        <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
+                <Select  
+                
+                onChange={(e) => this.setState({selected_shoppinglist: e.target.value})}
+                value={this.state.selected_shoppinglist}>
+                
+                    {this.state.isloading ?
+                        <div style={{display: 'flex', justifyContent: 'center'}}>                 
+                            <CircularProgress size={25} />               
+                        </div>
+                        :
+                        this.state.shoppinglists.map((item, key) => 
+                            <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
                     )}
                 </Select>
 
@@ -123,15 +143,9 @@ class AddListItem extends Component {
 }}
 
 AddListItem.propTypes = {
-  amount: PropTypes.string,
   onChange: PropTypes.func,
-  unit: PropTypes.string,
-  handleChange: PropTypes.string,
   PressButtonBack: PropTypes.func,
   PressButtonConfirm: PropTypes.func,
-  retailer: PropTypes.array,
-  user: PropTypes.array,
-  fetchItems: PropTypes.func
 }
 
 export default withStyles(styles)(AddListItem);

@@ -719,12 +719,13 @@ class testListEntry(Resource):
 
 @shopping_v1.route('/Listentry/insert/')
 @shopping_v1.response(500, 'Falls was in die Fritten geht')
-@shopping_v1.param('obj', "Listentry object id")
+#@shopping_v1.param('obj', "Listentry object id")
 class testListEntry(Resource):
     @shopping_v1.marshal_with(listentry)
-    def get(self, listentry):
+    def post(self):
+        proposal = ListEntry.from_dict(api.payload)
         adm = ShoppingAdministration()
-        result = adm.insert_listentry(listentry)
+        result = adm.insert_listentry(proposal)
         return result
 
 @shopping_v1.route('/Listentry/get_personal_items_of_group/')

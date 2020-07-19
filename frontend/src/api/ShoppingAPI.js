@@ -40,7 +40,7 @@ export default class ShoppingAPI {
     
     
     //ListEntry URLs
-    #insertListEntryURL = () => `${this.#baseServerURL}/Listentry/insert`;
+    #insertListEntryURL = () => `${this.#baseServerURL}/Listentry/insert/`;
     #updateListEntryURL = () => `${this.#baseServerURL}/Listentry/update`;
     #personalItemsURL = (user_id, group_id) => `${this.#baseServerURL}/Listentry/get_personal_items_of_group/?group_id=` + group_id + `&user_id=` + user_id;
         
@@ -175,12 +175,14 @@ export default class ShoppingAPI {
      * @public
      */
     insertListEntry(listentryBO) {
-        return this.#fetchAdvanced(this.#insertListEntryURL(listentryBO), {
+        console.log(listentryBO)
+        return this.#fetchAdvanced(this.#insertListEntryURL(), {
             method: 'POST',
             headers: {
                 'Accept': 'application/json, text/plain',
                 'Content-type': 'application/json',
             },
+            body: JSON.stringify(listentryBO)
         }).then((responseJSON) => {
             let listentryBOs = ListEntryBO.fromJSON(responseJSON);
             return new Promise(function (resolve) {
