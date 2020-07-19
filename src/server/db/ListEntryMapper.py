@@ -236,7 +236,7 @@ class ListEntryMapper(Mapper):
             else:
                 listentry.set_id(1)
             
-        if listentry.get_retailer() == "123456789":
+        if listentry.get_retailer() == 123456789:
             listentry.set_retailer('NULL')
 
         if listentry.get_amount() == 123456789:
@@ -253,7 +253,7 @@ class ListEntryMapper(Mapper):
 
 
         command = "INSERT INTO `Listentry` (ID, Article_ID, Retailer_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought, creationdate ) VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6}, null,NOW())".format(listentry.get_id(),listentry.get_article(),listentry.get_retailer(), listentry.get_shoppinglist(), listentry.get_user(), listentry.get_group(), listentry.get_amount())    
-        
+        print(command)
         try: 
             cursor.execute(command)
             self._cnx.commit()
@@ -262,6 +262,7 @@ class ListEntryMapper(Mapper):
 
         except Exception as e:
             cursor.close()
+            print(str(e))
             return "Error in ListEntryMapper while inserting: "+str(e)
     
     def update(self, listentry):

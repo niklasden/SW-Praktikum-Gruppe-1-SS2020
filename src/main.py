@@ -70,7 +70,7 @@ listentry = api.inherit('ListEntry',bo, {
     'shoppinglist_id': fields.Integer(attribute='_shoppinglist_id',description="Corresponding Shopping List ID of a listentry"),
     'user_id': fields.String(attribute='_user_id',description="User ID which the ListEntry is assigned to"),
     'group_id': fields.Integer(attribute='_group_id',description="Group ID in which the ListEntry belongs to"),
-    'amount': fields.Integer(attribute='_amount',description="Amount of item to be bought"),
+    'amount': fields.String(attribute='_amount',description="Amount of item to be bought"),
     'unit': fields.String(attribute='_unit', description="Unit of item"),
     'bought': fields.String(attribute='_bought',description="Date when the article was bought"),
     'name': fields.String(attribute='_name',description="Name of the article"),
@@ -717,7 +717,7 @@ class testListEntry(Resource):
         result = adm.find_listentry_by_purchaser(purchaser)
         return result
 
-@shopping_v1.route('/Listentry/insert/')
+@shopping_v1.route('/Listentry/insert')
 @shopping_v1.response(500, 'Falls was in die Fritten geht')
 #@shopping_v1.param('obj', "Listentry object id")
 class testListEntry(Resource):

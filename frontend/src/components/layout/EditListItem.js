@@ -140,6 +140,7 @@ class EditListItem extends Component {
       <Grid item xs={6} style={{marginTop: 10}}>
       <FormControl style={{width: '100%', height: 35, marginLeft: 10, marginBottom: 10}}>
                 <InputLabel>ASSIGN RETAILER</InputLabel>
+                
                 <Select defaultValue={this.getRetailerbyProps()} value={this.state.item.retailer.id} onChange={this.handleChangeRetailer.bind(this)}>
                   {this.props.retailer && this.props.retailer.map(item =>{
                     return <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>

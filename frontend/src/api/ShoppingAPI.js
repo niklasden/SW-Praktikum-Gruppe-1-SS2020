@@ -40,7 +40,7 @@ export default class ShoppingAPI {
     
     
     //ListEntry URLs
-    #insertListEntryURL = () => `${this.#baseServerURL}/Listentry/insert/`;
+    #insertListEntryURL = () => `${this.#baseServerURL}/Listentry/insert`;
     #updateListEntryURL = () => `${this.#baseServerURL}/Listentry/update`;
     #personalItemsURL = (user_id, group_id) => `${this.#baseServerURL}/Listentry/get_personal_items_of_group/?group_id=` + group_id + `&user_id=` + user_id;
         
