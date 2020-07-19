@@ -7,6 +7,7 @@ import { Config } from '../../config'
 import ShoppingSettings from '../../shoppingSettings'
 import ListEntryBO from '../../api/ListEntryBO';
 import ShoppingAPI from '../../api/ShoppingAPI';
+import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress'
 
 /**
  * Displays the PersonalShoppingList as designed in Figma. All items to be purchased by a person are listed on the list and can be ticked off the list. Finally the user can complete the shopping. 
@@ -27,46 +28,39 @@ export default class PersonalShoppingList extends Component {
     flag : 'unclicked',
     solved: false,
     loadingInProgress: false, 
-    loadingRetailersError: null, 
-    addingRetailerError: null,
     currentUserID: settings.getCurrentUserID(),
     groupID: settings.getGroupID()
 }
 
 newItem = () => {
-  ShoppingAPI.getAPI().personalItems(this.state.currentUserID, this.state.groupID).then(items => {this.setState({items : items})}).catch(e => console.log(e))
+  this.setState({loadingInProgress : true})
+  ShoppingAPI.getAPI().personalItems(this.state.currentUserID, this.state.groupID)
+  .then(items => {
+    this.setState({items : items, loadingInProgress : false})
+  })
+  .catch(e => {
+    console.log(e) 
+    this.setState({loadingInProgress : false})
+  })
 }
 
 componentDidMount(){
-  this.getListEntrys()
   this.newItem()
+  this.getItemsFromLocalStorage()  
 }
 
-/** Fetches ListEntrysBOs for the current group */
-async getListEntrys(){
-  this.setState({
-    loadingInProgress: true, 
-    loadingRetailersError: null 
-  })
+async getItemsFromLocalStorage(){
 
-  setTimeout(async () => {
-    try {
-      // TODO: change to real api
-      const res = await fetch(Config.apiHost + '/Listentry/get_personal_items_of_group/')
-      const json = await res.json()
-
-      this.setState({
-        loadingInProgress: false, 
-        loadingRetailersError: null, 
-        items: json, 
-      })
-    } catch (e){
-      this.setState({
-        loadingInProgress: false, 
-        loadingRetailersError: '', 
-      })
-    } 
-  }, 1000)
+  try {
+    let itemsunparsed = localStorage.getItem('checkeditems')
+    console.log(itemsunparsed)
+    let items = await JSON.parse(itemsunparsed)
+    console.log(items)
+    if (items.length > 0){
+      this.setState({checkedItems : items})
+    }
+  }
+  catch{}
 }
 
 createUserItem(){
@@ -116,18 +110,6 @@ renderUncheckedArticles(){
     )}
   return renderdArticles
 };
-
-/* Returns an array with all Useritems that are checked  */
-/* getCheckedArticles(){
-  let ArrCheckedArticles = []
-  let Useritems = this.state.checkedItems()
-  Useritems.filter( item => {
-    if(item.checkbox === true && (this.state.selectedRetailer === item.retailer || this.state.selectedRetailer === 'All')){
-      ArrCheckedArticles.push(item)
-    }
-  })
-  return ArrCheckedArticles
-}; */
 
 /* Returns an array with the categorys of all Useritems that are checked  */
 getCheckedArticlesCategory(){
@@ -221,6 +203,7 @@ handleChangeCheckbox(id){
         }
       }
     })
+    localStorage.setItem('checkeditems', JSON.stringify(this.state.checkedItems))
   }
   else {
   checkedItems.map( item => {
@@ -237,13 +220,35 @@ handleChangeCheckbox(id){
       }
     }
   })
+  localStorage.setItem('checkeditems', JSON.stringify(this.state.checkedItems))
  }
 }
 
 handlePopUp(){
   if(this.state.solved === true){
-    return <PopUp open={true} handleChange={()=> this.setState({ solved : false})}></PopUp> 
+    return <PopUp open={true} PurchaseNotCompleted={()=> this.setState({ solved : false})}
+    PurchaseCompleted={() => this.PurchaseCompleted()}></PopUp> 
   }
+}
+
+PurchaseCompleted(){
+  let Arr = this.state.checkedItems
+  
+  Arr.map( item => {
+    let updatedItem = Object.assign(new ListEntryBO(), item);
+    updatedItem.setBought("date");
+    updatedItem.setRetailerid(null)
+
+    console.log(updatedItem)
+
+    ShoppingAPI.getAPI().updateListEntry(updatedItem).catch(e => console.log(e))
+  } )
+
+ 
+
+  Arr = []
+  this.setState({checkedItems : Arr})
+  this.setState({solved : false})
 }
 
 render(){
@@ -262,11 +267,12 @@ render(){
       justify='space-between'
       alignItems="stretch"
       xs={12}
-      spacing={1}        
+      spacing={1}
+      style={{marginBottom:50}}        
     >
     
     <Grid 
-      container
+      containers
       direction= 'row'
       justify='flex-start'
       alignItems='flex-start'
@@ -307,7 +313,11 @@ render(){
       </Grid>
     </Grid>
     <Grid>
-      {this.renderMyShoppingList()}
+      {this.state.loadingInProgress ?
+      <div style={{display: 'flex', justifyContent: 'center'}}>
+        <CircularProgress size={25} />
+      </div> : 
+      this.renderMyShoppingList()}
       {this.handlePopUp()}
     </Grid>
     </Grid>

@@ -36,7 +36,7 @@ export default class ShoppingAPI {
     #getGroupsforUserURL = (userid) => `${this.#baseServerURL}/Group/Usergroup/${userid}`;
     #deleteGroupURL = (id) => `${this.#baseServerURL}/Group/${id}`;
     #saveGroupURL = () => `${this.#baseServerURL}/Group/`;
-    #getitemssofGroupURL = (group_id, shoppinglist_id) => `${this.#baseServerURL}/Listentry/get_items_of_group/?group_id=`+ group_id +`&shoppinglist_id=`+ shoppinglist_id; 
+    #getitemssofGroupURL = (group_id, shoppinglist_id) => `${this.#baseServerURL}/Listentry/get_unassigned_items_of_group/?group_id=`+ group_id +`&shoppinglist_id=`+ shoppinglist_id; 
     
     
     //ListEntry URLs
