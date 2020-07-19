@@ -157,7 +157,7 @@ class ProductsPage extends Component {
     var categories = this.state.articles.reduce((itemsSoFar, {category, name, id}) => {
       if (!itemsSoFar[category]) itemsSoFar[category] = [];
       var iconName = getIconName(name, category)
-      console.log(category)
+      //console.log(category)
       itemsSoFar[category].push({name, id, iconName});
       return itemsSoFar; 
     }, {});

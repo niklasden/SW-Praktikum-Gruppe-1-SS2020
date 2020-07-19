@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
-import { Grid } from "@material-ui/core";
+import { Grid, TextField } from "@material-ui/core";
 import PropTypes from 'prop-types';
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -51,14 +51,14 @@ class AddListItem extends Component {
         item: this.props.item, 
         article_id: this.props.item.id,
         category: this.props.item.category,
+        amount:"", 
+        unit:"", 
         shoppinglists: [],
         selected_shoppinglist:"", 
         retailers: [], 
         selected_retailer_id:"",
-        
-        
-        //shoppinglist_id:"",
-        //selectedID: 0,
+        users:[],
+        selected_user_id:"",
         isloading: false,
 
         
@@ -80,31 +80,63 @@ class AddListItem extends Component {
       this.setState({retailers:data, isloading:false})
   }
 
+  fetchGroupMembers = () => {
+    ShoppingAPI.getAPI().getUsers(settingsobj.getGroupID()).then(userBOs => {
+      this.setState({
+        users: userBOs
+      })
+       //console.info(userBOs); 
+    }).catch(e => 
+        console.log(e)
+      );
+    
+  }
+
+  setUnit(v) {
+    this.setState({unit: v.target.value});
+  }
+
+  setUser(v) {
+    this.setState({selected_user_id: v.target.value});
+  }
+
+  setAmount(v) {
+    this.setState({amount: v.target.value})
+  }
   componentDidMount(){
       this.fetchShoppinglists();
       this.fetchRetailers();
+      this.fetchGroupMembers();
   }
     
   saveItem = () => {
     console.log(this.state.selected_shoppinglist)
     console.log(this.state.article_id)
     console.log(this.state.selected_retailer_id)
+    console.log(this.state.amount)
+    console.log(this.state.unit)
+
 
     let insertedItem = Object.assign(new ListEntryBO(), this.state.item);
     //Insert the parameters of the new ListEnty
     insertedItem.setArticleid(this.state.article_id);
     insertedItem.setShoppinglistid(this.state.selected_shoppinglist);
-    insertedItem.setRetailer(this.state.selected_retailer_id);
+    insertedItem.setRetailer('123456789');
+    insertedItem.setRetailerid(this.state.selected_retailer_id);
     //insertedItem.setRetailerid(123456789);
-    insertedItem.setUserid('123456789');
+    //insertedItem.setUserid('123456789');
+    insertedItem.setUserid(this.state.selected_user_id);
     insertedItem.setId(123456789);
     insertedItem.setGroupid(settingsobj.getGroupID());
-    insertedItem.setAmount(123456789);
-    insertedItem.setUnit('123456789');
+    //insertedItem.setAmount(123456789);
+    insertedItem.setAmount(this.state.amount);
+   
+    //insertedItem.setUnit('123456789');
+    insertedItem.setUnit(this.state.unit);
+
     insertedItem.setBought('123456789');
     insertedItem.setName('123456789');
     insertedItem.setCategory('123456789');
-    //insertedItem.setRetailer('123456789');
 
     
     //Sends new ListEntry Object to the API, in case of Error it logs it
@@ -155,13 +187,6 @@ class AddListItem extends Component {
       className={classes.formControl} 
       >
                 <InputLabel>RETAILER</InputLabel>
-                {/**
-                <Select defaultValue={this.getRetailerbyProps()} value={this.state.item.retailer.id} onChange={this.handleChangeRetailer.bind(this)}>
-                  {this.props.retailer && this.props.retailer.map(item =>{
-                    return <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
-                  })}
-                </Select> */}
-
                 <Select  
                 onChange={(e) => this.setState({selected_retailer_id: e.target.value})}
                 value={this.state.selected_retailer_id}>
@@ -175,6 +200,54 @@ class AddListItem extends Component {
                             <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
                     )}
                     </Select>
+      </FormControl>
+      </Grid>
+
+      <Grid item xs={12} >
+      <FormControl
+      className={classes.formControl} 
+      >
+                <InputLabel>USER</InputLabel>
+                <Select  
+                onChange={(e) => this.setState({selected_user_id: e.target.value})}
+                value={this.state.selected_user_id}>
+                
+                    {this.state.isloading ?
+                        <div style={{display: 'flex', justifyContent: 'center'}}>                 
+                            <CircularProgress size={25} />               
+                        </div>
+                        :
+                        this.state.users.map((item, key) => 
+                            <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
+                    )}
+                    </Select>
+      </FormControl>
+      </Grid>
+
+      <Grid item xs={6} style={{paddingLeft: 20}}
+        justify='center'
+        //alignItems= 'center'
+
+      >
+        <InputLabel>AMOUNT</InputLabel>
+        <TextField onChange={this.setAmount.bind(this)} value={this.state.amount}></TextField>
+      </Grid>
+      <Grid item xs={6}
+      
+      >
+      <FormControl style={{width: '100%', height: 35, marginLeft: 5, marginBottom: 10}}>
+                <InputLabel>UNIT</InputLabel>
+                <Select 
+                  onChange={this.setUnit.bind(this)}
+                  value = {this.state.unit}
+                >
+                    <MenuItem value={'kg'}>Kg</MenuItem>
+                    <MenuItem value={'g'}>g</MenuItem>
+                    <MenuItem value={'l'}>l</MenuItem>
+                    <MenuItem value={'ml'}>ml</MenuItem>
+                    <MenuItem value={'Stk.'}>Stk.</MenuItem>
+                    <MenuItem value={'Pkg.'}>Pkg.</MenuItem>
+                </Select>
       </FormControl>
       </Grid>
 
