@@ -63,7 +63,6 @@ class BarChart extends Component {
 			canvas:canvas,
 			title:"Vinyl records",
 			padding:10,
-			gridScale:5,
 			gridColor:"#eeeeee",
 			data: this.props.data,
 			colors:["#a55ca5","#67b6c7", "#bccd7a","#eb9743"]
@@ -117,7 +116,7 @@ var Barchart = function(options){
 
 			drawText(this.ctx, 0, gridY, "" + gridValue)
 
-			gridValue+=this.options.gridScale;
+			gridValue += Math.round(maxValue / 5)
 		}
 
 		//drawing the bars
@@ -139,7 +138,7 @@ var Barchart = function(options){
 			);
 
 			barIndex++;
-			drawText(this.ctx, barIndex * barSize - barSize + 30, this.canvas.height - 10, "" + el.title)
+			drawText(this.ctx, barIndex * barSize - barSize + 30, this.canvas.height - 10, "" + el.title + " (" + el.value + ")")
 
 		}) 
   }
