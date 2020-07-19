@@ -57,6 +57,7 @@ componentDidMount(){
   } */
   this.newItem()
   this.getItemsFromLocalStorage() 
+  localStorage.clear()
 }
 
 async getItemsFromLocalStorage(){
@@ -75,7 +76,7 @@ async getItemsFromLocalStorage(){
 
 createUserItem(){
   let items = this.state.items
-  console.log(this.state.checkedItems)
+ /*  console.log(this.state.checkedItems)
   console.log("items" + items)
   for (let index in items){
     let test = items[index]
@@ -88,7 +89,7 @@ createUserItem(){
       console.log("checkbox false" + test.id)
     }  
   }
-  console.log("useritems" + items)
+  console.log("useritems" + items) */
   return items
 }
 
@@ -97,7 +98,7 @@ getUncheckedArticles(){
   let ArrUncheckedArticles = []
   let Useritems = this.createUserItem()
   Useritems.filter( item => {
-    if(item.checkbox === false && (this.state.selectedRetailer === item.retailer || this.state.selectedRetailer === 'All')){
+    if(this.state.checkedItems.includes(item.id) === false && (this.state.selectedRetailer === item.retailer || this.state.selectedRetailer === 'All')){
       ArrUncheckedArticles.push(item)
     }
   })
@@ -124,7 +125,7 @@ renderUncheckedArticles(){
   console.log('ArrCategory  ' + ArrCategory)
   for (let item in ArrCategory){
     renderdArticles.push( 
-      <CategoryDropDown handleChange={this.handleChangeCheckbox.bind(this)} Useritems={Useritems} ArrCategory={ArrCategory} item={item}></CategoryDropDown>
+      <CategoryDropDown checkeditems={this.state.checkedItems} handleChange={this.handleChangeCheckbox.bind(this)} Useritems={Useritems} ArrCategory={ArrCategory} item={item}></CategoryDropDown>
     )}
   return renderdArticles
 };
@@ -134,7 +135,7 @@ getCheckedArticles(){
   let ArrCheckedArticles = []
   let Useritems = this.createUserItem()
   Useritems.filter( item => {
-    if(item.checkbox === true && (this.state.selectedRetailer === item.retailer || this.state.selectedRetailer === 'All')){
+    if(this.state.checkedItems.includes(item.id) === true && (this.state.selectedRetailer === item.retailer || this.state.selectedRetailer === 'All')){
       ArrCheckedArticles.push(item)
     }
   })
@@ -161,7 +162,7 @@ renderCheckedCategoryArticles(){
   console.log(ArrCheckedArticles)
   for (let item in ArrCheckedArticlesCategory){
     renderdArticles.push( 
-      <CategoryDropDown handleChange={this.handleChangeCheckbox.bind(this)} Useritems={ArrCheckedArticles} ArrCategory={ArrCheckedArticlesCategory} item={item}></CategoryDropDown>
+      <CategoryDropDown checkeditems={this.state.checkedItems} handleChange={this.handleChangeCheckbox.bind(this)} Useritems={ArrCheckedArticles} ArrCategory={ArrCheckedArticlesCategory} item={item}></CategoryDropDown>
     )}
     console.log('checked'   + ArrCheckedArticlesCategory)
     console.log('array'   + ArrCheckedArticles)
@@ -216,56 +217,92 @@ handleChangeRetailer = e =>{
 
 handleChangeCheckbox(id){
   let Items = this.createUserItem()
+  console.log(Items)
   let checkedItems = this.state.checkedItems
+
+  if(checkedItems.includes(id)){
+    checkedItems.forEach( (l,i) => {
+      if (l === id){
+        checkedItems.splice(i, 1)
+        console.log("drin")
+      }
+    }
+  )}
+  else {
+    checkedItems.push(id)
+  }
+
+  this.setState({checkedItems : checkedItems})
+
+
+  
 
 /*   if (Items.filter(elem =>(elem.id === id)).length > 0){
     console.log("Bin drinne in items") */
-    Items.map( item => {
+/*     let newItem = {}
+    Items.forEach( (item, key) => {
       if(item.id === id){
-        let newItem = {...item}
-        for (let element in Items){
-          if(Items[element].id === newItem.id){
-            newItem.checkbox = !newItem.checkbox
-            Items.splice(element, 1, newItem)
-            this.setState({items : Items})
-
+        newItem = Object.assign({},item)
+            console.log(newItem)
+            newItem.checkbox = true
+            console.log(newItem.checkbox)
+            console.log(newItem)
+            Items.splice(key, 1, newItem)
+            console.log(Items)
+            const wholeNewItems = [] 
+              Items.forEach((el, key) => {   
+                if (el.id == newItem.id){ 
+                  console.log("bin in der if")
+                  wholeNewItems.push({ ...newItem })   
+                } 
+                else {
+                  wholeNewItems.push({...el})  
+                } 
+              }) 
+              console.log(wholeNewItems)
+              this.setState({items: wholeNewItems})   
+      }
+    })
+} */
+           /*  let elemFound = false;
             for (let elem in checkedItems){
               if (checkedItems[elem].id === id){
                 this.state.checkedItems.splice(elem, 1,)
+                elemFound = true
               }
-              else {
-                this.state.checkedItems.push(id)
-              }
+             
             }
-          }
-        }
+            if (elemFound === false) {
+              this.state.checkedItems.push(id)
+            }
       }
     })
     localStorage.setItem('checkeditems', JSON.stringify(this.state.checkedItems))
-  }
-  /* else {
+  } */
+/* 
   Items.map( item => {
     if(item.id === id){
       let newItem = {...item}
       for (let element in Items){
-        if(checkedItems[element].id === newItem.id){
+        if(Items[element].id === newItem.id){
           console.log("bin drinn")
           newItem.checkbox = !newItem.checkbox
           Items.splice(element, 1, newItem)
+          console.log(Items)
           this.setState({items : Items})
-          checkedItems
+          console.log(Items)
         }
       }
     }
-  })
-  localStorage.setItem('checkeditems', JSON.stringify(this.state.checkedItems))
- } */
+  }) */
+ /*  localStorage.setItem('checkeditems', JSON.stringify(this.state.checkedItems)) */
+}
 
 
 handlePopUp(){
   if(this.state.solved === true){
-    return <PopUp open={true} PurchaseNotCompleted={()=> this.setState({ solved : false})}
-    PurchaseCompleted={() => this.PurchaseCompleted()}></PopUp> 
+    return <PopUp name={'Willst du den Einkauf wirklich abschließen?'} title={"Einkauf abschließen?"} open={true} clickNo={()=> this.setState({ solved : false})}
+    clickYes={() => this.PurchaseCompleted()}></PopUp> 
   }
 }
 
@@ -292,7 +329,7 @@ render(){
   console.log(this.state.selectedRetailer)
   let shops = this.renderReatailer()
   let all = 'ALL'
-  console.log('Das ist Items:    ' + this.state.items)
+  console.log(this.state.items)
   console.log(this.state.currentUserID)
   console.log("GroupID  " + this.state.groupID)
 
