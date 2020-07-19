@@ -1,5 +1,6 @@
 from server.bo.ListEntry import ListEntry
 from server.db.Mapper import Mapper 
+import datetime
 
 class ListEntryMapper(Mapper):
     """
@@ -270,11 +271,16 @@ class ListEntryMapper(Mapper):
             le.set_amount(listentry.get_amount())
         if listentry.get_unit() != "":
             le.set_unit(listentry.get_unit())
-        
+        if listentry.get_buy_date() != None:
+            date = datetime.date.today()
+            print(date)
+            le.set_buy_date(date)
+            print(listentry.get_buy_date())
+
         try:
             cursor = self._cnx.cursor()
-            command = """UPDATE Listentry SET Article_ID=%s, Retailer_ID=%s, Shoppinglist_ID=%s, User_ID=%s, Group_ID=%s, amount=%s, unit=%s WHERE ID=%s"""
-            data = (le.get_article(), le.get_retailer(), le.get_shoppinglist(), le.get_user(), le.get_group(), le.get_amount(), str(le.get_unit()), le.get_id())
+            command = """UPDATE Listentry SET Article_ID=%s, Retailer_ID=%s, Shoppinglist_ID=%s, User_ID=%s, Group_ID=%s, amount=%s, unit=%s, bought=%s WHERE ID=%s"""
+            data = (le.get_article(), le.get_retailer(), le.get_shoppinglist(), le.get_user(), le.get_group(), le.get_amount(), str(le.get_unit()), le.get_buy_date(), le.get_id())
             
             cursor.execute(command, data)
             self._cnx.commit()

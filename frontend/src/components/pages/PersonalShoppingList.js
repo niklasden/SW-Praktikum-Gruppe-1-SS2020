@@ -27,8 +27,6 @@ export default class PersonalShoppingList extends Component {
     flag : 'unclicked',
     solved: false,
     loadingInProgress: false, 
-    loadingRetailersError: null, 
-    addingRetailerError: null,
     currentUserID: settings.getCurrentUserID(),
     groupID: settings.getGroupID()
 }
@@ -46,7 +44,6 @@ componentDidMount(){
 async getListEntrys(){
   this.setState({
     loadingInProgress: true, 
-    loadingRetailersError: null 
   })
 
   setTimeout(async () => {
@@ -116,18 +113,6 @@ renderUncheckedArticles(){
     )}
   return renderdArticles
 };
-
-/* Returns an array with all Useritems that are checked  */
-/* getCheckedArticles(){
-  let ArrCheckedArticles = []
-  let Useritems = this.state.checkedItems()
-  Useritems.filter( item => {
-    if(item.checkbox === true && (this.state.selectedRetailer === item.retailer || this.state.selectedRetailer === 'All')){
-      ArrCheckedArticles.push(item)
-    }
-  })
-  return ArrCheckedArticles
-}; */
 
 /* Returns an array with the categorys of all Useritems that are checked  */
 getCheckedArticlesCategory(){
@@ -242,8 +227,29 @@ handleChangeCheckbox(id){
 
 handlePopUp(){
   if(this.state.solved === true){
-    return <PopUp open={true} handleChange={()=> this.setState({ solved : false})}></PopUp> 
+    return <PopUp open={true} PurchaseNotCompleted={()=> this.setState({ solved : false})}
+    PurchaseCompleted={() => this.PurchaseCompleted()}></PopUp> 
   }
+}
+
+PurchaseCompleted(){
+  let Arr = this.state.checkedItems
+  
+  Arr.map( item => {
+    let updatedItem = Object.assign(new ListEntryBO(), item);
+    updatedItem.setBought(Date.now());
+    updatedItem.setRetailerid(null)
+
+    console.log(updatedItem)
+
+    ShoppingAPI.getAPI().updateListEntry(updatedItem).catch(e => console.log(e))
+  } )
+
+ 
+
+  Arr = []
+  this.setState({checkedItems : Arr})
+  this.setState({solved : false})
 }
 
 render(){
@@ -262,11 +268,12 @@ render(){
       justify='space-between'
       alignItems="stretch"
       xs={12}
-      spacing={1}        
+      spacing={1}
+      style={{marginBottom:50}}        
     >
     
     <Grid 
-      container
+      containers
       direction= 'row'
       justify='flex-start'
       alignItems='flex-start'
