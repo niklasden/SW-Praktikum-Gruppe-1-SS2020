@@ -189,6 +189,8 @@ class ProductsPage extends Component {
 
   render(){
     const classes = this.props.classes
+    console.log(this.state.articles)
+    //console.log(categories)
     return(
       <Grid container 
       className={classes.root}>
