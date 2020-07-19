@@ -10,6 +10,7 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { Link } from 'react-router-dom';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import {Config} from '../../config';
+import LineChart from '../../components/layout/LineChart'
 
 /**
  * Displays the statistic page
@@ -144,9 +145,10 @@ class ShowStatisticPage extends Component {
                     </Grid>
                 :
                 <>
+                
                 <Link to="/">
-                <ArrowBackIosIcon fontSize="large" color="primary" />
-            </Link>
+                    <ArrowBackIosIcon fontSize="large" color="primary" />
+                </Link>
                 {/* <Grid item xs={12}>
                     <Typography color="primary">KATEGORIE AUSWÄHLEN</Typography>
                     <FormControl className={classes.formControl}>

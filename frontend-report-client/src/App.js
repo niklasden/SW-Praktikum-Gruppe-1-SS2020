@@ -117,23 +117,27 @@ class App extends React.Component {
       <ThemeProvider theme={Theme}>
         <Router basename={process.env.PUBLIC_URL}>
           <Header user={currentUser} />
-            {currentUser ?
-              <>
-                <Switch>
-                  <Route path="/show">
-                    <ShowStatisticPage currentUser={currentUser} />
-                  </Route> 
-                  <Route path="/">
-                    <StatisticPage currentUser={currentUser} />
-                  </Route> 
-                </Switch>
-              </>
-            :  
-              <>
-                <Redirect to='/' />
-                <SignIn onSignIn={this.handleSignIn} />
-              </>
-            }
+            <div style={{justifyContent: 'center', display: 'flex'}}>
+              <div style={{maxWidth: 700}}>
+                {currentUser ?
+                  <>
+                    <Switch>
+                      <Route path="/show">
+                        <ShowStatisticPage currentUser={currentUser} />
+                      </Route> 
+                      <Route path="/">
+                        <StatisticPage currentUser={currentUser} />
+                      </Route> 
+                    </Switch>
+                  </>
+                :  
+                  <>
+                    <Redirect to='/' />
+                    <SignIn onSignIn={this.handleSignIn} />
+                  </>
+                }
+              </div>
+            </div>
           <BottomNavigation />
         </Router>
         <Container>
