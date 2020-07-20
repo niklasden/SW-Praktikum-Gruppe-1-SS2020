@@ -290,8 +290,7 @@ class ListEntryMapper(Mapper):
         if listentry.get_unit() != "" or listentry.get_unit() is not None:
             le.set_unit(listentry.get_unit())
         if listentry.get_buy_date() != "" and listentry.get_buy_date() is not None:
-            date = datetime.date.today()
-            le.set_buy_date(date)
+            le.set_buy_date(listentry.get_buy_date())
        
 
         #Spaghetti here we come
@@ -302,19 +301,14 @@ class ListEntryMapper(Mapper):
             unit = "NULL"
         else:
             unit = "'" + le.get_unit() + "'"
-        
-        if le.get_buy_date() is None:
-            date = "NULL"
-        else:
-            date = "'" + le.get_buy_date() + "'"
-        
+    
         if le.get_retailer() is None:
             retailer = "NULL"
         else:
             retailer =  le.get_retailer()
         
         if le.get_amount() is None:
-            amount = "NULL"
+            amount = 'NULL'
         else:
             amount = le.get_amount()
         
@@ -327,12 +321,14 @@ class ListEntryMapper(Mapper):
             user = 'NULL'
         else:
             user = le.get_user()
-
+        
         if le.get_buy_date() is None:
             buydate = 'NULL'
         else:
-            buydate = le.get_buy_date()
-
+            date = datetime.date.today()
+            buydate = "'"+date.strftime("%Y/%m/%d")+"'"
+            
+        
         command = """UPDATE Listentry SET Article_ID={0}, Retailer_ID={1}, Shoppinglist_ID={2}, User_ID={3}, Group_ID={4}, amount={5}, unit={6}, bought={7} WHERE ID={8}""".format(le.get_article(), retailer, shoppinglist, user, le.get_group(), amount, unit, buydate, le.get_id())
         print(command)
             
@@ -369,8 +365,6 @@ class ListEntryMapper(Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        print(user_id )
-        print("group" + group_id)
         statement = "SELECT Listentry.ID, Article.name as 'name', Category.name as 'category', Listentry.amount, Listentry.unit, Listentry.User_ID, Retailer.name as 'retailer', Article.ID FROM Listentry LEFT JOIN Retailer ON Listentry.Retailer_ID = Retailer.ID LEFT JOIN Article ON Listentry.Article_ID = Article.ID LEFT JOIN Category ON Article.CategoryID = Category.ID WHERE (Group_ID={0}) AND (User_ID={1} AND (bought is NULL))".format(group_id, user_id)
 
         cursor.execute(statement)

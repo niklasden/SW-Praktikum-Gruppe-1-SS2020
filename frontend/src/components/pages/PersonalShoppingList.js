@@ -309,11 +309,9 @@ PurchaseCompleted(){
   
   Arr.map( item => {
     let updatedItem = Object.assign(new ListEntryBO(), item);
-    updatedItem.setBought("date");
+    updatedItem.setBought("tbs");
     updatedItem.setRetailerid(null)
-
     console.log(updatedItem)
-
     ShoppingAPI.getAPI().updateListEntry(updatedItem).catch(e => console.log(e))
   } )
 
