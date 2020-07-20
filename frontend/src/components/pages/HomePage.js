@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import HeaderButton from '../layout/HeaderButton';
-import MainButton from '../layout/MainButton'
+import MainButton from '../layout/MainButton';
 import Grid from '@material-ui/core/Grid';
 import { Icon } from '@material-ui/core';
-import { Link } from 'react-router-dom'
-import GroupsGridList from '../layout/AllGroupsGridList'
-import { SettingsContext } from '../../settingsContext' //only for context
+import { Link } from 'react-router-dom';
+import GroupsGridList from '../layout/AllGroupsGridList';
+import { SettingsContext } from '../../settingsContext'; //only for context
 
 /** 
  *  Homepage of iKaufa
