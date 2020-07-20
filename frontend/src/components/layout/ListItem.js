@@ -19,7 +19,6 @@ const styles = theme => ({
     borderWidth: 1,
     borderColor: '#BDBDBD',
     borderRadius: 10,
-    borderColor: '#BDBDBD',
     borderStyle: 'solid',
     marginLeft: 13,
     height: 35,
@@ -62,8 +61,6 @@ class ListItem extends Component {
   }
 
   render() {
-    const open = Boolean(this.state.anchorEl);
-
     return (
     <Grid 
       container

@@ -80,7 +80,6 @@ const styles = theme => ({
     borderStyle: 'solid',
     borderRadius: 5,
 		padding: 5,
-		marginTop: 20, 
 		alignItems: 'center', 
 		display: 'flex', 
 		flexDirection: 'column', 

@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { withStyles, ButtonBase } from '@material-ui/core';
 import FavoriteArticle from '../layout/FavoriteArticle';
-import { Link } from 'react-router-dom';
-import { push } from "react-router";
-import GroupShoppingList from '../pages/GroupShoppingList';
 import { withRouter } from "react-router-dom";
 
 
@@ -29,7 +26,7 @@ const styles = theme => ({
 
  class FavoriteArticlesListEntry extends Component {
     onSave= () => {
-         this.state= {id: this.props.id, name: this.props.name, category: this.props.category}
+         this.setState({id: this.props.id, name: this.props.name, category: this.props.category});
     }
   render(){
     const { classes } = this.props

@@ -3,12 +3,10 @@ import { Grid, FormControl, InputLabel, Select, MenuItem } from '@material-ui/co
 import IconButton from '../layout/IconButton'
 import CategoryDropDown from '../layout/CategoryDropDown';
 import PopUp from '../layout/PopUp';
-import { Config } from '../../config'
 import ShoppingSettings from '../../shoppingSettings'
 import ListEntryBO from '../../api/ListEntryBO';
 import ShoppingAPI from '../../api/ShoppingAPI';
 import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress'
-import { timeout } from '../../timeout';
 
 /**
  * Displays the PersonalShoppingList as designed in Figma. All items to be purchased by a person are listed on the list and can be ticked off the list. Finally the user can complete the shopping. 
@@ -328,7 +326,6 @@ render(){
 
   console.log(this.state.selectedRetailer)
   let shops = this.renderReatailer()
-  let all = 'ALL'
   console.log(this.state.items)
   console.log(this.state.currentUserID)
   console.log("GroupID  " + this.state.groupID)

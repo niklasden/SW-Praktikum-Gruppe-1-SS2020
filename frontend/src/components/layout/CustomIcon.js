@@ -83,7 +83,6 @@ const icons = {
   ketchup:ketchupIcon,
   mustard:mustardIcon,
   pizza:pizzaIcon,
-  bread: breadIcon, 
   orange: orangeIcon, 
   strawberry: strawberryIcon, 
   banana: bananaIcon, 
@@ -127,7 +126,7 @@ const icons = {
 class CustomIcon extends Component {
   render(){
     let icon = ''
-    if (this.props.iconName != undefined){
+    if (this.props.iconName !== undefined){
       if (this.props.iconName in icons){
         icon = this.props.iconName
       }
@@ -137,7 +136,7 @@ class CustomIcon extends Component {
     }
 
     let dimension = 20
-    if (this.props.width != undefined){
+    if (this.props.width !== undefined){
       dimension = this.props.width
     }
 
@@ -149,6 +148,7 @@ class CustomIcon extends Component {
           filter: `grayscale(100%)`,
           ...this.props.style    
         }} 
+        alt={this.props.iconName}
         src={icons[icon]}
       />
     )

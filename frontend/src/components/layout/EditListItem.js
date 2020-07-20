@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 import { Grid, TextField } from "@material-ui/core";
-import PropTypes, { array } from 'prop-types';
+import PropTypes from 'prop-types';
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';

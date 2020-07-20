@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import { withStyles } from '@material-ui/styles';
-import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box'
 import MaterialIconButton from '@material-ui/core/IconButton';
 import { withRouter } from "react-router-dom";

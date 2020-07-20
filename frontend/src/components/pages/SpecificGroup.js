@@ -53,7 +53,6 @@ const styles = theme => ({
     borderWidth: 1,
     borderColor: '#BDBDBD',
     borderRadius: 10,
-    borderColor: '#BDBDBD',
     borderStyle: 'solid',
     paddingTop: theme.spacing(1),
     paddingLeft: theme.spacing(1),
@@ -148,7 +147,7 @@ class SpecificGroup extends Component {
      // request to db! > delete Group      
     })
   
-    if(settingsobj.onlySettingsGetSettingsGroupID() == id){
+    if(settingsobj.onlySettingsGetSettingsGroupID() === id){
       settingsobj.onlySettingsSetSettingsGroupID(0)
       settingsobj.onlySettingsSetSettingsGroupName("")
     }
@@ -181,7 +180,7 @@ class SpecificGroup extends Component {
         fetch(Config.apiHost + '/membership/del', rInit) 
         alert("Deleted user with id: " +usr.id + " from this group")
         
-        if(this.checkGroupMembers() == false){
+        if(this.checkGroupMembers() === false){
           alert("deleting group")
           this.deleteGroup(settingsobj.onlySettingsGetSettingsGroupID())
         }
@@ -224,7 +223,7 @@ class SpecificGroup extends Component {
                 }, 
                 body: requestBody
               }           
-              let res = await fetch(Config.apiHost + '/membership',rInitt)
+              await fetch(Config.apiHost + '/membership',rInitt)
               this.setState({groupmembers: [...this.state.groupmembers, newUser ]})
 
         }
@@ -354,7 +353,7 @@ class SpecificGroup extends Component {
   }).catch(e =>
       alert(e)
       )
-       if(settingsobj.onlySettingsGetSettingsGroupID() == id){
+       if(settingsobj.onlySettingsGetSettingsGroupID() === id){
          settingsobj.onlySettingsSetSettingsGroupID("")
          settingsobj.onlySettingsSetSettingsGroupName("")
        }
@@ -377,23 +376,6 @@ class SpecificGroup extends Component {
   };
   const handleClickCloseAddShoppinglistDialog = () => {
     this.setState({openAddShoppinglistDialog:false})};
-    
-    const UserExistCheck = (id) => {
-      var r = false
-      //console.log("userxc gm: ", this.state.groupmembers)
-      this.state.groupmembers.forEach(elem => {
-        if(elem.id == id){r = true }  
-      }
-      )
-      if(r == true){
-        alert("User already exists !")
-        return true
-      }else{return false; }
-    } 
-
-    const clear = () => {
-      this.setState({ fetchuser: '',groupnameval:''})
-    }
 
     /*
     const fetchspecificUser = async () => {

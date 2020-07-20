@@ -1,18 +1,14 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import TimelineIcon from '@material-ui/icons/Timeline';
-import HomeIcon from '@material-ui/icons/Home';
-import MenuIcon from '@material-ui/icons/Menu';
 import InfoIcon from '@material-ui/icons/Info';
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import CodeIcon from '@material-ui/icons/Code';
-import SettingsIcon from '@material-ui/icons/Settings';
 import ArchiveIcon from '@material-ui/icons/Archive';
 import {Link} from 'react-router-dom';
 
@@ -41,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Menu(props) {
   const classes = useStyles();
-  const user = props.user;
   const [state, setState] = React.useState({
     open: false,
   });
