@@ -23,7 +23,6 @@ class ShoppingAdministration (object):
         pass
 
     def create_user(self, name, email, firebase_id):
-        """Um einen User anzulegen"""
         user = User()
         user.set_name(name)
         user.set_email(email)

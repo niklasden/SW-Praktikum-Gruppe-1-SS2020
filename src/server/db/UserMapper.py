@@ -148,6 +148,7 @@ class UserMapper(Mapper):
         """
         Julius
         """
+        
         cursor = self._cnx.cursor()
         cursor.execute("SELECT MAX(id) AS maxid FROM User")
         tuples = cursor.fetchall()
@@ -166,7 +167,7 @@ class UserMapper(Mapper):
                 """
                 user.set_id(1)
         
-        command = "INSERT INTO User (ID, `e-mail`, `firebase-id` , name, `creationdate`, `location` ) VALUES('{0}','{1}','{2}','{3}', NOW()), '{4}".format(user.get_id(),user.get_email(),user.get_firebase_id(),user.get_name(), user.get_location())
+        command = "INSERT INTO User (ID, `e-mail`, `firebase-id` , name, `creationdate`, `location` ) VALUES({0},'{1}','{2}','{3}', NOW(), '{4}')".format(user.get_id(),user.get_email(),user.get_firebase_id(),user.get_name(), user.get_location())
         try:
             cursor.execute(command)
             self._cnx.commit()
