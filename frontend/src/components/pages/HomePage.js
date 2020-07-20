@@ -30,7 +30,7 @@ export class HomePage extends Component {
         >
           <Grid item xs={12}>
             <Grid item xs={12}>
-              <p style={{textAlign:"center"}}> Select Your Group</p>
+              <p style={{textAlign:"center"}}>select your group</p>
             </Grid>
             <GroupsGridList currentUserID={this.props.currentUserID} />
           </Grid>
@@ -47,7 +47,6 @@ export class HomePage extends Component {
                   <Grid item xs={12}>
                     <Icon fontSize="large">equalizer</Icon>
                   </Grid>
-
                   STATISTICS
                 </Grid>
               </MainButton>
@@ -66,7 +65,6 @@ export class HomePage extends Component {
                   <Grid item xs={12}>
                     <Icon fontSize="large">settings</Icon>
                   </Grid>
-
                   SETTINGS
                 </Grid>
               </MainButton>
