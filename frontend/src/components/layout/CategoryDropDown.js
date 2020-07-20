@@ -12,9 +12,7 @@ import PropTypes from 'prop-types';
  * @author [Pascal Illg](https://github.com/pasillg)
  * 
 */
-
 class CategoryDropDown extends Component {
-
   render(){
     return (
     <ExpansionPanel>

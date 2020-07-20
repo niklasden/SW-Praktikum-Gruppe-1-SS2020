@@ -8,7 +8,7 @@ const styles = theme => ({
 })
 
 /**
- * Displays a snackbar to show an error, it should be inserted at the end of a component
+ * Displays a snackbar to show an error, it should be inserted at the end of a page
  * 
  * @author [Christopher Böhm](https://github.com/christopherboehm1)
  * 

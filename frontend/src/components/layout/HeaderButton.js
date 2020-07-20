@@ -10,13 +10,16 @@ const styles = theme => ({
     backgroundColor: '#00BCD4',
     borderRadius: 5,
     margin: 'auto',
-    marginTop: 20,
+    marginTop: 10,
     padding: theme.spacing(3),
-    maxWidth: 400,
+    //maxWidth: 400,
+    width: 360,
+    height: 180,
   },
   iconsItem: {
-    padding: theme.spacing(3),
+    //padding: theme.spacing(3),
     margin: 'auto',
+
   },
   item: {
     padding: theme.spacing(1),
@@ -25,15 +28,22 @@ const styles = theme => ({
     margin: 'auto'
   },
   heading: {
-    color: '#fff'
+    color: '#fff',
+    fontSize: '50px', 
+    fontWeight: 'lighter',
+    lineHeight: 0.8
   },
   subHeading: {
     color: '#fff',
+    fontSize: '25px', 
+    fontWeight: 'lighter'
+
   },
   button1: {
     backgroundColor: '#fafafa', 
     color: '#00BCD4',
-    marginLeft: theme.spacing(4),
+    //marginLeft: theme.spacing(4),
+    marginLeft: 48,
     marginBottom: theme.spacing(1),
     borderRadius: 5,
     height: 45, 
@@ -65,7 +75,7 @@ class HeaderButton extends Component {
       const { classes } = this.props;
       return (
         <Grid container className={classes.root} alignItems="center">
-            <Grid item xs={4} className={classes.iconsItem} style={{borderRight: '1px solid #ccc'}}>
+            <Grid item xs={4} className={classes.iconsItem} style={{borderRight: '2px solid #ccc'}}>
               <div className={classes.button1}>
                 <FormatListBulletedIcon />
               </div>
@@ -73,7 +83,7 @@ class HeaderButton extends Component {
                 <ShoppingCartIcon />
               </div>
             </Grid>
-            <Grid item xs={8} className={classes.item} >
+            <Grid item xs={8} className={classes.item}>
               <Typography variant="h5" className={classes.heading}>iKaufa</Typography>
               <Typography variant="h6" className={classes.subHeading}>plana - kaufa</Typography>
             </Grid>
