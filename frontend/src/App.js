@@ -78,7 +78,8 @@ class App extends React.Component {
 	  authLoading: false,
 	  isNavHidden: false,
 	  currentUserID: null,
-	  isloaded:false
+	  isloaded:false,
+	
 	  
 	};
 	this.fetchCurrentUserID = this.fetchCurrentUserID.bind(this);
@@ -105,16 +106,18 @@ class App extends React.Component {
 		}
 	  }
 	async addUser(firebaseUser) {
-		var users = await this.getAllUsers();
+		var users = await this.getAllUsers();   //to prevent security issues: create route in backend to check if email exists :) 
 		if(users.find(user => user.email === firebaseUser.email) === undefined) {
 			// console.log("User noch nicht in der DB vorhanden, erstelle Neuen.");
 			var latestUserID = await this.getLatestUserID();
+			this.setState({authLoading:true})
 			try{
 			  const rb = {
 				"id": latestUserID,
 				"name": firebaseUser.displayName,
 				"email": firebaseUser.email,
-				"firebase_id": firebaseUser.uid
+				"firebase_id": firebaseUser.uid,
+				"location":"Stuttgart, Vaihingen"
 			  }
 			  const requestBody = JSON.stringify(rb)
 			  const rInit = {
@@ -126,6 +129,8 @@ class App extends React.Component {
 			  } 
 			  const resp = await fetch(Config.apiHost + '/User', rInit)
 			  if(resp.ok)  {
+				await window.location.reload()
+				this.setState({authLoading:false})
 				//   console.log("User", rb, "erstellt");
 			  }else {
 				//   console.log("User", rb, "konnte nicht erstellt werden")
@@ -249,7 +254,7 @@ class App extends React.Component {
 								// geändert von chris, um im dev prozess den signin zu umgehen, muss wieder 
 								// TODO: muss wieder in currentUser umbenannt werden
 								// Is a user signed in?
-								currentUser && currentUserID ?  //currentUserID for context 
+								currentUser ? //&& currentUserID ?  //currentUserID for context 
 							
 									<>
 										{/* Here should the redirects go */}

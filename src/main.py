@@ -332,10 +332,12 @@ class UserListOperations(Resource):
  """
         proposal = User.from_dict(api.payload)
         if proposal is not None:
+            d = adm.insert_user(proposal)
+
+        """ if proposal is not None:
             c = adm.create_user(proposal.get_name(),proposal.get_email(),proposal.get_firebase_id())
-            return c, 200
-        else:
-            return "",500
+            return c, 200 """
+        
         """ except Exception as e:
             print(e)
             return str(e) """
