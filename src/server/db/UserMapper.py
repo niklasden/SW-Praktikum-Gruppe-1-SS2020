@@ -1,13 +1,9 @@
 from server.bo.User import User
 from server.db.Mapper import Mapper
 
-<<<<<<< HEAD
 """
 Niklas und Julius
 """
-
-=======
->>>>>>> master
 
 class UserMapper(Mapper):
     def __init__(self):
@@ -47,8 +43,6 @@ class UserMapper(Mapper):
         cursor.execute("SELECT ID, `e-mail`,`firebase-id`, name, creationdate, location FROM User WHERE name LIKE '%{0}%' ORDER BY name".format(name))   
         tuples = cursor.fetchall()
 
-        
-        
         for (id, mail, firebase_id, name, cd, location) in tuples:
                 user = User()
                 user.set_id(id)
@@ -94,13 +88,10 @@ class UserMapper(Mapper):
         cursor.close()
         return result
     
-<<<<<<< HEAD
     
     """
     Julius
     """
-=======
->>>>>>> master
     def find_by_email(self,mail_adress):
         """
         Julius
@@ -243,11 +234,6 @@ for test purposes only
 if (__name__ == "__main__"):
     with UserMapper() as mapper:
         result = mapper.find_all()
-<<<<<<< HEAD
-        for p in result:
-            print(p)
-=======
         print(str(result))
         for i in result:
             print(str(i))
->>>>>>> master
