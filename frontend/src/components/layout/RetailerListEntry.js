@@ -61,7 +61,6 @@ class RetailerListEntry extends Component {
 
         <Grid item xs={1}>
           <Link 
-            to='create_retailer'
             to={{
               pathname: 'create_retailer', 
               state: { 

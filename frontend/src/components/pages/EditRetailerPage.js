@@ -43,7 +43,7 @@ class CreateRetailerPage extends Component {
     this.setState({ isSaving: true })
     setTimeout(async () => {
       let id = this.state.id
-      if (id == ""){
+      if (id === ""){
         id = 0
       } 
       console.log('id: ' + id)
@@ -117,14 +117,14 @@ class CreateRetailerPage extends Component {
     let id = ''
     // checks if there has been a redirect from retailer page to this page with a selected retailer
     // if yes it takes name and address from there
-    if (this.props.location.state != undefined){
+    if (this.props.location.state !== undefined){
       address = this.props.location.state.address
-      if (address == undefined){
+      if (address === undefined){
         address = ''
       }
       name = this.props.location.state.name
       id = this.props.location.state.id
-      if (id == undefined || id === ''){
+      if (id === undefined || id === ''){
         id = 0
       }
     }

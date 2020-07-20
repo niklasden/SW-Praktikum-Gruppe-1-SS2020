@@ -228,7 +228,7 @@ class App extends React.Component {
     render(){
 		//const userr = { name: this.state.currentUser.displayName, id:this.state.currentUserID } //hier muss dann die id übergeben werden .. 
 		document.title = 'iKaufa';
-		const { currentUser,currentUserID, appError, authError, authLoading,isNavHidden } = this.state;
+		const { currentUser,currentUserID, appError, authError, authLoading } = this.state;
 		//console.log(this.state.currentUser, this.state.currentUserID)
 		//const ID = this.state.currentUserID
 		//Context set init values 

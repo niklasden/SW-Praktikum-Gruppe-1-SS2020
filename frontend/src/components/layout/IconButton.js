@@ -25,9 +25,8 @@ const styles = theme => ({
  */
 class IconButton extends Component {
   render(){
-    const { classes } = this.props;
     let size = '48px' 
-    if(this.props.size == 'small'){
+    if(this.props.size === 'small'){
       size = '35px'
     }
 

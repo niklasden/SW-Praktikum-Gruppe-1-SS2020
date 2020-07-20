@@ -33,7 +33,9 @@ class CategoryDropDown extends Component {
         <Typography>
               {this.props.Useritems.map(element => {
               if(element.category === this.props.ArrCategory[this.props.item]){
-              return <ListItemCheckbox Checked={element.checkbox} handleChange={()=>this.props.handleChange(element.id)} itemname={element.name} amount={element.amount} unit={element.unit} category={element.category} iconname={element.name}></ListItemCheckbox>
+              return <ListItemCheckbox Checked={this.props.checkeditems.includes(element.id)} handleChange={()=>this.props.handleChange(element.id)} itemname={element.name} amount={element.amount} unit={element.unit} category={element.category} iconname={element.name}></ListItemCheckbox>
+            }else {
+              return null
             }
           })}
         </Typography>
@@ -48,6 +50,7 @@ CategoryDropDown.propTypes = {
   ArrCategory: PropTypes.array.isRequired,
   item: PropTypes.string.isRequired,
   handleChange: PropTypes.string.isRequired,
+  checkeditems: PropTypes.array.isRequired,
 }
 
 export default (CategoryDropDown);

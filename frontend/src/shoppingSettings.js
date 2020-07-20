@@ -1,6 +1,3 @@
-import shadows from "@material-ui/core/styles/shadows"
-
-
 /**
  * class for global settings
  * 

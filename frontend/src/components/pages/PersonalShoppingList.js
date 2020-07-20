@@ -3,7 +3,6 @@ import { Grid, FormControl, InputLabel, Select, MenuItem } from '@material-ui/co
 import IconButton from '../layout/IconButton'
 import CategoryDropDown from '../layout/CategoryDropDown';
 import PopUp from '../layout/PopUp';
-import { Config } from '../../config'
 import ShoppingSettings from '../../shoppingSettings'
 import ListEntryBO from '../../api/ListEntryBO';
 import ShoppingAPI from '../../api/ShoppingAPI';
@@ -27,7 +26,8 @@ export default class PersonalShoppingList extends Component {
     market : null,
     flag : 'unclicked',
     solved: false,
-    loadingInProgress: false, 
+    loadingInProgress: false,
+    loading: true, 
     currentUserID: settings.getCurrentUserID(),
     groupID: settings.getGroupID()
 }
@@ -45,8 +45,17 @@ newItem = () => {
 }
 
 componentDidMount(){
+ /*  while(loading === true){
+
+    setTimeout(30000)
+    await timeout(30000)
+
+
+
+  } */
   this.newItem()
-  this.getItemsFromLocalStorage()  
+  this.getItemsFromLocalStorage() 
+  localStorage.clear()
 }
 
 async getItemsFromLocalStorage(){
@@ -65,12 +74,20 @@ async getItemsFromLocalStorage(){
 
 createUserItem(){
   let items = this.state.items
+ /*  console.log(this.state.checkedItems)
   console.log("items" + items)
   for (let index in items){
     let test = items[index]
-    test['checkbox'] = false 
+    if (this.state.checkedItems.filter(elem => elem.id === test.id).length >0){
+      test['checkbox'] = true
+      console.log("checkbox true" + test.id)
     }
-  console.log("useritems" + items)
+    else{
+      test['checkbox'] = false 
+      console.log("checkbox false" + test.id)
+    }  
+  }
+  console.log("useritems" + items) */
   return items
 }
 
@@ -79,7 +96,7 @@ getUncheckedArticles(){
   let ArrUncheckedArticles = []
   let Useritems = this.createUserItem()
   Useritems.filter( item => {
-    if(item.checkbox === false && (this.state.selectedRetailer === item.retailer || this.state.selectedRetailer === 'All')){
+    if(this.state.checkedItems.includes(item.id) === false && (this.state.selectedRetailer === item.retailer || this.state.selectedRetailer === 'All')){
       ArrUncheckedArticles.push(item)
     }
   })
@@ -106,15 +123,27 @@ renderUncheckedArticles(){
   console.log('ArrCategory  ' + ArrCategory)
   for (let item in ArrCategory){
     renderdArticles.push( 
-      <CategoryDropDown handleChange={this.handleChangeCheckbox.bind(this)} Useritems={Useritems} ArrCategory={ArrCategory} item={item}></CategoryDropDown>
+      <CategoryDropDown checkeditems={this.state.checkedItems} handleChange={this.handleChangeCheckbox.bind(this)} Useritems={Useritems} ArrCategory={ArrCategory} item={item}></CategoryDropDown>
     )}
   return renderdArticles
+};
+
+/* Returns an array with all Useritems that are checked  */
+getCheckedArticles(){
+  let ArrCheckedArticles = []
+  let Useritems = this.createUserItem()
+  Useritems.filter( item => {
+    if(this.state.checkedItems.includes(item.id) === true && (this.state.selectedRetailer === item.retailer || this.state.selectedRetailer === 'All')){
+      ArrCheckedArticles.push(item)
+    }
+  })
+  return ArrCheckedArticles
 };
 
 /* Returns an array with the categorys of all Useritems that are checked  */
 getCheckedArticlesCategory(){
   let ArrCheckedArticlesCategory = [];
-  let ArrCheckedArticles = this.state.checkedItems
+  let ArrCheckedArticles = this.getCheckedArticles();
   ArrCheckedArticles.map( item => {
     if(!ArrCheckedArticlesCategory.includes(item.category)){
       ArrCheckedArticlesCategory.push(item.category)
@@ -126,12 +155,12 @@ getCheckedArticlesCategory(){
 /* Renders an array with all categories and the containend checked Useritems */
 renderCheckedCategoryArticles(){
   let renderdArticles = []
-  let ArrCheckedArticles = this.state.checkedItems;
+  let ArrCheckedArticles = this.getCheckedArticles();
   let ArrCheckedArticlesCategory = this.getCheckedArticlesCategory();
   console.log(ArrCheckedArticles)
   for (let item in ArrCheckedArticlesCategory){
     renderdArticles.push( 
-      <CategoryDropDown handleChange={this.handleChangeCheckbox.bind(this)} Useritems={ArrCheckedArticles} ArrCategory={ArrCheckedArticlesCategory} item={item}></CategoryDropDown>
+      <CategoryDropDown checkeditems={this.state.checkedItems} handleChange={this.handleChangeCheckbox.bind(this)} Useritems={ArrCheckedArticles} ArrCategory={ArrCheckedArticlesCategory} item={item}></CategoryDropDown>
     )}
     console.log('checked'   + ArrCheckedArticlesCategory)
     console.log('array'   + ArrCheckedArticles)
@@ -186,53 +215,97 @@ handleChangeRetailer = e =>{
 
 handleChangeCheckbox(id){
   let Items = this.createUserItem()
+  console.log(Items)
   let checkedItems = this.state.checkedItems
 
-  if (Items.filter(elem =>(elem.id === id)).length > 0){
-    console.log("Bin drinne in items")
-    Items.map( item => {
+  if(checkedItems.includes(id)){
+    checkedItems.forEach( (l,i) => {
+      if (l === id){
+        checkedItems.splice(i, 1)
+        console.log("drin")
+      }
+    }
+  )}
+  else {
+    checkedItems.push(id)
+  }
+
+  this.setState({checkedItems : checkedItems})
+
+
+  
+
+/*   if (Items.filter(elem =>(elem.id === id)).length > 0){
+    console.log("Bin drinne in items") */
+/*     let newItem = {}
+    Items.forEach( (item, key) => {
       if(item.id === id){
-        let newItem = {...item}
-        for (let element in Items){
-          if(Items[element].id === newItem.id){
-            newItem.checkbox = !newItem.checkbox
-            Items.splice(element, 1,)
-            this.setState({items : Items})
-            this.state.checkedItems.push(newItem)
-          }
-        }
+        newItem = Object.assign({},item)
+            console.log(newItem)
+            newItem.checkbox = true
+            console.log(newItem.checkbox)
+            console.log(newItem)
+            Items.splice(key, 1, newItem)
+            console.log(Items)
+            const wholeNewItems = [] 
+              Items.forEach((el, key) => {   
+                if (el.id == newItem.id){ 
+                  console.log("bin in der if")
+                  wholeNewItems.push({ ...newItem })   
+                } 
+                else {
+                  wholeNewItems.push({...el})  
+                } 
+              }) 
+              console.log(wholeNewItems)
+              this.setState({items: wholeNewItems})   
+      }
+    })
+} */
+           /*  let elemFound = false;
+            for (let elem in checkedItems){
+              if (checkedItems[elem].id === id){
+                this.state.checkedItems.splice(elem, 1,)
+                elemFound = true
+              }
+             
+            }
+            if (elemFound === false) {
+              this.state.checkedItems.push(id)
+            }
       }
     })
     localStorage.setItem('checkeditems', JSON.stringify(this.state.checkedItems))
-  }
-  else {
-  checkedItems.map( item => {
+  } */
+/* 
+  Items.map( item => {
     if(item.id === id){
       let newItem = {...item}
-      for (let element in checkedItems){
-        if(checkedItems[element].id === newItem.id){
+      for (let element in Items){
+        if(Items[element].id === newItem.id){
           console.log("bin drinn")
           newItem.checkbox = !newItem.checkbox
-          checkedItems.splice(element, 1,)
-          this.setState({checkedItems : checkedItems})
-          Items.push(newItem)
+          Items.splice(element, 1, newItem)
+          console.log(Items)
+          this.setState({items : Items})
+          console.log(Items)
         }
       }
     }
-  })
-  localStorage.setItem('checkeditems', JSON.stringify(this.state.checkedItems))
- }
+  }) */
+ /*  localStorage.setItem('checkeditems', JSON.stringify(this.state.checkedItems)) */
 }
+
 
 handlePopUp(){
   if(this.state.solved === true){
-    return <PopUp open={true} PurchaseNotCompleted={()=> this.setState({ solved : false})}
-    PurchaseCompleted={() => this.PurchaseCompleted()}></PopUp> 
+    return <PopUp name={'Willst du den Einkauf wirklich abschließen?'} title={"Einkauf abschließen?"} open={true} clickNo={()=> this.setState({ solved : false})}
+    clickYes={() => this.PurchaseCompleted()}></PopUp> 
   }
 }
 
 PurchaseCompleted(){
-  let Arr = this.state.checkedItems
+  let Arr = this.getCheckedArticles()
   
   Arr.map( item => {
     let updatedItem = Object.assign(new ListEntryBO(), item);
@@ -244,8 +317,6 @@ PurchaseCompleted(){
     ShoppingAPI.getAPI().updateListEntry(updatedItem).catch(e => console.log(e))
   } )
 
- 
-
   Arr = []
   this.setState({checkedItems : Arr})
   this.setState({solved : false})
@@ -255,8 +326,7 @@ render(){
 
   console.log(this.state.selectedRetailer)
   let shops = this.renderReatailer()
-  let all = 'ALL'
-  console.log('Das ist Items:    ' + this.state.items)
+  console.log(this.state.items)
   console.log(this.state.currentUserID)
   console.log("GroupID  " + this.state.groupID)
 

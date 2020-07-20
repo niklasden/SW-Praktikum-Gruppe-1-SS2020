@@ -1,14 +1,12 @@
 import React, {Component} from 'react';
-import ListItemCheckbox from '../layout/ListItemCheckbox';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { Grid, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import ListItem from '../layout/ListItem';
 import ShoppingAPI from '../../api/ShoppingAPI';
-import UserBO from '../../api/UserBO';
 import ShoppingSettings from '../../../src/shoppingSettings';
 
 const settingsobj = ShoppingSettings.getSettings()
@@ -21,9 +19,6 @@ const settingsobj = ShoppingSettings.getSettings()
 */
 
 class DropDownGSL extends Component {
-  constructor(props) {
-    super(props)
-  }
   state = {
     user:[],
     retailer: [],

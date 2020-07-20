@@ -71,7 +71,7 @@ class CreateArticlePage extends Component {
         this.setState({ isSaving: true })
         setTimeout(async () => {
             let id = this.state.item
-            if (id == ""){
+            if (id === ""){
                 id = 0
             }
 
@@ -141,7 +141,7 @@ class CreateArticlePage extends Component {
         let id = ''
         /* checks if there has been a article from the article page*/
         /* if yes, it takes name and category from there*/
-        if (this.props.location.state != undefined){
+        if (this.props.location.state !== undefined){
             id = this.props.location.state.id
             name = this.props.location.state.name
             this.state.categorys.forEach((element, i) => {

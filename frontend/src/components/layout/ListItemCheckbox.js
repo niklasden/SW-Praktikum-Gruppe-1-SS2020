@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import SearchIcon from "@material-ui/icons/Search";
 import CustomIcon from "../layout/CustomIcon";
 import PropTypes from 'prop-types';
 import Checkbox from "@material-ui/core/Checkbox"
@@ -12,7 +11,6 @@ const styles = theme => ({
     borderWidth: 1,
     borderColor: '#BDBDBD',
     borderRadius: 10,
-    borderColor: '#BDBDBD',
     borderStyle: 'solid',
     marginLeft: 5,
     maxWidth: '100vh',

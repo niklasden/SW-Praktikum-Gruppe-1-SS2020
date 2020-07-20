@@ -8,9 +8,6 @@ import ProductListEntry from '../layout/ProductListEntry';
 import { Link } from 'react-router-dom';
 import Heading from '../layout/Heading';
 import { Config } from '../../config';
-import { ListItemIcon } from '@material-ui/core';
-import ShoppingAPI from '../../api/ShoppingAPI';
-import ShoppingSettings from '../../../src/shoppingSettings';
 
 
 
@@ -89,8 +86,6 @@ const categoryIconMapper = {
   "convenience & frozen products": 'convenience'
 }
 
-const settingsobj = ShoppingSettings.getSettings()
-
 
 /**
  * Renders a list of ArticleEntry objects
@@ -157,19 +152,22 @@ class ProductsPage extends Component {
     var categories = this.state.articles.reduce((itemsSoFar, {category, name, id}) => {
       if (!itemsSoFar[category]) itemsSoFar[category] = [];
       var iconName = getIconName(name, category)
+      //console.log(category)
       itemsSoFar[category].push({name, id, iconName});
       return itemsSoFar; 
     }, {});
 
     /* Checks if there is a Article equal to the search-value*/ 
-    if(this.state.searchValue != ''){
+    if(this.state.searchValue !== ''){
       //Erst this.state.articles filtern und dann reducen?
-      categories = this.state.articles.reduce((itemsSoFar, {category, name, id, iconName}) => {
+      categories = this.state.articles.reduce((itemsSoFar, {category, name, id}) => {
         if (!itemsSoFar[category]) itemsSoFar[category] = [];
         var iconName = getIconName(name, category)
         if (name.toLowerCase().includes(this.state.searchValue.toLowerCase())) itemsSoFar[category].push({name, category,  id, iconName});
         return itemsSoFar;
-      }, {});
+
+      }, 
+      {});
     }
   
    return Object.entries(categories).map(category => (
@@ -202,6 +200,7 @@ class ProductsPage extends Component {
     const classes = this.props.classes
     //console.log(this.state.articles)
     //console.log(categories)
+
     return(
       <Grid container 
       className={classes.root}>

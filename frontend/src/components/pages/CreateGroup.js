@@ -25,8 +25,6 @@ import avatar from '../img/avatar.jpg';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import { Config } from '../../config';
 import { withRouter } from "react-router";
-import ShoppingAPI from '../../api/ShoppingAPI';
-import GroupBO from '../../api/GroupBO';
 import ShoppingSettings from '../../shoppingSettings'
 
 const settingsObject = ShoppingSettings.getSettings()
@@ -103,10 +101,10 @@ class CreateGroup extends Component {
     const UserExistCheck = (id) => {
       var r = false 
       this.state.groupMembers.forEach(elem => {
-        if(elem.id == id){r = true }  
+        if(elem.id === id){r = true }  
 			})
 			
-      if(r == true){
+      if(r === true){
         alert("User already exists !")
         return true
       } else {
@@ -121,7 +119,7 @@ class CreateGroup extends Component {
 				let data = await response.json()
 				console.log(data);
 				if (data.name != null){
-					if(UserExistCheck(data.id) == false){
+					if(UserExistCheck(data.id) === false){
 						this.setState({groupMembers: this.state.groupMembers.concat(data)})
 					}
 				} else {

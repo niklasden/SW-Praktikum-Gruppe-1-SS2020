@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Typography, withStyles, Checkbox, FormControlLabel, Button, Avatar, Box, Container, Badge, TextField } from '@material-ui/core';
+import { Grid, Typography, withStyles, Button, Avatar, Box, Container, TextField } from '@material-ui/core';
 import MainButton from '../layout/MainButton';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -47,7 +47,6 @@ class AccountsPage extends Component {
 			email: "",
 		}
 		this.uploadedImage = React.createRef();
-		this.imageUploader = React.createRef();
 		this.handleCloseDeleteConfirmation = this.handleCloseDeleteConfirmation.bind(this);
 		this.handleOpenDeleteConfirmation = this.handleOpenDeleteConfirmation.bind(this);
 		this.getAllUsers = this.getAllUsers.bind(this);
@@ -141,7 +140,6 @@ class AccountsPage extends Component {
 
 	render() {
 		const { classes } = this.props;
-		var imageUploader = [];
 		
 		/* not needed as image upload is not implemented in backend
 		const handleImageUpload = e => {

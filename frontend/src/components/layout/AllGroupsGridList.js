@@ -60,7 +60,7 @@ class GroupsGridList extends Component {
       /**We have to fetch specific groups with user parameter */
       async fetchGroups(){
         //const res = await fetch('http://localhost:8081/api/shoppa/groups')
-            if(this.props.currentUserID != 0 || this.props.currentUserID !== null) {
+            if(this.props.currentUserID !== 0 || this.props.currentUserID !== null) {
               const res = await fetch(Config.apiHost + '/Group/Usergroup/'+ this.props.currentUserID)
               if(res.ok) {
                 const resjson = await res.json()
@@ -80,7 +80,7 @@ class GroupsGridList extends Component {
       
       render(){
         const { classes } = this.props;
-        if (this.state.groupItemss.length == 0 && !this.state.groupsFetched){
+        if (this.state.groupItemss.length === 0 && !this.state.groupsFetched){
           this.fetchGroups()
               }
         return(

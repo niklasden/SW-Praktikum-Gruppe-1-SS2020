@@ -56,7 +56,7 @@ class Groups extends Component {
       alert("Group and all Members deleted")
     }).catch(e => alert(e))
     
-    if(settingsobj.onlySettingsGetSettingsGroupID() == id){
+    if(settingsobj.onlySettingsGetSettingsGroupID() === id){
       settingsobj.onlySettingsSetSettingsGroupID("")
       settingsobj.onlySettingsSetSettingsGroupName("")
     }
@@ -92,7 +92,6 @@ class Groups extends Component {
 
   // TODO: remove 
   renderGroupsBackup(){
-    const { classes } = this.props;
     const Groups=[];
     
     this.state.groupItems.forEach( elem => {
@@ -149,7 +148,7 @@ class Groups extends Component {
   // TODO: remove
   render1(){
     const { classes } = this.props;
-    const { loadingInProgress, loadingError, loadingGroupsError, groupItems } = this.state;
+    const { loadingInProgress, loadingError } = this.state;
     return (
       <>
         <Grid container spacing={3} >

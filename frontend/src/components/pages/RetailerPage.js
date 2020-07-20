@@ -55,7 +55,7 @@ export class RetailerPage extends Component {
 
   renderRetailers(){
     let retailers = this.state.retailers
-    if(this.state.searchValue != ''){
+    if(this.state.searchValue !== ''){
       retailers = retailers.filter((retailer) => retailer.name.toLowerCase().includes(this.state.searchValue.toLowerCase()))
     }
 

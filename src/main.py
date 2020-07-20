@@ -70,7 +70,7 @@ listentry = api.inherit('ListEntry',bo, {
     'shoppinglist_id': fields.Integer(attribute='_shoppinglist_id',description="Corresponding Shopping List ID of a listentry"),
     'user_id': fields.String(attribute='_user_id',description="User ID which the ListEntry is assigned to"),
     'group_id': fields.Integer(attribute='_group_id',description="Group ID in which the ListEntry belongs to"),
-    'amount': fields.Integer(attribute='_amount',description="Amount of item to be bought"),
+    'amount': fields.String(attribute='_amount',description="Amount of item to be bought"),
     'unit': fields.String(attribute='_unit', description="Unit of item"),
     'bought': fields.String(attribute='_bought',description="Date when the article was bought"),
     'name': fields.String(attribute='_name',description="Name of the article"),
@@ -231,12 +231,7 @@ class GroupOperations(Resource):
     def delete(self,id):
         adm = ShoppingAdministration()
         grp = adm.get_group_by_id(id)
-        userobj = adm.get_users_by_groupid(id)
-        
-        if len(userobj) > 0:
-            for i in userobj:
-                adm.delete_membership(i.get_id(),id)
-                
+       
         adm.delete_group(grp)
         return "group and all memberships deleted",200
     

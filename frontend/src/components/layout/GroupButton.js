@@ -1,17 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
-import MaterialIconButton from '@material-ui/core/IconButton';
-import AddIcon from '@material-ui/icons/Add';
 import GroupIcon from '@material-ui/icons/PeopleAlt'
 import { withStyles } from '@material-ui/styles';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { Link as RouterLink } from 'react-router-dom';
-import { MemoryRouter as Router } from 'react-router';
 
-import Paper from '@material-ui/core/Paper';
-
-import {Link} from 'react-router-dom'
 const styles = theme => ({
   root: {
     backgroundColor: '#fafafa', 
@@ -39,7 +31,6 @@ const styles = theme => ({
  */
 class GroupButton extends Component {
   render(){
-    const { classes } = this.props;
     return (
               <>
          {/** 

@@ -28,16 +28,6 @@ const useStyles = makeStyles((theme) => ({
 function Header(props){
   const classes = useStyles();
   const { user } = props;
-  const paths = {
-    "/": "HOME",
-    "/about": "ABOUT",
-    "/users": "USER",
-    "/products": "ITEM",
-    "/retailers": "RETAILER",
-    "/settings": "SETTINGS",
-    "/statistics": "STATISTICS",
-    "/createGroup": "CREATE A GROUP",
-  };
   let location = useLocation();
 	let title = 'SW-Praktikum'
 	const path = location.pathname

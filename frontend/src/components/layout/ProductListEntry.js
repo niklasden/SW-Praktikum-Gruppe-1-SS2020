@@ -3,7 +3,6 @@ import Grid from '@material-ui/core/Grid';
 import { withStyles, ButtonBase } from '@material-ui/core';
 import Article from '../layout/Article';
 import { withRouter } from "react-router-dom";
-import PropTypes from 'prop-types';
 import AddListItem from './AddListItem';
 
 const styles = theme => ({
@@ -64,7 +63,6 @@ const styles = theme => ({
 
   render(){
       const { classes } = this.props
-      const open = Boolean(this.state.anchorEl)
 
       return (     
           <Grid item 

@@ -24,7 +24,7 @@ import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import MainButton from '../layout/MainButton';
 import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress'
 import ShoppingAPI from '../../api/ShoppingAPI';
-
+import PopUp from '../layout/PopUp';
 import ShoppingSettings from '../../../src/shoppingSettings'
 
 const settingsobj = ShoppingSettings.getSettings()
@@ -53,7 +53,6 @@ const styles = theme => ({
     borderWidth: 1,
     borderColor: '#BDBDBD',
     borderRadius: 10,
-    borderColor: '#BDBDBD',
     borderStyle: 'solid',
     paddingTop: theme.spacing(1),
     paddingLeft: theme.spacing(1),
@@ -95,6 +94,9 @@ class SpecificGroup extends Component {
       error: null,
       newMemberName: '',
       isLoading: false, 
+
+      SLsolved: false,
+      GRsolved:false
       
     }
     this.deleteMember = this.deleteMember.bind(this);
@@ -102,6 +104,7 @@ class SpecificGroup extends Component {
     this.deleteShoppingList = this.deleteShoppingList.bind(this);
     this.fetchspecificShoppinglist = this.fetchspecificShoppinglist.bind(this);
     this.deleteGroup = this.deleteGroup.bind(this);
+
   }
 
   async saveGroup() {
@@ -137,6 +140,7 @@ class SpecificGroup extends Component {
     }
     const resp = await fetch(Config.apiHost + '/Group/' + id, rInit)
     if(resp.ok){
+      this.setState({GRsolved : false})
       this.props.history.push('/Groups')
       alert("group and all memberships deleted")
     } else {
@@ -148,9 +152,10 @@ class SpecificGroup extends Component {
      // request to db! > delete Group      
     })
   
-    if(settingsobj.onlySettingsGetSettingsGroupID() == id){
+    if(settingsobj.onlySettingsGetSettingsGroupID() === id){
       settingsobj.onlySettingsSetSettingsGroupID(0)
       settingsobj.onlySettingsSetSettingsGroupName("")
+      
     }
 
     this.setState({ isLoading: false })
@@ -181,7 +186,7 @@ class SpecificGroup extends Component {
         fetch(Config.apiHost + '/membership/del', rInit) 
         alert("Deleted user with id: " +usr.id + " from this group")
         
-        if(this.checkGroupMembers() == false){
+        if(this.checkGroupMembers() === false){
           alert("deleting group")
           this.deleteGroup(settingsobj.onlySettingsGetSettingsGroupID())
         }
@@ -224,7 +229,7 @@ class SpecificGroup extends Component {
                 }, 
                 body: requestBody
               }           
-              let res = await fetch(Config.apiHost + '/membership',rInitt)
+              await fetch(Config.apiHost + '/membership',rInitt)
               this.setState({groupmembers: [...this.state.groupmembers, newUser ]})
 
         }
@@ -287,6 +292,8 @@ class SpecificGroup extends Component {
     this.setState({ isLoading: false })
 
   }
+  
+  
   async deleteShoppingList(groupID) {
     this.setState({ isLoading: true })
     const shoppinglist = {
@@ -349,15 +356,22 @@ class SpecificGroup extends Component {
   deleteGroup = (id) => {
     ShoppingAPI.getAPI().deleteGroup(id).then(groupBOs => {
       this.props.history.push('/Groups')
-      this.setState({groupItems: this.state.groupItems.filter(elem => elem.id !== id)})
+      //this.setState({groupItems: this.state.groupItems.filter(elem => elem.id !== id)})
       alert("Group and all Members deleted")
   }).catch(e =>
       alert(e)
       )
-       if(settingsobj.onlySettingsGetSettingsGroupID() == id){
+       if(settingsobj.onlySettingsGetSettingsGroupID() === id){
          settingsobj.onlySettingsSetSettingsGroupID("")
          settingsobj.onlySettingsSetSettingsGroupName("")
        }
+  }
+
+  handlePopUpGR(){
+    if(this.state.GRsolved === true){
+      return <PopUp name={'If you delete the group all shoppinglists and entries will be deleted!'} title={"Delete group?"} open={true} clickNo={()=> this.setState({ GRsolved : false})}
+      clickYes={ () => this.deleteGroup(this.state.groupID)}></PopUp> 
+    }
   }
 
   render(){
@@ -377,23 +391,6 @@ class SpecificGroup extends Component {
   };
   const handleClickCloseAddShoppinglistDialog = () => {
     this.setState({openAddShoppinglistDialog:false})};
-    
-    const UserExistCheck = (id) => {
-      var r = false
-      //console.log("userxc gm: ", this.state.groupmembers)
-      this.state.groupmembers.forEach(elem => {
-        if(elem.id == id){r = true }  
-      }
-      )
-      if(r == true){
-        alert("User already exists !")
-        return true
-      }else{return false; }
-    } 
-
-    const clear = () => {
-      this.setState({ fetchuser: '',groupnameval:''})
-    }
 
     /*
     const fetchspecificUser = async () => {
@@ -483,7 +480,7 @@ class SpecificGroup extends Component {
                           {list.name}
                           </Grid>
                           <Grid item xs={2}>
-                              <IconButton style={{padding:0}} className={classes.deleteIcon} onClick={() => { this.deleteShoppingList(list.id) }}>
+                              <IconButton style={{padding:0}} className={classes.deleteIcon} onClick={() => { this.deleteShoppingList(list.id) }}> 
                                 <DeleteIcon fontSize="small" />
                             </IconButton>
                           </Grid>
@@ -508,7 +505,7 @@ class SpecificGroup extends Component {
             <div style={{display: 'flex', flexDirection: 'row'}}>
               <MainButton onclick={this.saveGroup}>SAVE GROUP</MainButton>
               <div style={{marginLeft: 12}}>
-                <MainButton onclick={() => this.deleteGroup(this.state.groupID)}>DELETE GROUP</MainButton>
+                <MainButton onclick={() => this.setState({GRsolved: true})}>DELETE GROUP</MainButton>  {/* () => this.deleteGroup(this.state.groupID) */}
               </div>
             </div>
 
@@ -585,6 +582,7 @@ class SpecificGroup extends Component {
           </Button>
         </DialogActions>
       </Dialog>
+      {this.handlePopUpGR()}
       </>
       }
     </div>

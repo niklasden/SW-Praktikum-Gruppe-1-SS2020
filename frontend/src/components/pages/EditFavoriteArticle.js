@@ -238,7 +238,23 @@ class EditFavoriteArticle extends Component {
                 <TextField className={classes.control} label="Amount" defaultValue={currentAmount} onChange={this.handleChangeAmount} />
             </Grid>
             <Grid item xs={12}>
-                <TextField className={classes.control} label="Unit" defaultValue={currentUnit} onChange={this.handleChangeUnit} />
+                <FormControl className={classes.control}>
+                    <InputLabel>UNIT</InputLabel>
+                    <Select
+                    defaultValue={currentUnit}
+                    onChange={this.handleChangeUnit}
+                    
+                    >
+                        <MenuItem value={'kg'}>Kg</MenuItem>
+                        <MenuItem value={'g'}>g</MenuItem>
+                        <MenuItem value={'l'}>l</MenuItem>
+                        <MenuItem value={'ml'}>ml</MenuItem>
+                        <MenuItem value={'Stk.'}>Stk.</MenuItem>
+                        <MenuItem value={'Pkg.'}>Pkg.</MenuItem>
+                    </Select>
+                </FormControl>
+
+                {/* <TextField className={classes.control} label="Unit" defaultValue={currentUnit} onChange={this.handleChangeUnit} /> */}
             </Grid>
         </Grid>
         <Grid container spacing={2} direction="row" justify="space-between" alignItems="center">
@@ -251,7 +267,9 @@ class EditFavoriteArticle extends Component {
               <MainButton className={classes.button} onclick={this.deleteFavArticle}>DELETE</MainButton>
             </Grid>
             <Grid item xs={3}>
-              <MainButton className={classes.button} onclick={this.saveFavArticle}>SAVE</MainButton>
+                <Link to ="/favorite_products">
+                    <MainButton className={classes.button} onclick={this.saveFavArticle}>SAVE</MainButton>
+                </Link>
             </Grid>
             <Grid item xs={3}>
               <MainButton className={classes.button} onclick={this.saveFavArticleASNEW}>NEW</MainButton>

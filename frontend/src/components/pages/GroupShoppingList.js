@@ -1,15 +1,8 @@
 import React, {Component} from 'react';
 import { Grid, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
-import ListItem from '../layout/ListItem';
-import Heading from '../layout/Heading';
-import Popover from '@material-ui/core/Popover';
-import { checkPropTypes } from 'prop-types';
 import DropDownGSL from '../layout/DropDownGSL'
-import PopUp from '../layout/PopUp';
 import ShoppingSettings from '../../../src/shoppingSettings';
 import ShoppingAPI from '../../api/ShoppingAPI';
-import ShoppinglistBO from '../../api/ShoppinglistBO';
-import PropTypes, { array } from 'prop-types';
 
 const settingsobj = ShoppingSettings.getSettings()
 

@@ -21,17 +21,17 @@ import PropTypes from 'prop-types';
         aria-labelledby="alert title"
         aria-describedby="description" 
       >
-      <DialogTitle id="alert title">{"Einkauf abschließen?"}</DialogTitle>
+      <DialogTitle id="alert title">{this.props.title}</DialogTitle>
       <DialogContent>
         <DialogContentText id="description">
-          Möchtest Du den Einakuf wirklich abschließen?
+          {this.props.name}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={this.props.PurchaseCompleted} color="primary">
+        <Button onClick={this.props.clickYes} color="primary">
           YES
         </Button>
-        <Button onClick={this.props.PurchaseNotCompleted} color="primary" autoFocus>
+        <Button onClick={this.props.clickNo} color="primary" autoFocus>
           NO
         </Button>
       </DialogActions>
@@ -41,8 +41,10 @@ import PropTypes from 'prop-types';
 
 PopUp.propTypes = {
   open: PropTypes.bool.isRequired,
-  PurchaseNotCompleted: PropTypes.bool.isRequired,
-  PurchaseCompleted: PropTypes.bool.isRequired,
+  clickNo: PropTypes.bool.isRequired,
+  clickYes: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
 }
 
 

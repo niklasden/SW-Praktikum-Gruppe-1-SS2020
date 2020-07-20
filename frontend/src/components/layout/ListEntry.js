@@ -49,7 +49,7 @@ class ListEntry extends Component {
           alignItems='center' 
           direction='row'
         >
-          {this.props.iconName != undefined &&
+          {this.props.iconName !== undefined &&
           <Grid item justify='center'  >
             <Icon
               style={{ color: '#00BCD4', marginRight: 12 }}
