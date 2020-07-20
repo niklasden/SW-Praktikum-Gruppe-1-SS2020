@@ -2,18 +2,11 @@ import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { withStyles, ButtonBase } from '@material-ui/core';
 import Article from '../layout/Article';
-import { Link } from 'react-router-dom';
-import { push } from "react-router";
-import GroupShoppingList from '../pages/GroupShoppingList';
 import { withRouter } from "react-router-dom";
-
-
+import PropTypes from 'prop-types';
+import AddListItem from './AddListItem';
 
 const styles = theme => ({
-    root: {
-      flexGrow: 1,
-      padding: theme.spacing(2),
-    },
     article: {
       padding: theme.spacing(0), 
     }
@@ -32,22 +25,47 @@ const styles = theme => ({
  */
 
  class ProductListEntry extends Component {
-
-
-  //TODO: Funktion, die Artikel auf die Gruppeneinkaufsliste setzt
-  onSave= () => {
-    //this.state= {id: this.props.id, name: this.props.name, category: this.props.category}
-    /**<GroupShoppingList 
-    id={item.id}
-    name={item.name}
-    category = {item.category} 
-      />*/
+   
+  constructor(props) {
+    super(props);
+   
+    this.state = {
+     item : this.props.item,
+     name: this.props.item.name,
+     category: this.props.category, 
+     anchorEl: null, 
+     open: false
     }
-  
-     
+
+    this.handleClick = this.onClickItem.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.PressButtonBack = this.PressButtonBack.bind(this);
+    this.PressButtonConfirm = this.PressButtonConfirm.bind(this);
+  }
+
+  onClickItem(name) {
+    this.setState({open : true})
+    console.log(this.state.name)
+    console.log(this.state.category)
+  }
+  onCloseItem() {
+    this.setState({open: false})
+  }
+  handleClose(){
+    this.setState({anchorEl:null});
+  };
+  PressButtonBack(){
+    this.setState({open : false})
+  }
+  PressButtonConfirm(){
+    this.setState({open : false})
+  }
+    
 
   render(){
       const { classes } = this.props
+      const open = Boolean(this.state.anchorEl)
+
       return (     
           <Grid item 
           className={classes.article}
@@ -56,19 +74,28 @@ const styles = theme => ({
             xs={3}
             >
               <ButtonBase
-                onClick={this.onSave}
+                onClick={() => {this.handleClick(this.state.item)}}
+      
                 >
                 <Article 
                 id = {this.props.id}
                 itemname={this.props.name} 
                 category = {this.props.category} 
-                iconName={this.props.iconName}>
+                iconName={this.props.iconName}
+                >
                 </Article>
               </ButtonBase>
+              <AddListItem
+               open={this.state.open}
+               item={this.state.item}
+               PressButtonBack={() => this.PressButtonBack()}
+               PressButtonConfirm={() => this.PressButtonConfirm()}
+              />
             </Grid>
           </Grid>
       )
   }
 }
+
 
  export default withRouter(withStyles(styles)(ProductListEntry));

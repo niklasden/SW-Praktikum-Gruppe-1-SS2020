@@ -55,7 +55,7 @@ export default class GroupShoppingList extends Component {
     };
 
     fetchItems = () => {
-      ShoppingAPI.getAPI().getunassignedItemsofGroup(settingsobj.getGroupID(), settingsobj.getCurrentShoppinglist()).then(listentryBOs => {
+      ShoppingAPI.getAPI().getItemsofGroup(settingsobj.getGroupID(), settingsobj.getCurrentShoppinglist()).then(listentryBOs => {
         // Set new state when AccountBOs have been fetched
         this.setState({  
           items: listentryBOs, 
@@ -165,7 +165,7 @@ export default class GroupShoppingList extends Component {
                 </Select>
             </FormControl>
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} style={{marginBottom: 75}}>
         {this.renderCategoryArticles()}
       </Grid>
     </Grid>

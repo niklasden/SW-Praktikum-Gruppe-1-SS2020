@@ -7,7 +7,12 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import PropTypes from 'prop-types';
 
-class PopUp extends Component {
+/** 
+ * 
+ * @author [Pascal Illg](https://github.com/pasillg)
+ * 
+ */
+ class PopUp extends Component {
 
   render(){
     return(
@@ -16,17 +21,17 @@ class PopUp extends Component {
         aria-labelledby="alert title"
         aria-describedby="description" 
       >
-      <DialogTitle id="alert title">{"Einkauf abschließen?"}</DialogTitle>
+      <DialogTitle id="alert title">{this.props.title}</DialogTitle>
       <DialogContent>
         <DialogContentText id="description">
-          Möchtest Du den Einakuf wirklich abschließen?
+          {this.props.name}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={this.props.handleChange} color="primary">
+        <Button onClick={this.props.clickYes} color="primary">
           YES
         </Button>
-        <Button onClick={this.props.handleChange} color="primary" autoFocus>
+        <Button onClick={this.props.clickNo} color="primary" autoFocus>
           NO
         </Button>
       </DialogActions>
@@ -36,7 +41,10 @@ class PopUp extends Component {
 
 PopUp.propTypes = {
   open: PropTypes.bool.isRequired,
-  handleChange: PropTypes.bool.isRequired,
+  clickNo: PropTypes.bool.isRequired,
+  clickYes: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
 }
 
 

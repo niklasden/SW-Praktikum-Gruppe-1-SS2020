@@ -155,70 +155,61 @@ class StatisticPage extends Component {
 			i++;
 		}
 		return (
-					<>
-					{error ?
-									<ContextErrorMessage error={error} contextErrorMsg={`Data could not be loaded. Check if database server is running.`} />
-											:
-							<>
-									<Grid align='center'>
-											<BarChart 
-												width={window.innerWidth - 50}
-												data={myVinyls}
-												title='Einzelhändler'
-											/>
-
-										{retailerChartData.length != 0 &&
-											<BarChart 
-												width={window.innerWidth - 50}
-												data={retailerChartData}
-												title='Einzelhändler'
-											/>
-										}
-
-										{productsChartData.length != 0 &&
-											<BarChart 
-												width={window.innerWidth - 50}
-												data={productsChartData}
-												title='Einzelhändler'
-											/>
-										}
-										
-									</Grid>
-									<LoadingProgress show={dataLoading} />
-									<Heading>GRUPPE AUSWÄHLEN</Heading>
-									<FormControl className={classes.formControl} >
-											<InputLabel>Gruppe</InputLabel>
-											<Select value={this.state.selectedGroup} onChange={this.handleChangeGroup} onLoad={this.handleChangeGroup}>
-													{this.state.groups.map(g=> (
-															<MenuItem key={g.id} value={g.id}>{g.name}</MenuItem>
-													))}
-											</Select>
-									</FormControl>
-									<Heading>MEISTBESUCHTE EINZELHÄNDLER</Heading>
-											<MainBarChart retailer data={this.state.retailers} />
-											<Grid item xs={12} container spacing={1}>
-													{this.state.retailers.map(retailer => {
-															return <StatisticItem retailer key={retailer.retailer_id} number={retailer.rank} name={retailer.retailer_name} amount={retailer.amount} />
-													})}
-											</Grid>
-											<Heading>MEISTGEKAUFTE ARTIKEL</Heading>
-											<MainBarChart products data={this.state.products} />
-											<Grid item xs={12} container spacing={1}>
-													{this.state.products.map(article => {
-															return <StatisticItem article key={article.article_id} number={article.rank} name={article.article_name} amount={article.number_bought} />
-													})}
-											</Grid>
-											
-											<Link to={`./show/${this.state.selectedGroup}`}>
-													<MainButton>STATISTIK ANZEIGEN</MainButton>
-											</Link>
-
-	
-
-									</>
+			<>
+				{error ?
+					<ContextErrorMessage error={error} contextErrorMsg={`Data could not be loaded. Check if database server is running.`} />
+				:
+					<div style={{marginBottom: 70}}>
+						<LoadingProgress show={dataLoading} />
+						<Heading>GRUPPE AUSWÄHLEN</Heading>
+						<FormControl className={classes.formControl} >
+								<InputLabel>Gruppe</InputLabel>
+								<Select value={this.state.selectedGroup} onChange={this.handleChangeGroup} onLoad={this.handleChangeGroup}>
+									{this.state.groups.map(g=> (
+										<MenuItem key={g.id} value={g.id}>{g.name}</MenuItem>
+									))}
+								</Select>
+						</FormControl>
+						<Heading>MEISTBESUCHTE EINZELHÄNDLER</Heading>
+						{/* <MainBarChart retailer data={this.state.retailers} /> */}
+						<Grid align='center'>
+							{retailerChartData.length != 0 &&
+								<BarChart 
+									width={window.innerWidth - 50}
+									data={retailerChartData}
+									title='Einzelhändler'
+								/>
 							}
-					</>
-			);
+						</Grid>
+						<Grid item xs={12} container spacing={1}>
+							{this.state.retailers.map(retailer => {
+									return <StatisticItem retailer key={retailer.retailer_id} number={retailer.rank} name={retailer.retailer_name} amount={retailer.amount} />
+							})}
+						</Grid>
+						<Heading>MEISTGEKAUFTE ARTIKEL</Heading>
+						{/* <MainBarChart products data={this.state.products} /> */}
+						<Grid align='center'>
+							{productsChartData.length != 0 &&
+								<BarChart 
+									width={window.innerWidth - 50}
+									data={productsChartData}
+									title='Einzelhändler'
+								/>
+							}
+						</Grid>
+						<Grid item xs={12} container spacing={1}>
+							{this.state.products.map(article => {
+								return <StatisticItem article key={article.article_id} number={article.rank} name={article.article_name} amount={article.number_bought} />
+							})}
+						</Grid>
+						
+						<Link to={`./show/${this.state.selectedGroup}`}>
+							<MainButton>STATISTIK ANZEIGEN</MainButton>
+						</Link>
+					</div>
+				}
+			</>
+		);
 	}
 }
  
