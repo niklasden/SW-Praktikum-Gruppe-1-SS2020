@@ -27,7 +27,7 @@ import ketchupIcon from '../../icons/ketchup.svg';
 import mustardIcon from '../../icons/mustard.svg';
 import pizzaIcon from '../../icons/pizza.svg';
 import orangeIcon from '../../icons/orange.svg';
-import strawberryIcon from '../../icons/strawbery.svg';
+import strawberryIcon from '../../icons/strawberry.svg';
 import bananaIcon from '../../icons/banane.svg';
 import grapeIcon from '../../icons/grape.svg';
 import cucumberIcon from '../../icons/cucumber.svg';

@@ -17,7 +17,6 @@ const settingsobj = ShoppingSettings.getSettings()
  * @author [Niklas Denneler] (https://github.com/niklasden)
  * 
 */
-
 class DropDownGSL extends Component {
   state = {
     user:[],
@@ -26,7 +25,7 @@ class DropDownGSL extends Component {
  
   handleClick(event){
     this.setState({anchorEl: event.currentTarget});
-  };
+  }
 
   
   fetchGroupMembers = () => {
@@ -47,7 +46,7 @@ class DropDownGSL extends Component {
       })
        console.info(retailerBOs); 
     }).catch(e => 
-        console.log(e)
+      console.log(e)
     )
   }
 
@@ -58,31 +57,34 @@ class DropDownGSL extends Component {
 
   render(){   
     return (
-    <ExpansionPanel>
-      <ExpansionPanelSummary
-        expandIcon={<ExpandMoreIcon/>}
-        aria-controls='panel1a-content'
-        id='panel1a-header'
-      >
-      <Typography>
-        {this.props.ArrCategory[this.props.item]}
-      </Typography>
+      <ExpansionPanel>
+        <ExpansionPanelSummary
+          expandIcon={<ExpandMoreIcon/>}
+          aria-controls='panel1a-content'
+          id='panel1a-header'
+        >
+        <Typography>
+          {this.props.ArrCategory[this.props.item]}
+        </Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails style={{display: 'grid'}}>
-              {this.props.items.map(element => {
-                if(element.category === this.props.ArrCategory[this.props.item]){
-                  return <ListItem 
-                          style={{marginLeft: 0}} key={element.id}
-                          onClickDeleteButton={()=>this.props.onClickDeleteButton(element.id)}
-                          item={element} user={this.state.user} retailer={this.state.retailer}
-                          fetchItems={this.props.fetchItems}>
-                           </ListItem>
-                }
-            return null
+        {this.props.items.map(element => {
+          if(element.category === this.props.ArrCategory[this.props.item]){
+            return (
+              <ListItem 
+                style={{marginLeft: 0}} key={element.id}
+                onClickDeleteButton={()=>this.props.onClickDeleteButton(element.id)}
+                item={element} user={this.state.user} retailer={this.state.retailer}
+                fetchItems={this.props.fetchItems} 
+              />
+            )
           }
-          )}
-      </ExpansionPanelDetails>
-    </ExpansionPanel>
+
+          // TODO: why do we do this?
+          return null
+        })}
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
     )
   }
 }
