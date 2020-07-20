@@ -83,6 +83,7 @@ class ListItem extends Component {
         <Grid item xs={2} onClick={() => this.props.onClickDeleteButton()} >
           <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 5}}>delete</Icon>
         </Grid>
+        {this.props.retailer != undefined && this.props.retailer.length != 0 &&
         <EditListItem 
           open={this.state.open} 
           item={this.state.item}
@@ -91,6 +92,7 @@ class ListItem extends Component {
           PressButtonBack={() => this.PressButtonBack()}
           PressButtonConfirm={() => this.PressButtonConfirm()}
         />
+        }
     </Grid>
     );
   }

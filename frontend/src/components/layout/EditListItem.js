@@ -54,17 +54,20 @@ class EditListItem extends Component {
     console.log(this.state.item.retailer)
     console.log(this.props.retailer)
     if (this.state.item.retailer !== null){
-    this.props.retailer.filter(item => {
+    this.props.retailer.forEach(item => {
         if (item.name.toLowerCase() === this.state.item.retailer.toLowerCase()) {
         res = item.id
         console.log(res)
         } 
-        return res
+        
       });
     } 
+    return res
   };
 
   componentDidMount(){
+    console.log(this.getRetailerbyProps())
+
     this.setState({
       selected_unit: this.state.item.unit,
       selected_amount: this.state.item.amount,
