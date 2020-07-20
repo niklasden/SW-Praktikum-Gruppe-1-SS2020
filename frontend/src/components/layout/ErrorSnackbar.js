@@ -19,6 +19,15 @@ const styles = theme => ({
  */
 class ErrorSnackbar extends Component {
   render(){
+    if (this.props.snackbarOpen){
+      // we only want to show the error message for max 2 seconds, so we call the
+      // onRequestClose after the rendering took 2 seconds
+      setTimeout(() => {
+        this.props.onRequestClose()
+      }, 2000)
+    }
+    
+
     return (
       <Snackbar
         open={this.props.snackbarOpen}

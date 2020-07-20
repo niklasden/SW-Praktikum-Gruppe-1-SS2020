@@ -10,7 +10,7 @@ import { Config } from '../../config';
 import ShoppingSettings from '../../../src/shoppingSettings';
 import { CircularProgress } from '@material-ui/core'
 import { timeout } from '../../timeout'
-import ErrorSnackbar from '../../components/layout/ErrorSnackbar'
+import ErrorSnackbar from '../../components/layout/ErrorSnackbar';
 
 const styles = theme => ({
   root: {
@@ -61,6 +61,7 @@ class GroupsGridList extends Component {
   /**We have to fetch specific groups with user parameter */
   async fetchGroups(){
     this.setState({ isLoadingGroups: true })
+    // TODO: remove timeout
     await timeout(1000)
     try {
       if(this.props.currentUserID !== 0 || this.props.currentUserID !== null) {

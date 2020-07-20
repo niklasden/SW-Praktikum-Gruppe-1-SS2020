@@ -191,7 +191,7 @@ class CreateRetailerPage extends Component {
               open={this.state.snackbarOpen}
               onClose={() => this.setState({snackbarOpen: false})}
               // TransitionComponent={transition}
-              message="Keine Netzwerkverbindung"
+              message="No network connection"
               // key={transition ? transition.name : ''}
               action={
                 <Button 
