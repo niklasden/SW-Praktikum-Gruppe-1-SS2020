@@ -140,7 +140,8 @@ export default class GroupShoppingList extends Component {
       container
       direction='column' //was row
       justify='center'
-      alignItems='center'
+      // alignItems='center'
+      style={{width: '100%'}}
       /*alignItems="stretch"*/
       >
       {/* <Grid item xs={12}> 
@@ -149,13 +150,14 @@ export default class GroupShoppingList extends Component {
       */}
        <Grid item xs={6} style={{marginTop: 10, marginBottom: 10}}>
             <FormControl style={{width: '25ch', height: 35, marginBottom: 15, textAlign: 'center'}}>
-                <InputLabel style={{left:'13%'}}>Select Shopping List</InputLabel>
-                <Select value={this.state.selected_shoppinglist} onChange={this.handleChangeShoppinglist.bind(this)}>
-                 {this.state.shoppinglists.map((item, key) => 
-                      <MenuItem value={item.id}>{item.name}</MenuItem> 
-                  )}
-                  
-                </Select>
+              <InputLabel style={{left:'13%'}}>Select Shopping List</InputLabel>
+              
+              <Select value={this.state.selected_shoppinglist} onChange={this.handleChangeShoppinglist.bind(this)}>
+                {this.state.shoppinglists.map((item, key) => 
+                    <MenuItem value={item.id}>{item.name}</MenuItem> 
+                )}
+                
+              </Select>
             </FormControl>
       </Grid>
       <Grid item xs={12} style={{marginBottom: 75}}>

@@ -11,6 +11,7 @@ import {Config} from '../../config';
 import { withStyles } from '@material-ui/core/styles';
 import ShoppingSettings from '../../shoppingSettings';
 import BarChart from '../../components/layout/BarChart'
+import LineChart from '../../components/layout/LineChart'
 
 /**
  * Displays the statistic page
@@ -18,7 +19,6 @@ import BarChart from '../../components/layout/BarChart'
  * @author [Kevin Eberhardt](https://github.com/kevin-eberhardt)
  * 
  */
-
 const settingsOptions = ShoppingSettings.getSettings();
 var i = 0;
 const styles = theme => ({
@@ -39,6 +39,10 @@ class StatisticPage extends Component {
 			selectedGroup : 0,
 		}
 		this.handleChangeGroup = this.handleChangeGroup.bind(this);
+
+		// we need this to get statistics page width to render the 
+		// charts accordingly
+		this.statRef = React.createRef()
 	}
 
 	handleChangeGroup(event) {
@@ -159,7 +163,16 @@ class StatisticPage extends Component {
 				{error ?
 					<ContextErrorMessage error={error} contextErrorMsg={`Data could not be loaded. Check if database server is running.`} />
 				:
-					<div style={{marginBottom: 70}}>
+				<Grid container style={{padding: '1em', marginBottom: 70}} ref={this.statRef}>
+					{/* {this.statRef.current != null &&
+						<LineChart
+							width={this.statRef.current.offsetWidth - 50}
+							data={retailerChartData}
+							title='Einzelhändler'
+						/>
+					} */}
+					{/* <div style={{marginBottom: 70}} ref={this.statRef}> */}
+						{/* <div style={{width: (this.statRef.current != null && this.statRef.current.offsetWidth > 500) ? 0 : 700}}/> */}
 						<LoadingProgress show={dataLoading} />
 						<Heading>GRUPPE AUSWÄHLEN</Heading>
 						<FormControl className={classes.formControl} >
@@ -173,9 +186,10 @@ class StatisticPage extends Component {
 						<Heading>MEISTBESUCHTE EINZELHÄNDLER</Heading>
 						{/* <MainBarChart retailer data={this.state.retailers} /> */}
 						<Grid align='center'>
-							{retailerChartData.length != 0 &&
+							{( (this.statRef.current != null) && (retailerChartData.length != 0)) &&
 								<BarChart 
-									width={window.innerWidth - 50}
+									// width={window.innerWidth - 50}
+									width={this.statRef.current.offsetWidth - 50}
 									data={retailerChartData}
 									title='Einzelhändler'
 								/>
@@ -189,9 +203,10 @@ class StatisticPage extends Component {
 						<Heading>MEISTGEKAUFTE ARTIKEL</Heading>
 						{/* <MainBarChart products data={this.state.products} /> */}
 						<Grid align='center'>
-							{productsChartData.length != 0 &&
+							{ ((this.statRef.current != null) && (productsChartData.length != 0)) &&
 								<BarChart 
-									width={window.innerWidth - 50}
+									// width={window.innerWidth - 50}
+									width={this.statRef.current.offsetWidth - 50}
 									data={productsChartData}
 									title='Einzelhändler'
 								/>
@@ -206,7 +221,8 @@ class StatisticPage extends Component {
 						<Link to={`./show/${this.state.selectedGroup}`}>
 							<MainButton>STATISTIK ANZEIGEN</MainButton>
 						</Link>
-					</div>
+					{/* </div> */}
+					</Grid>
 				}
 			</>
 		);
