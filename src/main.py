@@ -751,7 +751,7 @@ class testListEntry(Resource):
 @shopping_v1.response(500, 'If an server sided error occures')
 @testing.param('listentry', "Listentry object")
 class testListEntry(Resource):
-    @shopping_v1.marshal_with(listentry, code= 200)
+    @shopping_v1.marshal_with(listentry, code= 200, skip_none=True)
     @shopping_v1.expect(listentry)
     def post(self):
         adm = ShoppingAdministration()
@@ -777,21 +777,7 @@ class testListEntry(Resource):
             return res, 200
         else:
             return "", 500
-        
-
-
-            """
-            listentry.set_id(proposal.get_id())
-            listentry.set_article(proposal.get_article())
-            if (proposal.get_id() == 0):
-                c = admin.insert_listentry(listentry)
-            else: 
-                c = admin.update_listentry(listentry)
-            return c, 200
-        else:
-            return "", 500
-            """
-    
+            
 
 @testing.route('/testUser')
 @testing.response(500,'If an server sided error occures')

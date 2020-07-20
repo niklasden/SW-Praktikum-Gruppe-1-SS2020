@@ -269,6 +269,7 @@ class ListEntryMapper(Mapper):
     def update(self, listentry):
         """
         Pascal le:ListEntry
+        Niklas 
         """
     
         le = ListEntry()
@@ -286,27 +287,17 @@ class ListEntryMapper(Mapper):
             le.set_group(listentry.get_group())
         if listentry.get_amount() != "" or listentry.get_amount() is not None:
             le.set_amount(listentry.get_amount())
-        elif le.get_amount() is None:
-            le.set_amount('NULL')
         if listentry.get_unit() != "" or listentry.get_unit() is not None:
             le.set_unit(listentry.get_unit())
         if listentry.get_buy_date() != "" and listentry.get_buy_date() is not None:
             date = datetime.date.today()
-            print(date)
             le.set_buy_date(date)
-            print(le.get_buy_date())
+       
 
-
+        #Spaghetti here we come
         #try:
         cursor = self._cnx.cursor()
-        # unit = "'" + le.get_unit() + "'"
-        # date = "'" + le.get_buy_date() + "'"
-        # retailer = "'" + le.get_retailer() + "'"
-        # amount = "'" + le.get_amount() + "'"
-        # shoppinglist = "'" + le.get_shoppinglist() + "'"
-        # user = "'" + le.get_user() + "'"
-
-
+    
         if le.get_unit() is None:
             unit = "NULL"
         else:
@@ -315,12 +306,12 @@ class ListEntryMapper(Mapper):
         if le.get_buy_date() is None:
             date = "NULL"
         else:
-            date = "'" + le.get_unit() + "'"
+            date = "'" + le.get_buy_date() + "'"
         
         if le.get_retailer() is None:
             retailer = "NULL"
         else:
-            retailer = "'" + le.get_retailer() + "'"
+            retailer =  le.get_retailer()
         
         if le.get_amount() is None:
             amount = "NULL"
@@ -332,13 +323,13 @@ class ListEntryMapper(Mapper):
         else:
             shoppinglist =  le.get_shoppinglist()
         
-        if le.get_user() is "":
-            user = "NULL"
+        if le.get_user() is None:
+            user = 'NULL'
         else:
-            user = "'" + le.get_user() + "'"
+            user = le.get_user()
 
         if le.get_buy_date() is None:
-            buydate = "NULL"
+            buydate = 'NULL'
         else:
             buydate = le.get_buy_date()
 

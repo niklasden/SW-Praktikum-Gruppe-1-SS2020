@@ -54,7 +54,6 @@ export default class GroupShoppingList extends Component {
           items: listentryBOs, 
         })
         console.log(listentryBOs);
-    
       }).catch(e => 
           this.setState({
             items: [],
@@ -72,6 +71,7 @@ export default class GroupShoppingList extends Component {
       if(!ArrCategory.includes(item.category)){
         ArrCategory.push(item.category)
       }
+      return null
     });
     return ArrCategory
   }  
@@ -125,6 +125,7 @@ export default class GroupShoppingList extends Component {
           }
         }
       }
+      return null
     })
   }
   

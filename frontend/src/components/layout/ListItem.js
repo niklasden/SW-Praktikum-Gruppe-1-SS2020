@@ -57,7 +57,6 @@ class ListItem extends Component {
   }
   PressButtonConfirm(){
     this.setState({open : false})
-    console.log(this.props.fetchItems());
   }
 
   render() {
