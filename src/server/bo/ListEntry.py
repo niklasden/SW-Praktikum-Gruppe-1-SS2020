@@ -149,7 +149,7 @@ class ListEntry(bo.BusinessObject):
 
     def get_buy_date(self):
         """
-        Niklas quantity:int
+        Niklas date:Date
         """
         return self._bought
     

@@ -39,7 +39,7 @@ class EditListItem extends Component {
       shoppinglist_id: this.props.item.shoppinglist_id,
       group_id: this.props.item.group_id,
       bought: this.props.item.bought,
-      retailer: this.props.retailer,
+      retailer: this.props.item.retailer,
       selected_user_id: "",
       selected_retailer_id: "",
       changed_amount: "",
@@ -53,12 +53,15 @@ class EditListItem extends Component {
   
   getRetailerbyProps = () => {
     var res = "";
+    if (this.state.item.retailer !== null){
     this.props.retailer.filter(item => {
-      if (item.name.toLowerCase().includes(this.state.item.retailer.toLowerCase())) {
-      res = item.id
-      } 
-    });
-    return res
+        if (item.name.toLowerCase().includes(this.state.item.retailer.toLowerCase())) {
+        res = item.id
+        console.log(res)
+        } 
+        return res
+      });
+    } 
   };
 
   handleChangeUnit(v) {
@@ -93,7 +96,8 @@ class EditListItem extends Component {
   }
   
   render() {
-    
+    const { classes, listentry } = this.props;
+    const { amount, unit, user, retailer, article_id, retailer_id} = this.state;
     return (
 
     <Dialog open={this.props.open} aria-labelledby="alert title" aria-describedby="description">
@@ -140,11 +144,11 @@ class EditListItem extends Component {
       <Grid item xs={6} style={{marginTop: 10}}>
       <FormControl style={{width: '100%', height: 35, marginLeft: 10, marginBottom: 10}}>
                 <InputLabel>ASSIGN RETAILER</InputLabel>
-                <Select defaultValue={this.getRetailerbyProps()} value={this.state.item.retailer.id} onChange={this.handleChangeRetailer.bind(this)}>
-                  {this.props.retailer && this.props.retailer.map(item =>{
+               <Select defaultValue={this.getRetailerbyProps()} value={this.state.item.retailer} onChange={this.handleChangeRetailer.bind(this)}> 
+               {this.props.retailer.map(item =>{
                     return <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
                   })}
-                </Select>
+                </Select> 
       </FormControl>
       </Grid>
       </Grid>
