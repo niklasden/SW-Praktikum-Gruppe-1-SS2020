@@ -9,7 +9,6 @@ import ListIcon from '@material-ui/icons/List';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
-import {Link} from 'react-router-dom';
 
 const useStyles = (theme) => ({
   root: {
