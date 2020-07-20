@@ -64,35 +64,30 @@ class BottomNavi extends React.Component {
         >     
           <BottomNavigationAction 
             className={classes.actionItemStyle} 
-            component={Link} 
+            onClick={() => {window.location.href="http://ikaufa.com/products"}}
             icon={<ImportContactsIcon />} 
-            to="http://ikaufa.com/products"
             
           />
           <BottomNavigationAction 
             className={classes.actionItemStyle} 
-            component={Link} 
             icon={<PeopleAltIcon />} 
-            to="http://ikaufa.com/GroupShoppingList"
+            onClick={() => {window.location.href="http://ikaufa.com/GroupShoppingList"}}
           />
           <BottomNavigationAction 
             className={classes.actionItemStyle} 
-            component={Link} 
             icon={<HomeIcon />} 
-            to="http://ikaufa.com/home"
+            onClick={() => {window.location.href="http://ikaufa.com/home"}}
           />
           <BottomNavigationAction 
             className={classes.actionItemStyle} 
-            component={Link} 
+            onClick={() => {window.location.href="http://ikaufa.com/lists"}}
             icon={<ListIcon />} 
-            to="http://ikaufa.com/lists"
           />
           <BottomNavigationAction 
             className={classes.actionItemStyle +  " Mui-selected"}
-            component={Link} 
             selected
             icon={<SettingsIcon />} 
-            to="/settings"
+            onClick={() => {window.location.href="http://ikaufa.com/settings"}}
           />
       </BottomNavigation>
     </ThemeProvider>

@@ -10,7 +10,6 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { Link } from 'react-router-dom';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import {Config} from '../../config';
-import LineChart from '../../components/layout/LineChart'
 
 /**
  * Displays the statistic page

@@ -4,14 +4,12 @@ import MainButton from '../layout/MainButton';
 import StatisticItem from '../layout/StatisticItem';
 import { Grid, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import MainBarChart from '../layout/MainBarChart';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 import {Config} from '../../config';
 import { withStyles } from '@material-ui/core/styles';
 import ShoppingSettings from '../../shoppingSettings';
 import BarChart from '../../components/layout/BarChart'
-import LineChart from '../../components/layout/LineChart'
 
 /**
  * Displays the statistic page
@@ -92,7 +90,6 @@ class StatisticPage extends Component {
 		try {
 			var topRetailersList = [], retailerIDs = [], i = 1;
 			const res = await fetch(Config.apiHost + "/report/" + group_id);
-			console.log(res);
 			const json = await res.json();
 			json.top_retailers.forEach(retailer => {
 				if(!retailerIDs.includes(retailer.retailer_id)) {
@@ -102,7 +99,6 @@ class StatisticPage extends Component {
 					retailerIDs.push(retailer.retailer_id);
 				}
 			})
-			console.log(topRetailersList);
 			this.setState({retailers: topRetailersList})
 		}catch(exception) {
 			this.setState({error: exception});
@@ -133,23 +129,6 @@ class StatisticPage extends Component {
 				value: d.number_bought
 			})
 		})
-
-		var myVinyls = [
-			{
-				title: 'hello', 
-				value: 31
-			},
-			{
-				title: 'fresh', 
-				value: 41
-			},
-			{
-				title: 'again', 
-				value: 20
-			},
-		];
-
-		console.log(retailerChartData)
 
 		const { error, dataLoading } = this.state;
 		const classes = this.props.classes;
@@ -186,7 +165,7 @@ class StatisticPage extends Component {
 						<Heading>MEISTBESUCHTE EINZELHÄNDLER</Heading>
 						{/* <MainBarChart retailer data={this.state.retailers} /> */}
 						<Grid align='center'>
-							{( (this.statRef.current != null) && (retailerChartData.length != 0)) &&
+							{( (this.statRef.current !== null) && (retailerChartData.length !== 0)) &&
 								<BarChart 
 									// width={window.innerWidth - 50}
 									width={this.statRef.current.offsetWidth - 50}
@@ -203,7 +182,7 @@ class StatisticPage extends Component {
 						<Heading>MEISTGEKAUFTE ARTIKEL</Heading>
 						{/* <MainBarChart products data={this.state.products} /> */}
 						<Grid align='center'>
-							{ ((this.statRef.current != null) && (productsChartData.length != 0)) &&
+							{ ((this.statRef.current !== null) && (productsChartData.length !== 0)) &&
 								<BarChart 
 									// width={window.innerWidth - 50}
 									width={this.statRef.current.offsetWidth - 50}
