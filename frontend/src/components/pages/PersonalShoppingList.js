@@ -18,7 +18,6 @@ import { timeout } from '../../timeout';
  */
 
 
-
 const settings = ShoppingSettings.getSettings()
 
 export default class PersonalShoppingList extends Component {
@@ -36,6 +35,9 @@ export default class PersonalShoppingList extends Component {
     groupID: settings.getGroupID()
 }
 
+/* 
+*???
+*/
 newItem = () => {
   if (this.state.loaded === true){
     this.setState({loadingInProgress : true})
@@ -60,6 +62,9 @@ componentDidMount(){
   this.setTimeout()
 }
 
+/* 
+*set Timeout of 30000seconds
+*/
 async setTimeout(){
   while(true){
     this.newItem()
@@ -68,6 +73,9 @@ async setTimeout(){
   }
 }
 
+/* 
+*returns the checkeditems array from the localStorage
+*/
 async getItemsFromLocalStorage(){
 
   try {
@@ -80,7 +88,9 @@ async getItemsFromLocalStorage(){
   catch{}
 }
 
-
+/* 
+*Returns an UserItem 
+*/
 createUserItem(){
   let items = this.state.items
   return items
@@ -207,6 +217,9 @@ onClickList(){
   this.renderCheckedArticlesCategory()
 }
 
+/* 
+*returns an array with the retailers
+*/
 getArticleOfRetailer(){
   let ArrSelectedRetailer = []
   let retailer = this.state.selectedRetailer
@@ -220,10 +233,16 @@ getArticleOfRetailer(){
   return ArrSelectedRetailer
 }
 
+/* 
+*
+*/
 handleChangeRetailer = e =>{
   this.setState({selectedRetailer : e.target.value})
 }
 
+/* 
+*
+*/
 handleChangeCheckbox(id){
   let Items = this.createUserItem()
   console.log(Items)
@@ -244,7 +263,9 @@ handleChangeCheckbox(id){
   this.setState({checkedItems : checkedItems})
 }
 
-
+/* 
+*
+*/
 handlePopUp(){
   if(this.state.solved === true){
     return <PopUp name={'Do you really want to finish the shopping?'} title={"Complete your purchse?"} open={true} 
@@ -257,6 +278,9 @@ handlePopUp(){
   }
 }
 
+/* 
+*
+*/
 PurchaseCompleted(){
   let Arr = this.getCheckedArticles()
   
