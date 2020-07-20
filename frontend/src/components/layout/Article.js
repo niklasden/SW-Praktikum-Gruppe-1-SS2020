@@ -10,7 +10,10 @@ const styles = theme => ({
     root:{
     backgroundColor: '#f2f2f2', 
     borderRadius: 5,
-    fontFamily: "'Montserrat', sans-serif"
+    fontFamily: "'Montserrat', sans-serif",
+    padding:'1px', 
+    width:'60px', 
+    height:'60px',
     },
     imageIcon:{
       height: '100%'
@@ -18,7 +21,17 @@ const styles = theme => ({
     iconRoot:{
       textAlign: 'center'
     },
-    textroot:{
+    icon: {
+      height:'100%',
+      width:'100%',
+      margin:'9px', 
+      marginTop: '22px',
+    },
+    itemName: {
+      fontSize: "12px", 
+      color: 'black',  
+      overflowWrap: "break-word", 
+      marginTop: '2px'
 
     }
 })
@@ -68,13 +81,18 @@ const styles = theme => ({
         
         <MaterialIconButton 
           className={classes.root}
-          style={{padding: '1px' , width:'60px',height:'60px' }}
+          //style={{padding: '1px' , width:'60px', height:'60px' }}
         >
-          <div style={{height:'100%',width:'100%',margin:'9px'}}>
+          <div className = {classes.icon}
+          //style={{height:'100%',width:'100%',margin:'9px', marginTop: '20px'}}
+          >
 
             <CustomIcon iconName ={this.props.iconName}></CustomIcon>
  
-            <p style={{fontSize: "12px", color: 'black',  overflowWrap: "break-word", marginTop: '5px'}}>{this.props.itemname}</p>
+            <p className = {classes.itemName}
+            //style={{fontSize: "12px", color: 'black',  overflowWrap: "break-word", marginTop: '5px'}}
+            >
+            {this.props.itemname}</p>
           
           </div>
         </MaterialIconButton>

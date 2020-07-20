@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/core/styles';
 import Theme from '../../Theme';
@@ -21,7 +21,6 @@ const useStyles = (theme) => ({
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.white,
     marginTop: '60px'
-    // backgroundColor + fontcolor should be done via Theme.js file, this is not clean code
   },
   actionItemStyle: {
     '&$selected': {
@@ -32,12 +31,13 @@ const useStyles = (theme) => ({
 });
 
 /**
+ * @author Niklas Denneler (https://github.com/niklasden)
  * Bottom Menu
+ * Allows us to navigate the application, makes use of the ThemeProvider for styling.
+ * Uses Material UI native BottomNavigationAction with passed components to render new pages
+ * 
  * Current issues: 
- * For now the Styling is done via a override via CSS, there should be a more elegant solution to do this.
- * The Icons need to be replaced by custom svgs too. So they look like the figma template.
- * Routing needs to be added
- * @author Niklas Denneler
+ * could use a nicer Animation?
  */
 
 

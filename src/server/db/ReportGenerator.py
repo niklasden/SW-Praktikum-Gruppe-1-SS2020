@@ -36,15 +36,18 @@ class ReportGenerator(Mapper):
         statement = "SELECT r.id as 'Retailer ID', r.name as 'Retailer Name', r.location as 'Retailer Location',  s.name as 'Shoppinglist Name', u.name as 'Username', g.name as 'Group Name', l.amount as 'Amount', l.bought as 'Bought', a.ID as 'Article ID', a.name as 'Article Name', a.CategoryID FROM dev_shoppingproject.Listentry as l INNER JOIN dev_shoppingproject.Article as a ON l.Article_ID = a.ID INNER JOIN dev_shoppingproject.Retailer as r ON l.Retailer_ID = r.ID INNER JOIN dev_shoppingproject.Shoppinglist as s ON l.Shoppinglist_ID = s.ID INNER JOIN dev_shoppingproject.User as u ON l.User_ID = u.ID INNER JOIN dev_shoppingproject.Group as g ON l.Group_ID = g.ID WHERE l.Group_ID = {0}".format(group_id)
         cursor.execute(statement)
         tuples = cursor.fetchall()
+        # in case there is an error in try block we send back empty report
+        report = Report("", [], [])
         try:
+            grp_name = ""
             for(retailer_id, retailer, retailer_location, shoppinglist_name, username, group_name, amount, bought, article_id, article_name, article_category) in tuples:
                 article = {"id": article_id, "name": article_name, "amount": int(amount), "bought": str(bought), "retailer": retailer, "article_category": article_category}
                 articles.append(article)
                 if(retailer not in retailers):
                     retailer = {"id": retailer_id, "name": retailer, "location": retailer_location}
                     retailers.append(retailer)
-            report = Report(group_name, retailers, articles)
-
+                grp_name = group_name
+            report = Report(grp_name, retailers, articles)
 
             top_3_articles = self.get_top_3_articles(group_id)
             top_3_retailers = self.get_top3_retailer(group_id)
@@ -57,9 +60,9 @@ class ReportGenerator(Mapper):
         except Exception as e:
             print(e)
             print("Error while fetching report tuple! Something's wrong with the database-result!")
-        finally:
-            cursor.close()
-            return report
+
+        cursor.close()
+        return report
 
     def get_top_3_articles(self, group_id):
         """

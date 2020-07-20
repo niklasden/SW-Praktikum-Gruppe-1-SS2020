@@ -9,35 +9,35 @@ import GroupIcon from '../../icons/Other/users.svg';
 import { Config } from '../../config';
 import ShoppingSettings from '../../../src/shoppingSettings';
 
-    const styles = theme => ({
-        root: {
-          backgroundColor: '#fafafa', 
-          borderRadius: 5, 
-        },
-        rootTwo: {
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'space-around',
-            overflow: 'hidden',
-            backgroundColor: theme.palette.background.paper,
-            margin:10,
-            marginTop:30,
-            
-          },
-          gridList: {
-            flexWrap: 'nowrap',
-        
-            // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-            transform: 'translateZ(0)',
-          },
-          title: {
-            color:"#ffffff"/*theme.palette.primary.light-blue*/
-          },
-          titleBar: {
-            background:
-              'linear-gradient(to top, rgba(0,188,212,1) 100%, rgba(0,188,212,0.3) 70%, rgba(0,88,212,0) 100%)',
-          },
-      });
+const styles = theme => ({
+  root: {
+    backgroundColor: '#fafafa', 
+    borderRadius: 5, 
+  },
+  rootTwo: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    overflow: 'hidden',
+    backgroundColor: theme.palette.background.paper,
+    margin:10,
+    marginTop:30,
+    
+  },
+  gridList: {
+    flexWrap: 'nowrap',
+
+    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+    transform: 'translateZ(0)',
+  },
+  title: {
+    color:"#ffffff"/*theme.palette.primary.light-blue*/
+  },
+  titleBar: {
+    background:
+      'linear-gradient(to top, rgba(0,188,212,1) 100%, rgba(0,188,212,0.3) 70%, rgba(0,88,212,0) 100%)',
+  },
+});
       
 /**
  * Displays all Groups specific for one user in a gridlist
@@ -60,7 +60,7 @@ class GroupsGridList extends Component {
       /**We have to fetch specific groups with user parameter */
       async fetchGroups(){
         //const res = await fetch('http://localhost:8081/api/shoppa/groups')
-            if(this.props.currentUserID != 0 || this.props.currentUserID !== null) {
+            if(this.props.currentUserID !== 0 || this.props.currentUserID !== null) {
               const res = await fetch(Config.apiHost + '/Group/Usergroup/'+ this.props.currentUserID)
               if(res.ok) {
                 const resjson = await res.json()
@@ -80,7 +80,7 @@ class GroupsGridList extends Component {
       
       render(){
         const { classes } = this.props;
-        if (this.state.groupItemss.length == 0 && !this.state.groupsFetched){
+        if (this.state.groupItemss.length === 0 && !this.state.groupsFetched){
           this.fetchGroups()
               }
         return(
@@ -94,7 +94,7 @@ class GroupsGridList extends Component {
                    <GridListTile key={GroupIcon}>
                        <img src={GroupIcon} alt={tile.name} />
                        
-                  <Link to="" onClick={() => {settingsobj.setGroupID(tile.id);settingsobj.setGroupName(tile.name); alert("Active group set to: " + settingsobj.getGroupName() + "  |  Group ID: "+ settingsobj.getGroupID())}} aria-label={`info about ${tile.title}`} className={classes.icon}>
+                  <Link to="/GroupShoppingList" onClick={() => {settingsobj.setGroupID(tile.id);settingsobj.setGroupName(tile.name)}} aria-label={`info about ${tile.title}`} className={classes.icon}>
                    <GridListTileBar 
                        title={ tile.name}
                       classes={{

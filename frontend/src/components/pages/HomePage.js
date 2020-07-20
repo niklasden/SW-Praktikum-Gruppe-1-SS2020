@@ -7,15 +7,8 @@ import { Icon } from '@material-ui/core';
 import {Link} from 'react-router-dom'
 
 import GroupsGridList from '../layout/AllGroupsGridList'
-import ShoppingSettings from '../../../src/shoppingSettings'
 
-
-const styles = theme => ({
-  root: {
-    backgroundColor: '#fafafa', 
-    borderRadius: 5,
-  },
-  })
+import {SettingsContext} from '../../settingsContext' //only for context
 
   /** Homepage of iKaufa
   *
@@ -24,13 +17,13 @@ const styles = theme => ({
   *  
   */
 export class HomePage extends Component {
-
- 
+  static contextType = SettingsContext   //only for context  
+  
+  
   render(){
     return (
-      <>       
+      <>
         <HeaderButton/>
-        
         <Grid
           container
           direction="row"
@@ -96,6 +89,7 @@ export class HomePage extends Component {
         
  */}
 </>
+
     )
   }
 }

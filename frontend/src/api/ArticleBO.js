@@ -1,5 +1,13 @@
 import BusinessObject from './BusinessObject';
 
+/**
+ * @author [Niklas Denneler](https://github.com/niklasden): 
+ * 
+ * Implementation of the Article BusinessObject for the frontend.
+ * Basic methods to set class variables, like in the backend.
+ * 
+ * 
+ */
 export default class ArticleBO extends BusinessObject {
 
    constructor(n, m, e, d) {
@@ -43,19 +51,19 @@ export default class ArticleBO extends BusinessObject {
     }
 
     // Returns an Array of ProductBOs from a given JSON structure
-    static fromJSON(products) {
+    static fromJSON(articles) {
         let result = [];
 
-        if (Array.isArray(products)) {
-            products.forEach((p) => {
-                Object.setPrototypeOf(p, ArticleBO.prototype)
-                result.push(p)
+        if (Array.isArray(articles)) {
+            articles.forEach((article) => {
+                Object.setPrototypeOf(article, ArticleBO.prototype)
+                result.push(article)
             })
         } else {
             // Es handelt sich offenbar um ein singuläres Objekt
-            let p = products;
-            Object.setPrototypeOf(p, ArticleBO.prototype)
-            result.push(p)
+            let article = articles;
+            Object.setPrototypeOf(article, ArticleBO.prototype)
+            result.push(article)
         }
 
         return result;

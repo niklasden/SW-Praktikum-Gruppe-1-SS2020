@@ -55,15 +55,15 @@ class CreateArticlePage extends Component {
         name: '', 
         category: '',
         categorys: [
-            {id: 1, name: "Vegetables"},
-            {id: 2, name: "Meat & Fish"},
-            {id: 3, name: "Fruits"},
-            {id: 4, name: "Drinks / Beverages"},
-            {id: 5, name: "Other"},
-            {id: 6, name: "Snacks"},
-            {id: 7, name: "Milk and Cheese"},
-            {id: 8, name: "Cosmetic"},
-            {id: 9, name: "Convenience and frozen products"},
+            {id: 1, name: "vegetables"},
+            {id: 2, name: "meat & fish"},
+            {id: 3, name: "fruits"},
+            {id: 4, name: "drinks"},
+            {id: 5, name: "other"},
+            {id: 6, name: "snacks"},
+            {id: 7, name: "milk & cheese"},
+            {id: 8, name: "cosmetic"},
+            {id: 9, name: "convenience & frozen products"},
         ], 
     }
 
@@ -71,7 +71,7 @@ class CreateArticlePage extends Component {
         this.setState({ isSaving: true })
         setTimeout(async () => {
             let id = this.state.item
-            if (id == ""){
+            if (id === ""){
                 id = 0
             }
 
@@ -141,7 +141,7 @@ class CreateArticlePage extends Component {
         let id = ''
         /* checks if there has been a article from the article page*/
         /* if yes, it takes name and category from there*/
-        if (this.props.location.state != undefined){
+        if (this.props.location.state !== undefined){
             id = this.props.location.state.id
             name = this.props.location.state.name
             this.state.categorys.forEach((element, i) => {
@@ -198,7 +198,7 @@ class CreateArticlePage extends Component {
                             className={styles.formControl}
                             style={{ color: "#00BCD4", marginLeft:"20px", width:"85%" }}>
 
-                                <InputLabel >select category</InputLabel>
+                                <InputLabel>select category</InputLabel>
 
                                 <Select 
                                 onChange={(e) => this.setState({category: e.target.value})}

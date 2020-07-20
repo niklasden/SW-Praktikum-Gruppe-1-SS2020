@@ -55,7 +55,7 @@ export class RetailerPage extends Component {
 
   renderRetailers(){
     let retailers = this.state.retailers
-    if(this.state.searchValue != ''){
+    if(this.state.searchValue !== ''){
       retailers = retailers.filter((retailer) => retailer.name.toLowerCase().includes(this.state.searchValue.toLowerCase()))
     }
 
@@ -64,7 +64,7 @@ export class RetailerPage extends Component {
         key={retailer.id}
         id={retailer.id}
         name={retailer.name}
-        address={retailer.address}
+        address={retailer.location}
         style={{marginBottom: 12}}
       /> 
     ))
@@ -75,11 +75,13 @@ export class RetailerPage extends Component {
       <div style={{width: '100%', marginBottom: 65}}>
         <div style={{flex: 1, flexDirection: 'row', display: 'flex', margin: 12, paddingTop: 12}}>
           {/* <text style={{flexGrow: 1}}>hello</text> */}
-          <TextInputBar
-            placeholder='search'
-            icon='search'
-            onChange={(elem) => this.setState({ searchValue: elem.target.value})}
-          /> 
+          <div style={{flexGrow: 1}}>
+            <TextInputBar
+              placeholder='search'
+              icon='search'
+              onChange={(elem) => this.setState({ searchValue: elem.target.value})}
+            /> 
+          </div>
 
           <Link to="/create_retailer" >
             <IconButton style={{marginLeft: 12}} icon='add'  />

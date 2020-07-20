@@ -1,14 +1,12 @@
 import React, {Component} from 'react';
-import ListItemCheckbox from '../layout/ListItemCheckbox';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { Grid, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import ListItem from '../layout/ListItem';
 import ShoppingAPI from '../../api/ShoppingAPI';
-import UserBO from '../../api/UserBO';
 import ShoppingSettings from '../../../src/shoppingSettings';
 
 const settingsobj = ShoppingSettings.getSettings()
@@ -16,15 +14,11 @@ const settingsobj = ShoppingSettings.getSettings()
 /**
  * 
  * @author [Pascal Illg](https://github.com/pasillg)
+ * @author [Niklas Denneler] (https://github.com/niklasden)
  * 
 */
 
 class DropDownGSL extends Component {
-
-
-  constructor(props) {
-    super(props)
-  }
   state = {
     user:[],
     retailer: [],
@@ -34,16 +28,6 @@ class DropDownGSL extends Component {
     this.setState({anchorEl: event.currentTarget});
   };
 
-  handleChangeUnit(v) {
-    this.setState({unit: v});
-    var newList = [...this.state.items];
-    newList.filter(item => item.id !== this.state.selectedID);
-    var newObject = this.state.items.find(item => item.id === this.state.selectedID);
-    if(v !== "null" || v !== "undefined") {
-      newObject.unit = v;
-    }
-    this.setState({items: newList});
-  }
   
   fetchGroupMembers = () => {
     ShoppingAPI.getAPI().getUsers(settingsobj.getGroupID()).then(userBOs => {
@@ -62,7 +46,7 @@ class DropDownGSL extends Component {
       this.setState({
         retailer: retailerBOs
       })
-      /* console.info(retailerBOs); */
+       console.info(retailerBOs); 
     }).catch(e => 
         console.log(e)
       );
@@ -73,9 +57,7 @@ class DropDownGSL extends Component {
     this.fetchGroupMembers();
   }
 
-  render(){
-    //this.getGroupMembers(); is not working rn, need user objects from julius
-    
+  render(){   
     return (
     <ExpansionPanel>
       <ExpansionPanelSummary
@@ -87,12 +69,19 @@ class DropDownGSL extends Component {
         {this.props.ArrCategory[this.props.item]}
       </Typography>
       </ExpansionPanelSummary>
-      <ExpansionPanelDetails>
-              {this.props.Useritems.map(element => {
-              if(element.category === this.props.ArrCategory[this.props.item]){
-              return <ListItem key={element.id} onClickDeleteButton={()=>this.props.onClickDeleteButton(element.id)} item={element} user={this.state.user} retailer={this.state.retailer}></ListItem>
-            }
-          })}
+      <ExpansionPanelDetails style={{display: 'grid'}}>
+              {this.props.items.map(element => {
+                if(element.category === this.props.ArrCategory[this.props.item]){
+                  return <ListItem 
+                          style={{marginLeft: 0}} key={element.id}
+                          onClickDeleteButton={()=>this.props.onClickDeleteButton(element.id)}
+                          item={element} user={this.state.user} retailer={this.state.retailer}
+                          fetchItems={this.props.fetchItems}>
+                           </ListItem>
+                }
+            return null
+          }
+          )}
       </ExpansionPanelDetails>
     </ExpansionPanel>
     )
@@ -100,7 +89,6 @@ class DropDownGSL extends Component {
 }
 
 DropDownGSL.propTypes = {
-  Useritems: PropTypes.array.isRequired,
   ArrCategory: PropTypes.array.isRequired,
   item: PropTypes.string.isRequired,
 }

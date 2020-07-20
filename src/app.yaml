@@ -2,3 +2,4 @@
 #This file tells the Google App Engine which python version we are running
 #For our deployment we are using the standard envoirnment over the flex, because its cheaper
 runtime: python37
+service: backend

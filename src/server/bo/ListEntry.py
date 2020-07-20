@@ -27,7 +27,8 @@ class ListEntry(bo.BusinessObject):
 
     def get_creationdate(self):
         return self._creationdate
-    def set_creationdate(self,cd):
+    
+    def set_creationdate(self, cd):
         self._creationdate = cd
 
     def get_id(self):
@@ -52,9 +53,21 @@ class ListEntry(bo.BusinessObject):
         """
         Niklas
         """
-        return self._retailer_id
+        return self._retailer
 
     def set_retailer(self, retailer):
+        """
+        Pascal retailer:Retailer
+        """
+        self._retailer = retailer
+
+    def get_retailer_id(self):
+        """
+        Niklas
+        """
+        return self._retailer_id
+
+    def set_retailer_id(self, retailer):
         """
         Pascal retailer:Retailer
         """
@@ -136,7 +149,7 @@ class ListEntry(bo.BusinessObject):
 
     def get_buy_date(self):
         """
-        Niklas quantity:int
+        Niklas date:Date
         """
         return self._bought
     

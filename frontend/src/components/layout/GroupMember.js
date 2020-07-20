@@ -1,16 +1,9 @@
 import React, { Component } from "react";
-import SearchIcon from "@material-ui/icons/Search";
-import InputBase from "@material-ui/core/InputBase";
 import PropTypes from 'prop-types';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { withStyles } from "@material-ui/styles";
-import Box from '@material-ui/core/Box';
-import MaterialIconButton from '@material-ui/core/IconButton';
 import { Grid,Avatar } from "@material-ui/core";
 import IconButton from '@material-ui/core/IconButton';
-import avatar from '../img/avatar.jpg';
-
-import SpecificGroup from '../pages/SpecificGroup'
 
 /**
  * Displays a group member item in a specific group
@@ -25,7 +18,6 @@ const styles = theme => ({
     borderWidth: 1,
     borderColor: '#BDBDBD',
     borderRadius: 10,
-    borderColor: '#BDBDBD',
     borderStyle: 'solid',
     marginLeft: 5,
     height: 35,

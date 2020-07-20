@@ -8,15 +8,24 @@ import ProductListEntry from '../layout/ProductListEntry';
 import { Link } from 'react-router-dom';
 import Heading from '../layout/Heading';
 import { Config } from '../../config';
-import { ListItemIcon } from '@material-ui/core';
+
+
 
 const styles = theme => ({
     root: {
       flexGrow: 1,
       padding: theme.spacing(2),
+      marginBottom: 50
     },
     article: {
-      padding: theme.spacing(0), 
+      display: 'flex', 
+      justifyContent: 'center' 
+    },
+    loading: {
+      width: '100%'
+    }, 
+    favProducts: {
+      marginLeft: 10
     }
  });
 
@@ -33,7 +42,7 @@ const articleIDIconMapper = {
   cucumbers: 'cucumber', 
   lettuce: 'lettuce', 
   mustard: 'mustard', 
-  strawberry: 'strawberyy', 
+  strawberry: 'strawberry', 
   tea: 'tea', 
   milk: 'milk', 
   cread: 'bread', 
@@ -48,7 +57,7 @@ const articleIDIconMapper = {
   noodle: 'noodles',
   flour: 'flour',
   pizza: 'pizza',
-  "ice cream": 'icecream',
+  icecream: 'icecream',
   donut: 'donut',
   chips: 'chips',
   popcorn: 'popcorn',
@@ -77,6 +86,7 @@ const categoryIconMapper = {
   "convenience & frozen products": 'convenience'
 }
 
+
 /**
  * Renders a list of ArticleEntry objects
  * 
@@ -93,6 +103,8 @@ class ProductsPage extends Component {
     loadingArticlesError: null, 
     addingArticleError: null, 
     articles: [],
+    shoppinglists: [],
+    selected_shoppinglist: [] 
   }
 
   componentDidMount(){
@@ -104,6 +116,7 @@ class ProductsPage extends Component {
       loadingInProgress: true, 
       loadingArticleError: null 
     })
+
 
   setTimeout(async () => {
     try {
@@ -139,18 +152,22 @@ class ProductsPage extends Component {
     var categories = this.state.articles.reduce((itemsSoFar, {category, name, id}) => {
       if (!itemsSoFar[category]) itemsSoFar[category] = [];
       var iconName = getIconName(name, category)
+      //console.log(category)
       itemsSoFar[category].push({name, id, iconName});
       return itemsSoFar; 
     }, {});
 
     /* Checks if there is a Article equal to the search-value*/ 
-    if(this.state.searchValue != ''){
+    if(this.state.searchValue !== ''){
       //Erst this.state.articles filtern und dann reducen?
-      categories = this.state.articles.reduce((itemsSoFar, {category, name, id, iconName}) => {
+      categories = this.state.articles.reduce((itemsSoFar, {category, name, id}) => {
         if (!itemsSoFar[category]) itemsSoFar[category] = [];
+        var iconName = getIconName(name, category)
         if (name.toLowerCase().includes(this.state.searchValue.toLowerCase())) itemsSoFar[category].push({name, category,  id, iconName});
         return itemsSoFar;
-      }, {});
+
+      }, 
+      {});
     }
   
    return Object.entries(categories).map(category => (
@@ -164,6 +181,7 @@ class ProductsPage extends Component {
 
              <ProductListEntry
              key={item.id}
+             item={item}
              id={item.id}
              category={category[0]}
              name={item.name}
@@ -180,9 +198,13 @@ class ProductsPage extends Component {
 
   render(){
     const classes = this.props.classes
+    //console.log(this.state.articles)
+    //console.log(categories)
+
     return(
-      <Grid container className={classes.root} >
-        <Grid container spacing={2}>
+      <Grid container 
+      className={classes.root}>
+        <Grid container spacing={1}>
           <Grid item xs={8}>
             <TextInputBar placeholder="search..." icon="search" onChange={(elem) => this.setState({ searchValue: elem.target.value})}/>
           </Grid>
@@ -190,14 +212,16 @@ class ProductsPage extends Component {
             <Link to="/create_article">
               <IconButton icon='add' />
             </Link>
-            <Link to="/favourite_products" style={{marginLeft: "15px"}}>
-              <IconButton icon='star' />
+            <Link to="/favorite_products" className = {classes.favProducts}>
+              <IconButton icon='star'/>
             </Link>
           </Grid>
         </Grid>
-        <div style={{width: '100%'}}>
+        <div 
+        className= {classes.loading}
+        >
           {this.state.loadingInProgress ?
-              <div style={{display: 'flex', justifyContent: 'center'}}>
+              <div className = {classes.article}>
                 <CircularProgress size={25} />
               </div>
             :  

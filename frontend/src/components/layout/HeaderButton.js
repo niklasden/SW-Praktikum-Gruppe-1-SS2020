@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/styles';
 import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import Icon from '@material-ui/core/Icon'
 
 const styles = theme => ({
   root: {

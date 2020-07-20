@@ -3,7 +3,9 @@ import Icon from "@material-ui/core/Icon";
 import PropTypes from 'prop-types';
 import { withStyles } from "@material-ui/styles";
 import { Grid } from "@material-ui/core";
-import EditListItem from './EditListItem'
+import EditListItem from './EditListItem';
+import CustomIcon from './CustomIcon';
+
 /**
  * Displays an list item as designed in figma
  * 
@@ -17,7 +19,6 @@ const styles = theme => ({
     borderWidth: 1,
     borderColor: '#BDBDBD',
     borderRadius: 10,
-    borderColor: '#BDBDBD',
     borderStyle: 'solid',
     marginLeft: 13,
     height: 35,
@@ -39,7 +40,8 @@ class ListItem extends Component {
     this.handleClick = this.onClickItem.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.PressButtonBack = this.PressButtonBack.bind(this);
-
+    this.PressButtonConfirm = this.PressButtonConfirm.bind(this);
+    
   }
   onClickItem(id) {
     this.setState({open : true})
@@ -53,9 +55,11 @@ class ListItem extends Component {
   PressButtonBack(){
     this.setState({open : false})
   }
+  PressButtonConfirm(){
+    this.setState({open : false})
+  }
 
   render() {
-    const open = Boolean(this.state.anchorEl);
     return (
     <Grid 
       container
@@ -63,28 +67,32 @@ class ListItem extends Component {
       justify='center'
       alignItems='center'
       className={this.props.classes.root}
-      style={{minWidth:'300px'}}
+      style={{minWidth:'100%', marginLeft: '0'}}
     >
         <Grid item xs={2}>
-          <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 3}}>fastfood</Icon>
+          <CustomIcon style={{marginLeft:15, marginTop:0}} iconName={this.state.item.name}></CustomIcon>
+          {/* <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 3}}>fastfood</Icon> */}
         </Grid>
-        <Grid item xs={5} style={{maxWidth:'165px'}} onClick={() => this.handleClick(this.state.item.id)} >
-          {this.state.item.name}
+        <Grid item xs={5} style={{maxWidth:'100%'}} onClick={() => this.handleClick(this.state.item.id)} >
+          {this.props.item.name}
         </Grid>         
         <Grid item xs={3}>
-          {this.state.item.amount}
-          {this.state.item.unit}
+          {this.props.item.amount}
+          {this.props.item.unit}
         </Grid>
         <Grid item xs={2} onClick={() => this.props.onClickDeleteButton()} >
           <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 5}}>delete</Icon>
         </Grid>
+        {this.props.retailer != undefined && this.props.retailer.length != 0 &&
         <EditListItem 
           open={this.state.open} 
           item={this.state.item}
           user={this.props.user} 
           retailer={this.props.retailer} 
           PressButtonBack={() => this.PressButtonBack()}
+          PressButtonConfirm={() => this.PressButtonConfirm()}
         />
+        }
     </Grid>
     );
   }
