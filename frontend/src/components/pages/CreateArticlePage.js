@@ -34,9 +34,8 @@ const styles = theme => ({
 	},
 });
 
-  /**
+/**
  * Renders the page to create  a article
-
  * 
  * @see ArticleEntry
  * 

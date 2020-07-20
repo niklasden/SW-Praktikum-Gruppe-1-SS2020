@@ -73,7 +73,7 @@ class HeaderButton extends Component {
                 <ShoppingCartIcon />
               </div>
             </Grid>
-            <Grid item xs={8} className={classes.item} >
+            <Grid item xs={8} className={classes.item}>
               <Typography variant="h5" className={classes.heading}>iKaufa</Typography>
               <Typography variant="h6" className={classes.subHeading}>plana - kaufa</Typography>
             </Grid>

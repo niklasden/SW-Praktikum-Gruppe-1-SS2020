@@ -1,4 +1,4 @@
- import React, { Component } from 'react'
+ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import MaterialIconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/core/Icon';
@@ -61,8 +61,8 @@ class IconButton extends Component {
 }
 
 IconButton.propTypes = {
-  icon: PropTypes.string, 
-  onclick: PropTypes.func,
+  icon: PropTypes.string.isRequired, 
+  onclick: PropTypes.func.isRequired,
 }
 
 export default withStyles(styles)(IconButton);

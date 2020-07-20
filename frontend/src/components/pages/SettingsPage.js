@@ -6,21 +6,21 @@ import {Link} from 'react-router-dom';
 import LiveTvIcon from '@material-ui/icons/LiveTv';
 
 /** 
+ * Displays the settings overview page. It renders the links to other settings pages, e.g. Manage Groups or Manage Retailers
+ * 
  * @author Christopher Boehm
  * 
  */
 class Settings extends Component {
-	/** 
-	 * Handles the click event of the sign in button an calls the prop onSignIn handler
-	 */
-	handleSignInButtonClicked = () => {
-		this.props.onSignIn();
-	}
-
 	componentDidMount(){
 		this.setState({
 			isNavHidden: false
-		});
+		})
+	}
+
+	// Handles the click event of the sign in button an calls the prop onSignIn handler
+	handleSignInButtonClicked = () => {
+		this.props.onSignIn()
 	}
 
 	render() {
@@ -60,9 +60,8 @@ class Settings extends Component {
 						<p>STEHEN!</p>
 					</div>
 			</div>
-		);
+		)
 	}
-	
 }
 
 /** Component specific styles */
@@ -89,11 +88,5 @@ const styles = theme => ({
 		textDecoration: 'none'
 	  }
 });
-
-/** PropTypes */
-Settings.propTypes = {
-	/** @ignore */
-	classes: PropTypes.object.isRequired
-}
 
 export default withStyles(styles)(Settings)

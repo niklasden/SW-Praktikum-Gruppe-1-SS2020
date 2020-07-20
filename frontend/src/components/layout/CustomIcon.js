@@ -121,11 +121,11 @@ const icons = {
  * 
  * @author [Christopher Böhm](https://github.com/christopherboehm1)
  * 
- * @property iconName (string): the icon name that is defined in icons constant
+ * @property iconName (string): the icon name that is defined in icons constant, default is apple
  */
 class CustomIcon extends Component {
   render(){
-    let icon = ''
+    let icon = 'apple'
     if (this.props.iconName !== undefined){
       if (this.props.iconName in icons){
         icon = this.props.iconName
@@ -145,6 +145,7 @@ class CustomIcon extends Component {
         style={{ 
           width: dimension, 
           height: dimension,
+          // we don't want colors, so we apply a gray filter on the icons
           filter: `grayscale(100%)`,
           ...this.props.style    
         }} 
