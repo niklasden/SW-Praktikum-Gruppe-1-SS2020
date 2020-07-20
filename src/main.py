@@ -756,6 +756,7 @@ class testListEntry(Resource):
     def post(self):
         adm = ShoppingAdministration()
         proposal = ListEntry.from_dict(api.payload)
+        print(proposal)
         
         if proposal is not None: 
             le = ListEntry()
