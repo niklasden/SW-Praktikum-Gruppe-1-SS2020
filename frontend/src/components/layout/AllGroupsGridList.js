@@ -36,6 +36,7 @@ const styles = theme => ({
   },
   titleBar: {
     background: 'linear-gradient(to top, rgba(0,188,212,1) 100%, rgba(0,188,212,0.3) 70%, rgba(0,88,212,0) 100%)',
+    borderRadius: 5,
   },
 });
    
