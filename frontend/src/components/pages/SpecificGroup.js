@@ -24,7 +24,7 @@ import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import MainButton from '../layout/MainButton';
 import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress'
 import ShoppingAPI from '../../api/ShoppingAPI';
-
+import PopUp from '../layout/PopUp';
 import ShoppingSettings from '../../../src/shoppingSettings'
 
 const settingsobj = ShoppingSettings.getSettings()
@@ -101,6 +101,7 @@ class SpecificGroup extends Component {
     this.deleteShoppingList = this.deleteShoppingList.bind(this);
     this.fetchspecificShoppinglist = this.fetchspecificShoppinglist.bind(this);
     this.deleteGroup = this.deleteGroup.bind(this);
+
   }
 
   async saveGroup() {
@@ -286,6 +287,8 @@ class SpecificGroup extends Component {
     this.setState({ isLoading: false })
 
   }
+  
+  
   async deleteShoppingList(groupID) {
     this.setState({ isLoading: true })
     const shoppinglist = {
@@ -465,7 +468,7 @@ class SpecificGroup extends Component {
                           {list.name}
                           </Grid>
                           <Grid item xs={2}>
-                              <IconButton style={{padding:0}} className={classes.deleteIcon} onClick={() => { this.deleteShoppingList(list.id) }}>
+                              <IconButton style={{padding:0}} className={classes.deleteIcon} onClick={() => { this.deleteShoppingList(list.id) }}> 
                                 <DeleteIcon fontSize="small" />
                             </IconButton>
                           </Grid>
