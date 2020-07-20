@@ -27,19 +27,19 @@ export default class ShoppingSettings{
     }
 
     getGroupName(){
-        return this.currentGroupName
+        return this.currentGroupName;
     }
 
     setGroupName(name){
-        this.currentGroupName =name
+        this.currentGroupName =name;
     }
 
     getGroupID(){
-        return this.currentGroupID
+        return this.currentGroupID;
     }
 
     setGroupID(id){
-        this.currentGroupID=id
+        this.currentGroupID=id;
     }
 
     setCurrentUserID(id) {
@@ -68,19 +68,19 @@ export default class ShoppingSettings{
 
     //only used in settings > show specific group
     onlySettingsGetSettingsGroupID(){
-        return this.onlySettingsGroupID
+        return this.onlySettingsGroupID;
     }
 
     onlySettingsGetSettingsGroupName(){
-        return this.onlySettingsGroupName
+        return this.onlySettingsGroupName;
     }
     
     onlySettingsSetSettingsGroupID(id){
-        this.onlySettingsGroupID = id
+        this.onlySettingsGroupID = id;
     }
 
     onlySettingsSetSettingsGroupName(name){
-        this.onlySettingsGroupName = name
+        this.onlySettingsGroupName = name;
     }
 
 
