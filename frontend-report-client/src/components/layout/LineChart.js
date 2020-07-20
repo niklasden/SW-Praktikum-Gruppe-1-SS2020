@@ -18,6 +18,7 @@ const styles = theme => ({
 
 /**
  * Line Chart, creation heavily influenced by https://gist.github.com/maxbbn/2940126
+ * TODO TODO TODO
  * 
  * @author Christopher Böhm
  */
