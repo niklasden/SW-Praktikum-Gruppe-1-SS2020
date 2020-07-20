@@ -244,24 +244,22 @@ class CreateArticlePage extends Component {
 							</div>
 						}
 					</Grid>
-								
-
 				</Grid>
-				</Grid>            
+			</Grid>            
 
-
-				<Snackbar
-						open={this.state.snackbarOpen}
-						onClose={() => this.setState({snackbarOpen: false})}
-						message="Keine Netzwerkverbindung"
-						action={
-							<Button 
-								color="inherit" 
-								size="small"
-								onClick={() => this.setState({ snackbarOpen: false })}
-							>Undo</Button>
-						}
-					/>
+			{/* Snackbar that is shown when an error in posting or deleting is thrown */}
+			<Snackbar
+					open={this.state.snackbarOpen}
+					onClose={() => this.setState({snackbarOpen: false})}
+					message="Error connecting to server"
+					action={
+						<Button 
+							color="inherit" 
+							size="small"
+							onClick={() => this.setState({ snackbarOpen: false })}
+						>Undo</Button>
+					}
+				/>
 			</Grid>
 		)
 	}

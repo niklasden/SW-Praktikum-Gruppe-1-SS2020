@@ -36,9 +36,8 @@ class DropDownGSL extends Component {
       })
       /* console.info(userBOs); */
     }).catch(e => 
-        console.log(e)
-      );
-    
+      console.log(e)
+    )
   }
  
   fetchRetailers = () => {
@@ -49,7 +48,7 @@ class DropDownGSL extends Component {
        console.info(retailerBOs); 
     }).catch(e => 
         console.log(e)
-      );
+    )
   }
 
   componentDidMount()  {
