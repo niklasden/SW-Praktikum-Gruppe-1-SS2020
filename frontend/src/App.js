@@ -49,8 +49,6 @@ import FavoriteArticlesPage from './components/pages/FavoriteArticlesPage';
 import EditFavoriteArticle from './components/pages/EditFavoriteArticle';
 import AddFavoriteArticle from './components/pages/AddFavoriteArticle';
 
-
-
 //** End Layout Import **/
 const settingsOptions = ShoppingSettings.getSettings();
 
@@ -72,16 +70,15 @@ class App extends React.Component {
         
     // Init an empty state
     this.state = {
-	  currentUser: null,
+	  	currentUser: null,
       appError: null,
       authError: null,
-	  authLoading: false,
-	  isNavHidden: false,
-	  currentUserID: null,
-	  isloaded:false
-	  
-	};
-	this.fetchCurrentUserID = this.fetchCurrentUserID.bind(this);
+			authLoading: false,
+			isNavHidden: false,
+			currentUserID: null,
+			isloaded:false
+		};
+		this.fetchCurrentUserID = this.fetchCurrentUserID.bind(this);
 	}
 	
 	
@@ -253,7 +250,7 @@ class App extends React.Component {
 						<Router basename={process.env.PUBLIC_URL}>
 							<Header user={currentUser} />
 							<div style={{justifyContent: 'center', display: 'flex'}}>
-								<div style={{maxWidth: 700}}>
+								<div style={{maxWidth: 700, width: '100%'}}>
 								{
 									// Is a user signed in?
 									// geändert von chris, um im dev prozess den signin zu umgehen, muss wieder 
