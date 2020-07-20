@@ -15,18 +15,9 @@ import ShoppingAPI from '../../api/ShoppingAPI';
 import ListEntryBO from '../../api/ListEntryBO';
 import ShoppingSettings from '../../../src/shoppingSettings';
 import { Config } from '../../config';
-import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress'
-
-
-/**
- * Displays an PopUp. 
- * 
- * @author [Pia Schmid](https://github.com/PiaSchmid)
- * 
-*/
+import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress';
 
 const settingsobj = ShoppingSettings.getSettings()
-
 
 const styles = theme => ({
   formControl: {
@@ -43,6 +34,12 @@ const styles = theme => ({
   }
 });
 
+/**
+ * Displays an PopUp. 
+ * 
+ * @author [Pia Schmid](https://github.com/PiaSchmid)
+ * 
+*/
 class AddListItem extends Component {
   constructor(props) {
     super(props);
