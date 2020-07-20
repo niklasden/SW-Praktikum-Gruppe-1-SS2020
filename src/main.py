@@ -77,8 +77,6 @@ listentry = api.inherit('ListEntry',bo, {
     'category': fields.String(attribute='_category',description="Category of the article"),
     'retailer': fields.String(attribute='_retailer',description="Retailer where the items/articles were bought"),
     'creationdate': fields.DateTime(attribute='_creationdate',description="An listentries creationdate"),
-   
-
 })
 
 report = api.inherit('Report',bo, {
@@ -723,7 +721,7 @@ class testListEntry(Resource):
         result = adm.insert_listentry(proposal)
         return result
 
-@shopping_v1.route('/Listentry/get_personal_items_of_group/')
+@shopping_v1.route('/Listentry/get_personal_items_of_group')
 @shopping_v1.response(500, 'If an server sided error occures')
 @shopping_v1.param('user_id', "User_ID")
 @shopping_v1.param('group_id', "Group_ID")
@@ -735,7 +733,7 @@ class testListEntry(Resource):
         adm = ShoppingAdministration()
         return adm.get_personal_items_of_group(user_id, group_id)
         
-@shopping_v1.route('/Listentry/get_items_of_group/')
+@shopping_v1.route('/Listentry/get_items_of_group')
 @shopping_v1.response(500, 'Falls was in die Fritten geht')
 @shopping_v1.param('group_id', "Group_ID")
 @shopping_v1.param('shoppinglist_id', "Shoppinglist_ID")
@@ -753,7 +751,7 @@ class testListEntry(Resource):
 @shopping_v1.response(500, 'If an server sided error occures')
 @testing.param('listentry', "Listentry object")
 class testListEntry(Resource):
-    @shopping_v1.marshal_with(listentry, code= 200)
+    @shopping_v1.marshal_with(listentry, code= 200, skip_none=True)
     @shopping_v1.expect(listentry)
     def post(self):
         adm = ShoppingAdministration()
@@ -775,24 +773,11 @@ class testListEntry(Resource):
                 res = adm.insert_listentry(le)
             else: 
                 res = adm.update_listentry(le)
+            print(res)
             return res, 200
         else:
             return "", 500
-        
-
-
-            """
-            listentry.set_id(proposal.get_id())
-            listentry.set_article(proposal.get_article())
-            if (proposal.get_id() == 0):
-                c = admin.insert_listentry(listentry)
-            else: 
-                c = admin.update_listentry(listentry)
-            return c, 200
-        else:
-            return "", 500
-            """
-    
+            
 
 @testing.route('/testUser')
 @testing.response(500,'If an server sided error occures')

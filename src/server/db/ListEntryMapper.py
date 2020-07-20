@@ -269,6 +269,7 @@ class ListEntryMapper(Mapper):
     def update(self, listentry):
         """
         Pascal le:ListEntry
+        Niklas 
         """
     
         le = ListEntry()
@@ -280,39 +281,69 @@ class ListEntryMapper(Mapper):
             le.set_retailer(listentry.get_retailer())
         if listentry.get_shoppinglist() != "" and listentry.get_shoppinglist() is not None:
             le.set_shoppinglist(listentry.get_shoppinglist())
-        if listentry.get_user() != "" and listentry.get_user() is not None:
+        if listentry.get_user() != "" or listentry.get_user() is not None:
             le.set_user(listentry.get_user())  
-        if listentry.get_group() != "" and listentry.get_group() is not None:
+        if listentry.get_group() != "" or listentry.get_group() is not None:
             le.set_group(listentry.get_group())
-        if listentry.get_amount() != "" and listentry.get_amount() is not None:
+        if listentry.get_amount() != "" or listentry.get_amount() is not None:
             le.set_amount(listentry.get_amount())
-        elif le.get_amount() is None:
-            le.set_amount('NULL')
-        if listentry.get_unit() != "" and listentry.get_unit() is not None:
+        if listentry.get_unit() != "" or listentry.get_unit() is not None:
             le.set_unit(listentry.get_unit())
         if listentry.get_buy_date() != "" and listentry.get_buy_date() is not None:
             date = datetime.date.today()
-            print(date)
             le.set_buy_date(date)
-            print(le.get_buy_date())
+       
 
-        try:
-            cursor = self._cnx.cursor()
+        #Spaghetti here we come
+        #try:
+        cursor = self._cnx.cursor()
+    
+        if le.get_unit() is None:
+            unit = "NULL"
+        else:
             unit = "'" + le.get_unit() + "'"
-            if le.get_unit() == "None":
-                unit = "NULL"
-            command = """UPDATE Listentry SET Article_ID={0}, Retailer_ID={1}, Shoppinglist_ID={2}, User_ID={3}, Group_ID={4}, amount={5}, unit={6}, bought='{7}' WHERE ID={8}""".format(le.get_article(), le.get_retailer(), le.get_shoppinglist(), le.get_user(), le.get_group(), le.get_amount(), unit, le.get_buy_date(), le.get_id())
+        
+        if le.get_buy_date() is None:
+            date = "NULL"
+        else:
+            date = "'" + le.get_buy_date() + "'"
+        
+        if le.get_retailer() is None:
+            retailer = "NULL"
+        else:
+            retailer =  le.get_retailer()
+        
+        if le.get_amount() is None:
+            amount = "NULL"
+        else:
+            amount = le.get_amount()
+        
+        if le.get_shoppinglist() is None:
+            shoppinglist = "NULL"
+        else:
+            shoppinglist =  le.get_shoppinglist()
+        
+        if le.get_user() is None:
+            user = 'NULL'
+        else:
+            user = le.get_user()
 
-            print(command)
+        if le.get_buy_date() is None:
+            buydate = 'NULL'
+        else:
+            buydate = le.get_buy_date()
+
+        command = """UPDATE Listentry SET Article_ID={0}, Retailer_ID={1}, Shoppinglist_ID={2}, User_ID={3}, Group_ID={4}, amount={5}, unit={6}, bought={7} WHERE ID={8}""".format(le.get_article(), retailer, shoppinglist, user, le.get_group(), amount, unit, buydate, le.get_id())
+        print(command)
             
-            cursor.execute(command)
-            self._cnx.commit()
-            cursor.close()
-            return listentry
+        cursor.execute(command)
+        self._cnx.commit()
+        cursor.close()
+        return listentry
 
-        except Exception as e:
-            print(str(e))
-            return "Error in update ListEntry ListEntryMapper: " + str(e)
+        #except Exception as e:
+        #    print(str(e))
+        #    return "Error in update ListEntry ListEntryMapper: " + str(e)
            
 
     def delete(self, listentry):

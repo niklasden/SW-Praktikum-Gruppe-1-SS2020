@@ -28,18 +28,6 @@ class DropDownGSL extends Component {
     this.setState({anchorEl: event.currentTarget});
   };
 
-  /*
-  handleChangeUnit(v) {
-    this.setState({unit: v});
-    var newList = [...this.state.items];
-    newList.filter(item => item.id !== this.state.selectedID);
-    var newObject = this.state.items.find(item => item.id === this.state.selectedID);
-    if(v !== "null" || v !== "undefined") {
-      newObject.unit = v;
-    }
-    this.setState({items: newList});
-  }
-  */
   
   fetchGroupMembers = () => {
     ShoppingAPI.getAPI().getUsers(settingsobj.getGroupID()).then(userBOs => {
@@ -58,7 +46,7 @@ class DropDownGSL extends Component {
       this.setState({
         retailer: retailerBOs
       })
-      /* console.info(retailerBOs); */
+       console.info(retailerBOs); 
     }).catch(e => 
         console.log(e)
       );
@@ -83,10 +71,17 @@ class DropDownGSL extends Component {
       </ExpansionPanelSummary>
       <ExpansionPanelDetails style={{display: 'grid'}}>
               {this.props.items.map(element => {
-              if(element.category === this.props.ArrCategory[this.props.item]){
-              return <ListItem style={{marginLeft: 0}} key={element.id} onClickDeleteButton={()=>this.props.onClickDeleteButton(element.id)} item={element} user={this.state.user} retailer={this.state.retailer} fetchItems={this.props.fetchItems}></ListItem>
-            }
-          })}
+                if(element.category === this.props.ArrCategory[this.props.item]){
+                  return <ListItem 
+                          style={{marginLeft: 0}} key={element.id}
+                          onClickDeleteButton={()=>this.props.onClickDeleteButton(element.id)}
+                          item={element} user={this.state.user} retailer={this.state.retailer}
+                          fetchItems={this.props.fetchItems}>
+                           </ListItem>
+                }
+            return null
+          }
+          )}
       </ExpansionPanelDetails>
     </ExpansionPanel>
     )

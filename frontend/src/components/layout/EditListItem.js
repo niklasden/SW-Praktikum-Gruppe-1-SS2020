@@ -32,18 +32,16 @@ class EditListItem extends Component {
     
     this.state = {
       item: this.props.item,
-      amount: this.props.item.amount,
-      unit: this.props.item.unit,
       user: this.props.item.user_id,
-      article_id: this.props.item.article_id,
-      shoppinglist_id: this.props.item.shoppinglist_id,
       group_id: this.props.item.group_id,
       bought: this.props.item.bought,
       retailer: this.props.retailer,
-      selected_user_id: "",
-      selected_retailer_id: "",
-      changed_amount: "",
-      current_retailer_id: ""
+      
+      selected_user_id: null,
+      selected_retailer_id: null,
+      changed_amount: null,
+      selected_retailer_id: null,
+      selected_unit: null
     }
      this.saveItem = this.saveItem.bind(this); 
      this.getRetailerbyProps = this.getRetailerbyProps.bind(this);
@@ -53,16 +51,34 @@ class EditListItem extends Component {
   
   getRetailerbyProps = () => {
     var res = "";
-    this.props.retailer.filter(item => {
-      if (item.name.toLowerCase().includes(this.state.item.retailer.toLowerCase())) {
-      res = item.id
-      } 
-    });
+    console.log(this.state.item.retailer)
+    console.log(this.props.retailer)
+    if (this.state.item.retailer !== null){
+    this.props.retailer.forEach(item => {
+        if (item.name.toLowerCase() === this.state.item.retailer.toLowerCase()) {
+        res = item.id
+        console.log(res)
+        } 
+        
+      });
+    } 
     return res
   };
 
+  componentDidMount(){
+    console.log(this.getRetailerbyProps())
+
+    this.setState({
+      selected_unit: this.state.item.unit,
+      selected_amount: this.state.item.amount,
+      selected_user_id: this.state.item.user_id,
+      selected_retailer_id: this.getRetailerbyProps()
+    });
+
+  }
+
   handleChangeUnit(v) {
-    this.setState({unit: v.target.value});
+    this.setState({selected_unit: v.target.value});
   }
 
   handleChangeUser(v) {
@@ -74,26 +90,25 @@ class EditListItem extends Component {
   }
 
   handleChangeAmount(v) {
-    this.setState({amount: v.target.value})
+    this.setState({selected_amount: v.target.value})
   }
 
   saveItem = () => {
     let updatedItem = Object.assign(new ListEntryBO(), this.state.item);
     //Updates the parameters we want to change
-    updatedItem.setAmount(this.state.amount);
-    updatedItem.setUnit(this.state.unit);
+    updatedItem.setAmount(this.state.selected_amount);
+    updatedItem.setUnit(this.state.selected_unit);
     updatedItem.setRetailerid(this.state.selected_retailer_id);
     updatedItem.setUserid(this.state.selected_user_id);
     updatedItem.setGroupid(this.state.group_id);
     updatedItem.setBought(this.state.bought);
     updatedItem.setRetailer(this.state.selected_retailer);
-    
+ 
     //Sends updated ListEntry Object to the API, in case of Error it logs it
     ShoppingAPI.getAPI().updateListEntry(updatedItem).then(this.props.PressButtonConfirm).catch(e => console.log(e))
   }
   
   render() {
-    
     return (
 
     <Dialog open={this.props.open} aria-labelledby="alert title" aria-describedby="description">
@@ -109,7 +124,7 @@ class EditListItem extends Component {
       >
       <Grid item xs={6} style={{paddingLeft: 25}}>
         <InputLabel>AMOUNT</InputLabel>
-        <TextField onChange={this.handleChangeAmount.bind(this)} value={this.state.amount}></TextField>
+        <TextField onChange={this.handleChangeAmount.bind(this)} value={this.state.selected_amount}></TextField>
       </Grid>
       <Grid item xs={6}>
       <FormControl style={{width: '100%', height: 35, marginLeft: 10, marginBottom: 10}}>
@@ -130,7 +145,7 @@ class EditListItem extends Component {
       <Grid item xs={6} style={{marginTop: 10}}>
       <FormControl style={{width: '100%', height: 35, marginLeft: 10, marginBottom: 10}}>
                 <InputLabel>ASSIGN USER</InputLabel>
-                <Select defaultValue={this.state.item.user} value={this.state.item.user} onChange={this.handleChangeUser.bind(this)}>
+                <Select defaultValue={this.state.selected_user_id} value={this.state.selected_user_id} onChange={this.handleChangeUser.bind(this)}>
                 {this.props.user.map(item =>{
                     return <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
                   })}
@@ -140,12 +155,11 @@ class EditListItem extends Component {
       <Grid item xs={6} style={{marginTop: 10}}>
       <FormControl style={{width: '100%', height: 35, marginLeft: 10, marginBottom: 10}}>
                 <InputLabel>ASSIGN RETAILER</InputLabel>
-                
-                <Select defaultValue={this.getRetailerbyProps()} value={this.state.item.retailer.id} onChange={this.handleChangeRetailer.bind(this)}>
-                  {this.props.retailer && this.props.retailer.map(item =>{
+               <Select defaultValue={this.state.selected_retailer_id} value={this.state.selected_retailer_id} onChange={this.handleChangeRetailer.bind(this)}> 
+               {this.props.retailer.map(item =>{
                     return <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
                   })}
-                </Select>
+                </Select> 
       </FormControl>
       </Grid>
       </Grid>
