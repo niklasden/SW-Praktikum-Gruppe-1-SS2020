@@ -94,6 +94,9 @@ class SpecificGroup extends Component {
       error: null,
       newMemberName: '',
       isLoading: false, 
+
+      SLsolved: false,
+      GRsolved:false
       
     }
     this.deleteMember = this.deleteMember.bind(this);
@@ -137,6 +140,7 @@ class SpecificGroup extends Component {
     }
     const resp = await fetch(Config.apiHost + '/Group/' + id, rInit)
     if(resp.ok){
+      this.setState({GRsolved : false})
       this.props.history.push('/Groups')
       alert("group and all memberships deleted")
     } else {
@@ -151,6 +155,7 @@ class SpecificGroup extends Component {
     if(settingsobj.onlySettingsGetSettingsGroupID() === id){
       settingsobj.onlySettingsSetSettingsGroupID(0)
       settingsobj.onlySettingsSetSettingsGroupName("")
+      
     }
 
     this.setState({ isLoading: false })
@@ -351,7 +356,7 @@ class SpecificGroup extends Component {
   deleteGroup = (id) => {
     ShoppingAPI.getAPI().deleteGroup(id).then(groupBOs => {
       this.props.history.push('/Groups')
-      this.setState({groupItems: this.state.groupItems.filter(elem => elem.id !== id)})
+      //this.setState({groupItems: this.state.groupItems.filter(elem => elem.id !== id)})
       alert("Group and all Members deleted")
   }).catch(e =>
       alert(e)
@@ -360,6 +365,13 @@ class SpecificGroup extends Component {
          settingsobj.onlySettingsSetSettingsGroupID("")
          settingsobj.onlySettingsSetSettingsGroupName("")
        }
+  }
+
+  handlePopUpGR(){
+    if(this.state.GRsolved === true){
+      return <PopUp name={'If you delete the group all shoppinglists and entries will be deleted!'} title={"Delete group?"} open={true} clickNo={()=> this.setState({ GRsolved : false})}
+      clickYes={ () => this.deleteGroup(this.state.groupID)}></PopUp> 
+    }
   }
 
   render(){
@@ -493,7 +505,7 @@ class SpecificGroup extends Component {
             <div style={{display: 'flex', flexDirection: 'row'}}>
               <MainButton onclick={this.saveGroup}>SAVE GROUP</MainButton>
               <div style={{marginLeft: 12}}>
-                <MainButton onclick={() => this.deleteGroup(this.state.groupID)}>DELETE GROUP</MainButton>
+                <MainButton onclick={() => this.setState({GRsolved: true})}>DELETE GROUP</MainButton>  {/* () => this.deleteGroup(this.state.groupID) */}
               </div>
             </div>
 
@@ -570,6 +582,7 @@ class SpecificGroup extends Component {
           </Button>
         </DialogActions>
       </Dialog>
+      {this.handlePopUpGR()}
       </>
       }
     </div>

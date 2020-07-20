@@ -233,12 +233,7 @@ class GroupOperations(Resource):
     def delete(self,id):
         adm = ShoppingAdministration()
         grp = adm.get_group_by_id(id)
-        userobj = adm.get_users_by_groupid(id)
-        
-        if len(userobj) > 0:
-            for i in userobj:
-                adm.delete_membership(i.get_id(),id)
-                
+       
         adm.delete_group(grp)
         return "group and all memberships deleted",200
     

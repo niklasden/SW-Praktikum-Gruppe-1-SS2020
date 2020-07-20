@@ -124,7 +124,14 @@ class ShoppingAdministration (object):
             
             shoppinglists = self.get_shoppinglists_by_group_id(group.get_id())
             favArticles = self.get_FavoriteArticles_by_groupid(group.get_id())
+            users = self.get_users_by_groupid(group.get_id())
+
             try:
+                #delete all memberships
+                if len(users) > 0:
+                    for i in users:
+                        self.delete_membership(i.get_id(),group.get_id(),outercall=True)
+
                 # delete all shopping_lists:
                 for i in shoppinglists:
                     self.delete_shoppinglist(i)
@@ -132,12 +139,15 @@ class ShoppingAdministration (object):
                 #delete all favoriteArticles:
                 for i in favArticles:
                     self.delete_FavoriteArticle(i)
-                
-                res = mapper.delete(group)
 
             except Exception as e:
                 print("Error in delete_group in ShoppingAdmin: "+str(e))
                 res = "Error in delete_group in ShoppingAdmin: "+str(e)
+            
+            try:
+                res = mapper.delete(group)
+            except Exception as e:
+                res = str(e) + " error in del group"
             
             return res
     
@@ -273,13 +283,14 @@ class ShoppingAdministration (object):
         with GroupMapper() as mapper:
             return mapper.createMembership(uid,gid)
 
-    def delete_membership(self,uid,gid):
+    def delete_membership(self,uid,gid, outercall=False):
         with GroupMapper() as mapper:
             a = mapper.deleteMembership(uid,gid)
-            if len(self.get_users_by_groupid(gid)) < 1:
-                g = self.get_group_by_id(gid)
-                self.delete_group(g)
-                print("deleted group {0} because there are no memberships left".format(str(g)))
+            if outercall == False:
+                if len(self.get_users_by_groupid(gid)) < 1:
+                    g = self.get_group_by_id(gid)
+                    self.delete_group(g)
+                    print("deleted group {0} because there are no memberships left".format(str(g)))
             return a
     
     def get_users_by_groupid(self,gid):
