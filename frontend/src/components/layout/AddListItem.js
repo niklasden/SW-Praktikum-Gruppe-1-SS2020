@@ -31,7 +31,7 @@ const settingsobj = ShoppingSettings.getSettings()
 const styles = theme => ({
   formControl: {
     width: '90%', 
-    height: 35, 
+    height: 20, 
     marginLeft: 10, 
     marginRight:10, 
     marginBottom: 10
@@ -39,7 +39,7 @@ const styles = theme => ({
 
   popUp: {
       width: '300px', 
-      fontSize: '15px'
+      fontSize: '15px',      
   }
 });
 
@@ -85,11 +85,9 @@ class AddListItem extends Component {
       this.setState({
         users: userBOs
       })
-       //console.info(userBOs); 
     }).catch(e => 
         console.log(e)
       );
-    
   }
 
   setUnit(v) {
@@ -123,17 +121,11 @@ class AddListItem extends Component {
     insertedItem.setShoppinglistid(this.state.selected_shoppinglist);
     insertedItem.setRetailer('123456789');
     insertedItem.setRetailerid(this.state.selected_retailer_id);
-    //insertedItem.setRetailerid(123456789);
-    //insertedItem.setUserid('123456789');
     insertedItem.setUserid(this.state.selected_user_id);
     insertedItem.setId(123456789);
     insertedItem.setGroupid(settingsobj.getGroupID());
-    //insertedItem.setAmount(123456789);
     insertedItem.setAmount(this.state.amount);
-   
-    //insertedItem.setUnit('123456789');
     insertedItem.setUnit(this.state.unit);
-
     insertedItem.setBought('123456789');
     insertedItem.setName('123456789');
     insertedItem.setCategory('123456789');
@@ -223,32 +215,43 @@ class AddListItem extends Component {
                     </Select>
       </FormControl>
       </Grid>
+      <Grid container xs={12}
+      justify = 'center'
+      alignItems= 'center'
+      style={{paddingTop:10, paddingBottom:10}}
+      spacing={4}
 
-      <Grid item xs={6} style={{paddingLeft: 20}}
+      >
+        <Grid item xs={6} 
+          style={{paddingLeft:25}}
+          justify='center'
+          alignItems= 'center'
+        >
+          <InputLabel>AMOUNT</InputLabel>
+          <TextField onChange={this.setAmount.bind(this)} value={this.state.amount}>
+          </TextField>
+        </Grid>
+
+        <Grid item xs={6}
+        style={{paddingRight:35}}
         justify='center'
-        //alignItems= 'center'
-
-      >
-        <InputLabel>AMOUNT</InputLabel>
-        <TextField onChange={this.setAmount.bind(this)} value={this.state.amount}></TextField>
-      </Grid>
-      <Grid item xs={6}
-      
-      >
-      <FormControl style={{width: '100%', height: 35, marginLeft: 5, marginBottom: 10}}>
-                <InputLabel>UNIT</InputLabel>
-                <Select 
-                  onChange={this.setUnit.bind(this)}
-                  value = {this.state.unit}
-                >
-                    <MenuItem value={'kg'}>Kg</MenuItem>
-                    <MenuItem value={'g'}>g</MenuItem>
-                    <MenuItem value={'l'}>l</MenuItem>
-                    <MenuItem value={'ml'}>ml</MenuItem>
-                    <MenuItem value={'Stk.'}>Stk.</MenuItem>
-                    <MenuItem value={'Pkg.'}>Pkg.</MenuItem>
-                </Select>
-      </FormControl>
+        alignItems= 'center'
+        >
+          <FormControl style={{width: '100%'}}>
+                    <InputLabel>UNIT</InputLabel>
+                    <Select 
+                      onChange={this.setUnit.bind(this)}
+                      value = {this.state.unit}
+                    >
+                        <MenuItem value={'kg'}>Kg</MenuItem>
+                        <MenuItem value={'g'}>g</MenuItem>
+                        <MenuItem value={'l'}>l</MenuItem>
+                        <MenuItem value={'ml'}>ml</MenuItem>
+                        <MenuItem value={'Stk.'}>Stk.</MenuItem>
+                        <MenuItem value={'Pkg.'}>Pkg.</MenuItem>
+                    </Select>
+          </FormControl>
+        </Grid>
       </Grid>
 
 
