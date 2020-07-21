@@ -1,8 +1,9 @@
 /**
- * class for global settings
+ * provides global settings:
+ * init with: "const settingsobj = ShoppingSettings.getSettings()"
  * 
- * @author [Julius Jacobitz](https://github.com/JuliusJacobitz) 
- * under supervision of @author [Chris Böhm](https://github.com/christopherboehm1) 
+ * @author [Julius Jacobitz](https://github.com/JuliusJacobitz)   
+ * under supervision of: @author [Chris Böhm](https://github.com/christopherboehm1) 
  */
 export default class ShoppingSettings{
 
