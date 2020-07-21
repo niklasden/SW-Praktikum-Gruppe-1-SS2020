@@ -34,6 +34,8 @@ class ListItem extends Component {
     super(props);
     this.state = {
       item: this.props.item,
+      unit: this.props.item.unit,
+      amount: this.props.item.amount,
       anchorEl: null,
       open: false
     }
@@ -41,23 +43,31 @@ class ListItem extends Component {
     this.handleClose = this.handleClose.bind(this);
     this.PressButtonBack = this.PressButtonBack.bind(this);
     this.PressButtonConfirm = this.PressButtonConfirm.bind(this);
+    this.handleChangeUnit = this.handleChangeUnit.bind(this);
+    this.handleChangeAmount = this.handleChangeAmount.bind(this);
     
   }
   onClickItem(id) {
     this.setState({open : true})
-  }
+  };
   onCloseItem() {
     this.setState({open: false})
-  }
+  };
   handleClose(){
     this.setState({anchorEl:null});
   };
   PressButtonBack(){
     this.setState({open : false})
-  }
+  };
   PressButtonConfirm(){
     this.setState({open : false})
-  }
+  };
+  handleChangeUnit(unit){
+    this.setState({unit: unit })
+  };
+  handleChangeAmount(amount){
+    this.setState({amount: amount})
+  };
 
   render() {
     return (
@@ -77,22 +87,22 @@ class ListItem extends Component {
           {this.props.item.name}
         </Grid>         
         <Grid item xs={3}>
-          {this.props.item.amount}
-          {this.props.item.unit}
+        {this.state.amount !== null && this.state.unit !== 'None'  && this.state.amount+" "+this.state.unit}
         </Grid>
         <Grid item xs={2} onClick={() => this.props.onClickDeleteButton()} >
           <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 5}}>delete</Icon>
         </Grid>
-        {this.props.retailer != undefined && this.props.retailer.length != 0 &&
         <EditListItem 
           open={this.state.open} 
-          item={this.state.item}
+          item={this.props.item}
           user={this.props.user} 
           retailer={this.props.retailer} 
           PressButtonBack={() => this.PressButtonBack()}
           PressButtonConfirm={() => this.PressButtonConfirm()}
+          onUnitChange={(unit) => this.handleChangeUnit(unit)}
+          onAmountChange={(amount) => this.handleChangeAmount(amount)}
         />
-        }
+        
     </Grid>
     );
   }

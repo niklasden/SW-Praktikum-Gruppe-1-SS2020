@@ -79,8 +79,6 @@ class DropDownGSL extends Component {
               />
             )
           }
-
-          // TODO: why do we do this?
           return null
         })}
         </ExpansionPanelDetails>

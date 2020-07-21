@@ -13,10 +13,15 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
 import ShoppingAPI from '../../api/ShoppingAPI';
 import ListEntryBO from '../../api/ListEntryBO';
+import CircularLoadingProgress from '../dialogs/CircularLoadingProgress';
+import ContextErrorMessage from '../dialogs/ContextErrorMessage';
+
 /**
- * Displays an PopUp. 
+ * Displays an Dialog, which lets you edit ListEntry data.
+ * Allows the user to save changes or cancel them. 
  * 
  * @author [Pascal Illg](https://github.com/pasillg)
+ * @author [Niklas Denneler](https://github.com/niklasden)
  * 
 */
 
@@ -36,49 +41,45 @@ class EditListItem extends Component {
       group_id: this.props.item.group_id,
       bought: this.props.item.bought,
       retailer: this.props.retailer,
-      
       selected_user_id: null,
       selected_retailer_id: null,
       changed_amount: null,
       selected_retailer_id: null,
-      selected_unit: null
+      selected_unit: null,
+      savingInProgress: false,
+      savingItemError: null,
     }
      this.saveItem = this.saveItem.bind(this); 
      this.getRetailerbyProps = this.getRetailerbyProps.bind(this);
   }
 
-
-  
   getRetailerbyProps = () => {
     var res = "";
-    console.log(this.state.item.retailer)
-    console.log(this.props.retailer)
     if (this.state.item.retailer !== null){
     this.props.retailer.forEach(item => {
         if (item.name.toLowerCase() === this.state.item.retailer.toLowerCase()) {
         res = item.id
-        console.log(res)
         } 
-        
       });
     } 
     return res
   };
 
   componentDidMount(){
-    console.log(this.getRetailerbyProps())
+    /*console.log(this.getRetailerbyProps())*/
 
     this.setState({
       selected_unit: this.state.item.unit,
       selected_amount: this.state.item.amount,
       selected_user_id: this.state.item.user_id,
-      selected_retailer_id: this.getRetailerbyProps()
+      selected_retailer_id: this.getRetailerbyProps(),
     });
 
   }
 
   handleChangeUnit(v) {
-    this.setState({selected_unit: v.target.value});
+    this.setState({ selected_unit: v.target.value});
+    this.props.onUnitChange(v.target.value)
   }
 
   handleChangeUser(v) {
@@ -91,11 +92,12 @@ class EditListItem extends Component {
 
   handleChangeAmount(v) {
     this.setState({selected_amount: v.target.value})
+    this.props.onAmountChange(v.target.value)
   }
 
   saveItem = () => {
     let updatedItem = Object.assign(new ListEntryBO(), this.state.item);
-    //Updates the parameters we want to change
+    //Updates the parameters we want to change to a new ListEntryBO
     updatedItem.setAmount(this.state.selected_amount);
     updatedItem.setUnit(this.state.selected_unit);
     updatedItem.setRetailerid(this.state.selected_retailer_id);
@@ -105,10 +107,19 @@ class EditListItem extends Component {
     updatedItem.setRetailer(this.state.selected_retailer);
  
     //Sends updated ListEntry Object to the API, in case of Error it logs it
-    ShoppingAPI.getAPI().updateListEntry(updatedItem).then(this.props.PressButtonConfirm).catch(e => console.log(e))
-  }
+    ShoppingAPI.getAPI().updateListEntry(updatedItem).then(this.setState({
+      savingItemError: null,
+      savingInProgress: true
+    })).then(this.props.PressButtonConfirm).catch(e => 
+      this.setState({
+      savingItemError: e,
+      savingInProgress: false,
+    })
+    )  
+  };
   
   render() {
+    const {savingInProgress, savingItemError} = this.state;
     return (
 
     <Dialog open={this.props.open} aria-labelledby="alert title" aria-describedby="description">
@@ -122,6 +133,9 @@ class EditListItem extends Component {
         spacing={4}
         style={{width: 'calc(100% + 15px)', fontSize: '15px'}}
       >
+      <CircularLoadingProgress show={savingInProgress} />
+      <ContextErrorMessage error={savingItemError} contextErrorMsg={'Failed to save Item'} onReload={this.saveItem}/>
+
       <Grid item xs={6} style={{paddingLeft: 25}}>
         <InputLabel>AMOUNT</InputLabel>
         <TextField onChange={this.handleChangeAmount.bind(this)} value={this.state.selected_amount}></TextField>
@@ -131,7 +145,7 @@ class EditListItem extends Component {
                 <InputLabel>UNIT</InputLabel>
                 <Select defaultValue={this.state.item.unit}
                   onChange={this.handleChangeUnit.bind(this)}
-                  // value={this.state.item.unit}
+                 value={this.state.selected_unit}
                 >
                 <MenuItem value={'kg'}>Kg</MenuItem>
                 <MenuItem value={'g'}>g</MenuItem>
@@ -184,6 +198,8 @@ EditListItem.propTypes = {
   handleChange: PropTypes.string,
   PressButtonBack: PropTypes.func,
   PressButtonConfirm: PropTypes.func,
+  onAmountChange: PropTypes.func,
+  onUnitChange: PropTypes.func,
   retailer: PropTypes.array,
   user: PropTypes.array,
   fetchItems: PropTypes.func

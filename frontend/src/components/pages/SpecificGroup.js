@@ -347,6 +347,7 @@ class SpecificGroup extends Component {
 
   renderGroupMembers(){
     const GroupMembers = []
+    console.log(this.state.groupmembers);
     this.state.groupmembers.forEach( elem => {   
       GroupMembers.push(
         <GroupMember onclick={ this.deleteMember.bind(this, elem)} key={elem.id} imgsrc={elem.imgsrc} membername={elem.name}></GroupMember>
