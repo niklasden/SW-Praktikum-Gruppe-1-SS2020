@@ -59,7 +59,6 @@ class EditListItem extends Component {
     this.props.retailer.forEach(item => {
         if (item.name.toLowerCase() === this.state.item.retailer.toLowerCase()) {
         res = item.id
-        console.log(res)
         } 
       });
     } 

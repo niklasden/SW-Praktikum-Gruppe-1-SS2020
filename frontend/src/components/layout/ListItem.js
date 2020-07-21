@@ -87,13 +87,11 @@ class ListItem extends Component {
           {this.props.item.name}
         </Grid>         
         <Grid item xs={3}>
-          {this.state.amount}
-          {this.state.unit}
+        {this.state.amount !== null && this.state.unit !== 'None'  && this.state.amount+" "+this.state.unit}
         </Grid>
         <Grid item xs={2} onClick={() => this.props.onClickDeleteButton()} >
           <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 5}}>delete</Icon>
         </Grid>
-        {this.props.retailer != undefined && this.props.retailer.length != 0 &&
         <EditListItem 
           open={this.state.open} 
           item={this.props.item}
@@ -104,7 +102,7 @@ class ListItem extends Component {
           onUnitChange={(unit) => this.handleChangeUnit(unit)}
           onAmountChange={(amount) => this.handleChangeAmount(amount)}
         />
-        }
+        
     </Grid>
     );
   }
