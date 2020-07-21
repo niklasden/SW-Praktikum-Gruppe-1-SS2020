@@ -12,7 +12,7 @@ class BarChart extends Component {
     const canvas = this.refs.canvas
     canvas.height = 300;
     canvas.width = this.props.width
-    const ctx = canvas.getContext("2d")
+    // const ctx = canvas.getContext("2d")
     // const img = this.refs.image
 
     var myBarchart = new BarChartGenerator({
@@ -157,7 +157,6 @@ var BarChartGenerator = function(options){
 		var barSize = (canvasActualWidth)/numberOfBars;
 
 		this.options.data.forEach((el) => {
-			console.log("categ" + el.title)
 			var val = el.value;
 			var barHeight = Math.round( (canvasActualHeight - 10) * val/maxValue);
 			drawBar(

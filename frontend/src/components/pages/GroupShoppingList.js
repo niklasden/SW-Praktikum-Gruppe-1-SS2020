@@ -62,6 +62,7 @@ export default class GroupShoppingList extends Component {
     }
 
     fetchItems = () => {
+      this.setState({items : []})
       ShoppingAPI.getAPI().getItemsofGroup(settingsobj.getGroupID(), settingsobj.getCurrentShoppinglist()).then(listentryBOs => {
         // Set new state when AccountBOs have been fetched
         this.setState({  
