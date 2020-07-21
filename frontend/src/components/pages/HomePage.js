@@ -9,7 +9,7 @@ import { SettingsContext } from '../../settingsContext'; //only for context
 
 /** 
  *  Homepage of iKaufa
- *  TODO: add good description
+ *  Displays the app's landingpage.
  *
  *  @author [Julius Jacobitz](https://github.com/JuliusJacobitz)
  *  @author [Kevin Eberhardt](https://github.com/kevin-eberhardt)
