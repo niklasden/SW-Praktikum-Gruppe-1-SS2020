@@ -42,7 +42,6 @@ class EditListItem extends Component {
       bought: this.props.item.bought,
       retailer: this.props.retailer,
       selected_user_id: null,
-      selected_retailer_id: null,
       changed_amount: null,
       selected_retailer_id: null,
       selected_unit: null,
