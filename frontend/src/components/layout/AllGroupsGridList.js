@@ -43,8 +43,8 @@ const styles = theme => ({
 const settingsobj = ShoppingSettings.getSettings()
 
 /**
- * Displays all Groups specific for one user in a gridlist
- * 
+ * Displays all Groups specific for one user in a gridlist for the homepage
+ * @author [Kevin Eberhardt]
  * @author [Julius Jacobitz](https://github.com/JuliusJacobitz) * 
  * 
  */
@@ -75,7 +75,8 @@ class GroupsGridList extends Component {
           this.setState({ loadingError: 'Error fetching groups' })
         }
       }
-    } catch (e){
+    } 
+    catch (e){
       console.log(e)
       this.setState({ loadingError: 'Error while connecting to server' })
     }
@@ -96,6 +97,8 @@ class GroupsGridList extends Component {
       <div className={classes.rootTwo}>
         {this.state.groupItemss.length !== 0 ?
           <GridList className={classes.gridList} cellHeight={180} cols={2.5}>
+            
+            {/* map every group item to one tile */}
             {this.state.groupItemss.map((tile) => (
               <GridListTile key={GroupIcon}>
                 <img src={GroupIcon} alt={tile.name} />

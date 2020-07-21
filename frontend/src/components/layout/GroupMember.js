@@ -5,12 +5,6 @@ import { withStyles } from "@material-ui/styles";
 import { Grid,Avatar } from "@material-ui/core";
 import IconButton from '@material-ui/core/IconButton';
 
-/**
- * Displays a group member item in a specific group
- * 
- * @author [Julius Jacobitz](https://github.com/JuliusJacobitz)
- * 
-*/
 
 const styles = theme => ({
   root: {
@@ -32,34 +26,41 @@ const styles = theme => ({
     margin: theme.spacing(1),
   },
 });
-
+/**
+ * Displays a member in a Specific Group at "Members"
+ * 
+ * It has an icon, a name and a delete button
+ * 
+ * @author [Julius Jacobitz](https://github.com/JuliusJacobitz)
+ * 
+ * @property membername (string): the name of the member which should be displayed 
+*/
 class GroupMember extends Component {
   render() {
     return (
-    <Grid 
-    style={{marginBottom:5}}
-    container 
-    direction='row'
-    justify='center'
-    alignItems='center'
-    className={this.props.classes.root}
-       >
-        <Grid item xs={2}>
-          {/*<img style={{height:'25px', width: '25px', marginTop:4}} src={this.props.imgsrc}></img>*/}
-          <Avatar style={{marginLeft:5}} className={this.props.classes.small} alt={this.props.membername} src={this.props.imgsrc}
-					/>
-        </Grid>
-        <Grid item xs={8}>
-        {this.props.membername}
-        </Grid>
-        <Grid item xs={2}>
+      <Grid 
+        style={{marginBottom:5}}
+        container 
+        direction='row'
+        justify='center'
+        alignItems='center'
+        className={this.props.classes.root}
+        >
+          <Grid item xs={2}>
+            {/*<img style={{height:'25px', width: '25px', marginTop:4}} src={this.props.imgsrc}></img>*/}
+            <Avatar style={{marginLeft:5}} className={this.props.classes.small} alt={this.props.membername} src={this.props.imgsrc}
+          />
+          </Grid>
+          <Grid item xs={8}>
+            {this.props.membername}
+          </Grid>
+          <Grid item xs={2}>
             <IconButton  aria-label="delete" className={this.props.classes.margin} style={{padding:0}}>
               <DeleteIcon onClick={this.props.onclick} fontSize="small" />
               {this.props.children}
-          </IconButton>
-        </Grid>
-        
-    </Grid>
+            </IconButton>
+          </Grid>
+      </Grid>
     );
   }
 }

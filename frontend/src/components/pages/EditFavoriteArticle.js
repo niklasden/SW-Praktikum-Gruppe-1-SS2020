@@ -25,6 +25,14 @@ const styles = theme => ({
           minWidth: 200,
       }
 });
+
+
+/**
+ * Page to edit the favorite articles
+ * 
+ * @author Kevin Eberhardt
+ * 
+ */
 class EditFavoriteArticle extends Component {
     constructor(props) {
         super(props);

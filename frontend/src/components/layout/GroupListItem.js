@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-
 import PropTypes from 'prop-types';
-
 import { withStyles } from "@material-ui/styles";
 import MaterialIconButton from '@material-ui/core/IconButton';
 import { Grid,Avatar} from "@material-ui/core";
@@ -26,36 +24,35 @@ const styles = theme => ({
 });
 
 /**
- * Displays a list item in a Specific Group
+ * Displays a shoppinglist item in a Specific Group at "Shoppinglists"
+ * 
+ * It has an icon, a name and a delete button
  * 
  * @author [Julius Jacobitz](https://github.com/JuliusJacobitz)
  * 
+ * @property Listname (string): the name of the shopping list which should be displayed 
 */
 class GroupListItem extends Component {
   render() {
     return (
-        <div >
-    <Grid onClick = {() => {alert("Clicked")}}
-    
-    style={{marginBottom:5}}
-      container 
-      direction='row'
-      justify='center'
-      alignItems='center'
-      className={this.props.classes.root}
-       >
-        
-        <Grid item xs={2}>
-          <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 3}}>list</Icon>
+      <div >
+        <Grid onClick = {() => {alert("Clicked")}}
+          style={{marginBottom:5}}
+            container 
+            direction='row'
+            justify='center'
+            alignItems='center'
+            className={this.props.classes.root}
+          >
+          
+          <Grid item xs={2}>
+            <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 3}}>list</Icon>
+          </Grid>
+          <Grid item xs={8}>
+            <t style={{color: '#000000', fontSize: 18}}>{this.props.Listname}</t>
+          </Grid>
         </Grid>
-    
-
-        <Grid item xs={8}>
-        <t style={{color: '#000000', fontSize: 18}}>{this.props.Listname}</t>
-        </Grid>
-        
-    </Grid>
-    </div>
+      </div>
     );
   }
 }
