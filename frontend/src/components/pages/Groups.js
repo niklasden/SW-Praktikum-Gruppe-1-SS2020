@@ -30,8 +30,8 @@ const styles = theme => ({
 /**
  * Displays all Groups specific for one user 
  * 
- * @author [Julius Jacobitz](https://github.com/JuliusJacobitz) * 
- * @author [Niklas Denneler](https://github.com/niklasden) * Just for the Routing & Styling for the button, everything else is Julius master piece.
+ * @author [Julius Jacobitz](https://github.com/JuliusJacobitz) 
+ * @author [Niklas Denneler](https://github.com/niklasden) 
  * @property icon (string): the icon name to display, can be either: add, shopping_cart, shopping_cart_outline, shopping_list, shopping_list_outline, checkmark, people
  */
 class Groups extends Component {

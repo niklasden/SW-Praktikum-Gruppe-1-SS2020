@@ -10,7 +10,11 @@ import { SettingsContext } from '../../settingsContext'; //only for context
 /** 
  *  Homepage of iKaufa
  *  Displays the app's landingpage.
- *
+ *  It displays the header button, the GroupGridList
+ *  and links to statistics and settings
+ *  @see GroupGridList
+ *  @see HeaderButton
+ * 
  *  @author [Julius Jacobitz](https://github.com/JuliusJacobitz)
  *  @author [Kevin Eberhardt](https://github.com/kevin-eberhardt)
  *  
