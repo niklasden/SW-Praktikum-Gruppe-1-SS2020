@@ -237,24 +237,40 @@ class ListEntryMapper(Mapper):
             else:
                 listentry.set_id(1)
             
-        if listentry.get_retailer() == 123456789:
+        
+        if listentry.get_retailer() is None:
             listentry.set_retailer('NULL')
+        else:
+            listentry.set_retailer(listentry.get_retailer())
 
-        if listentry.get_amount() == 123456789:
+        if listentry.get_amount() is None:
             listentry.set_amount('NULL')
+        else:
+            listentry.set_amount(listentry.get_retailer())
 
-        if listentry.get_buy_date() == "123456789":
+        if listentry.get_buy_date() is None:
             listentry.set_buy_date('NULL')
-
-        if listentry.get_user() == "123456789":
+        else: 
+            listentry.set_buy_date(listentry.get_buy_date())
+        
+        if listentry.get_user() is None:
             listentry.set_user('NULL')
+        else:
+            listentry.set_user(listentry.get_user())
 
-        if listentry.get_group() == "123456789":
+        if listentry.get_group() is None:
             listentry.set_group('NULL')
+        else:
+            listentry.set_group(listentry.get_group())
+
+        if listentry.get_unit() is None:
+            listentry.set_unit('NULL')
+        else: 
+            listentry.set_unit(listentry.get_unit())
 
 
-        command = "INSERT INTO `Listentry` (ID, Article_ID, Retailer_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought, creationdate ) VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6}, null,NOW())".format(listentry.get_id(),listentry.get_article(),listentry.get_retailer(), listentry.get_shoppinglist(), listentry.get_user(), listentry.get_group(), listentry.get_amount())    
-        print(command)
+        command = "INSERT INTO `Listentry` (ID, Article_ID, Retailer_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought, creationdate, unit ) VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6}, NULL, NOW(), '{7}')".format(listentry.get_id(),listentry.get_article(),listentry.get_retailer(), listentry.get_shoppinglist(), listentry.get_user(), listentry.get_group(), listentry.get_amount(), listentry.get_unit())    
+    
         try: 
             cursor.execute(command)
             self._cnx.commit()

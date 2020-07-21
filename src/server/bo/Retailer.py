@@ -3,7 +3,7 @@ from server.bo import BusinessObject as bo
 """ A single Retailer
 @author Christopher Böhm
 """
-class Retailer (bo.BusinessObject):
+class Retailer(bo.BusinessObject):
     def __init__(self):
         super().__init__()
         self._name = "" # Der Name eines Einzelhändlers, z.B. Rewe

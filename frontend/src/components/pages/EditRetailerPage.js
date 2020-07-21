@@ -20,8 +20,7 @@ const styles = theme => ({
 })
 
 /**
- * Renders the page to create or edit a retailer
- * TODO: rename to RetailerDetailPage as it is also used to edit a retailer
+ * Renders the page to create, edit or delete a retailer
  * 
  * @see RetailerEntry
  * 

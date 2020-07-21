@@ -4,53 +4,9 @@ import { withStyles } from '@material-ui/styles';
 /**
  * Bar Chart, creation heavily influenced by https://code.tutsplus.com/tutorials/how-to-draw-bar-charts-using-javascript-and-html5-canvas--cms-28561
  * 
- * @author Christopher Böhm
- * @param {*} ctx 
- * @param {*} startX 
- * @param {*} startY 
- * @param {*} endX 
- * @param {*} endY 
- * @param {*} color 
+ * @author [Christopher Böhm](https://github.com/christopherboehm1)
+ * 
  */
-function drawLine(ctx, startX, startY, endX, endY,color){
-  ctx.save();
-  ctx.strokeStyle = color;
-  ctx.beginPath();
-  ctx.moveTo(startX,startY);
-  ctx.lineTo(endX,endY);
-  ctx.stroke();
-  ctx.restore();
-}
-
-function drawBar(ctx, upperLeftCornerX, upperLeftCornerY, width, height,color){
-  ctx.save();
-  ctx.fillStyle=color;
-  ctx.fillRect(upperLeftCornerX,upperLeftCornerY,width - 20,height);
-  ctx.restore();
-}
-
-function drawText(ctx, startX, startY, text){
-  ctx.save()
-	ctx.fillText(text, startX, startY)
-	ctx.font = "bold 10px Arial"
-  ctx.restore()
-}
-
-
-
-const styles = theme => ({
-  root: {
-
-  },
-  indicator: {
-    display: 'flex',
-    direction: 'column'
-  }, 
-  indicatorText: {
-    display: 'block'
-  }
-});
-
 class BarChart extends Component {
   componentDidMount() {
     const canvas = this.refs.canvas
@@ -59,7 +15,7 @@ class BarChart extends Component {
     // const ctx = canvas.getContext("2d")
     // const img = this.refs.image
 
-    var myBarchart = new Barchart({
+    var myBarchart = new BarChartGenerator({
 			canvas:canvas,
 			title:"Vinyl records",
 			padding:10,
@@ -80,8 +36,84 @@ class BarChart extends Component {
   }
 }
 
-var Barchart = function(options){
-  this.options = options;
+const styles = theme => ({
+  root: {
+
+  },
+  indicator: {
+    display: 'flex',
+    direction: 'column'
+  }, 
+  indicatorText: {
+    display: 'block'
+  }
+})
+
+/**
+ * Draw a line on the canvas
+ * 
+ * @author [Christopher Böhm](https://github.com/christopherboehm1)
+ * 
+ * @param {*} ctx The canvas 
+ * @param {number} startX 
+ * @param {number} startY 
+ * @param {number} endX 
+ * @param {number} endY 
+ * @param {string} color 
+ */
+function drawLine(ctx, startX, startY, endX, endY,color){
+  ctx.save();
+  ctx.strokeStyle = color;
+  ctx.beginPath();
+  ctx.moveTo(startX,startY);
+  ctx.lineTo(endX,endY);
+  ctx.stroke();
+  ctx.restore();
+}
+
+/**
+ * Draw a bar on the canvas for the bar chart
+ * 
+ * @author [Christopher Böhm](https://github.com/christopherboehm1)
+ * 
+ * @param {*} ctx 
+ * @param {number} upperLeftCornerX 
+ * @param {number} upperLeftCornerY 
+ * @param {number} width 
+ * @param {number} height 
+ * @param {string} color 
+ */
+function drawBar(ctx, upperLeftCornerX, upperLeftCornerY, width, height,color){
+  ctx.save();
+  ctx.fillStyle=color;
+  ctx.fillRect(upperLeftCornerX,upperLeftCornerY,width - 20,height);
+  ctx.restore();
+}
+
+/**
+ * Draw a text on the canvas
+ * 
+ * @author [Christopher Böhm](https://github.com/christopherboehm1)
+ * 
+ * @param {*} ctx 
+ * @param {number} startX 
+ * @param {number} startY 
+ * @param {string} text Text to draw on canvas 
+ */
+function drawText(ctx, startX, startY, text){
+  ctx.save()
+	ctx.fillText(text, startX, startY)
+	ctx.font = "bold 10px Arial"
+  ctx.restore()
+}
+
+/**
+ * Generates the bar chart using the options you pass to it
+ * 
+ * @param {*} options 
+ */
+var BarChartGenerator = function(options){
+  this.BarChartGenerator = options;
   this.canvas = options.canvas;
   this.ctx = this.canvas.getContext("2d");
   this.colors = options.colors;

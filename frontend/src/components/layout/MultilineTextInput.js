@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { withStyles } from '@material-ui/styles';
 import InputBase from "@material-ui/core/InputBase";
 import Box from '@material-ui/core/Box'
+import PropTypes from 'prop-types';
 
 const styles = theme => ({
   inputInput: {
@@ -12,7 +13,7 @@ const styles = theme => ({
 });
 
 /**
- * Displays a MultilineTextInput
+ * Displays a MultilineTextInput as designed in Figma
  * 
  * @author [Christopher Böhm](https://github.com/christopherboehm1)
  * 
@@ -45,6 +46,12 @@ class MultilineTextInput extends Component {
       </Box>
     )
   }
+}
+
+MultilineTextInput.propTypes = {
+  icon: PropTypes.string.isRequired, 
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired, 
 }
 
 export default withStyles(styles)(MultilineTextInput);

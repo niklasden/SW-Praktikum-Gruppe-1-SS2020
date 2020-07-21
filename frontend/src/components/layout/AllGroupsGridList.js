@@ -32,10 +32,11 @@ const styles = theme => ({
     transform: 'translateZ(0)',
   },
   title: {
-    color:"#ffffff"/*theme.palette.primary.light-blue*/
+    color:'#ffffff' /*theme.palette.primary.light-blue*/
   },
   titleBar: {
     background: 'linear-gradient(to top, rgba(0,188,212,1) 100%, rgba(0,188,212,0.3) 70%, rgba(0,88,212,0) 100%)',
+    borderRadius: 5,
   },
 });
    

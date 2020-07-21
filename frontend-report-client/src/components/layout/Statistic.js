@@ -27,12 +27,16 @@ class Statistic extends Component {
       data: []
     },
   }
+  /*
+  Method to fetch all bought products
+  */
   async getBoughtProducts() {
     try {
       const res = await fetch(Config.apiHost + "/report/" + this.props.group);
       const json = await res.json();
       var newItem, productList = [], articleIDs = [];
       json._report_listentries.forEach(item => {
+        /* If item of json isn't already fetched, then create a new item*/
         if(!articleIDs.includes(item.id)) {
           newItem = {
             id: item.id,
