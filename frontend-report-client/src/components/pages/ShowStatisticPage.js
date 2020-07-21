@@ -24,9 +24,10 @@ const styles = theme => ({
       minWidth: '75%',
     }
 });
+
+/* Initialize start- and end-date of the selection */
 const initStartDate = new Date();
 const initStartDateMonth = initStartDate.getMonth() < 10 ? "0" + (initStartDate.getMonth() + 1) : (initStartDate.getMonth() + 1);
-// const initStartDateDay = initStartDate.getDate() < 10 ? "0" + initStartDate.getDate() : initStartDate.getDate();
 const initStartDateDay = "01";
 const initStartDateFullDate = initStartDate.getFullYear() + "-" + initStartDateMonth + "-" + initStartDateDay;
 
@@ -55,21 +56,27 @@ class ShowStatisticPage extends Component {
         this.handleChangeEndTime = this.handleChangeEndTime.bind(this);
     }
 
+    /* Change state when category has changed */
     handleChangeCategory(event) {
         this.setState({selectedCategory: event.target.value})
     }
+    /* Change state when retailer has changed */
     handleChangeRetailer(event) {
         this.setState({selectedRetailer: event.target.value})
     }
+    /* Change state when article has changed */
     handleChangeArticle(event) {
         this.setState({selectedArticle: event.target.value})
     }
+    /* Change state when start-date has changed */
     handleChangeStartTime(event) {
         this.setState({selectedStartTime: event.target.value})
     }
+    /* Change state when end-date has changed */
     handleChangeEndTime(event) {
         this.setState({selectedEndTime: event.target.value})
     }
+    /* Fetches products for selected group */
     async fetchProducts(groupID) {
        try {
            var productIDS = [], productList = [];
@@ -86,6 +93,7 @@ class ShowStatisticPage extends Component {
         this.setState({error: exception})
        }
     }
+    /* Fetches retailers for selected group */
     async fetchRetailers(groupID) {
         try {
             var retailerList = [], retailerIDs = [];
@@ -102,29 +110,13 @@ class ShowStatisticPage extends Component {
             this.setState({error: exception})
         }
     }
-    // async fetchGroups() {
-    //     try {
-    //         const res = await fetch(Config.apiHost + "/Group/Usergroup/" + settingsOptions.currentUserID)
-    //         const json = await res.json();
-    //         // json.report_retailer.forEach(retailer => {
-    //         //     if(!retailerIDs.includes(retailer.id)) {
-    //         //         retailerList.push(retailer);
-    //         //         retailerIDs.push(retailer.id);
-    //         //     }
-    //         // })
-    //         // this.setState({retailer: retailerList})
-    //     }catch(exception) {
-    //         this.setState({error: exception})
-    //     }
-    // }
     componentDidMount() {
         const location = window.location.pathname.split("/", 3);
         this.setState({group: parseInt(location[2])})
         this.fetchRetailers(parseInt(location[2]));
         this.fetchProducts(parseInt(location[2]));
-        // this.fetchGroups();
     }
-
+    /* Renders the component */
     render() { 
         var categoryTemp = [];
         this.state.retailer.forEach(r => {
@@ -132,10 +124,9 @@ class ShowStatisticPage extends Component {
                 categoryTemp.push(r.category)
             }
         })
-        // const retailerCategories = categoryTemp;
         const classes = this.props.classes;
         const { error } = this.state;
-        const location = window.location.pathname.split("/", 3);
+        const location = window.location.pathname.split("/", 3); // get the group id out of the URL
         return (
             <Grid container style={{padding: '1em'}}>
                 { error ?
@@ -144,22 +135,9 @@ class ShowStatisticPage extends Component {
                     </Grid>
                 :
                 <>
-                
                 <Link to="/">
                     <ArrowBackIosIcon fontSize="large" color="primary" />
                 </Link>
-                {/* <Grid item xs={12}>
-                    <Typography color="primary">KATEGORIE AUSWÄHLEN</Typography>
-                    <FormControl className={classes.formControl}>
-                        <InputLabel>Kategorie</InputLabel>
-                        <Select value={this.state.selectedCategory} onChange={this.handleChangeCategory}>
-                            <MenuItem value={"Alle"}>Alle</MenuItem>
-                            {retailerCategories.map(rC => (
-                                <MenuItem key={rC} value={rC}>{rC}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Grid> */}
                 <Grid item xs={12}>
                     <Typography color="primary">EINZELHÄNDLER AUSWÄHLEN</Typography>
                     <FormControl className={classes.formControl}>

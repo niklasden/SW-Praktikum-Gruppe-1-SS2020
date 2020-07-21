@@ -48,6 +48,7 @@ class Statistic extends Component {
             retailer: item.retailer,
             dataPoints: []
           };
+          /* add data to that item to be displayed in the timeline */
           newItem.dataPoints.push(
             {
             x: new Date(item.bought),
@@ -56,7 +57,7 @@ class Statistic extends Component {
           newItem.dataPoints.sort((a, b) => b.x - a.x);
           productList.push(newItem);
           articleIDs.push(newItem.id);
-        }else {
+        }else { // else if the item already exists or is fetched, add the incoming data to the existing item 
           var includedItem = productList.find(productItem => productItem.id === item.id);
           includedItem.dataPoints.forEach(dP => {
             if (Date.parse(dP.x) === Date.parse(item.bought)) {
@@ -68,7 +69,7 @@ class Statistic extends Component {
                   y: item.amount
                 }
               )
-              includedItem.dataPoints.sort((a, b) => b.x - a.x);
+              includedItem.dataPoints.sort((a, b) => b.x - a.x); // sort datapoints after the date
             }
           })
         }
@@ -89,20 +90,25 @@ isDateAfterTimeProp(date) {
   return date.valueOf() >= new Date(this.props.startTime).valueOf();
 }
   getOptions() {
+    /* Everytime the chart is filtered by date or products, the state is getting filtered, this avoids the data to be lost after filtering */
     var newList = {...this.state.options, data: [...this.state.options.data]}
       newList.data.forEach((data, index) => {
           newList.data[index] = {...data}
           newList.data[index].dataPoints = [...data.dataPoints]
         })
+        /* Filter list by selected retailer */
         if(this.props.retailer !== "Alle") {
         newList = {...newList, data: newList.data.filter(d => d.retailer === this.props.retailer)};
       }
+        /* Filter list by selected category */
       if(this.props.category !== "Alle") {
         newList = {...newList, data: newList.data.filter(d => d.cagtegory === this.props.category)};
       }
+        /* Filter list by selected article */
       if(this.props.article !== "Alle") {
         newList = {...newList, data: newList.data.filter(d => d.name === this.props.article)};
       }
+        /* Filter list by start- and end-date */
       if(this.props.startTime && this.props.endTime) {
         newList.data.forEach(d => {
           d.dataPoints = d.dataPoints.filter(dd => this.isDateBeforeTimeProp(dd.x) && this.isDateAfterTimeProp(dd.x));
@@ -110,9 +116,7 @@ isDateAfterTimeProp(date) {
       }
       return newList;
     }
-    
-  componentDidUpdate() {
-  }
+    /* Renders the component */
     render() {
       const classes = this.props.classes;
       const chartItems = this.getOptions();

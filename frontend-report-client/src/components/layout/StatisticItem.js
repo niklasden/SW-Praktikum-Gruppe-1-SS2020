@@ -20,6 +20,7 @@ class StatisticItem extends Component {
         super(props);
         this.state = {  }
     }
+    /* Renders the component */
     render() { 
         if(this.props.retailer) {
             return (

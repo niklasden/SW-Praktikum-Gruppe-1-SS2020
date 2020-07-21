@@ -43,18 +43,22 @@ class StatisticPage extends Component {
 		this.statRef = React.createRef()
 	}
 
+	/* Method to fetch all products and retailers when group in dropdown has changed. */
 	handleChangeGroup(event) {
 		this.setState({selectedGroup: event.target.value});
 		this.fetchTopProducts(event.target.value);
 		this.fetchTopRetailers(event.target.value);
 	}
+	/* Method to check, if user exists in database */
 	async fetchCurrentUserDBID() {
 		const res = await fetch(Config.apiHost + "/User/firebaseid/" + this.props.currentUser.uid);
 		const json = await res.json();
 		return json.id;
 	}
 
+	/* fetches user assigned groups */
 	async fetchGroups() {
+		/* Try to fetch groups, otherwise raise an exception */
 		try {
 			const currentUserDBID = await this.fetchCurrentUserDBID();
 			const res = await fetch(Config.apiHost + "/Group/Usergroup/" + currentUserDBID);
@@ -68,6 +72,7 @@ class StatisticPage extends Component {
 			this.setState({error: exception})
 		}
 	}
+	/* Fetches top three products where the group has bought the most */
 	async fetchTopProducts(group_id) {
 		try {
 			var topArticlesList = [], articleIDs = [], i = 1;
@@ -86,6 +91,7 @@ class StatisticPage extends Component {
 			this.setState({error: exception});
 		}
 	}
+	/* Fetches top three retailers where the group has visited the most */
 	async fetchTopRetailers(group_id) {
 		try {
 			var topRetailersList = [], retailerIDs = [], i = 1;
@@ -104,6 +110,7 @@ class StatisticPage extends Component {
 			this.setState({error: exception});
 		}
 	}
+	/* Lifecycle method */
 	componentDidMount() {
 		this.setState({
 			dataLoading: true
@@ -113,6 +120,8 @@ class StatisticPage extends Component {
 		}
 
 	}
+
+	/* Renders the component */
 	render() { 
 		const retailerChartData = []
 		this.state.retailers.forEach(d => {
@@ -121,7 +130,6 @@ class StatisticPage extends Component {
 				value: d.amount
 			})
 		})
-
 		const productsChartData = []
 		this.state.products.forEach(d => {
 			productsChartData.push({
@@ -129,10 +137,8 @@ class StatisticPage extends Component {
 				value: d.number_bought
 			})
 		})
-
 		const { error, dataLoading } = this.state;
 		const classes = this.props.classes;
-		
 		if(settingsOptions.getCurrentUserID() !== 0 && i === 0) {
 			this.fetchGroups();
 			i++;
@@ -143,15 +149,6 @@ class StatisticPage extends Component {
 					<ContextErrorMessage error={error} contextErrorMsg={`Data could not be loaded. Check if database server is running.`} />
 				:
 				<Grid container style={{padding: '1em', marginBottom: 70}} ref={this.statRef}>
-					{/* {this.statRef.current != null &&
-						<LineChart
-							width={this.statRef.current.offsetWidth - 50}
-							data={retailerChartData}
-							title='Einzelhändler'
-						/>
-					} */}
-					{/* <div style={{marginBottom: 70}} ref={this.statRef}> */}
-						{/* <div style={{width: (this.statRef.current != null && this.statRef.current.offsetWidth > 500) ? 0 : 700}}/> */}
 						<LoadingProgress show={dataLoading} />
 						<Heading>GRUPPE AUSWÄHLEN</Heading>
 						<FormControl className={classes.formControl} >
@@ -163,11 +160,9 @@ class StatisticPage extends Component {
 								</Select>
 						</FormControl>
 						<Heading>MEISTBESUCHTE EINZELHÄNDLER</Heading>
-						{/* <MainBarChart retailer data={this.state.retailers} /> */}
 						<Grid align='center'>
 							{( (this.statRef.current !== null) && (retailerChartData.length !== 0)) &&
 								<BarChart 
-									// width={window.innerWidth - 50}
 									width={this.statRef.current.offsetWidth - 50}
 									data={retailerChartData}
 									title='Einzelhändler'
@@ -180,11 +175,9 @@ class StatisticPage extends Component {
 							})}
 						</Grid>
 						<Heading>MEISTGEKAUFTE ARTIKEL</Heading>
-						{/* <MainBarChart products data={this.state.products} /> */}
 						<Grid align='center'>
 							{ ((this.statRef.current !== null) && (productsChartData.length !== 0)) &&
 								<BarChart 
-									// width={window.innerWidth - 50}
 									width={this.statRef.current.offsetWidth - 50}
 									data={productsChartData}
 									title='Einzelhändler'
@@ -200,7 +193,6 @@ class StatisticPage extends Component {
 						<Link to={`./show/${this.state.selectedGroup}`}>
 							<MainButton>STATISTIK ANZEIGEN</MainButton>
 						</Link>
-					{/* </div> */}
 					</Grid>
 				}
 			</>
