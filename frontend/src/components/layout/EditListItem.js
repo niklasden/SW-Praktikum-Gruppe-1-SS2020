@@ -55,8 +55,6 @@ class EditListItem extends Component {
 
   getRetailerbyProps = () => {
     var res = "";
-    console.log(this.state.item.retailer)
-    console.log(this.props.retailer)
     if (this.state.item.retailer !== null){
     this.props.retailer.forEach(item => {
         if (item.name.toLowerCase() === this.state.item.retailer.toLowerCase()) {
@@ -69,7 +67,7 @@ class EditListItem extends Component {
   };
 
   componentDidMount(){
-    console.log(this.getRetailerbyProps())
+    /*console.log(this.getRetailerbyProps())*/
 
     this.setState({
       selected_unit: this.state.item.unit,
@@ -81,7 +79,8 @@ class EditListItem extends Component {
   }
 
   handleChangeUnit(v) {
-    this.setState({selected_unit: v.target.value});
+    this.setState({ selected_unit: v.target.value});
+    this.props.onUnitChange(v.target.value)
   }
 
   handleChangeUser(v) {
@@ -94,11 +93,12 @@ class EditListItem extends Component {
 
   handleChangeAmount(v) {
     this.setState({selected_amount: v.target.value})
+    this.props.onAmountChange(v.target.value)
   }
 
   saveItem = () => {
     let updatedItem = Object.assign(new ListEntryBO(), this.state.item);
-    //Updates the parameters we want to change
+    //Updates the parameters we want to change to a new ListEntryBO
     updatedItem.setAmount(this.state.selected_amount);
     updatedItem.setUnit(this.state.selected_unit);
     updatedItem.setRetailerid(this.state.selected_retailer_id);
@@ -116,8 +116,8 @@ class EditListItem extends Component {
       savingItemError: e,
       savingInProgress: false,
     })
-    )
-    };
+    )  
+  };
   
   render() {
     const {savingInProgress, savingItemError} = this.state;
@@ -146,7 +146,7 @@ class EditListItem extends Component {
                 <InputLabel>UNIT</InputLabel>
                 <Select defaultValue={this.state.item.unit}
                   onChange={this.handleChangeUnit.bind(this)}
-                  // value={this.state.item.unit}
+                 value={this.state.selected_unit}
                 >
                 <MenuItem value={'kg'}>Kg</MenuItem>
                 <MenuItem value={'g'}>g</MenuItem>
@@ -199,6 +199,8 @@ EditListItem.propTypes = {
   handleChange: PropTypes.string,
   PressButtonBack: PropTypes.func,
   PressButtonConfirm: PropTypes.func,
+  onAmountChange: PropTypes.func,
+  onUnitChange: PropTypes.func,
   retailer: PropTypes.array,
   user: PropTypes.array,
   fetchItems: PropTypes.func
