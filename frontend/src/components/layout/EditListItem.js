@@ -13,10 +13,15 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
 import ShoppingAPI from '../../api/ShoppingAPI';
 import ListEntryBO from '../../api/ListEntryBO';
+import CircularLoadingProgress from '../dialogs/CircularLoadingProgress';
+import ContextErrorMessage from '../dialogs/ContextErrorMessage';
+
 /**
- * Displays an PopUp. 
+ * Displays an Dialog, which lets you edit ListEntry data.
+ * Allows the user to save changes or cancel them. 
  * 
  * @author [Pascal Illg](https://github.com/pasillg)
+ * @author [Niklas Denneler](https://github.com/niklasden)
  * 
 */
 
@@ -36,19 +41,18 @@ class EditListItem extends Component {
       group_id: this.props.item.group_id,
       bought: this.props.item.bought,
       retailer: this.props.retailer,
-      
       selected_user_id: null,
       selected_retailer_id: null,
       changed_amount: null,
       selected_retailer_id: null,
-      selected_unit: null
+      selected_unit: null,
+      savingInProgress: false,
+      savingItemError: null,
     }
      this.saveItem = this.saveItem.bind(this); 
      this.getRetailerbyProps = this.getRetailerbyProps.bind(this);
   }
 
-
-  
   getRetailerbyProps = () => {
     var res = "";
     console.log(this.state.item.retailer)
@@ -59,7 +63,6 @@ class EditListItem extends Component {
         res = item.id
         console.log(res)
         } 
-        
       });
     } 
     return res
@@ -72,7 +75,7 @@ class EditListItem extends Component {
       selected_unit: this.state.item.unit,
       selected_amount: this.state.item.amount,
       selected_user_id: this.state.item.user_id,
-      selected_retailer_id: this.getRetailerbyProps()
+      selected_retailer_id: this.getRetailerbyProps(),
     });
 
   }
@@ -105,10 +108,19 @@ class EditListItem extends Component {
     updatedItem.setRetailer(this.state.selected_retailer);
  
     //Sends updated ListEntry Object to the API, in case of Error it logs it
-    ShoppingAPI.getAPI().updateListEntry(updatedItem).then(this.props.PressButtonConfirm).catch(e => console.log(e))
-  }
+    ShoppingAPI.getAPI().updateListEntry(updatedItem).then(this.setState({
+      savingItemError: null,
+      savingInProgress: true
+    })).then(this.props.PressButtonConfirm).catch(e => 
+      this.setState({
+      savingItemError: e,
+      savingInProgress: false,
+    })
+    )
+    };
   
   render() {
+    const {savingInProgress, savingItemError} = this.state;
     return (
 
     <Dialog open={this.props.open} aria-labelledby="alert title" aria-describedby="description">
@@ -122,6 +134,9 @@ class EditListItem extends Component {
         spacing={4}
         style={{width: 'calc(100% + 15px)', fontSize: '15px'}}
       >
+      <CircularLoadingProgress show={savingInProgress} />
+      <ContextErrorMessage error={savingItemError} contextErrorMsg={'Failed to save Item'} onReload={this.saveItem}/>
+
       <Grid item xs={6} style={{paddingLeft: 25}}>
         <InputLabel>AMOUNT</InputLabel>
         <TextField onChange={this.handleChangeAmount.bind(this)} value={this.state.selected_amount}></TextField>

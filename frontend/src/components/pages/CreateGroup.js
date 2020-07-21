@@ -258,7 +258,8 @@ class CreateGroup extends Component {
 				console.log(error)
       } 
     }
- 
+    
+    console.log(groupMembers);
  /*
    const saveGroup = () => {
      alert();
