@@ -27,6 +27,7 @@ import ShoppingAPI from '../../api/ShoppingAPI';
 import PopUp from '../layout/PopUp';
 import ShoppingSettings from '../../../src/shoppingSettings'
 
+//init settingsobj
 const settingsobj = ShoppingSettings.getSettings()
 
 const styles = theme => ({
@@ -67,7 +68,9 @@ const styles = theme => ({
   }
 });
 /**
- * Bildet eine Spezifische, editierbare Gruppe ab
+ * Shows a Specific group with its members and shopping lists
+ * @see GroupMember
+ * @see GroupListItem
  * 
  * Beim Aufruf der Specific group muss der name auf den Gruppennamen gesetzt werden
  * 
@@ -94,7 +97,6 @@ class SpecificGroup extends Component {
       error: null,
       newMemberName: '',
       isLoading: false, 
-
       SLsolved: false,
       GRsolved:false
       

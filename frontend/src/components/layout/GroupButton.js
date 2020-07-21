@@ -23,7 +23,7 @@ const styles = theme => ({
 
 
 /**
- * Displays a groupbutton for All groups
+ * Displays a Button for a specific group. Used in  all groups
  * 
  * @author [Niklas Denneler](https://github.com/)
  * @author [Julius Jacobitz](https://github.com/JuliusJacobitz)
@@ -39,12 +39,11 @@ class GroupButton extends Component {
         <p style={{fontSize: "12px" ,color: "black"}}>{this.props.groupname}</p>
         </IconButton>
 */}     
-        
-        
+  
         
         <Button variant="outlined" color="primary" style={{borderColor: '#BDBDBD', backgroundColor: '#fafafa', width: '100%', fontWeight: 'bold'}}>
           <GroupIcon fontSize="large"/>
-          {this.props.groupname}
+            {this.props.groupname}
         </Button>
         </>
     )

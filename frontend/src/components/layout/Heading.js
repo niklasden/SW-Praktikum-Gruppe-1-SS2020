@@ -4,6 +4,8 @@ import Typography from '@material-ui/core/Typography';
 /**
  * Displays headline-text based on material ui typography and theme.js
  * 
+ * Based on Prototype in figma
+ * 
  * @author [Kevin Eberhardt](https://github.com/kevin-eberhardt)
  * 
  */

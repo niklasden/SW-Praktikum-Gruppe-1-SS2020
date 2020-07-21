@@ -41,8 +41,7 @@ def secured(function):
                         #creating user for later usage ()
                         user = adm.create_user(name,email,firebase_id)
                     
-                    print(request.method, request.path, "Anfrage durch: ",name, " ", email)
-                    
+                    print(request.method, request.path, "Anfrage durch: ",name, " ", email)     
                     objects = function(*args, **kwargs)
                     return objects
                 else:

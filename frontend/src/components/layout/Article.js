@@ -43,7 +43,6 @@ const styles = theme => ({
  * @author [Pia Schmid](https://github.com/PiaSchmid)
  * 
  */
-
  class Article extends Component{
   constructor(){
     super()

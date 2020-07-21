@@ -24,6 +24,7 @@ const styles = theme => ({
 
 /**
  * 
+ * Displays an item with icon and description of a favorite article
  * @author [Kevin Eberhardt](https://github.com/kevin-eberhardt)
  * 
  */
@@ -35,15 +36,18 @@ const styles = theme => ({
     this.handleButtonRelease = this.handleButtonRelease.bind(this)
   }
 
+  /* When button is pressed for 1000ms the user get's redirected to the page for editing the selected favorite article*/
   handleButtonPress(){
     this.buttonPressTimer = setTimeout(() => this.props.history.push({pathname: '/edit_favorite_article/' + this.props.id, state:{id: this.props.id, name: this.props.itemname, category: this.props.category}
     }), 1000)
   }
+  /* When button is released before 1000ms the timer gets cleared. */
 
   handleButtonRelease(){
     clearTimeout(this.buttonPressTimer);
   }
 
+      /* Renders the component */
      render(){
         const classes = this.props.classes;
         return(

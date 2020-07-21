@@ -1,27 +1,26 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { withStyles } from '@material-ui/styles';
-import TextInputBar from '../layout/TextInputBar'
-import MultilineTextInput from '../layout/MultilineTextInput'
-import Icon from '@material-ui/core/Icon'
-import MainButton from '../layout/MainButton'
-import Grid from '@material-ui/core/Grid'
+import TextInputBar from '../layout/TextInputBar';
+import MultilineTextInput from '../layout/MultilineTextInput';
+import Icon from '@material-ui/core/Icon';
+import MainButton from '../layout/MainButton';
+import Grid from '@material-ui/core/Grid';
 import Snackbar from '@material-ui/core/Snackbar';
-import Button from '@material-ui/core/Button'
-import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress'
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress';
 import { withRouter } from "react-router";
 import { Redirect } from 'react-router';
-import { Config } from '../../config'
+import { Config } from '../../config';
 
 const styles = theme => ({
   root: {
     backgroundColor: '#fafafa', 
     borderRadius: 5, 
   },
-});
+})
 
 /**
- * Renders the page to create or edit a retailer
- * TODO: rename to RetailerDetailPage as it is also used to edit a retailer
+ * Renders the page to create, edit or delete a retailer
  * 
  * @see RetailerEntry
  * 
@@ -191,7 +190,7 @@ class CreateRetailerPage extends Component {
               open={this.state.snackbarOpen}
               onClose={() => this.setState({snackbarOpen: false})}
               // TransitionComponent={transition}
-              message="Keine Netzwerkverbindung"
+              message="No network connection"
               // key={transition ? transition.name : ''}
               action={
                 <Button 
@@ -199,7 +198,7 @@ class CreateRetailerPage extends Component {
                   size="small"
                   onClick={() => this.setState({ snackbarOpen: false })}
                 >
-                  Undo
+                  Close
                 </Button>
               }
             />

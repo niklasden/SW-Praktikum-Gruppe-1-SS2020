@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(1),
   }
 }));
-
+/* Array with information about the developers of this project */
 const devs = [
   {name: "Kevin Eberhardt", matrikelnr: 37152, init: "KE",github_url:"https://github.com/kevin-eberhardt", image_url: "https://avatars0.githubusercontent.com/u/47750689?v=4",},
   {name: "Niklas Denneler", matrikelnr: 0, init: "ND",github_url: "https://github.com/niklasden", image_url: "https://avatars0.githubusercontent.com/u/43001868?s=460&u=7108a00a3d9e8bd273ab9bf039e4be72c943bc68&v=4"},
@@ -43,6 +43,7 @@ const devs = [
   
 function AboutPage() {
   const classes = useStyles();
+  /* Renders the component */
   return (
     <Grid container className={classes.root}>
           <h2>About</h2>

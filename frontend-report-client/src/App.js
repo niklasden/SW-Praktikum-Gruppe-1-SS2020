@@ -42,14 +42,13 @@ class App extends React.Component {
 	this.fetchCurrentUserID = this.fetchCurrentUserID.bind(this);
   }
   async fetchCurrentUserID(){
-		const json = await fetch(Config.apiHost + "/User/firebaseid/" + settingsOptions.getCurrentUserFireBaseID());
+    const json = await fetch(Config.apiHost + "/User/firebaseid/" + settingsOptions.getCurrentUserFireBaseID());
 		const res = await json.json();
 		settingsOptions.setCurrentUserID(res.id)
 		this.setState({currentUserID:res.id})
   }
   
   handleAuthStateChange = user => {
-    console.log(user)
 
 		if (user) {
 			this.setState({
@@ -134,7 +133,7 @@ class App extends React.Component {
                   </>
                 :  
                   <>
-                    <Redirect to='/' />
+											<Redirect to='/index.html' />
                     <SignIn onSignIn={this.handleSignIn} />
                   </>
                 }

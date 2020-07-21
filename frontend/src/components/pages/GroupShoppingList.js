@@ -48,6 +48,7 @@ export default class GroupShoppingList extends Component {
     };
 
     fetchItems = () => {
+      this.setState({items : []})
       ShoppingAPI.getAPI().getItemsofGroup(settingsobj.getGroupID(), settingsobj.getCurrentShoppinglist()).then(listentryBOs => {
         // Set new state when AccountBOs have been fetched
         this.setState({  
@@ -141,7 +142,7 @@ export default class GroupShoppingList extends Component {
       container
       direction='column' //was row
       justify='center'
-      // alignItems='center'
+      alignItems='center'
       style={{width: '100%'}}
       /*alignItems="stretch"*/
       >
@@ -149,7 +150,7 @@ export default class GroupShoppingList extends Component {
         <TextInputBar key={"search"}placeholder="search..." icon="search" />
       </Grid>
       */}
-       <Grid item xs={6} style={{marginTop: 10, marginBottom: 10}}>
+       <Grid item xs={12}  style={{marginTop: 10, marginBottom: 10}}>
             <FormControl style={{width: '25ch', height: 35, marginBottom: 15, textAlign: 'center'}}>
               <InputLabel style={{left:'13%'}}>Select Shopping List</InputLabel>
               

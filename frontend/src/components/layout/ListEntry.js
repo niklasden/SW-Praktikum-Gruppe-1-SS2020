@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid/Grid'
 import { withStyles } from '@material-ui/styles';
 import Icon from '@material-ui/core/Icon'
 import Button from '@material-ui/core/Button'
+import PropTypes from 'prop-types';
 
 const styles = theme => ({
   root: {  
@@ -63,6 +64,11 @@ class ListEntry extends Component {
       </Grid> 
     )
   }
+}
+
+ListEntry.propTypes = {
+  text: PropTypes.string.isRequired, 
+  iconName: PropTypes.string.isRequired,
 }
  
 export default withStyles(styles)(ListEntry);

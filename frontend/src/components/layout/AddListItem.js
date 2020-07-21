@@ -15,18 +15,9 @@ import ShoppingAPI from '../../api/ShoppingAPI';
 import ListEntryBO from '../../api/ListEntryBO';
 import ShoppingSettings from '../../../src/shoppingSettings';
 import { Config } from '../../config';
-import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress'
-
-
-/**
- * Displays an PopUp. 
- * 
- * @author [Pia Schmid](https://github.com/PiaSchmid)
- * 
-*/
+import CircularProgress from '@material-ui/core/CircularProgress/CircularProgress';
 
 const settingsobj = ShoppingSettings.getSettings()
-
 
 const styles = theme => ({
   formControl: {
@@ -43,6 +34,12 @@ const styles = theme => ({
   }
 });
 
+/**
+ * Displays an PopUp. 
+ * 
+ * @author [Pia Schmid](https://github.com/PiaSchmid)
+ * 
+*/
 class AddListItem extends Component {
   constructor(props) {
     super(props);
@@ -51,15 +48,24 @@ class AddListItem extends Component {
         item: this.props.item, 
         article_id: this.props.item.id,
         category: this.props.item.category,
-        amount:"", 
-        unit:"", 
+        amount: null, 
+        unit: null, 
         shoppinglists: [],
-        selected_shoppinglist:"", 
+        selected_shoppinglist: null, 
         retailers: [], 
-        selected_retailer_id:"",
+        selected_retailer_id: null,
         users:[],
-        selected_user_id:"",
+        selected_user_id: null,
         isloading: false,
+
+
+        units: [
+          {id: 'g', name: 'g'},
+          {id: 'l', name: 'l'},
+          {id: 'ml', name: 'ml'},
+          {id: 'Stk.', name: 'Stk.'},
+          {id: 'Pkg.', name: 'Pkg.'},
+        ]
 
         
     }
@@ -119,26 +125,27 @@ class AddListItem extends Component {
     //Insert the parameters of the new ListEnty
     insertedItem.setArticleid(this.state.article_id);
     insertedItem.setShoppinglistid(this.state.selected_shoppinglist);
-    insertedItem.setRetailer('123456789');
+    insertedItem.setRetailer(null);
     insertedItem.setRetailerid(this.state.selected_retailer_id);
     insertedItem.setUserid(this.state.selected_user_id);
-    insertedItem.setId(123456789);
+    insertedItem.setId(null);
     insertedItem.setGroupid(settingsobj.getGroupID());
     insertedItem.setAmount(this.state.amount);
     insertedItem.setUnit(this.state.unit);
-    insertedItem.setBought('123456789');
-    insertedItem.setName('123456789');
-    insertedItem.setCategory('123456789');
+    insertedItem.setBought(null);
+    insertedItem.setName(null);
+    insertedItem.setCategory(null);
 
     
     //Sends new ListEntry Object to the API, in case of Error it logs it
-    ShoppingAPI.getAPI().insertListEntry(insertedItem).then(() => {console.log('test'); this.props.PressButtonConfirm()}).catch(e => console.log(e))
+    ShoppingAPI.getAPI().insertListEntry(insertedItem).then(() => {console.log(insertedItem); this.props.PressButtonConfirm()}).catch(e => console.log(e))
   }
 
   
   render() {
 
     const  classes  = this.props.classes
+
 
     return (
 
@@ -237,6 +244,7 @@ class AddListItem extends Component {
         justify='center'
         alignItems= 'center'
         >
+          {/**
           <FormControl style={{width: '100%'}}>
                     <InputLabel>UNIT</InputLabel>
                     <Select 
@@ -251,6 +259,21 @@ class AddListItem extends Component {
                         <MenuItem value={'Pkg.'}>Pkg.</MenuItem>
                     </Select>
           </FormControl>
+        */}
+
+          <FormControl style={{width: '100%'}}>
+                    <InputLabel>UNIT</InputLabel>
+                    <Select 
+                      onChange={(e) => this.setState({unit: e.target.value})}
+                      value = {this.state.unit}>
+                        {
+                          this.state.units.map((element) => {
+                          return <MenuItem value = {element.id}>{element.name}</MenuItem>
+                          })
+                        }
+                    </Select>
+          </FormControl>
+
         </Grid>
       </Grid>
 
