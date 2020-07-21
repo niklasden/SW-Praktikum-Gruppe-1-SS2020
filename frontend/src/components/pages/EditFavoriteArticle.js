@@ -59,19 +59,23 @@ class EditFavoriteArticle extends Component {
         this.handleChangeUnit = this.handleChangeUnit.bind(this);
         this.deleteFavArticle = this.deleteFavArticle.bind(this)
     }
+    /* Handle changes of article  */
     handleChangeArticleName(event) {
         this.setState({currentArticleID: event.target.value});
     }
+    /* Handle changes of retailer  */
     handleChangeRetailerName(event) {
         this.setState({currentRetailerID: event.target.value});
     }
+    /* Handle changes of amount  */
     handleChangeAmount(event) {
-        console.log("changed amount of", this.state.currentAmount, " to ", parseInt(event.target.value));
         this.setState({currentAmount: parseInt(event.target.value)});
     }
+    /* Handle changes of unit  */
     handleChangeUnit(event) {
         this.setState({currentUnit: event.target.value});
     }
+    /* Fetches current ID of the article, which has to edited */
     async getArticles() {
         const json = await fetch(Config.apiHost + "/Article");
         const res = await json.json();
@@ -82,6 +86,7 @@ class EditFavoriteArticle extends Component {
         })
         this.setState({articles: res});
     }
+    /* Fetches current ID of the retailer of the according article, which has to edited */
     async getRetailer() {
         const json = await fetch(Config.apiHost + "/Retailer");
         const res = await json.json();
@@ -92,11 +97,13 @@ class EditFavoriteArticle extends Component {
         })
         this.setState({retailer: res})
     }
+    /* Fetches latest ID of favorite articles */
     async getLatestFavArticleDBID() {
         const json = await fetch(Config.apiHost + "/favoriteArticle");
         const res = await json.json();
         return parseInt(res[res.length - 1].id) + 1;
     }
+    /* Fetches the current favorite article and set values which are needed in context */
     async fetchFavArticle() {
         const json = await fetch(Config.apiHost + "/favoriteArticle/id/" + this.state.currentID);
         const res = await json.json();
@@ -109,6 +116,7 @@ class EditFavoriteArticle extends Component {
             currentCreationDate: res.creationdate
         });
     }
+    /* Deletes the current favorite article */
     async deleteFavArticle() {
         const favoriteArticle = {
             id: parseInt(this.state.currentID), 
@@ -129,7 +137,7 @@ class EditFavoriteArticle extends Component {
             this.setState({error: e});
           }
     }
-
+    /* Saves the current favorite article*/
     async saveFavArticle() {
         try{
             const rb = {
@@ -160,6 +168,7 @@ class EditFavoriteArticle extends Component {
         this.setState({error: e})
         }
     }
+    /* Saves the current favorite article as a new one */
     async saveFavArticleASNEW() {
         try{
             const rb = {
@@ -190,6 +199,7 @@ class EditFavoriteArticle extends Component {
         this.setState({error: e})
         }
     }
+    /* Lifecycle method when component is rendered */
     async componentDidMount() {
         this.setState({isLoading: true})
         await this.fetchFavArticle();
@@ -197,6 +207,7 @@ class EditFavoriteArticle extends Component {
         await this.getRetailer();
         this.setState({isLoading: false})
     }
+    /* Renders the component */
     render() {
         const {error, isLoading, currentArticleID, currentRetailerID, currentAmount, currentUnit} = this.state;
         const {classes} = this.props;
@@ -251,7 +262,6 @@ class EditFavoriteArticle extends Component {
                     <Select
                     defaultValue={currentUnit}
                     onChange={this.handleChangeUnit}
-                    
                     >
                         <MenuItem value={'kg'}>Kg</MenuItem>
                         <MenuItem value={'g'}>g</MenuItem>
@@ -261,8 +271,6 @@ class EditFavoriteArticle extends Component {
                         <MenuItem value={'Pkg.'}>Pkg.</MenuItem>
                     </Select>
                 </FormControl>
-
-                {/* <TextField className={classes.control} label="Unit" defaultValue={currentUnit} onChange={this.handleChangeUnit} /> */}
             </Grid>
         </Grid>
         <Grid container spacing={2} direction="row" justify="space-between" alignItems="center">

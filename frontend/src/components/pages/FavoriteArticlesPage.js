@@ -14,7 +14,7 @@ import IconButton from '../layout/IconButton';
 
 const settingsObject = shoppingSettings.getSettings();
   /**
- * Renders the page to create  a favourite article
+ * Renders the page to create  a favorite article
 
  * 
  * 
@@ -38,6 +38,7 @@ class FavoriteArticlesPage extends React.Component {
             currentGroupID: 0
         }
     }
+    /* Fetches all favorite articles, which are associated with the current group */
     async getFavArticles() {
         try {
             if(this.state.currentGroupID !== 0 || this.state.currentGroupID !== null) {
@@ -53,7 +54,7 @@ class FavoriteArticlesPage extends React.Component {
                         article_category: matchingItem.category,
                         amount: item.amount,
                         group_id: this.state.currentGroupID,
-                        retailer_id: 4,
+                        retailer_id: item.retailer_id,
                         unit: item.unit
                     }
                     newFavArticles.push(favArticle);
@@ -64,6 +65,7 @@ class FavoriteArticlesPage extends React.Component {
             this.setState({error: e})
         }
     }
+    /* Fetches all articles */
     async getArticles() {
         this.setState({
             loadingInProgress: true
@@ -86,7 +88,7 @@ class FavoriteArticlesPage extends React.Component {
                 currentGroupID: settingsObject.currentGroupID,
                 loadingInProgress: false
                 })
-        this.getFavArticles();
+        this.getFavArticles(); // when articles are fetched, we now can fetch favarticles (see line 49)
         } catch (e){
             this.setState({
             loadingInProgress: false, 
@@ -94,9 +96,11 @@ class FavoriteArticlesPage extends React.Component {
             })
         } 
     }
+    /* Lifecycle method, gets called when component is rendered */
     componentDidMount() {
         this.getArticles();
     }
+    /* Renders the component */    
     render() {
     const {classes} = this.props;
     const {error, loadingInProgress} = this.state;

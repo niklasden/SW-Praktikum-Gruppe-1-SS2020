@@ -118,7 +118,7 @@ class AddFavoriteArticle extends Component {
               }, 
               body: requestBody
             } 
-            const resp = await fetch(Config.apiHost + '/favoriteArticle', rInit)
+            const resp = await fetch(Config.apiHost + '/favoriteArticle', rInit) // sends the new data via post request to backend
             if(resp.ok){
                 this.props.history.push('/favorite_products') // redirects the user to favorite_products page
             }else {
