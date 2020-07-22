@@ -1,13 +1,25 @@
 from server.bo import BusinessObject as bo
 
-""" A single Shopping List
-@author Christopher Böhm
-"""
 class ShoppingList(bo.BusinessObject):
+    """ A single Shopping List
+    @author Christopher Böhm
+
+    Attributes
+    ----------
+    _name: str
+        the name of the shopping list
+    _group_id: str
+        the group id the shopping list belongs to
+    _id: str
+        the unique id of the shopping list
+    _creationdate: str
+        the date the object has been created
+    """
+
     def __init__(self):
         super().__init__()
-        self._name = "" # Der Name einer Shopping List
-        self._id = "" # The id of a Shopping List
+        self._name = ""
+        self._id = ""
         self._group_id = ""
         self._creationdate = ""
 
@@ -40,12 +52,17 @@ class ShoppingList(bo.BusinessObject):
 
     @staticmethod
     def from_dict(dictionary=dict()):
-        """Umwandeln eines Python dict() in einen Customer()."""
+        """
+        Transform a python dict to a shopping list object
+        :param dictionary:
+        :return: a new generated ShoppingList object
+        """
         obj = ShoppingList()
         obj.set_id(dictionary["id"])
         obj.set_name(dictionary["name"])
         obj.set_group_id(dictionary["group_id"])
         #obj.set_creationdate(dictionary["creationdate"])
+
         return obj
 
 
