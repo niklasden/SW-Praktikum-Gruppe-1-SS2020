@@ -2,6 +2,9 @@ from abc import ABC, abstractmethod
 
 
 class BusinessObject(ABC):
+    """
+    Abstract class for all other business objects. Defines that every bo must have an ID and getter / setter for it
+    """
    
     def __init__(self):
         self._id = 0  
@@ -13,5 +16,3 @@ class BusinessObject(ABC):
     def set_id(self,value):
         """Setzen der ID."""
         self._id = value
-
-    # im Nachhinein hätte man das creationdate lieber hier platziert
