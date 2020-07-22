@@ -78,6 +78,7 @@ class StatisticPage extends Component {
 			var topArticlesList = [], articleIDs = [], i = 1;
 			const res = await fetch(Config.apiHost + "/report/" + group_id);
 			const json = await res.json();
+			json.top_articles.sort((a, b) => (a.number_bought > b.number_bought) ? -1 : 1)
 			json.top_articles.forEach(article => {
 				if(!articleIDs.includes(article.article_id)) {
 					article.rank = i;
