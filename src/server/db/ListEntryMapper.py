@@ -411,18 +411,19 @@ class ListEntryMapper(Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        statement = "SELECT Listentry.ID, Article.name as 'name', Category.name as 'category', Listentry.amount, Listentry.unit, Listentry.Shoppinglist_ID as 'shoppinglist_id', Listentry.User_ID as 'user_id', Retailer.name as 'retailer', Listentry.Group_ID as 'group_id', Listentry.Article_ID as 'article_id' FROM Listentry LEFT JOIN Retailer ON Listentry.Retailer_ID = Retailer.ID LEFT JOIN Article ON Listentry.Article_ID = Article.ID LEFT JOIN Category ON Article.CategoryID = Category.ID WHERE (Group_ID={0} AND Shoppinglist_ID={1} AND (bought is NULL))".format(group_id, shoppinglist_id)
+        statement = "SELECT Listentry.ID, Article.name as 'name', Category.name as 'category', Listentry.amount, Listentry.unit, Listentry.Retailer_ID, Listentry.Shoppinglist_ID as 'shoppinglist_id', Listentry.User_ID as 'user_id', Retailer.name as 'retailer', Listentry.Group_ID as 'group_id', Listentry.Article_ID as 'article_id' FROM Listentry LEFT JOIN Retailer ON Listentry.Retailer_ID = Retailer.ID LEFT JOIN Article ON Listentry.Article_ID = Article.ID LEFT JOIN Category ON Article.CategoryID = Category.ID WHERE (Group_ID={0} AND Shoppinglist_ID={1} AND (bought is NULL))".format(group_id, shoppinglist_id)
 
         cursor.execute(statement)
         tuples = cursor.fetchall()
         
-        for (id, name, category, amount, unit, shoppinglist_id, user_id, retailer, group_id, article_id) in tuples:
+        for (id, name, category, amount, unit,retailer_id, shoppinglist_id, user_id, retailer, group_id, article_id) in tuples:
             listentry = ListEntry()
             listentry.set_id(id)
             listentry.set_name(name)
             listentry.set_category(category)
             listentry.set_amount(amount) 
             listentry.set_unit(unit)
+            listentry.set_retailer_id(retailer_id)
             listentry.set_shoppinglist(shoppinglist_id)
             listentry.set_purchaser(user_id)
             listentry.set_retailer(retailer)

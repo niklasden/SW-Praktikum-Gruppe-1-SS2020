@@ -40,7 +40,6 @@ import eggIcon from '../../icons/egg.svg';
 import noodlesIcon from '../../icons/noodles.svg';
 import lipstickIcon from '../../icons/lipstick.svg';
 import yoghurtIcon from '../../icons/yoghurt.svg';
-import chickenIcon from '../../icons/chicken.svg';
 import soapIcon from '../../icons/soap.svg';
 import advertisingIcon from '../../icons/advertising.svg';
 
@@ -90,8 +89,8 @@ const icons = {
   cucumber: cucumberIcon, 
   tomato: tomatoIcon, 
   lettuce: lettuceIcon, 
+  steak: meatIcon, 
   meat: meatIcon, 
-  chicken: chickenIcon, 
   fish: fishIcon, 
   cheese: cheeseIcon, 
   egg: eggIcon, 
