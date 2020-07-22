@@ -3,6 +3,13 @@ from server.bo import BusinessObject as bo
 class FavoriteArticle(bo.BusinessObject):
     """
     author: Julius
+    Article BO: Attributes:  
+    - Group_ID: <int>
+    - Article_ID: <int>
+    - amount: <str>
+    - unit: <int> 
+    - Retailer_ID: <int> 
+    - creationdate: <str>
     """
     def __init__(self):
         super().__init__()
@@ -11,7 +18,7 @@ class FavoriteArticle(bo.BusinessObject):
         self.amount = 0
         self.unit = ""
         self.Retailer_ID = 0
-        self.creationdate = None
+        self.creationdate = None #set directly in command with NOW() operator 
        
     def get_Group_ID(self):
         return self.Group_ID
@@ -54,6 +61,9 @@ class FavoriteArticle(bo.BusinessObject):
     
     @staticmethod
     def from_dict(dictionary=dict()):
+        """
+        returns an FavoriteArticle bo based on an dict (mainly from requests(json))
+        """
         obj = FavoriteArticle()
         obj.set_id(dictionary["id"])
         obj.set_Group_ID(dictionary["group_id"])

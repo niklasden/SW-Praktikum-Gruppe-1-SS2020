@@ -4,7 +4,8 @@ import random
 
 class User (bo.BusinessObject):
     """
-    author: Julius and Niklas
+    authors: Julius and Niklas
+    User business object
     """
     def __init__(self):
         super().__init__()
@@ -16,9 +17,9 @@ class User (bo.BusinessObject):
     
     def randomize(self):
         """
-        testing only
-        creating attributes for self Userobject
-        atm not checking if usermail etc exists in db!!!
+        testing only  
+        creating random attributes for self Userobject  
+        atm not checking if usermail etc exists in db!!!  
         julius
         """
 
