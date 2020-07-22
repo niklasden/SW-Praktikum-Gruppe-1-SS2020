@@ -6,16 +6,12 @@ Niklas und Julius
 """
 
 class UserMapper(Mapper):
-<<<<<<< HEAD
-    def __init__(self):
-=======
     """
     BY Niklas and Julius  
     Mapper for User Business Object 
 
     """
     def __init__(self): 
->>>>>>> master
         super().__init__()
 
     
