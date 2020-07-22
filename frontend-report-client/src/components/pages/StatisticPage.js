@@ -189,10 +189,11 @@ class StatisticPage extends Component {
 								return <StatisticItem article key={article.article_id} number={article.rank} name={article.article_name} amount={article.number_bought} />
 							})}
 						</Grid>
-						
+						<Grid container alignContent="center" justify="center" direction="row">
 						<Link to={`./show/${this.state.selectedGroup}`}>
-							<MainButton>STATISTIK ANZEIGEN</MainButton>
+							<MainButton>Show statistic</MainButton>
 						</Link>
+						</Grid>
 					</Grid>
 				}
 			</>
