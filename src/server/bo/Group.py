@@ -4,6 +4,12 @@ from server.bo import BusinessObject as bo
 class Group(bo.BusinessObject):
     """
     author: Julius
+    Group Business Object:
+
+    Attributes:
+    - description: <str> 
+    - name: <str>
+    - creationdate: <str> 
     """
     def __init__(self, g_name="Group_name",desc = "", creationdate=""):
         super().__init__()
