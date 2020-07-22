@@ -16,8 +16,10 @@ from .db.FavoriteArticleMapper import FavoriteArticleMapper as fam
 from .db.ShoppingListMapper import ShoppingListMapper
 
 #hier müssen BO Klassen & Mapper importiert werden
-
 class ShoppingAdministration (object):
+    """
+    
+    """
 
     def __init__(self):
         pass

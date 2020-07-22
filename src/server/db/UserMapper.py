@@ -3,6 +3,11 @@ from server.db.Mapper import Mapper
 
 
 class UserMapper(Mapper):
+    """
+    BY Niklas and Julius  
+    Mapper for User Business Object 
+
+    """
     def __init__(self): 
         super().__init__()
 
