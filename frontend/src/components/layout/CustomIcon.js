@@ -95,7 +95,7 @@ const icons = {
   fish: fishIcon, 
   cheese: cheeseIcon, 
   egg: eggIcon, 
-  noodles: noodlesIcon, 
+  noodle: noodlesIcon, 
   lipstick: lipstickIcon,
   yoghurt: yoghurtIcon, 
   soap: soapIcon, 
