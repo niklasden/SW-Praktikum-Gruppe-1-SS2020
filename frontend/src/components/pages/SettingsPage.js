@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
 import ListEntry from '../layout/ListEntry';
 import {Link} from 'react-router-dom';
