@@ -6,7 +6,6 @@ import BusinessObject from './BusinessObject';
  * Implementation of the Article BusinessObject for the frontend.
  * Basic methods to set class variables, like in the backend.
  * 
- * 
  */
 export default class ArticleBO extends BusinessObject {
 
@@ -50,7 +49,7 @@ export default class ArticleBO extends BusinessObject {
         return this.description
     }
 
-    // Returns an Array of ProductBOs from a given JSON structure
+    // Returns an Array of ArticleBOs from a given JSON structure
     static fromJSON(articles) {
         let result = [];
 
@@ -60,12 +59,11 @@ export default class ArticleBO extends BusinessObject {
                 result.push(article)
             })
         } else {
-            // Es handelt sich offenbar um ein singuläres Objekt
+            //it appears to be a singular object
             let article = articles;
             Object.setPrototypeOf(article, ArticleBO.prototype)
             result.push(article)
         }
-
         return result;
     }
 

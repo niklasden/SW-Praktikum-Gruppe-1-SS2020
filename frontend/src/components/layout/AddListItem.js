@@ -58,6 +58,7 @@ class AddListItem extends Component {
         retailers: [], 
         units: [
           {id: 'g', name: 'g'},
+          {id: 'kg', name: 'kg'},
           {id: 'l', name: 'l'},
           {id: 'ml', name: 'ml'},
           {id: 'Stk.', name: 'Stk.'},
