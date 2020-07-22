@@ -169,7 +169,7 @@ class StatisticPage extends Component {
 								/>
 							}
 						</Grid>
-						<Grid item xs={12} container spacing={1}>
+						<Grid container spacing={1}>
 							{this.state.retailers.map(retailer => {
 									return <StatisticItem retailer key={retailer.retailer_id} number={retailer.rank} name={retailer.retailer_name} amount={retailer.amount} />
 							})}
@@ -184,7 +184,7 @@ class StatisticPage extends Component {
 								/>
 							}
 						</Grid>
-						<Grid item xs={12} container spacing={1}>
+						<Grid container spacing={1}>
 							{this.state.products.map(article => {
 								return <StatisticItem article key={article.article_id} number={article.rank} name={article.article_name} amount={article.number_bought} />
 							})}
