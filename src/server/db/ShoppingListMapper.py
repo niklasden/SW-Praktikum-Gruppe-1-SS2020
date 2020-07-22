@@ -1,22 +1,25 @@
 from server.db.Mapper import Mapper
 from server.bo.ShoppingList import ShoppingList
 
-""" A single ShoppingList
-@author Christopher Böhm
-"""
-class ShoppingListMapper (Mapper):
+class ShoppingListMapper(Mapper):
+    """
+    Shopping list mapper is used to execute database operations for shopping list business objects
+    @author Christopher Böhm
+    """
+
     def __init__(self):
         super().__init__()
 
     def find_all(self):
-        """We don't need this function, but we need to implement it, so its just a pass"""
+        """ We don't need this function, but we need to implement it because of base class, so its just a pass """
         pass
 
     def find_all_by_group_id(self, group_id):
-        """Find all shopping lists of a specific group
+        """
+        Find all shopping lists of a specific group
 
-          :return A collection of shopping list objects
-          """
+        :return A collection of shopping list objects
+        """
         result = []
         cursor = self._cnx.cursor()
         cursor.execute("SELECT ID, name, Group_ID, creationdate from Shoppinglist WHERE Group_ID={}".format(group_id))
@@ -68,10 +71,8 @@ class ShoppingListMapper (Mapper):
         return result
 
     def insert(self, shopping_list):
-        """Einfügen eines Retailer-Objekts in die Datenbank.
-
-        Dabei wird auch der Primärschlüssel des übergebenen Objekts geprüft und ggf.
-        berichtigt.
+        """
+        Insert a new shopping list object to databse
 
         :param shopping_list the object we want to save in database
         :return the shopping list object, maybe slightly altered
@@ -97,8 +98,8 @@ class ShoppingListMapper (Mapper):
 
     def _insert_default_articles_to_shopping_list(self, shopping_list_id,group_id):
         """
-        @Author: Christopher Böhm
-        @Julius
+        @author: Christopher Böhm
+        @author: Julius Jacobitz
         :param shopping_list_id:
         :return:
         """
@@ -155,7 +156,8 @@ class ShoppingListMapper (Mapper):
         cursor.close()
 
     def update(self, shopping_list):
-        """Overwriting the shopping list object in databse
+        """
+        Overwriting the shopping list object in databse
 
         :param shopping_list the object that should be written to database
         """
@@ -171,7 +173,8 @@ class ShoppingListMapper (Mapper):
         return shopping_list
 
     def delete(self, shopping_list):
-        """Deleting a shopping list object from database
+        """
+        Deleting a shopping list object from database
 
         :param shopping_list the shopping list object we want to delete
         """
@@ -184,6 +187,8 @@ class ShoppingListMapper (Mapper):
         self._cnx.commit()
         cursor.close()
 
+# TODO: remove
+""""
     def find_latest(self):
         cursor = self._cnx.cursor()
         result = []
@@ -195,18 +200,15 @@ class ShoppingListMapper (Mapper):
             for id in tuples:
                 result.append(id)
         except IndexError:
-            """if tuples of cursor.fetchall() is empty we will get IndexError. In this case
+            if tuples of cursor.fetchall() is empty we will get IndexError. In this case
             we didn't find the object with the key in database, result will be none then
-            """
+            
             result = None
         self._cnx.commit()
         cursor.close()
         return result
+"""
 
-"""Zu Testzwecken können wir diese Datei bei Bedarf auch ausführen, 
-um die grundsätzliche Funktion zu überprüfen.
-
-Anmerkung: Nicht professionell aber hilfreich..."""
 if (__name__ == "__main__"):
     with ShoppingListMapper() as mapper:
         result = mapper.find_all()
