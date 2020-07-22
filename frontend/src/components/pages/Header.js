@@ -8,17 +8,6 @@ import Menu from './Menu'
 import ProfileDropDown from '../dialogs/ProfileDropDown';
 import { useLocation } from 'react-router-dom'
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-      flexGrow: 1,
-      width: '100%',
-      marginBottom: '65px'
-    },
-    title: {
-      textAlign: 'left'
-    }
-  }));
-
 /**
  * Header
  * 
@@ -61,4 +50,16 @@ function Header(props){
     </div>
   );
 }
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    width: '100%',
+    marginBottom: '65px'
+  },
+  title: {
+    textAlign: 'left'
+  }
+}));
+
 export default Header;

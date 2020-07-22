@@ -5,23 +5,6 @@ import MaterialIconButton from '@material-ui/core/IconButton';
 import { withRouter } from "react-router-dom";
 import CustomIcon from "../layout/CustomIcon"
 
-const styles = theme => ({
-    root:{
-    backgroundColor: '#f2f2f2', 
-    borderRadius: 5,
-    fontFamily: "'Montserrat', sans-serif"
-    },
-    imageIcon:{
-      height: '100%'
-    },
-    iconRoot:{
-      textAlign: 'center'
-    },
-    textroot:{
-
-    }
-})
-
 /**
  * 
  * Displays an item with icon and description of a favorite article
@@ -73,4 +56,22 @@ const styles = theme => ({
         ) 
      }
 }
+
+const styles = theme => ({
+  root:{
+  backgroundColor: '#f2f2f2', 
+  borderRadius: 5,
+  fontFamily: "'Montserrat', sans-serif"
+  },
+  imageIcon:{
+    height: '100%'
+  },
+  iconRoot:{
+    textAlign: 'center'
+  },
+  textroot:{
+
+  }
+})
+
  export default withRouter(withStyles(styles)(FavoriteArticle));

@@ -14,26 +14,6 @@ import MainButton from '../layout/MainButton';
 import Heading from '../layout/Heading';
 import shoppingSettings from '../../shoppingSettings';
 
-/** 
- *  Displays the page for editing a new favorite article
- *
- *  @author [Kevin Eberhardt](https://github.com/kevin-eberhardt)
- *  
- */
-
-const styles = theme => ({
-    root: {},
-    control: {
-        margin: theme.spacing(1),
-        minWidth: 120,
-        width: '90%'
-      },
-      button: {
-          minWidth: 200,
-      }
-});
-const settingsobj = shoppingSettings.getSettings();
-
 class AddFavoriteArticle extends Component {
     constructor(props) {
         super(props);
@@ -215,4 +195,25 @@ class AddFavoriteArticle extends Component {
         )
     }
 }
+
+/** 
+ *  Displays the page for editing a new favorite article
+ *
+ *  @author [Kevin Eberhardt](https://github.com/kevin-eberhardt)
+ *  
+ */
+
+const styles = theme => ({
+    root: {},
+    control: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+        width: '90%'
+      },
+      button: {
+          minWidth: 200,
+      }
+});
+const settingsobj = shoppingSettings.getSettings();
+
 export default withRouter(withStyles(styles)(AddFavoriteArticle)); 
