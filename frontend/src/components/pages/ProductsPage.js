@@ -8,83 +8,7 @@ import ProductListEntry from '../layout/ProductListEntry';
 import { Link } from 'react-router-dom';
 import Heading from '../layout/Heading';
 import { Config } from '../../config';
-import ContextErrorMessage from '../dialogs/ContextErrorMessage';
-
-const styles = theme => ({
-    root: {
-      flexGrow: 1,
-      padding: theme.spacing(2),
-      marginBottom: 50
-    },
-    article: {
-      display: 'flex', 
-      justifyContent: 'center' 
-    },
-    loading: {
-      width: '100%'
-    }, 
-    favProducts: {
-      marginLeft: 10
-    }
- });
-
-const articleIDIconMapper = {
-  apple: 'apple', 
-  banana: 'banana',
-  oranges: 'orange',
-  grape: 'grape', 
-  chicken: 'chicken', 
-  steak: 'meat', 
-  meat: 'meat', 
-  fish: 'fish', 
-  tomato: 'tomato', 
-  cucumber: 'cucumber', 
-  lettuce: 'lettuce', 
-  mustard: 'mustard', 
-  strawberry: 'strawberry', 
-  tea: 'tea', 
-  milk: 'milk', 
-  cread: 'bread', 
-  beer: 'beermug', 
-  "orange juice": 'orangejuice', 
-  wine: 'wine', 
-  cola: 'cola', 
-  water: 'water',
-  cheese: 'cheese',
-  eggs: 'egg',
-  yoghurt: 'yoghurt',
-  noodle: 'noodles',
-  flour: 'flour',
-  pizza: 'pizza',
-  icecream: 'icecream',
-  donut: 'donut',
-  chips: 'chips',
-  popcorn: 'popcorn',
-  bombom: 'bomboms',
-  chocolate: 'chocolate',
-  cake: 'cake',
-  cookies: 'cookies',
-  "salt & pepper": 'saltpepper',
-  basil: 'basil',
-  chilli: 'chilli',
-  garlic: 'garlic',
-  ketchup: 'ketchup',
-  lipstick: 'lipstick',
-  soap: 'soap',
-}
-
-const categoryIconMapper = {
-  vegetables: 'vegetables',
-  "meat & fish": 'meatAndFish',
-  fruits: 'fruits', 
-  "drinks": 'beverages', 
-  other: 'soap',
-  snacks: 'snacks', 
-  "milk & cheese": 'milkAndEggs', 
-  cosmetic: 'cosmetics', 
-  "convenience & frozen products": 'convenience'
-}
-
+import ShoppingSettings from '../../shoppingSettings'
 
 /**
  * Renders a list of ArticleEntry objects
@@ -94,6 +18,7 @@ const categoryIconMapper = {
  * @author [Pia Schmid](https://github.com/PiaSchmid)
  */
 
+const settings = ShoppingSettings.getSettings()
 
 class ProductsPage extends Component {
   state = {
@@ -104,9 +29,8 @@ class ProductsPage extends Component {
     articles: [],
     shoppinglists: [],
     selected_shoppinglist: [], 
-
-    error: null,
-    currentGroupID: 0
+    //error: null,
+    currentGroupID: settings.getGroupID(),
  }
 
   componentDidMount(){
@@ -181,7 +105,6 @@ class ProductsPage extends Component {
           <Grid container
           direction ="row">
            {category[1].map(item => (
-
              <ProductListEntry
              key={item.id}
              item={item}
@@ -191,21 +114,16 @@ class ProductsPage extends Component {
              iconName={item.iconName}
              style={{marginBottom:12}}
              />
-
            ))}
            </Grid>
-
         </div>
       ));
   }
 
   render(){
     const classes = this.props.classes
-    const {error, loadingInProgress} = this.state;
-
 
     return( 
-
         <Grid container 
         className={classes.root}
         >
@@ -228,10 +146,15 @@ class ProductsPage extends Component {
           <div 
           className= {classes.loading}
           >
-            {this.state.loadingInProgress ?
-                <div className = {classes.article}>
-                  <CircularProgress size={25} />
+            {(this.state.currentGroupID === 0) ? 
+              <div style={{marginTop:'20px'}}>
+                No group found!<br /> Switch to HomePage and select your active group!
                 </div>
+            :
+            this.state.loadingInProgress ?
+                <div className = {classes.article}>
+                  <CircularProgress size={25} style={{marginTop: 20}} />
+                </div> 
               :  
                 this.renderArticles()
               }
@@ -239,6 +162,81 @@ class ProductsPage extends Component {
         </Grid>
     )
   }
+}
+
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    padding: theme.spacing(2),
+    marginBottom: 50
+  },
+  article: {
+    display: 'flex', 
+    justifyContent: 'center' 
+  },
+  loading: {
+    width: '100%'
+  }, 
+  favProducts: {
+    marginLeft: 10
+  }
+});
+
+const articleIDIconMapper = {
+  apple: 'apple', 
+  banana: 'banana',
+  oranges: 'orange',
+  grape: 'grape', 
+  chicken: 'chicken', 
+  steak: 'meat', 
+  meat: 'meat', 
+  fish: 'fish', 
+  tomato: 'tomato', 
+  cucumber: 'cucumber', 
+  lettuce: 'lettuce', 
+  mustard: 'mustard', 
+  strawberry: 'strawberry', 
+  tea: 'tea', 
+  milk: 'milk', 
+  cread: 'bread', 
+  beer: 'beermug', 
+  "orange juice": 'orangejuice', 
+  wine: 'wine', 
+  cola: 'cola', 
+  water: 'water',
+  cheese: 'cheese',
+  eggs: 'egg',
+  yoghurt: 'yoghurt',
+  noodle: 'noodles',
+  flour: 'flour',
+  pizza: 'pizza',
+  icecream: 'icecream',
+  donut: 'donut',
+  chips: 'chips',
+  popcorn: 'popcorn',
+  bombom: 'bomboms',
+  chocolate: 'chocolate',
+  cake: 'cake',
+  cookies: 'cookies',
+  "salt & pepper": 'saltpepper',
+  basil: 'basil',
+  chilli: 'chilli',
+  garlic: 'garlic',
+  ketchup: 'ketchup',
+  lipstick: 'lipstick',
+  soap: 'soap',
+}
+
+const categoryIconMapper = {
+  vegetables: 'vegetables',
+  "meat & fish": 'meatAndFish',
+  fruits: 'fruits', 
+  "drinks": 'beverages', 
+  other: 'soap',
+  snacks: 'snacks', 
+  "milk & cheese": 'milkAndEggs', 
+  cosmetic: 'cosmetics', 
+  "convenience & frozen products": 'convenience'
 }
 
 export default withStyles(styles)(ProductsPage);
