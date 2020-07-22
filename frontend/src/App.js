@@ -217,7 +217,7 @@ class App extends React.Component {
 		const provider = new firebase.auth.GoogleAuthProvider();
 		try {
 			console.log("hello")
-			let resp = await firebase.auth().signInWithRedirect(provider);
+			await firebase.auth().signInWithRedirect(provider);
 			console.log("redirect successfull")
 		} catch (e){
 			console.log("Error")
@@ -232,7 +232,7 @@ class App extends React.Component {
 	 * @see See Googles [firebase init process](https://firebase.google.com/docs/web/setup)
 	 */
 	componentDidMount() {
-		let app = firebase.initializeApp(this.#firebaseConfig);
+		firebase.initializeApp(this.#firebaseConfig);
 		firebase.auth().languageCode = 'en';
 		firebase.auth().onAuthStateChanged(this.handleAuthStateChange, () => console.log("Error signing in"));
 	}
