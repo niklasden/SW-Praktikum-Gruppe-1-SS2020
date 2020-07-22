@@ -258,7 +258,8 @@ class AccountsPage extends Component {
 /** Component specific styles */
 const styles = theme => ({
 	root: {
-		margin: theme.spacing(2)
+		margin: theme.spacing(2),
+		marginBottom: 60,
 	},
 	Avatar: {
 		marginRight: '0px',

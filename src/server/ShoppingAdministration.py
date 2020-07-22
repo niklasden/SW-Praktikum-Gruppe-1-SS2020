@@ -157,7 +157,7 @@ class ShoppingAdministration (object):
         with GroupMapper() as mapper:
             return mapper.insert(group)
 
-    #ListEntry:
+    #ListEntry Pascal & Niklas:
     def get_all_listentries(self):
         with ListEntryMapper() as mapper:
             result = mapper.find_all()
