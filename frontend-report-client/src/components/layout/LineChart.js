@@ -4,12 +4,12 @@ export default class LineChart extends Component {
 	componentDidMount(){
 		var myLineChart = new LineChartGenerator({  
 			canvasId: "myLineCanvas",  
-			minX: 0,  
-			minY: 0,  
-			maxX: 140,  
-			maxY: 100,  
-			unitsPerTickX: 10,  
-			unitsPerTickY: 10  
+			minX: 0,
+			minY: 0,
+			maxX: 140,
+			maxY: 100,
+			unitsPerTickX: 10,
+			unitsPerTickY: 10
 		})
 	
 		var data = [

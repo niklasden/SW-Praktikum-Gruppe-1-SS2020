@@ -114,12 +114,43 @@ isDateAfterTimeProp(date) {
           d.dataPoints = d.dataPoints.filter(dd => this.isDateBeforeTimeProp(dd.x) && this.isDateAfterTimeProp(dd.x));
         })
       }
+      console.log(newList)
+
       return newList;
     }
+
+    // we need the elements in another format as we switched from canvas js to a custom solution
+    getCustomizedOptions(){
+      const options = this.getOptions().data
+      const customOptions = []
+
+      const newCustomOption = (article_id, article_name, amount, date) => {
+        return {
+          article_id,
+          article_name, 
+          amount,
+          date
+        }
+      }
+
+      options.forEach((el, i) => {
+        el.dataPoints.forEach(dataPoint => {
+          let coption = newCustomOption(el.id, el.name, dataPoint.y, dataPoint.x)
+          customOptions.push(coption)
+        })
+      })
+
+      console.log(customOptions)
+
+      return customOptions
+    }
+
     /* Renders the component */
     render() {
       const classes = this.props.classes;
-      const chartItems = this.getOptions();
+      const chartItems = this.getOptions()
+      const customOptions = this.getCustomizedOptions();
+
       return (
         chartItems.data.length > 0 ?
           <Grid item>
