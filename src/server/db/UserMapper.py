@@ -15,6 +15,8 @@ class UserMapper(Mapper):
     def find_all(self):
         """
         Niklas und Julius
+        get all users from db
+        :return: list of user bos 
         """                    
         result = []
         cursor = self._cnx.cursor()
@@ -39,6 +41,9 @@ class UserMapper(Mapper):
     def find_by_name(self,name):
         """
         Julius
+        get all users by name from db
+        :return: list of user bos 
+        
         """
         res = []
         cursor = self._cnx.cursor()
@@ -67,6 +72,9 @@ class UserMapper(Mapper):
     def find_by_key(self, key):
         """
         Niklas
+        
+        get one specific user from db
+        :return: user bo
         """
         result = None
         cursor = self._cnx.cursor()
@@ -95,6 +103,9 @@ class UserMapper(Mapper):
     def find_by_email(self,mail_adress):
         """
         Julius
+        
+        get user from db by email adress
+        :return: user bo
         """
         res = None
         cursor = self._cnx.cursor()
@@ -124,6 +135,9 @@ class UserMapper(Mapper):
     def find_by_firebase_id(self, firebase_id):
         """
         Niklas
+        
+        get user from db by firebaseid adress
+        :return: user bo
         """
         result = None
         cursor = self._cnx.cursor()
@@ -152,6 +166,9 @@ class UserMapper(Mapper):
     def insert(self,user):
         """
         Julius
+        
+        insert an user into db 
+        :return: user bo
         """
         
         cursor = self._cnx.cursor()
@@ -188,6 +205,9 @@ class UserMapper(Mapper):
     def update(self,user):
         """
         Niklas
+        
+        update an user in db 
+        :return: user bo
         """
         cursor = self._cnx.cursor()
         
@@ -203,6 +223,9 @@ class UserMapper(Mapper):
     def delete(self, user):
         """
         Julius
+        
+        delete an user from db 
+        :return: str
         """
         usrstring = str(user)
         try:

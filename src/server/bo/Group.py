@@ -19,9 +19,15 @@ class Group(bo.BusinessObject):
        
 
     def set_description(self,d):
+        """
+        setter for description of group
+        """
         self.description = d
 
     def get_description(self):
+        """
+        getter for description of group
+        """
         return self.description
 
     """    
@@ -37,9 +43,15 @@ class Group(bo.BusinessObject):
     """
 
     def get_name(self):
+        """
+        getter for name of group
+        """
         return self.name
 
     def set_name(self,name):
+        """
+        setter for name of group
+        """
         self.name = name
     """
     def get_shopping_lists(self):
@@ -50,9 +62,15 @@ class Group(bo.BusinessObject):
 """
 
     def get_creationdate(self):
+        """
+        getter for creationdate of group
+        """
         return self.creationdate
 
     def set_creationdate(self,date):
+        """
+        setter for creationdate of group
+        """
         self.creationdate = date
 
     def __str__(self):

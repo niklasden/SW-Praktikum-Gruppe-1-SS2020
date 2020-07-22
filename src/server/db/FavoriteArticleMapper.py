@@ -10,6 +10,10 @@ class FavoriteArticleMapper(Mapper):
         super().__init__()
 
     def find_all(self):
+        """
+        get all favorite articles from database
+        :return: a list of of favorite articles bos
+        """
         result = []
         cursor = self._cnx.cursor()
         cursor.execute("SELECT ID,Group_ID,Article_ID,amount,unit,Retailer_ID,creationdate from FavoriteArticle")
@@ -34,6 +38,10 @@ class FavoriteArticleMapper(Mapper):
 
 
     def find_by_key(self, key):
+        """
+        get a specific favorite article by id from database
+        :return: a favorite articles bo
+        """
         result = None 
         cursor = self._cnx.cursor()
         cursor.execute("SELECT ID,Group_ID,Article_ID,amount,unit,Retailer_ID,creationdate from FavoriteArticle WHERE ID={0}".format(key))  
@@ -60,6 +68,10 @@ class FavoriteArticleMapper(Mapper):
 
 
     def find_by_group(self,gid):
+        """
+        get all favorite articles with of one group from database
+        :return: a list of of favorite articles bos
+        """
         
         result = []
         cursor = self._cnx.cursor()
@@ -89,6 +101,10 @@ class FavoriteArticleMapper(Mapper):
 
 
     def insert(self,fav_article):
+        """
+        write a favorite article into the db
+        :return: a favorite articles bo
+        """
         cursor = self._cnx.cursor()
         cursor.execute("SELECT MAX(id) AS maxid FROM `FavoriteArticle`")
         tuples = cursor.fetchall()
@@ -112,7 +128,11 @@ class FavoriteArticleMapper(Mapper):
     
 
     def update(self, fav_article):
-       
+        """
+        update a favorite article in the db 
+        :return: a favorite articles bo
+        """
+
         try:
             cursor = self._cnx.cursor()
             command = "UPDATE FavoriteArticle " + "SET Group_ID={0}, Article_ID={1}, amount={2}, unit='{3}', Retailer_ID={4} WHERE ID={5}".format(fav_article.get_Group_ID(),fav_article.get_Article_ID(),fav_article.get_amount(),fav_article.get_unit(),fav_article.get_Retailer_ID(),fav_article.get_id())
@@ -126,6 +146,10 @@ class FavoriteArticleMapper(Mapper):
             return "Error in update FavoriteArticle FavoriteArticleMapper: " + str(e)
 
     def delete(self, fa):
+        """
+        delete a favorite article from the db
+        :return: str
+        """
         print(str(fa))
         try:
             cursor = self._cnx.cursor()
