@@ -220,8 +220,8 @@ class AddListItem extends Component {
             justify='center'
             alignItems= 'center'
             >
-              <InputLabel>AMOUNT</InputLabel>
                 <TextField 
+                label="AMOUT"
                 onChange={this.setAmount.bind(this)} 
                 value={this.state.amount}>
                 </TextField>
@@ -264,6 +264,7 @@ class AddListItem extends Component {
 AddListItem.propTypes = {
   onChange: PropTypes.func,
   PressButtonBack: PropTypes.func,
+  PressButtonConfirm: PropTypes.func, 
 }
 
 export default withStyles(styles)(AddListItem);

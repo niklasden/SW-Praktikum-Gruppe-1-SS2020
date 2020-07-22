@@ -8,6 +8,8 @@ import ProductListEntry from '../layout/ProductListEntry';
 import { Link } from 'react-router-dom';
 import Heading from '../layout/Heading';
 import { Config } from '../../config';
+import ContextErrorMessage from '../dialogs/ContextErrorMessage';
+
 
 
 
@@ -39,7 +41,7 @@ const articleIDIconMapper = {
   meat: 'meat', 
   fish: 'fish', 
   tomato: 'tomato', 
-  cucumbers: 'cucumber', 
+  cucumber: 'cucumber', 
   lettuce: 'lettuce', 
   mustard: 'mustard', 
   strawberry: 'strawberry', 
@@ -104,7 +106,11 @@ class ProductsPage extends Component {
     addingArticleError: null, 
     articles: [],
     shoppinglists: [],
-    selected_shoppinglist: [] 
+    selected_shoppinglist: [], 
+
+    error: null,
+    currentGroupID: 0
+
   }
 
   componentDidMount(){
@@ -152,7 +158,6 @@ class ProductsPage extends Component {
     var categories = this.state.articles.reduce((itemsSoFar, {category, name, id}) => {
       if (!itemsSoFar[category]) itemsSoFar[category] = [];
       var iconName = getIconName(name, category)
-      //console.log(category)
       itemsSoFar[category].push({name, id, iconName});
       return itemsSoFar; 
     }, {});
@@ -165,7 +170,6 @@ class ProductsPage extends Component {
         var iconName = getIconName(name, category)
         if (name.toLowerCase().includes(this.state.searchValue.toLowerCase())) itemsSoFar[category].push({name, category,  id, iconName});
         return itemsSoFar;
-
       }, 
       {});
     }
@@ -198,37 +202,42 @@ class ProductsPage extends Component {
 
   render(){
     const classes = this.props.classes
-    //console.log(this.state.articles)
-    //console.log(categories)
+    const {error, loadingInProgress} = this.state;
 
-    return(
-      <Grid container 
-      className={classes.root}>
-        <Grid container spacing={1}>
-          <Grid item xs={8}>
-            <TextInputBar placeholder="search..." icon="search" onChange={(elem) => this.setState({ searchValue: elem.target.value})}/>
-          </Grid>
-          <Grid item xs={4}>
-            <Link to="/create_article">
-              <IconButton icon='add' />
-            </Link>
-            <Link to="/favorite_products" className = {classes.favProducts}>
-              <IconButton icon='star'/>
-            </Link>
-          </Grid>
-        </Grid>
-        <div 
-        className= {classes.loading}
+
+    return( 
+
+        <Grid container 
+        className={classes.root}
         >
-          {this.state.loadingInProgress ?
-              <div className = {classes.article}>
-                <CircularProgress size={25} />
-              </div>
-            :  
-              this.renderArticles()
-            }
-        </div>
-      </Grid>
+          <Grid container 
+          spacing={1}
+          >
+            <Grid item xs={8}>
+              <TextInputBar placeholder="search..." icon="search" onChange={(elem) => this.setState({ searchValue: elem.target.value})}/>
+            </Grid>
+
+            <Grid item xs={4}>
+              <Link to="/create_article">
+                <IconButton icon='add' />
+              </Link>
+              <Link to="/favorite_products" className = {classes.favProducts}>
+                <IconButton icon='star'/>
+              </Link>
+            </Grid>
+          </Grid>
+          <div 
+          className= {classes.loading}
+          >
+            {this.state.loadingInProgress ?
+                <div className = {classes.article}>
+                  <CircularProgress size={25} />
+                </div>
+              :  
+                this.renderArticles()
+              }
+          </div>
+        </Grid>
     )
   }
 }
