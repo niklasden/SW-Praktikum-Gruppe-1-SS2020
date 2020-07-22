@@ -5,12 +5,13 @@ from server.db.Mapper import Mapper
 class GroupMapper(Mapper):
     """
     Author: Julius
+
+    Mapper for group business object
     """
     def __init__(self):
         super().__init__()
     
     def find_all(self):
-        
         result = []
         cursor = self._cnx.cursor()
         statement = "Select * from `Group`"
@@ -35,7 +36,6 @@ class GroupMapper(Mapper):
     
 
     def find_all_by_userid(self,uid):
-        
         groups = []
         cursor = self._cnx.cursor()
         statement = "Select Group_ID from Membership WHERE User_ID = {} ".format(int(uid))
@@ -59,8 +59,8 @@ class GroupMapper(Mapper):
         
         self._cnx.commit()
         cursor.close()
-
         return groups 
+
 
     def find_by_key(self, key):
         """
@@ -73,7 +73,7 @@ class GroupMapper(Mapper):
         tuples = cursor.fetchall()
 
         try:
-            (id, name, description, creationdate) = tuples[0]    #potentieller fehler (erst description dann name)
+            (id, name, description, creationdate) = tuples[0]    
             group = Group()
             group.set_id(id)
             group.set_name(name)
@@ -87,6 +87,7 @@ class GroupMapper(Mapper):
         cursor.close()
         return result
     
+
     def insert(self,group):
         """
         Julius
@@ -209,23 +210,12 @@ class GroupMapper(Mapper):
             cursor.close()
             userids = res 
 
-            # creating user objects for userids 
             """
-            done in shopping admin because can't import shopping admin 
-            
-            adm = ShoppingAdministration()
-            #try:
-            for i in userids: s
-                r = adm.get_user_by_id(i)
-                result.append(r)
+            in shopping admin: create user objects from ids
             """
             return res 
 
 
-
-            
-          
-            #return {"User_IDs": res}
         except Exception as e:
             print(e) 
             
