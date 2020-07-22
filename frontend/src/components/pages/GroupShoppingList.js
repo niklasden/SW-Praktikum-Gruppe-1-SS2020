@@ -3,6 +3,9 @@ import { Grid, FormControl, InputLabel, Select, MenuItem} from '@material-ui/cor
 import DropDownGSL from '../layout/DropDownGSL'
 import ShoppingSettings from '../../../src/shoppingSettings';
 import ShoppingAPI from '../../api/ShoppingAPI';
+import CircularLoadingProgress from '../dialogs/CircularLoadingProgress';
+import ContextErrorMessage from '../dialogs/ContextErrorMessage';
+
 
 const settingsobj = ShoppingSettings.getSettings()
 
@@ -11,26 +14,26 @@ const settingsobj = ShoppingSettings.getSettings()
 // die Gruppe auszuwählen
 
 /**
- * 
- * 
+ * Renders the Shoppinglist of a specific group.
+ * Allows the user to switch between shoppinglists.
+ * You can also change parameters of the listentry such as amount, purchaser, retailer, unit.
  * @author [Pascal Illg](https://github.com/pasillg)
+ * @author [Niklas Denneler](https://github.com/niklasden)
  */
 
 export default class GroupShoppingList extends Component {
     constructor(props) {
       super(props)
-    
       this.state = {
         items: [],
         open: false,
-        amount: "1",
-        unit: '',
-        selectedID: 0,
         listentry: this.props.listentry,
         shoppinglists: [],
-        selected_shoppinglist: []
+        selected_shoppinglist: [],
+        loadingInProgress: false,
+        loadingItemsError: null,
+        loadingShoppinglistsError: null
       }
-
     }
  
 
@@ -38,27 +41,48 @@ export default class GroupShoppingList extends Component {
       ShoppingAPI.getAPI().getShoppinglistofGroup(settingsobj.getGroupID()).then(shoppinglistBOs => {
         this.setState({
           shoppinglists: shoppinglistBOs,
+          loadingInProgress: false,
+          loadingShoppinglistsError: null, 
         })
-      }).catch(e => {
+        /* console.log(shoppingslistBOs); */
+      }).catch(e => 
         this.setState({
           shoppinglists: [],
+          loadingInProgress: false,
+          loadingShoppinglistsError: e 
         })  
-      }
       );
-    };
+      
+      // set loading to true
+      this.setState({
+        loadingInProgress: true,
+        loadingShoppinglistsError: null
+      });
+      
+    }
 
     fetchItems = () => {
+      this.setState({items : []})
       ShoppingAPI.getAPI().getItemsofGroup(settingsobj.getGroupID(), settingsobj.getCurrentShoppinglist()).then(listentryBOs => {
         // Set new state when AccountBOs have been fetched
         this.setState({  
           items: listentryBOs, 
+          loadingInProgress: false,
+          loadingItemsError: null,  
         })
-        console.log(listentryBOs);
+        /*console.log(listentryBOs);*/
       }).catch(e => 
           this.setState({
             items: [],
+            loadingInProgress: false,
+            loadingItemsError: e 
           })
         );
+        //set loading to true
+        this.setState({
+          loadingInProgress: true,
+          loadingItemsError: null
+        });
       };
   
   componentDidMount() {
@@ -75,29 +99,9 @@ export default class GroupShoppingList extends Component {
     });
     return ArrCategory
   }  
-  /*
-  renderCategoryArticles(){
-    let renderdArticles = []
-    let Useritems = this.state.items;
-    let ArrCategory = this.getCategorys();
-    for (let item in ArrCategory){
-      renderdArticles.push(
-        <DropDownGSL 
-        key={ArrCategory[0]}
-          onClickDeleteButton={this.onClickDelete.bind(this)} 
-          Useritems={Useritems} 
-          ArrCategory={ArrCategory} 
-          item={item}
-          fetchItems={this.fetchItems}
-          />
-      )}
-    return renderdArticles
-  };
-  */
-
+ 
  renderCategoryArticles(){
   let renderdArticles = []
-  
   let ArrCategory = this.getCategorys();
   for (let item in ArrCategory){
     renderdArticles.push(
@@ -136,20 +140,18 @@ export default class GroupShoppingList extends Component {
   }
   
   render(){
+    const {loadingInProgress, loadingItemsError, loadingShoppinglistsError} = this.state;
     return (
+  
       <Grid 
       container
-      direction='column' //was row
+      direction='column' 
       justify='center'
-      // alignItems='center'
+      alignItems='center'
       style={{width: '100%'}}
-      /*alignItems="stretch"*/
       >
-      {/* <Grid item xs={12}> 
-        <TextInputBar key={"search"}placeholder="search..." icon="search" />
-      </Grid>
-      */}
-       <Grid item xs={6} style={{marginTop: 10, marginBottom: 10}}>
+       
+       <Grid item xs={12}  style={{marginTop: 10, marginBottom: 10}}>
             <FormControl style={{width: '25ch', height: 35, marginBottom: 15, textAlign: 'center'}}>
               <InputLabel style={{left:'13%'}}>Select Shopping List</InputLabel>
               
@@ -160,8 +162,12 @@ export default class GroupShoppingList extends Component {
                 
               </Select>
             </FormControl>
+            <CircularLoadingProgress show={loadingInProgress} />
+      <ContextErrorMessage error={loadingItemsError} contextErrorMsg={'Failed to fetch Items'} onReload={this.fetchItems}/>
+      <ContextErrorMessage error={loadingShoppinglistsError} contextErrorMsg={'Failed to fetch Shoppinglists'} onReload={this.fetchShoppinglists}/>
       </Grid>
-      <Grid item xs={12} style={{marginBottom: 75}}>
+  
+      <Grid item xs={12} style={{marginBottom: 75, width: '100%'}}>
         {this.renderCategoryArticles()}
       </Grid>
     </Grid>

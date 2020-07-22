@@ -88,7 +88,8 @@ class CreateArticlePage extends Component {
 		const requestBody = JSON.stringify(article)
 
 		const rInit = {
-			method: 'POST', 
+			method: 'POST',
+			credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json'
 			},

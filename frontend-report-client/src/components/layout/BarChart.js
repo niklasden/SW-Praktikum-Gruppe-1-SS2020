@@ -12,7 +12,7 @@ class BarChart extends Component {
     const canvas = this.refs.canvas
     canvas.height = 300;
     canvas.width = this.props.width
-    const ctx = canvas.getContext("2d")
+    // const ctx = canvas.getContext("2d")
     // const img = this.refs.image
 
     var myBarchart = new BarChartGenerator({
@@ -117,33 +117,33 @@ var BarChartGenerator = function(options){
   this.canvas = options.canvas;
   this.ctx = this.canvas.getContext("2d");
   this.colors = options.colors;
-
   this.draw = function(){
-		var maxValue = 0;
+		if(options) {
+			var maxValue = 0;
 		// find highest value of data
-		// for (var categ in this.options.data){
-		// 	maxValue = Math.max(maxValue,this.options.data[categ]);
+		// for (var categ in options.data){
+		// 	maxValue = Math.max(maxValue,options.data[categ]);
 		// }
 
-		this.options.data.forEach(el => {
+		options.data.forEach(el => {
 			maxValue = Math.max(maxValue, el.value)
 		})
 
 
-		var canvasActualHeight = this.canvas.height - this.options.padding * 2;
-		var canvasActualWidth = this.canvas.width - this.options.padding * 2;
+		var canvasActualHeight = this.canvas.height - options.padding * 2;
+		var canvasActualWidth = this.canvas.width - options.padding * 2;
 
 		//drawing the grid lines
 		var gridValue = 0;
 		while (gridValue <= maxValue){
-			var gridY = (canvasActualHeight - 10) * (1 - gridValue/maxValue) + this.options.padding;
+			var gridY = (canvasActualHeight - 10) * (1 - gridValue/maxValue) + options.padding;
 			drawLine(
 				this.ctx,
 				0,
 				gridY,
 				this.canvas.width,
 				gridY,
-				this.options.gridColor
+				options.gridColor
 			);
 
 			drawText(this.ctx, 0, gridY, "" + gridValue)
@@ -153,17 +153,16 @@ var BarChartGenerator = function(options){
 
 		//drawing the bars
 		var barIndex = 0;
-		var numberOfBars = this.options.data.length;
+		var numberOfBars = options.data.length;
 		var barSize = (canvasActualWidth)/numberOfBars;
 
-		this.options.data.forEach((el) => {
-			console.log("categ" + el.title)
+		options.data.forEach((el) => {
 			var val = el.value;
 			var barHeight = Math.round( (canvasActualHeight - 10) * val/maxValue);
 			drawBar(
 				this.ctx,
-				this.options.padding + barIndex * barSize + 20,
-				this.canvas.height - barHeight - this.options.padding - 10,
+				options.padding + barIndex * barSize + 20,
+				this.canvas.height - barHeight - options.padding - 10,
 				barSize,
 				barHeight,
 				this.colors[barIndex%this.colors.length]
@@ -173,6 +172,7 @@ var BarChartGenerator = function(options){
 			drawText(this.ctx, barIndex * barSize - barSize + 30, this.canvas.height - 10, "" + el.title + " (" + el.value + ")")
 
 		}) 
+		}
   }
 }
 

@@ -21,39 +21,39 @@ const styles = theme => ({
  * TODO TODO TODO
  * 
  * @author Christopher Böhm
- */
-function drawLine(ctx, startX, startY, endX, endY,color){
-  ctx.save();
-  ctx.strokeStyle = color;
-  ctx.beginPath();
-  ctx.moveTo(startX,startY);
-  ctx.lineTo(endX,endY);
-  ctx.stroke();
-  ctx.restore();
-}
+//  */
+// function drawLine(ctx, startX, startY, endX, endY,color){
+//   ctx.save();
+//   ctx.strokeStyle = color;
+//   ctx.beginPath();
+//   ctx.moveTo(startX,startY);
+//   ctx.lineTo(endX,endY);
+//   ctx.stroke();
+//   ctx.restore();
+// }
 
-function drawPoint(ctx, startX, startY, color){
-  ctx.save();
-  ctx.fillStyle=color;
-  ctx.beginPath();
-  ctx.arc(startX, startY, 50, 0, 2 * Math.PI);
-  ctx.stroke(); 
-  ctx.restore();
-}
+// function drawPoint(ctx, startX, startY, color){
+//   ctx.save();
+//   ctx.fillStyle=color;
+//   ctx.beginPath();
+//   ctx.arc(startX, startY, 50, 0, 2 * Math.PI);
+//   ctx.stroke(); 
+//   ctx.restore();
+// }
 
-function drawText(ctx, startX, startY, text){
-  ctx.save()
-	ctx.fillText(text, startX, startY)
-	ctx.font = "bold 10px Arial"
-  ctx.restore()
-}
+// function drawText(ctx, startX, startY, text){
+//   ctx.save()
+// 	ctx.fillText(text, startX, startY)
+// 	ctx.font = "bold 10px Arial"
+//   ctx.restore()
+// }
 
 class LineChart extends Component {
   componentDidMount(){
     const canvas = this.refs.canvas
     canvas.height = 300
     canvas.width = this.props.width
-    const ctx = canvas.getContext("2d")
+    // const ctx = canvas.getContext("2d")
 
     var lineChart = new LineChartGenerator({
       canvas: canvas, 
@@ -79,7 +79,6 @@ var LineChartGenerator = function(options){
   this.colors = options.colors;
 
   this.draw = function(){
-    var maxValue = 5
   }
 }
 

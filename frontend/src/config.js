@@ -1,5 +1,5 @@
 const Config = {
-  apiHost: 'http://127.0.0.1:5000/shopping'
+  apiHost: 'http://localhost:5000/shopping'
 }
 
 export { Config }

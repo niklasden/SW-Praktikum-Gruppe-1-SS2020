@@ -14,6 +14,13 @@ import MainButton from '../layout/MainButton';
 import Heading from '../layout/Heading';
 import shoppingSettings from '../../shoppingSettings';
 
+/** 
+ *  Displays the page for editing a new favorite article
+ *
+ *  @author [Kevin Eberhardt](https://github.com/kevin-eberhardt)
+ *  
+ */
+
 const styles = theme => ({
     root: {},
     control: {
@@ -50,21 +57,25 @@ class AddFavoriteArticle extends Component {
         this.saveFavArticle = this.saveFavArticle.bind(this);
         this.handleChangeUnit = this.handleChangeUnit.bind(this);
     }
+    /* Handle change of article */
     handleChangeArticleName(event) {
         this.setState({currentArticleID: event.target.value});
     }
+    /* Handle change of retailer */
     handleChangeRetailerName(event) {
         this.setState({currentRetailerID: event.target.value});
     }
+    /* Handle change of amount */
     handleChangeAmount(event) {
-        console.log("changed amount of", this.state.currentAmount, " to ", parseInt(event.target.value));
         this.setState({currentAmount: parseInt(event.target.value)});
     }
+    /* Handle change of unit */
     handleChangeUnit(event) {
         this.setState({currentUnit: event.target.value});
     }
+    /*  Fetches the article information based on the ArticleID */
     async getArticles() {
-        const json = await fetch(Config.apiHost + "/Article");
+        const json = await fetch(Config.apiHost + "/Article", {credentials: 'include'});
         const res = await json.json();
         res.forEach(article => {
             if(article.id === this.state.currentArticleID) {
@@ -73,8 +84,9 @@ class AddFavoriteArticle extends Component {
         })
         this.setState({articles: res});
     }
+    /*  Fetches the current retailer basde on the RetailerID */
     async getRetailer() {
-        const json = await fetch(Config.apiHost + "/Retailer");
+        const json = await fetch(Config.apiHost + "/Retailer", {credentials: 'include'});
         const res = await json.json();
         res.forEach(retailer => {
             if(retailer.id === this.state.currentRetailerID) {
@@ -83,7 +95,7 @@ class AddFavoriteArticle extends Component {
         })
         this.setState({retailer: res})
     }
-
+    /* Saves the article */
     async saveFavArticle() {
         try{
             const groupID = await settingsobj.onlySettingsGetSettingsGroupID();
@@ -101,14 +113,15 @@ class AddFavoriteArticle extends Component {
             console.log(requestBody);
             const rInit = {
               method: 'POST', 
+              credentials: 'include',
               headers: {
                 'Content-Type': 'application/json'
               }, 
               body: requestBody
             } 
-            const resp = await fetch(Config.apiHost + '/favoriteArticle', rInit)
+            const resp = await fetch(Config.apiHost + '/favoriteArticle', rInit) // sends the new data via post request to backend
             if(resp.ok){
-                this.props.history.push('/favorite_products')
+                this.props.history.push('/favorite_products') // redirects the user to favorite_products page
             }else {
                 this.setState({error: resp});
             }
@@ -116,12 +129,14 @@ class AddFavoriteArticle extends Component {
         this.setState({error: e})
         }
     }
+    /* Lifecycle method, gets called when component was rendered */
     async componentDidMount() {
         this.setState({isLoading: true})
         await this.getArticles();
         await this.getRetailer();
         this.setState({isLoading: false})
     }
+    /* Renders the component */
     render() {
         const {error, isLoading, currentArticleID, currentRetailerID, currentAmount, currentUnit} = this.state;
         const {classes} = this.props;
@@ -171,14 +186,12 @@ class AddFavoriteArticle extends Component {
                 <TextField className={classes.control} label="Amount" defaultValue={currentAmount} onChange={this.handleChangeAmount} />
             </Grid>
             <Grid item xs={12}>
-                
                 <FormControl className={classes.control}>
                     <InputLabel>UNIT</InputLabel>
                     <Select
                     displayEmpty
                     defaultValue={currentUnit}
                     onChange={this.handleChangeUnit}
-                    
                     >
                     <MenuItem value={'kg'}>Kg</MenuItem>
                     <MenuItem value={'g'}>g</MenuItem>
@@ -188,9 +201,6 @@ class AddFavoriteArticle extends Component {
                     <MenuItem value={'Pkg.'}>Pkg.</MenuItem>
                     </Select>
                 </FormControl>
-                
-                
-                {/* <TextField className={classes.control} label="Unit" defaultValue={currentUnit} onChange={this.handleChangeUnit} /> */}
             </Grid>
         </Grid>
         <Grid container spacing={2} direction="row" justify="space-between" alignItems="center">

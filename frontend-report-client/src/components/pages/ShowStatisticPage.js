@@ -10,7 +10,6 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { Link } from 'react-router-dom';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import {Config} from '../../config';
-import LineChart from '../../components/layout/LineChart'
 
 /**
  * Displays the statistic page
@@ -25,9 +24,10 @@ const styles = theme => ({
       minWidth: '75%',
     }
 });
+
+/* Initialize start- and end-date of the selection */
 const initStartDate = new Date();
 const initStartDateMonth = initStartDate.getMonth() < 10 ? "0" + (initStartDate.getMonth() + 1) : (initStartDate.getMonth() + 1);
-// const initStartDateDay = initStartDate.getDate() < 10 ? "0" + initStartDate.getDate() : initStartDate.getDate();
 const initStartDateDay = "01";
 const initStartDateFullDate = initStartDate.getFullYear() + "-" + initStartDateMonth + "-" + initStartDateDay;
 
@@ -56,21 +56,27 @@ class ShowStatisticPage extends Component {
         this.handleChangeEndTime = this.handleChangeEndTime.bind(this);
     }
 
+    /* Change state when category has changed */
     handleChangeCategory(event) {
         this.setState({selectedCategory: event.target.value})
     }
+    /* Change state when retailer has changed */
     handleChangeRetailer(event) {
         this.setState({selectedRetailer: event.target.value})
     }
+    /* Change state when article has changed */
     handleChangeArticle(event) {
         this.setState({selectedArticle: event.target.value})
     }
+    /* Change state when start-date has changed */
     handleChangeStartTime(event) {
         this.setState({selectedStartTime: event.target.value})
     }
+    /* Change state when end-date has changed */
     handleChangeEndTime(event) {
         this.setState({selectedEndTime: event.target.value})
     }
+    /* Fetches products for selected group */
     async fetchProducts(groupID) {
        try {
            var productIDS = [], productList = [];
@@ -87,6 +93,7 @@ class ShowStatisticPage extends Component {
         this.setState({error: exception})
        }
     }
+    /* Fetches retailers for selected group */
     async fetchRetailers(groupID) {
         try {
             var retailerList = [], retailerIDs = [];
@@ -103,29 +110,13 @@ class ShowStatisticPage extends Component {
             this.setState({error: exception})
         }
     }
-    // async fetchGroups() {
-    //     try {
-    //         const res = await fetch(Config.apiHost + "/Group/Usergroup/" + settingsOptions.currentUserID)
-    //         const json = await res.json();
-    //         // json.report_retailer.forEach(retailer => {
-    //         //     if(!retailerIDs.includes(retailer.id)) {
-    //         //         retailerList.push(retailer);
-    //         //         retailerIDs.push(retailer.id);
-    //         //     }
-    //         // })
-    //         // this.setState({retailer: retailerList})
-    //     }catch(exception) {
-    //         this.setState({error: exception})
-    //     }
-    // }
     componentDidMount() {
         const location = window.location.pathname.split("/", 3);
         this.setState({group: parseInt(location[2])})
         this.fetchRetailers(parseInt(location[2]));
         this.fetchProducts(parseInt(location[2]));
-        // this.fetchGroups();
     }
-
+    /* Renders the component */
     render() { 
         var categoryTemp = [];
         this.state.retailer.forEach(r => {
@@ -133,10 +124,9 @@ class ShowStatisticPage extends Component {
                 categoryTemp.push(r.category)
             }
         })
-        // const retailerCategories = categoryTemp;
         const classes = this.props.classes;
         const { error } = this.state;
-        const location = window.location.pathname.split("/", 3);
+        const location = window.location.pathname.split("/", 3); // get the group id out of the URL
         return (
             <Grid container style={{padding: '1em'}}>
                 { error ?
@@ -145,28 +135,15 @@ class ShowStatisticPage extends Component {
                     </Grid>
                 :
                 <>
-                
                 <Link to="/">
                     <ArrowBackIosIcon fontSize="large" color="primary" />
                 </Link>
-                {/* <Grid item xs={12}>
-                    <Typography color="primary">KATEGORIE AUSWÄHLEN</Typography>
-                    <FormControl className={classes.formControl}>
-                        <InputLabel>Kategorie</InputLabel>
-                        <Select value={this.state.selectedCategory} onChange={this.handleChangeCategory}>
-                            <MenuItem value={"Alle"}>Alle</MenuItem>
-                            {retailerCategories.map(rC => (
-                                <MenuItem key={rC} value={rC}>{rC}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Grid> */}
                 <Grid item xs={12}>
-                    <Typography color="primary">EINZELHÄNDLER AUSWÄHLEN</Typography>
+                    <Typography color="primary">SELECT A RETAILER</Typography>
                     <FormControl className={classes.formControl}>
-                        <InputLabel>Einzelhändler</InputLabel>
+                        <InputLabel>Retailer</InputLabel>
                         <Select value={this.state.selectedRetailer} onChange={this.handleChangeRetailer}>
-                            <MenuItem value={"Alle"}>Alle</MenuItem>
+                            <MenuItem value={"Alle"}>All</MenuItem>
                             {this.state.retailer.map(r => (
                                 <MenuItem key={r.id} value={r.name}>{r.name}</MenuItem>
                             ))}
@@ -174,11 +151,11 @@ class ShowStatisticPage extends Component {
                     </FormControl>
                 </Grid>
                 <Grid item xs={12}>
-                    <Typography color="primary">ARTIKEL AUSWÄHLEN</Typography>
+                    <Typography color="primary">SELECT AN ARTICLE</Typography>
                     <FormControl className={classes.formControl} >
-                        <InputLabel>Artikel</InputLabel>
+                        <InputLabel>Article</InputLabel>
                         <Select value={this.state.selectedArticle} onChange={this.handleChangeArticle}>
-                            <MenuItem value={"Alle"}>Alle</MenuItem>
+                            <MenuItem value={"Alle"}>All</MenuItem>
                             {this.state.products.map(p=> (
                                 <MenuItem key={p.id} value={p.name}>{p.name}</MenuItem>
                             ))}
@@ -187,7 +164,7 @@ class ShowStatisticPage extends Component {
                 </Grid>
                 <Grid container direction="row">
                     <Grid item xs={6}>
-                        <Typography color="primary">START AUSWÄHLEN</Typography>
+                        <Typography color="primary">SELECT START</Typography>
                             <TextField
                                 id="date"
                                 type="date"
@@ -200,7 +177,7 @@ class ShowStatisticPage extends Component {
                             />
                     </Grid>
                     <Grid item xs={6}>
-                        <Typography color="primary">ENDE AUSWÄHLEN</Typography>
+                        <Typography color="primary">SELECT END</Typography>
                             <TextField
                                 id="date"
                                 type="date"

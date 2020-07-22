@@ -20,6 +20,7 @@ class StatisticItem extends Component {
         super(props);
         this.state = {  }
     }
+    /* Renders the component */
     render() { 
         if(this.props.retailer) {
             return (
@@ -31,7 +32,7 @@ class StatisticItem extends Component {
                             </Heading>
                             <center>
                                 <h3>{this.props.name}</h3><br />
-                                {this.props.amount} EINKÄUFE
+                                {this.props.amount} <br />visits
                             </center>
                         </CardContent>
                     </Card>
@@ -47,7 +48,7 @@ class StatisticItem extends Component {
                             </Heading>
                             <center>
                                 <h3>{this.props.name}</h3><br />
-                                {this.props.amount}x GEKAUFT
+                                {this.props.amount}x<br />bought
                             </center>
                         </CardContent>
                     </Card>

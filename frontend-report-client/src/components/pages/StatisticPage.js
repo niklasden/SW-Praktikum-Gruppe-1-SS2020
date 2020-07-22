@@ -4,14 +4,12 @@ import MainButton from '../layout/MainButton';
 import StatisticItem from '../layout/StatisticItem';
 import { Grid, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import MainBarChart from '../layout/MainBarChart';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
 import {Config} from '../../config';
 import { withStyles } from '@material-ui/core/styles';
 import ShoppingSettings from '../../shoppingSettings';
 import BarChart from '../../components/layout/BarChart'
-import LineChart from '../../components/layout/LineChart'
 
 /**
  * Displays the statistic page
@@ -45,18 +43,22 @@ class StatisticPage extends Component {
 		this.statRef = React.createRef()
 	}
 
+	/* Method to fetch all products and retailers when group in dropdown has changed. */
 	handleChangeGroup(event) {
 		this.setState({selectedGroup: event.target.value});
 		this.fetchTopProducts(event.target.value);
 		this.fetchTopRetailers(event.target.value);
 	}
+	/* Method to check, if user exists in database */
 	async fetchCurrentUserDBID() {
 		const res = await fetch(Config.apiHost + "/User/firebaseid/" + this.props.currentUser.uid);
 		const json = await res.json();
 		return json.id;
 	}
 
+	/* fetches user assigned groups */
 	async fetchGroups() {
+		/* Try to fetch groups, otherwise raise an exception */
 		try {
 			const currentUserDBID = await this.fetchCurrentUserDBID();
 			const res = await fetch(Config.apiHost + "/Group/Usergroup/" + currentUserDBID);
@@ -70,11 +72,13 @@ class StatisticPage extends Component {
 			this.setState({error: exception})
 		}
 	}
+	/* Fetches top three products where the group has bought the most */
 	async fetchTopProducts(group_id) {
 		try {
 			var topArticlesList = [], articleIDs = [], i = 1;
 			const res = await fetch(Config.apiHost + "/report/" + group_id);
 			const json = await res.json();
+			json.top_articles.sort((a, b) => (a.number_bought > b.number_bought) ? -1 : 1)
 			json.top_articles.forEach(article => {
 				if(!articleIDs.includes(article.article_id)) {
 					article.rank = i;
@@ -88,11 +92,11 @@ class StatisticPage extends Component {
 			this.setState({error: exception});
 		}
 	}
+	/* Fetches top three retailers where the group has visited the most */
 	async fetchTopRetailers(group_id) {
 		try {
 			var topRetailersList = [], retailerIDs = [], i = 1;
 			const res = await fetch(Config.apiHost + "/report/" + group_id);
-			console.log(res);
 			const json = await res.json();
 			json.top_retailers.forEach(retailer => {
 				if(!retailerIDs.includes(retailer.retailer_id)) {
@@ -102,12 +106,12 @@ class StatisticPage extends Component {
 					retailerIDs.push(retailer.retailer_id);
 				}
 			})
-			console.log(topRetailersList);
 			this.setState({retailers: topRetailersList})
 		}catch(exception) {
 			this.setState({error: exception});
 		}
 	}
+	/* Lifecycle method */
 	componentDidMount() {
 		this.setState({
 			dataLoading: true
@@ -117,6 +121,8 @@ class StatisticPage extends Component {
 		}
 
 	}
+
+	/* Renders the component */
 	render() { 
 		const retailerChartData = []
 		this.state.retailers.forEach(d => {
@@ -125,7 +131,6 @@ class StatisticPage extends Component {
 				value: d.amount
 			})
 		})
-
 		const productsChartData = []
 		this.state.products.forEach(d => {
 			productsChartData.push({
@@ -133,27 +138,8 @@ class StatisticPage extends Component {
 				value: d.number_bought
 			})
 		})
-
-		var myVinyls = [
-			{
-				title: 'hello', 
-				value: 31
-			},
-			{
-				title: 'fresh', 
-				value: 41
-			},
-			{
-				title: 'again', 
-				value: 20
-			},
-		];
-
-		console.log(retailerChartData)
-
 		const { error, dataLoading } = this.state;
 		const classes = this.props.classes;
-		
 		if(settingsOptions.getCurrentUserID() !== 0 && i === 0) {
 			this.fetchGroups();
 			i++;
@@ -164,64 +150,51 @@ class StatisticPage extends Component {
 					<ContextErrorMessage error={error} contextErrorMsg={`Data could not be loaded. Check if database server is running.`} />
 				:
 				<Grid container style={{padding: '1em', marginBottom: 70}} ref={this.statRef}>
-					{/* {this.statRef.current != null &&
-						<LineChart
-							width={this.statRef.current.offsetWidth - 50}
-							data={retailerChartData}
-							title='Einzelhändler'
-						/>
-					} */}
-					{/* <div style={{marginBottom: 70}} ref={this.statRef}> */}
-						{/* <div style={{width: (this.statRef.current != null && this.statRef.current.offsetWidth > 500) ? 0 : 700}}/> */}
 						<LoadingProgress show={dataLoading} />
-						<Heading>GRUPPE AUSWÄHLEN</Heading>
+						<Heading>SELECT A GROUP</Heading>
 						<FormControl className={classes.formControl} >
-								<InputLabel>Gruppe</InputLabel>
+								<InputLabel>Group</InputLabel>
 								<Select value={this.state.selectedGroup} onChange={this.handleChangeGroup} onLoad={this.handleChangeGroup}>
 									{this.state.groups.map(g=> (
 										<MenuItem key={g.id} value={g.id}>{g.name}</MenuItem>
 									))}
 								</Select>
 						</FormControl>
-						<Heading>MEISTBESUCHTE EINZELHÄNDLER</Heading>
-						{/* <MainBarChart retailer data={this.state.retailers} /> */}
+						<Heading>MOST VISITED RETAILERS</Heading>
 						<Grid align='center'>
-							{( (this.statRef.current != null) && (retailerChartData.length != 0)) &&
+							{( (this.statRef.current !== null) && (retailerChartData.length !== 0)) &&
 								<BarChart 
-									// width={window.innerWidth - 50}
 									width={this.statRef.current.offsetWidth - 50}
 									data={retailerChartData}
 									title='Einzelhändler'
 								/>
 							}
 						</Grid>
-						<Grid item xs={12} container spacing={1}>
+						<Grid container spacing={1}>
 							{this.state.retailers.map(retailer => {
 									return <StatisticItem retailer key={retailer.retailer_id} number={retailer.rank} name={retailer.retailer_name} amount={retailer.amount} />
 							})}
 						</Grid>
-						<Heading>MEISTGEKAUFTE ARTIKEL</Heading>
-						{/* <MainBarChart products data={this.state.products} /> */}
+						<Heading>MOST BOUGHT ARTICLES</Heading>
 						<Grid align='center'>
-							{ ((this.statRef.current != null) && (productsChartData.length != 0)) &&
+							{ ((this.statRef.current !== null) && (productsChartData.length !== 0)) &&
 								<BarChart 
-									// width={window.innerWidth - 50}
 									width={this.statRef.current.offsetWidth - 50}
 									data={productsChartData}
 									title='Einzelhändler'
 								/>
 							}
 						</Grid>
-						<Grid item xs={12} container spacing={1}>
+						<Grid container spacing={1}>
 							{this.state.products.map(article => {
 								return <StatisticItem article key={article.article_id} number={article.rank} name={article.article_name} amount={article.number_bought} />
 							})}
 						</Grid>
-						
+						<Grid container alignContent="center" justify="center" direction="row">
 						<Link to={`./show/${this.state.selectedGroup}`}>
-							<MainButton>STATISTIK ANZEIGEN</MainButton>
+							<MainButton>Show statistic</MainButton>
 						</Link>
-					{/* </div> */}
+						</Grid>
 					</Grid>
 				}
 			</>

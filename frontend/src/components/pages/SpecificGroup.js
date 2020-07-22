@@ -27,6 +27,7 @@ import ShoppingAPI from '../../api/ShoppingAPI';
 import PopUp from '../layout/PopUp';
 import ShoppingSettings from '../../../src/shoppingSettings'
 
+//init settingsobj
 const settingsobj = ShoppingSettings.getSettings()
 
 const styles = theme => ({
@@ -67,7 +68,9 @@ const styles = theme => ({
   }
 });
 /**
- * Bildet eine Spezifische, editierbare Gruppe ab
+ * Shows a Specific group with its members and shopping lists
+ * @see GroupMember
+ * @see GroupListItem
  * 
  * Beim Aufruf der Specific group muss der name auf den Gruppennamen gesetzt werden
  * 
@@ -94,7 +97,6 @@ class SpecificGroup extends Component {
       error: null,
       newMemberName: '',
       isLoading: false, 
-
       SLsolved: false,
       GRsolved:false
       
@@ -117,7 +119,8 @@ class SpecificGroup extends Component {
       }
       const requestBody = JSON.stringify(rb)
       const rInit = {
-        method: 'PUT', 
+        method: 'PUT',
+        credentials: 'include', 
         headers: {
           'Content-Type': 'application/json'
         }, 
@@ -132,11 +135,12 @@ class SpecificGroup extends Component {
       this.setState({error: e})
     }
   }
-  async deleteGroup(id) {
+  /*async deleteGroup(id) {
     this.setState({ isLoading: true })
     try{
     const rInit = {
-      method: 'DELETE'
+      method: 'DELETE',
+      credentials: 'include'
     }
     const resp = await fetch(Config.apiHost + '/Group/' + id, rInit)
     if(resp.ok){
@@ -159,7 +163,7 @@ class SpecificGroup extends Component {
     }
 
     this.setState({ isLoading: false })
-  }
+  }*/
   
   
   deleteMember(usr) {
@@ -177,6 +181,7 @@ class SpecificGroup extends Component {
         const requestBody = JSON.stringify(rb)
         const rInit = {
           method: 'POST', 
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json'
           }, 
@@ -199,7 +204,12 @@ class SpecificGroup extends Component {
   };
   async fetchspecificShoppinglist() {
     try {
-        let response = await fetch(Config.apiHost + '/shoppinglist/?group_id=' + settingsobj.onlySettingsGetSettingsGroupID());
+        const test = {
+          method: 'GET',
+          credentials: 'include',
+        }
+        let response = await fetch(Config.apiHost + '/shoppinglist/?group_id=' + settingsobj.onlySettingsGetSettingsGroupID(), test);
+        console.log(response);
         let data = await response.json();
         this.setState({shoppinglists: data});
     }
@@ -209,7 +219,7 @@ class SpecificGroup extends Component {
   };
   async fetchspecificUser() {
     try{
-      let response = await fetch(Config.apiHost + '/User/email/' + this.state.newMemberName);
+      let response = await fetch(Config.apiHost + '/User/email/' + this.state.newMemberName, {credentials: 'include'});
       let newUser = await response.json() 
       console.log("NEWUSER?", newUser);
       if((newUser && newUser.id)) {
@@ -224,6 +234,7 @@ class SpecificGroup extends Component {
               
               const rInitt = {
                 method: 'POST', 
+                credentials: 'include',
                 headers: {
                   'Content-Type': 'application/json'
                 }, 
@@ -244,7 +255,7 @@ class SpecificGroup extends Component {
 
   async getAllShoppingLists() {
     try {
-      const res = await fetch(Config.apiHost + '/shoppinglist/all')
+      const res = await fetch(Config.apiHost + '/shoppinglist/all', {credentials: 'include'})
       const resjson = await res.json()
       return resjson[0][0];
     }catch(e) {
@@ -254,7 +265,7 @@ class SpecificGroup extends Component {
 
   async fetchAllUsers() {
     try {
-      const res = await fetch(Config.apiHost + '/User')
+      const res = await fetch(Config.apiHost + '/User', {credentials: 'include'})
       const resjson = await res.json()
       this.setState({users: resjson})
     }catch(e) {
@@ -276,6 +287,7 @@ class SpecificGroup extends Component {
           const requestBody = JSON.stringify(rb)
           const rInit = {
             method: 'POST', 
+            credentials: 'include',
             headers: {
               'Content-Type': 'application/json'
             }, 
@@ -302,6 +314,7 @@ class SpecificGroup extends Component {
     try {
       const rInit = {
         method: 'DELETE', 
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         }, 
@@ -319,7 +332,7 @@ class SpecificGroup extends Component {
   }
 
   async checkGroupMembers(){
-    const res = await fetch(Config.apiHost + '/membership/' + settingsobj.onlySettingsGetSettingsGroupID()) //Hier ID übergabe bei getmembersbygroupid = id = settingsobj.onlySettingsGetSettingsGroupID()
+    const res = await fetch(Config.apiHost + '/membership/' + settingsobj.onlySettingsGetSettingsGroupID(), {credentials: 'include'}) //Hier ID übergabe bei getmembersbygroupid = id = settingsobj.onlySettingsGetSettingsGroupID()
     const memberobjects = await res.json()
     
     if(memberobjects.lenght < 1){
@@ -330,7 +343,7 @@ class SpecificGroup extends Component {
   }
 
   async fetchGroupMembers(){ //fetch group members for specific gorup
-    const res = await fetch(Config.apiHost + '/membership/' + settingsobj.onlySettingsGetSettingsGroupID()) //Hier ID übergabe bei getmembersbygroupid = id = settingsobj.onlySettingsGetSettingsGroupID()
+    const res = await fetch(Config.apiHost + '/membership/' + settingsobj.onlySettingsGetSettingsGroupID(), {credentials: 'include'}) //Hier ID übergabe bei getmembersbygroupid = id = settingsobj.onlySettingsGetSettingsGroupID()
     const gmembers = await res.json()
     
     this.setState({groupmembers:gmembers}) 
@@ -345,6 +358,7 @@ class SpecificGroup extends Component {
 
   renderGroupMembers(){
     const GroupMembers = []
+    console.log(this.state.groupmembers);
     this.state.groupmembers.forEach( elem => {   
       GroupMembers.push(
         <GroupMember onclick={ this.deleteMember.bind(this, elem)} key={elem.id} imgsrc={elem.imgsrc} membername={elem.name}></GroupMember>
@@ -389,7 +403,7 @@ class SpecificGroup extends Component {
     const handleClickOpenAddMShoppinglistDialog = () => {
       this.setState({openAddShoppinglistDialog:true});
   };
-  const handleClickCloseAddShoppinglistDialog = () => {
+   const handleClickCloseAddShoppinglistDialog = () => {
     this.setState({openAddShoppinglistDialog:false})};
 
     /*

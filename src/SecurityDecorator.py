@@ -12,7 +12,7 @@ def secured(function):
     firebase_request_adapter = requests.Request()
 
     def wrapper(*args, **kwargs): 
-        id_token = request.cookies.get("token")    #requests ist ein attribut der jeweiligen "Operationsklasse", und wird über die ABC resource vererbt (RestX)
+        id_token = request.cookies.get('token')    #requests ist ein attribut der jeweiligen "Operationsklasse", und wird über die ABC resource vererbt (RestX)
                                                    # der cookie ist dann halt teil der request 
         error_message = None
         claims = None 
@@ -41,8 +41,7 @@ def secured(function):
                         #creating user for later usage ()
                         user = adm.create_user(name,email,firebase_id)
                     
-                    print(request.method, request.path, "Anfrage durch: ",name, " ", email)
-                    
+                    print(request.method, request.path, "Anfrage durch: ",name, " ", email)     
                     objects = function(*args, **kwargs)
                     return objects
                 else:
