@@ -32,7 +32,7 @@ class StatisticItem extends Component {
                             </Heading>
                             <center>
                                 <h3>{this.props.name}</h3><br />
-                                {this.props.amount} <br />EINKÄUFE
+                                {this.props.amount} <br />visits
                             </center>
                         </CardContent>
                     </Card>
@@ -48,7 +48,7 @@ class StatisticItem extends Component {
                             </Heading>
                             <center>
                                 <h3>{this.props.name}</h3><br />
-                                {this.props.amount}x<br />GEKAUFT
+                                {this.props.amount}x<br />bought
                             </center>
                         </CardContent>
                     </Card>

@@ -139,11 +139,11 @@ class ShowStatisticPage extends Component {
                     <ArrowBackIosIcon fontSize="large" color="primary" />
                 </Link>
                 <Grid item xs={12}>
-                    <Typography color="primary">EINZELHÄNDLER AUSWÄHLEN</Typography>
+                    <Typography color="primary">SELECT A RETAILER</Typography>
                     <FormControl className={classes.formControl}>
-                        <InputLabel>Einzelhändler</InputLabel>
+                        <InputLabel>Retailer</InputLabel>
                         <Select value={this.state.selectedRetailer} onChange={this.handleChangeRetailer}>
-                            <MenuItem value={"Alle"}>Alle</MenuItem>
+                            <MenuItem value={"Alle"}>All</MenuItem>
                             {this.state.retailer.map(r => (
                                 <MenuItem key={r.id} value={r.name}>{r.name}</MenuItem>
                             ))}
@@ -151,11 +151,11 @@ class ShowStatisticPage extends Component {
                     </FormControl>
                 </Grid>
                 <Grid item xs={12}>
-                    <Typography color="primary">ARTIKEL AUSWÄHLEN</Typography>
+                    <Typography color="primary">SELECT AN ARTICLE</Typography>
                     <FormControl className={classes.formControl} >
-                        <InputLabel>Artikel</InputLabel>
+                        <InputLabel>Article</InputLabel>
                         <Select value={this.state.selectedArticle} onChange={this.handleChangeArticle}>
-                            <MenuItem value={"Alle"}>Alle</MenuItem>
+                            <MenuItem value={"Alle"}>All</MenuItem>
                             {this.state.products.map(p=> (
                                 <MenuItem key={p.id} value={p.name}>{p.name}</MenuItem>
                             ))}
@@ -164,7 +164,7 @@ class ShowStatisticPage extends Component {
                 </Grid>
                 <Grid container direction="row">
                     <Grid item xs={6}>
-                        <Typography color="primary">START AUSWÄHLEN</Typography>
+                        <Typography color="primary">SELECT START</Typography>
                             <TextField
                                 id="date"
                                 type="date"
@@ -177,7 +177,7 @@ class ShowStatisticPage extends Component {
                             />
                     </Grid>
                     <Grid item xs={6}>
-                        <Typography color="primary">ENDE AUSWÄHLEN</Typography>
+                        <Typography color="primary">SELECT END</Typography>
                             <TextField
                                 id="date"
                                 type="date"

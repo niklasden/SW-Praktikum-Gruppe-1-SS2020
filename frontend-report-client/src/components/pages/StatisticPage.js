@@ -151,16 +151,16 @@ class StatisticPage extends Component {
 				:
 				<Grid container style={{padding: '1em', marginBottom: 70}} ref={this.statRef}>
 						<LoadingProgress show={dataLoading} />
-						<Heading>GRUPPE AUSWÄHLEN</Heading>
+						<Heading>SELECT A GROUP</Heading>
 						<FormControl className={classes.formControl} >
-								<InputLabel>Gruppe</InputLabel>
+								<InputLabel>Group</InputLabel>
 								<Select value={this.state.selectedGroup} onChange={this.handleChangeGroup} onLoad={this.handleChangeGroup}>
 									{this.state.groups.map(g=> (
 										<MenuItem key={g.id} value={g.id}>{g.name}</MenuItem>
 									))}
 								</Select>
 						</FormControl>
-						<Heading>MEISTBESUCHTE EINZELHÄNDLER</Heading>
+						<Heading>MOST VISITED RETAILERS</Heading>
 						<Grid align='center'>
 							{( (this.statRef.current !== null) && (retailerChartData.length !== 0)) &&
 								<BarChart 
@@ -175,7 +175,7 @@ class StatisticPage extends Component {
 									return <StatisticItem retailer key={retailer.retailer_id} number={retailer.rank} name={retailer.retailer_name} amount={retailer.amount} />
 							})}
 						</Grid>
-						<Heading>MEISTGEKAUFTE ARTIKEL</Heading>
+						<Heading>MOST BOUGHT ARTICLES</Heading>
 						<Grid align='center'>
 							{ ((this.statRef.current !== null) && (productsChartData.length !== 0)) &&
 								<BarChart 
