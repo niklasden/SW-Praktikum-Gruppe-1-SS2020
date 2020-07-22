@@ -115,7 +115,7 @@ class AccountsPage extends Component {
 	}
 	async getAllUsers() {
 		try {
-		  const res = await fetch(Config.apiHost + '/User');
+		  const res = await fetch(Config.apiHost + '/User', {credentials: 'include'});
 		  const resjson = await res.json();
 		  return resjson;
 		}catch(e) {
@@ -125,7 +125,8 @@ class AccountsPage extends Component {
 	async deleteAccount() {
 		try{
 		const rInit = {
-			method: 'DELETE'
+			method: 'DELETE',
+			credentials: 'include'
 		}
 		var users = await this.getAllUsers();
 		var currentDBUser = users.find(user => user.email === firebase.auth().currentUser.email);

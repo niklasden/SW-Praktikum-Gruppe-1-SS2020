@@ -3,7 +3,6 @@ import { Grid, FormControl, InputLabel, Select, MenuItem } from '@material-ui/co
 import IconButton from '../layout/IconButton'
 import CategoryDropDown from '../layout/CategoryDropDown';
 import PopUp from '../layout/PopUp';
-import { Config } from '../../config'
 import ShoppingSettings from '../../shoppingSettings'
 import ListEntryBO from '../../api/ListEntryBO';
 import ShoppingAPI from '../../api/ShoppingAPI';
@@ -102,7 +101,7 @@ createUserItem(){
 getUncheckedArticles(){
   let ArrUncheckedArticles = []
   let Useritems = this.createUserItem()
-  Useritems.filter( item => {
+  Useritems.forEach(item => {
     if(this.state.checkedItems.includes(item.id) === false && (this.state.selectedRetailer === item.retailer || this.state.selectedRetailer === 'All')){
       ArrUncheckedArticles.push(item)
     }
@@ -116,7 +115,7 @@ getUncheckedArticles(){
 getCategorys(){
   let ArrCategory = []
   let Useritems = this.getUncheckedArticles()
-  Useritems.map(item => {
+  Useritems.forEach(item => {
     if(!ArrCategory.includes(item.category)){
       ArrCategory.push(item.category)
     }
@@ -145,7 +144,7 @@ renderUncheckedArticles(){
 getCheckedArticles(){
   let ArrCheckedArticles = []
   let Useritems = this.createUserItem()
-  Useritems.filter( item => {
+  Useritems.forEach( item => {
     if(this.state.checkedItems.includes(item.id) === true && (this.state.selectedRetailer === item.retailer || this.state.selectedRetailer === 'All')){
       ArrCheckedArticles.push(item)
     }
@@ -159,7 +158,7 @@ getCheckedArticles(){
 getCheckedArticlesCategory(){
   let ArrCheckedArticlesCategory = [];
   let ArrCheckedArticles = this.getCheckedArticles();
-  ArrCheckedArticles.map( item => {
+  ArrCheckedArticles.forEach( item => {
     if(!ArrCheckedArticlesCategory.includes(item.category)){
       ArrCheckedArticlesCategory.push(item.category)
     }
@@ -204,7 +203,7 @@ renderReatailer(){
   let retailer = []
   let Useritems = this.state.items
   retailer.push('All')
-  Useritems.map(item => {
+  Useritems.forEach(item => {
     if(!retailer.includes(item.retailer)) {
       retailer.push(item.retailer)
     }
@@ -224,7 +223,7 @@ getArticleOfRetailer(){
   let ArrSelectedRetailer = []
   let retailer = this.state.selectedRetailer
   let Useritems = this.createUserItem()
-  Useritems.map( item => {
+  Useritems.forEach( item => {
     if(item.retailer === retailer){
       ArrSelectedRetailer.push(item)
     }
@@ -284,7 +283,7 @@ handlePopUp(){
 PurchaseCompleted(){
   let Arr = this.getCheckedArticles()
   
-  Arr.map( item => {
+  Arr.forEach( item => {
     let updatedItem = Object.assign(new ListEntryBO(), item);
     updatedItem.setBought("tbs");
     updatedItem.setRetailerid(null)
@@ -303,7 +302,6 @@ render(){
 
   console.log(this.state.selectedRetailer)
   let shops = this.renderReatailer()
-  let all = 'ALL'
   console.log(this.state.items)
   console.log(this.state.currentUserID)
   console.log("GroupID  " + this.state.groupID)

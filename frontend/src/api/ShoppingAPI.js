@@ -85,7 +85,7 @@ export default class ShoppingAPI {
      * @public
      */
     getArticles() {
-        return this.#fetchAdvanced(this.#getArticlesURL()).then((responseJSON) => {
+        return this.#fetchAdvanced(this.#getArticlesURL(),{credentials: 'include'}).then((responseJSON) => {
             let articleBOs = ArticleBO.fromJSON(responseJSON);
             // console.info(customerBOs);
             return new Promise(function (resolve) {
@@ -101,7 +101,7 @@ export default class ShoppingAPI {
      * @public
      */
     getGroupsforUser(id){
-        return this.#fetchAdvanced(this.#getGroupsforUserURL(id)).then((responseJSON) => {
+        return this.#fetchAdvanced(this.#getGroupsforUserURL(id), {credentials: 'include'}).then((responseJSON) => {
             let groupBOs = GroupBO.fromJSON(responseJSON);
             //console.info(groupBOs);
             return new Promise(function (resolve) {
@@ -118,7 +118,8 @@ export default class ShoppingAPI {
      */
     deleteGroup(id) {
         return this.#fetchAdvanced(this.#deleteGroupURL(id), {
-            method: 'DELETE'
+            method: 'DELETE',
+            credentials: 'include'
         })
         .then((responseJSON) => {
             let groupBOs = GroupBO.fromJSON(responseJSON)[0];
@@ -156,6 +157,7 @@ export default class ShoppingAPI {
     getItemsofGroup(group_id, shoppinglist_id) {
         return this.#fetchAdvanced(this.#getitemssofGroupURL(group_id, shoppinglist_id), {
             method: 'GET',
+            credentials: 'include',
             headers: {
                 'Accept': 'application/json, text/plain',
                 'Content-type': 'application/json',
@@ -178,6 +180,7 @@ export default class ShoppingAPI {
         console.log(listentryBO)
         return this.#fetchAdvanced(this.#insertListEntryURL(), {
             method: 'POST',
+            credentials: 'include',
             headers: {
                 'Accept': 'application/json, text/plain',
                 'Content-type': 'application/json',
@@ -200,6 +203,7 @@ export default class ShoppingAPI {
     updateListEntry(listentryBO) {
         return this.#fetchAdvanced(this.#updateListEntryURL(listentryBO), {
             method: 'POST',
+            credentials: 'include',
             headers: {
                 'Accept': 'application/json, text/plain',
                 'Content-type': 'application/json',
@@ -223,6 +227,7 @@ export default class ShoppingAPI {
     personalItems(user_id, group_id) {
         return this.#fetchAdvanced(this.#personalItemsURL(user_id, group_id), {
             method: 'GET',
+            credentials: 'include',
             headers: {
                 'Accept': 'application/json, text/plain',
                 'Content-type': 'application/json',
@@ -243,7 +248,7 @@ export default class ShoppingAPI {
      * @public
      */
     getUsers(groupBO){
-        return this.#fetchAdvanced(this.#getUsersURL(groupBO)).then((responseJSON) => {
+        return this.#fetchAdvanced(this.#getUsersURL(groupBO), {credentials: 'include'}).then((responseJSON) => {
             let userBOs = UserBO.fromJSON(responseJSON);
             // console.info(userBOs);
             return new Promise(function (resolve)  {
@@ -259,7 +264,7 @@ export default class ShoppingAPI {
      * @public
      */
     getUser(id){
-        return this.#fetchAdvanced(this.#getUserURL(id)).then((responseJSON) => {
+        return this.#fetchAdvanced(this.#getUserURL(id),{credentials: 'include'}).then((responseJSON) => {
             let userBOs = UserBO.fromJSON(responseJSON);
             return new Promise(function (resolve) {
                 resolve(userBOs)
@@ -274,7 +279,7 @@ export default class ShoppingAPI {
      * @public
      */
     getRetailers(){
-        return this.#fetchAdvanced(this.#getRetailersURL()).then((responseJSON) => {
+        return this.#fetchAdvanced(this.#getRetailersURL(), {credentials: 'include'}).then((responseJSON) => {
             let retailerBOs = RetailerBO.fromJSON(responseJSON);
             // console.info(retailerBOs);
             return new Promise(function (resolve) {
@@ -289,7 +294,7 @@ export default class ShoppingAPI {
      * @public
      */
     getShoppinglistofGroup(group_id){
-        return this.#fetchAdvanced(this.#getShoppinglistsofGroupURL(group_id)).then((responseJSON) => {
+        return this.#fetchAdvanced(this.#getShoppinglistsofGroupURL(group_id), {credentials: 'include'}).then((responseJSON) => {
             let shoppinglistBOs = ShoppinglistBO.fromJSON(responseJSON);
             //console.info(shoppinglistBOs);
             return new Promise(function (resolve) {

@@ -74,14 +74,14 @@ class AddListItem extends Component {
 
    async fetchShoppinglists() {
        this.setState({isloading: true})
-       let response = await fetch(Config.apiHost + '/shoppinglist/?group_id=' +settingsobj.getGroupID())
+       let response = await fetch(Config.apiHost + '/shoppinglist/?group_id=' +settingsobj.getGroupID(), {credentials: 'include'})
        let data = await response.json()
        this.setState({shoppinglists: data, isloading:false})
   }; 
 
   async fetchRetailers(){
       this.setState({isloading: true})
-      let response = await fetch(Config.apiHost+'/Retailer')
+      let response = await fetch(Config.apiHost+'/Retailer', {credentials: 'include'})
       let data = await response.json()
       this.setState({retailers:data, isloading:false})
   }

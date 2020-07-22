@@ -37,7 +37,7 @@ export class RetailerPage extends Component {
 
     await timeout(500)
     try {
-      const res = await fetch(Config.apiHost + '/Retailer')
+      const res = await fetch(Config.apiHost + '/Retailer', {credentials: 'include'})
       const json = await res.json()
 
       this.setState({

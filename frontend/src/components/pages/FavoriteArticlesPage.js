@@ -43,7 +43,7 @@ class FavoriteArticlesPage extends React.Component {
         try {
             if(this.state.currentGroupID !== 0 || this.state.currentGroupID !== null) {
                 var newFavArticles = [];
-                const res = await fetch(Config.apiHost + '/favoriteArticle/groupid/' + this.state.currentGroupID);
+                const res = await fetch(Config.apiHost + '/favoriteArticle/groupid/' + this.state.currentGroupID, {credentials: 'include'});
                 const json = await res.json()
                 json.forEach(item => {
                     var matchingItem = this.state.articles.find(article => article.id === item.article_id);
@@ -72,7 +72,7 @@ class FavoriteArticlesPage extends React.Component {
         });
         try {
             const categoryList = [], articleMapping = [];
-            const res = await fetch(Config.apiHost + '/Article')
+            const res = await fetch(Config.apiHost + '/Article', {credentials: 'include'})
             const json = await res.json()
             json.forEach(article => {
                 if(!categoryList.includes(article.category)) {

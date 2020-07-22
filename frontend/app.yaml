@@ -6,14 +6,13 @@ service: frontend
 # [END env settings]
 
 # [START handlers]
-- url: /static
-    static_dir: build/static
-
-  - url: /(.*\.(json|ico|js))$
-    static_files: build/\1
-    upload: build/.*\.(json|ico|js)$
-
-  - url: .*
-    static_files: build/index.html
-    upload: build/index.html
+handlers:
+    - url: /static
+      static_dir: build/static
+    - url: /(.*\.(json|ico|js))$
+      static_files: build/\1
+      upload: build/.*\.(json|ico|js)$
+    - url: .*
+      static_files: build/index.html
+      upload: build/index.html
 # [END handlers]

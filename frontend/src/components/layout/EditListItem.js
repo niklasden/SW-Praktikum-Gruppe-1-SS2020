@@ -42,9 +42,7 @@ class EditListItem extends Component {
       bought: this.props.item.bought,
       retailer: this.props.retailer,
       selected_user_id: null,
-      selected_retailer_id: null,
       changed_amount: null,
-      selected_retailer_id: null,
       selected_unit: null,
       savingInProgress: false,
       savingItemError: null,
@@ -96,6 +94,10 @@ class EditListItem extends Component {
   }
 
   saveItem = () => {
+    this.setState({
+      savingInProgress: true
+    })
+    
     let updatedItem = Object.assign(new ListEntryBO(), this.state.item);
     //Updates the parameters we want to change to a new ListEntryBO
     updatedItem.setAmount(this.state.selected_amount);
@@ -107,10 +109,13 @@ class EditListItem extends Component {
     updatedItem.setRetailer(this.state.selected_retailer);
  
     //Sends updated ListEntry Object to the API, in case of Error it logs it
-    ShoppingAPI.getAPI().updateListEntry(updatedItem).then(this.setState({
-      savingItemError: null,
-      savingInProgress: true
-    })).then(this.props.PressButtonConfirm).catch(e => 
+    ShoppingAPI.getAPI().updateListEntry(updatedItem).then(() => {
+          this.setState({
+          savingItemError: null,
+          savingInProgress: false
+        })
+         this.props.PressButtonConfirm()
+    }).catch(e => 
       this.setState({
       savingItemError: e,
       savingInProgress: false,

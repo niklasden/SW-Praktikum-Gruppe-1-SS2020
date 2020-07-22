@@ -66,7 +66,7 @@ class GroupsGridList extends Component {
     await timeout(1000)
     try {
       if(this.props.currentUserID !== 0 || this.props.currentUserID !== null) {
-        const res = await fetch(Config.apiHost + '/Group/Usergroup/'+ this.props.currentUserID)
+        const res = await fetch(Config.apiHost + '/Group/Usergroup/'+ this.props.currentUserID, {credentials: 'include'})
         if(res.ok) {
           const resjson = await res.json()
           this.setState({groupItemss:resjson})

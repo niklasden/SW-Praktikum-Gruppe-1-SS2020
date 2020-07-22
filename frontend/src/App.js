@@ -120,6 +120,7 @@ class App extends React.Component {
 			  const requestBody = JSON.stringify(rb)
 			  const rInit = {
 				method: 'POST', 
+				credentials: 'include',
 				headers: {
 				  'Content-Type': 'application/json'
 				}, 
@@ -173,8 +174,8 @@ class App extends React.Component {
 				// SECURITY NOTE: As cookies can easily be modified, only put the
 				// token (which is verified server-side) in a cookie; do not add other
 				// user information.
-				document.cookie = `token=${token};path=/`;
-
+				document.cookie = `token=${token}; path=/;`;
+			
 				// Set the user not before the token arrived 
 				this.setState({
 					currentUser: user,
@@ -216,7 +217,7 @@ class App extends React.Component {
 		const provider = new firebase.auth.GoogleAuthProvider();
 		try {
 			console.log("hello")
-			let resp = await firebase.auth().signInWithRedirect(provider);
+			await firebase.auth().signInWithRedirect(provider);
 			console.log("redirect successfull")
 		} catch (e){
 			console.log("Error")
@@ -231,7 +232,7 @@ class App extends React.Component {
 	 * @see See Googles [firebase init process](https://firebase.google.com/docs/web/setup)
 	 */
 	componentDidMount() {
-		let app = firebase.initializeApp(this.#firebaseConfig);
+		firebase.initializeApp(this.#firebaseConfig);
 		firebase.auth().languageCode = 'en';
 		firebase.auth().onAuthStateChanged(this.handleAuthStateChange, () => console.log("Error signing in"));
 	}
