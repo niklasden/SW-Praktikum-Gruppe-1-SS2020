@@ -44,8 +44,6 @@ const styles = theme => ({
 
   onClickItem(name) {
     this.setState({open : true})
-    console.log(this.state.name)
-    console.log(this.state.category)
   }
   onCloseItem() {
     this.setState({open: false})

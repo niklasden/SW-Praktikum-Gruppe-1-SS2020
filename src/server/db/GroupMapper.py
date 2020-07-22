@@ -5,12 +5,17 @@ from server.db.Mapper import Mapper
 class GroupMapper(Mapper):
     """
     Author: Julius
+
+    Mapper for group business object
     """
     def __init__(self):
         super().__init__()
     
     def find_all(self):
-        
+        """
+        get all groups from the data base
+        :return: a list of group business objects
+        """
         result = []
         cursor = self._cnx.cursor()
         statement = "Select * from `Group`"
@@ -35,7 +40,10 @@ class GroupMapper(Mapper):
     
 
     def find_all_by_userid(self,uid):
-        
+        """
+        get all groups from the data base of one user
+        :return: a list of group business objects
+        """
         groups = []
         cursor = self._cnx.cursor()
         statement = "Select Group_ID from Membership WHERE User_ID = {} ".format(int(uid))
@@ -59,11 +67,14 @@ class GroupMapper(Mapper):
         
         self._cnx.commit()
         cursor.close()
-
         return groups 
+
 
     def find_by_key(self, key):
         """
+        get one specific group from the data base  
+        :return: a group business object
+        
         Niklas
         """
         result = None
@@ -73,7 +84,7 @@ class GroupMapper(Mapper):
         tuples = cursor.fetchall()
 
         try:
-            (id, name, description, creationdate) = tuples[0]    #potentieller fehler (erst description dann name)
+            (id, name, description, creationdate) = tuples[0]    
             group = Group()
             group.set_id(id)
             group.set_name(name)
@@ -87,9 +98,14 @@ class GroupMapper(Mapper):
         cursor.close()
         return result
     
+
     def insert(self,group):
         """
         Julius
+        
+        
+        insert a group business object to the data base  
+        :return: a group business objects
         """
         cursor = self._cnx.cursor()
         cursor.execute("SELECT MAX(id) AS maxid FROM `Group`")
@@ -115,6 +131,9 @@ class GroupMapper(Mapper):
     def update(self,group):
         """
         Julius
+        
+        update a group business object in the data base  
+        :return: a group business objects
         """
         cursor = self._cnx.cursor()
         command = "UPDATE `Group` " + "SET name=%s, description=%s WHERE id=%s"
@@ -128,6 +147,10 @@ class GroupMapper(Mapper):
     def delete(self, group):
         """
         Niklas
+        
+        
+        delete a group business object from the data base  
+        :return: str
         """
         try:
             cursor = self._cnx.cursor()
@@ -143,28 +166,36 @@ class GroupMapper(Mapper):
             return "Error in delete Group GroupMapper: " + str(e)
 
     def checkMembership(self,uid,gid):
-            try:
-                cursor = self._cnx.cursor()
-                command = "SELECT `User_ID`,`Group_ID` FROM dev_shoppingproject.Membership WHERE `User_ID`={0} AND `Group_ID`={1}".format(uid,gid)
-                cursor.execute(command)
-                tuples = cursor.fetchall()
-                
-                if len(tuples) < 1:
-                    return False
-                else:
-                    return True
-
-            except IndexError:
+        """
+        Julius 
+        checks if an membership exists between a group and an user  
+        :return: bool 
+        """
+        try:
+            cursor = self._cnx.cursor()
+            command = "SELECT `User_ID`,`Group_ID` FROM dev_shoppingproject.Membership WHERE `User_ID`={0} AND `Group_ID`={1}".format(uid,gid)
+            cursor.execute(command)
+            tuples = cursor.fetchall()
+            
+            if len(tuples) < 1:
+                return False
+            else:
                 return True
-            except Exception as e:
-                print("exception in checkMembership",e)
-                return True 
+
+
+        except Exception as e:
+            print("exception in checkMembership",e)
+            return None
 
 
     def createMembership(self,userid,groupid):
         """
         Julius
+
+        creates an membership in db for a specific user an a specific group
+        :return: str
         """
+
         if self.checkMembership(userid,groupid) == False:
             try:
                 cursor = self._cnx.cursor()
@@ -182,6 +213,12 @@ class GroupMapper(Mapper):
     
 
     def deleteMembership(self,userid,groupid):
+        """
+        Julius 
+
+        deletes an membership from db  
+        :return: str
+        """
         try: 
             cursor = self._cnx.cursor()
             command = "DELETE FROM dev_shoppingproject.Membership WHERE User_ID = {0} AND Group_ID =  {1}".format(userid,groupid)
@@ -194,7 +231,12 @@ class GroupMapper(Mapper):
             return str(e)
     
     def get_users_by_gid(self,gid):
-        
+        """
+        Julius 
+
+        gets all users of one group 
+        :return: list of group bos
+        """
         try:
             cursor = self._cnx.cursor()
             command = "SELECT User_ID from Membership WHERE Group_ID = {0}".format(gid)
@@ -209,23 +251,12 @@ class GroupMapper(Mapper):
             cursor.close()
             userids = res 
 
-            # creating user objects for userids 
             """
-            done in shopping admin because can't import shopping admin 
-            
-            adm = ShoppingAdministration()
-            #try:
-            for i in userids: s
-                r = adm.get_user_by_id(i)
-                result.append(r)
+            in shopping admin: create user objects from ids
             """
             return res 
 
 
-
-            
-          
-            #return {"User_IDs": res}
         except Exception as e:
             print(e) 
             

@@ -82,6 +82,7 @@ class EditListItem extends Component {
 
   handleChangeUser(v) {
     this.setState({selected_user_id: v.target.value});
+    this.props.onUserChange(v.target.value)
   }
 
   handleChangeRetailer(v) {
@@ -165,6 +166,7 @@ class EditListItem extends Component {
       <FormControl style={{width: '100%', height: 35, marginLeft: 10, marginBottom: 10}}>
                 <InputLabel>ASSIGN USER</InputLabel>
                 <Select defaultValue={this.state.selected_user_id} value={this.state.selected_user_id} onChange={this.handleChangeUser.bind(this)}>
+                  <MenuItem key={null} value={null}>null</MenuItem>
                 {this.props.user.map(item =>{
                     return <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
                   })}
@@ -173,8 +175,9 @@ class EditListItem extends Component {
       </Grid>
       <Grid item xs={6} style={{marginTop: 10}}>
       <FormControl style={{width: '100%', height: 35, marginLeft: 10, marginBottom: 10}}>
-                <InputLabel>ASSIGN RETAILER</InputLabel>
+               <InputLabel>ASSIGN RETAILER</InputLabel>
                <Select defaultValue={this.state.selected_retailer_id} value={this.state.selected_retailer_id} onChange={this.handleChangeRetailer.bind(this)}> 
+               <MenuItem key={null} value={null}>null</MenuItem>
                {this.props.retailer.map(item =>{
                     return <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
                   })}
@@ -205,6 +208,7 @@ EditListItem.propTypes = {
   PressButtonConfirm: PropTypes.func,
   onAmountChange: PropTypes.func,
   onUnitChange: PropTypes.func,
+  onUserChange: PropTypes.func,
   retailer: PropTypes.array,
   user: PropTypes.array,
   fetchItems: PropTypes.func

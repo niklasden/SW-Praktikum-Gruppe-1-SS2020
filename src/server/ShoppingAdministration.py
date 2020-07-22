@@ -16,13 +16,16 @@ from .db.FavoriteArticleMapper import FavoriteArticleMapper as fam
 from .db.ShoppingListMapper import ShoppingListMapper
 
 #hier müssen BO Klassen & Mapper importiert werden
-
 class ShoppingAdministration (object):
-
+    """
+    This class aggregates almost everyting of the business logic :)
+    """
     def __init__(self):
         pass
 
+    """User specific methods"""
     def create_user(self, name, email, firebase_id):
+        """Creates an user bo """
         user = User()
         user.set_name(name)
         user.set_email(email)
@@ -33,37 +36,46 @@ class ShoppingAdministration (object):
                 return mapper.insert(user)
     
     def insert_user(self,user):
+        """inserts an user into the db"""
         with UserMapper() as mapper:
                 return mapper.insert(user)
 
     def get_user_by_name(self, name):
+        """returns all users with given name"""
         with UserMapper() as mapper:
             return mapper.find_by_name(name)
     
     def get_user_by_id(self, key):
+        """returns user with given id"""
         with UserMapper() as mapper:
             return mapper.find_by_key(key)
 
     def get_user_by_email(self, email):
+        """returns all user with given email"""
         with UserMapper() as mapper:
             return mapper.find_by_email(email)
     
     def get_user_by_firebase_id(self, id):
+        """returns user with given firebase id"""
         with UserMapper() as mapper:
             return mapper.find_by_firebase_id(id)
     
     def get_all_user(self):
+        """returns all user in db"""
         with UserMapper() as mapper:
             return mapper.find_all()
     
     def save_user(self, user):
+        """updates an user in db"""
         with UserMapper() as mapper:
             mapper.update(user)
     
     def delete_user(self, user):
+        """deletes an user from db"""
         with UserMapper() as mapper:
             res = mapper.delete(user)
             return res
+
 
     # Retailer
     # Chris
@@ -96,12 +108,13 @@ class ShoppingAdministration (object):
 
     #Groups:
     #Julius 
-
     def get_all_groups(self):
+        """returns all groups from db"""
         with GroupMapper() as mapper: 
             res = mapper.find_all()
             return res
     def get_all_user_groups(self,uid):
+        """returns all groups for one user"""
         with GroupMapper() as mapper: 
             return mapper.find_all_by_userid(uid)
     def get_group_by_id(self,id):
@@ -110,16 +123,18 @@ class ShoppingAdministration (object):
             return res 
 
     def insert_group(self,group):
+        """insert group in db"""
         with GroupMapper() as mapper:
                 return mapper.insert(group)
 
     def save_group(self,group):
+        """update group in db"""
         with GroupMapper() as mapper: 
             return mapper.update(group)
 
     def delete_group(self, group):
+        """delete group from db. first deletes all shoppinglists, favArticles and users connected to the group"""
         with GroupMapper() as mapper:
-            
             
             shoppinglists = self.get_shoppinglists_by_group_id(group.get_id())
             favArticles = self.get_FavoriteArticles_by_groupid(group.get_id())
@@ -151,13 +166,14 @@ class ShoppingAdministration (object):
             return res
     
     def create_group(self,name,description,creationdate):
+        """creates a group with given parameters and inserts it into db"""
         group = Group(name,description,creationdate)
         group.set_id(1)
 
         with GroupMapper() as mapper:
             return mapper.insert(group)
 
-    #ListEntry:
+    #ListEntry Pascal & Niklas:
     def get_all_listentries(self):
         with ListEntryMapper() as mapper:
             result = mapper.find_all()
@@ -309,6 +325,7 @@ class ShoppingAdministration (object):
             return mapper.find_all_by_group_id(group_id)
 
     def delete_shoppinglist(self, shopping_list):
+        """deletes shoppinglist from db. First deletes all listentries connected to this shoppinglist"""
         with ShoppingListMapper() as mapper:
             
             #delete all listentries in Shoppinglist
@@ -323,8 +340,7 @@ class ShoppingAdministration (object):
             except Exception as e:
                 print("error in delete shopping list in adm: " +  str(e))
                 return "error in delete shopping list in adm: " +  str(e)
-
-              
+   
 
     def insert_shoppinglist(self, shopping_list):
         with ShoppingListMapper() as mapper:
@@ -357,10 +373,12 @@ class ShoppingAdministration (object):
             return mapper.find_by_group(gid)
     
     def insert_FavoriteArticle(self,fa):
+        """inserts a new favorite article into db"""
         with fam() as mapper:
             return mapper.insert(fa)
 
     def update_FavoriteArticle(self,fa):
+        """updates a favorite article in db"""
         with fam() as mapper:
             return mapper.update(fa)
     

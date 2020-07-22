@@ -1,20 +1,21 @@
 from server.db.Mapper import Mapper
 from server.bo.Retailer import Retailer
 
-""" A single Retailer
-@author Christopher Böhm
-"""
 class RetailerMapper (Mapper):
+    """
+    Retailer mapper is used to execute database operations for retailer business objects
+    @author Christopher Böhm
+    """
+
     def __init__(self):
         super().__init__()
 
     # TODO: only get group specific retailers
     def find_all(self):
-        """Auslesen aller Einzelhändler.
+        """Get all retailers from database
 
-          :return Eine Sammlung mit Retailer-Objekten, die sämtliche Einzelhändler
-                  repräsentieren.
-          """
+        :return A collection of retailer objects, which represents all retailers
+        """
         result = []
         cursor = self._cnx.cursor()
         cursor.execute("SELECT ID, name, location,creationdate from Retailer")
@@ -36,9 +37,10 @@ class RetailerMapper (Mapper):
     # TODO: only get group specific retailers
     def find_by_name(self, name):
         """
+        Search for a collection of retailers in database by provided retailer name
 
-        :param name: Name des Einzelhändlers
-        :return: A collection of Retailer-Objects, which contains all Retailers
+        :param name: name of retailer
+        :return: A collection of retailer objects, which contains all retailers
         """
         result = []
         cursor = self._cnx.cursor()
@@ -60,8 +62,8 @@ class RetailerMapper (Mapper):
         return result
 
     def find_by_key(self, key):
-        """Suchen eines Retailers mit vorgegebener ID. Da diese eindeutig ist,
-        wird genau ein Objekt zurückgegeben.
+        """
+        Get all retailer data from database of a specific retailer by key
 
         :param key Primärschlüsselattribut (->DB)
         :return Retailer-Objekt, das dem übergebenen Schlüssel entspricht, None bei
@@ -92,11 +94,14 @@ class RetailerMapper (Mapper):
 
         return result
 
-    def find_by_location(self, location):
-        """
+    # TODO: remove
+    """def find_by_location(self, location):
+        
+        
+        
         :param location: Addresse des Einzelhändlers
         :return: A collection of Retailer-Objects, which contains all Retailers
-        """
+        
         result = []
         cursor = self._cnx.cursor()
         command = "SELECT id, name, location,creationdate FROM Retailer WHERE location LIKE '{}' ORDER BY name".format(location)
@@ -114,16 +119,14 @@ class RetailerMapper (Mapper):
         self._cnx.commit()
         cursor.close()
 
-        return result
+        return result"""
 
     def insert(self, retailer):
-        """Einfügen eines Retailer-Objekts in die Datenbank.
+        """
+        Insert a new retailer to the database
 
-        Dabei wird auch der Primärschlüssel des übergebenen Objekts geprüft und ggf.
-        berichtigt.
-
-        :param retailer das zu speichernde Objekt
-        :return das bereits übergebene Objekt, jedoch mit ggf. korrigierter ID.
+        :param retailer: the retailer business object you want to save
+        :return the retailer object you already provided, probably with changed data
         """
         cursor = self._cnx.cursor()
         cursor.execute("SELECT MAX(id) AS maxid FROM Retailer ")
@@ -142,9 +145,10 @@ class RetailerMapper (Mapper):
         return retailer
 
     def update(self, retailer):
-        """Wiederholtes Schreiben eines Objekts in die Datenbank.
+        """
+        Overwrite a retailer object in database
 
-        :param retailer das Objekt, das in die DB geschrieben werden soll
+        :param retailer: the retailer business object you want to overwrite in database
         """
         cursor = self._cnx.cursor()
 
@@ -158,9 +162,10 @@ class RetailerMapper (Mapper):
         cursor.close()
 
     def delete(self, retailer):
-        """Löschen der Daten eines Retailer-Objekts aus der Datenbank.
+        """
+        Delete a retailer in database
 
-        :param retailer das aus der DB zu löschende "Objekt"
+        :param retailer: business object you want to delete
         """
         cursor = self._cnx.cursor()
 
@@ -170,10 +175,6 @@ class RetailerMapper (Mapper):
         self._cnx.commit()
         cursor.close()
 
-"""Zu Testzwecken können wir diese Datei bei Bedarf auch ausführen, 
-um die grundsätzliche Funktion zu überprüfen.
-
-Anmerkung: Nicht professionell aber hilfreich..."""
 if (__name__ == "__main__"):
     with RetailerMapper() as mapper:
         result = mapper.find_all()

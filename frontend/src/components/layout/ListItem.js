@@ -5,6 +5,7 @@ import { withStyles } from "@material-ui/styles";
 import { Grid } from "@material-ui/core";
 import EditListItem from './EditListItem';
 import CustomIcon from './CustomIcon';
+import ListEntry from './ListEntry';
 
 /**
  * Displays an list item as designed in figma
@@ -37,7 +38,8 @@ class ListItem extends Component {
       unit: this.props.item.unit,
       amount: this.props.item.amount,
       anchorEl: null,
-      open: false
+      open: false,
+      user: this.props.item.user_id
     }
     this.handleClick = this.onClickItem.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -45,31 +47,38 @@ class ListItem extends Component {
     this.PressButtonConfirm = this.PressButtonConfirm.bind(this);
     this.handleChangeUnit = this.handleChangeUnit.bind(this);
     this.handleChangeAmount = this.handleChangeAmount.bind(this);
+    this.handleChangeUser = this.handleChangeUser.bind(this);
     
   }
   onClickItem(id) {
-    this.setState({open : true})
+    this.setState({open : true});
   };
   onCloseItem() {
-    this.setState({open: false})
+    this.setState({open : false});
   };
   handleClose(){
     this.setState({anchorEl:null});
   };
   PressButtonBack(){
-    this.setState({open : false})
+    this.setState({open : false});
   };
   PressButtonConfirm(){
-    this.setState({open : false})
+    this.setState({open : false});
   };
   handleChangeUnit(unit){
-    this.setState({unit: unit })
+    this.setState({unit : unit });
   };
   handleChangeAmount(amount){
-    this.setState({amount: amount})
+    this.setState({amount : amount});
+  };
+  handleChangeUser(user){
+    this.setState({user : user});
   };
 
   render() {
+    console.log(this.state.item)
+    console.log(this.state.user)
+    console.log(this.state.amount)
     return (
     <Grid 
       container
@@ -77,7 +86,8 @@ class ListItem extends Component {
       justify='center'
       alignItems='center'
       className={this.props.classes.root}
-      style={{minWidth:'100%', marginLeft: '0'}}
+      style={{minWidth:'100%', marginLeft: '0', 
+        borderColor: (this.state.user !== null) ? '#00BCD4' : '#BDBDBD', function(){this.forceUpdate()} }}
     >
         <Grid item xs={2}>
           <CustomIcon style={{marginLeft:15, marginTop:0}} iconName={this.state.item.name} category={this.state.item.category}></CustomIcon>
@@ -101,6 +111,7 @@ class ListItem extends Component {
           PressButtonConfirm={() => this.PressButtonConfirm()}
           onUnitChange={(unit) => this.handleChangeUnit(unit)}
           onAmountChange={(amount) => this.handleChangeAmount(amount)}
+          onUserChange={(user) => this.handleChangeUser(user)}
         />
         
     </Grid>
@@ -115,6 +126,7 @@ ListItem.propTypes = {
   handleChange: PropTypes.string,
   onClick: PropTypes.func,
   onClickListItem: PropTypes.func,
+  user: PropTypes.string,
 }
 
 export default withStyles(styles)(ListItem);

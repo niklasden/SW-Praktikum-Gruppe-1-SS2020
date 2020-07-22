@@ -10,7 +10,7 @@ import CircularProgress from '@material-ui/core/CircularProgress/CircularProgres
 import { timeout } from '../../timeout';
 
 /**
- * Displays the PersonalShoppingList as designed in Figma. All items to be purchased by a person are listed on the list and can * be ticked off the list. Finally the user can complete the shopping. 
+ * Displays the PersonalShoppingList as designed in Figma. All items to be purchased by a person are listed on the list and can * be ticked off the list. * Finally the user can complete the shopping. 
  * 
  * @author [Pascal Illg](https://github.com/pasillg)
  * 
@@ -300,11 +300,7 @@ PurchaseCompleted(){
 
 render(){
 
-  console.log(this.state.selectedRetailer)
   let shops = this.renderReatailer()
-  console.log(this.state.items)
-  console.log(this.state.currentUserID)
-  console.log("GroupID  " + this.state.groupID)
 
   return (
     <Grid 
