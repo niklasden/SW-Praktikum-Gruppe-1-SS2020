@@ -1,17 +1,24 @@
 from server.db.Mapper import Mapper
 from server.bo.Article import Article
 
-""" A single Article
+"""
 @author Pia Schmid
 """
 class ArticleMapper (Mapper):
+    """"mapper-class, that maps article-object to a relational database. 
+    For this purpose, a number of methods are provided, which can be used 
+    e.g. to search for, create, modify and delete objects. 
+    The mapping is bidirectional. This means that objects can be converted 
+    into DB structures and DB structures into objects.
+    """
+
     def __init__(self):
         super().__init__()
 
     def find_all(self):
-        """Auslesen aller Articel.
+        """get all articles
 
-        :return Eine Sammlung mit Article-Objekten, die sämtliche Artikel des Systems repräsentieren. 
+        :return A collection of article objects that represent all articles in the system. 
         """
 
         result = []
@@ -36,9 +43,9 @@ class ArticleMapper (Mapper):
 
 
     def find_by_name(self, name):
-        """Auslesen aller Artikel anhand des Artikelnames. 
-        :param name Name des zugehörigen Artikel
-        :return Ein Sammlung mit Article-Objekten, die sämtliche Artikel mit dem gewünschten Namen enthält.
+        """get all articles according to the article name. 
+        :param name Name of the correspondeing article
+        :return a collection of article objects containing all articles with the desired name. 
         """
 
         result = []
@@ -62,10 +69,10 @@ class ArticleMapper (Mapper):
 
 
     def find_by_key(self, key):
-        """Suchen eines Artikels mit vorgegebener Article ID. Da diese eindeutig ist, wird genau ein Objekt zurückgegeben.
+        """get an article with a given article ID. Since this is unique, exacly one object is returned. 
 
-        :para key Primärschlüsselattribut (->DB)
-        :return Article-Objekt, das dem übergebenen Schlüssel entspricht, None bei nicht vorhandenem DB-Tuple.
+        :para key Primary key attribute (->DB)
+        :return article-object, that corresponds to the passed key, None if the DB tuple does not exist. 
         """
 
         result = None
@@ -83,8 +90,8 @@ class ArticleMapper (Mapper):
             article.set_creationdate(cd)
             result = article
         except IndexError:
-            """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
-            keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
+            """The IndexError will occur above when accessing tuples[0] if the previous SELECT call 
+            does not return a tuple but tuples = cursor.fetchall() returns an empty sequence."""
             result = None
 
         self._cnx.commit()
@@ -93,11 +100,11 @@ class ArticleMapper (Mapper):
         return result
 
     def insert(self, article):
-        """Einfügen eines Article-Objekts in die Datenbank.
-        Dabei wird auch der Primärschlüssel des übergebenen Objekts geprüft und ggf. berichtigt.
+        """Inserting an article object into the database.
+        The primary key of the transferred object is also checked and corrected if necessary.  
 
-        :param article das zu speichernde Objekt
-        :return das bereits übergebene Objekt, jedoch mit ggf. korrigirter ID
+        :param article the object to be stored
+        :return the object already passed, but with a corrected ID if necessary 
         """
         cursor = self._cnx.cursor()
         cursor.execute("SELECT MAX(id) AS maxid FROM Article")
@@ -117,8 +124,8 @@ class ArticleMapper (Mapper):
         return article
 
     def update(self, article):
-        """Wiederholtes Schreiben eines Objekts in die Datenbank. 
-        :param article das Objekt, das in die DB geschrieben werden soll
+        """Repeated writing of an object to the database.  
+        :param article the object to be written to the DB. 
         """
         cursor = self._cnx.cursor()
 
@@ -130,8 +137,8 @@ class ArticleMapper (Mapper):
         cursor.close()
 
     def delete(self, article):
-        """Löschen des Daten eines Article-Objekts aus der Datenbank.
-        :param: article das aus der DB zu löschende "Objekt"
+        """Delete the data of an article object from the database. 
+        :param: article the "object" to be deleted from the DB. 
         """
         try: 
             cursor = self._cnx.cursor()
@@ -146,10 +153,9 @@ class ArticleMapper (Mapper):
         except Exception as e:
             return "Error in delet Article ArticleMapper:" + str(e)
 
-"""Zu Testzwecken können wir diese Datei bei Bedarf auch ausführen, 
-um die grundsätzliche Funktion zu überprüfen.
+"""For test purposes we can also execute this file if necessary to check the basic function. 
 
-Anmerkung: Nicht professionell aber hilfreich..."""
+Note: Not professional but helpful..."""
 if (__name__ == "__main__"):
     with ArticleMapper() as mapper:
         result = mapper.find_all()
