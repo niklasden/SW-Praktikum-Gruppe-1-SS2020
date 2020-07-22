@@ -136,6 +136,7 @@ class AddListItem extends Component {
     insertedItem.setName(null);
     insertedItem.setCategory(null);
 
+    console.log(insertedItem);
     
     //Sends new ListEntry Object to the API, in case of Error it logs it
     ShoppingAPI.getAPI().insertListEntry(insertedItem).then(() => {console.log(insertedItem); this.props.PressButtonConfirm()}).catch(e => console.log(e))

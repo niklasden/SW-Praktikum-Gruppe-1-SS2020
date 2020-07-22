@@ -246,7 +246,7 @@ class ListEntryMapper(Mapper):
         if listentry.get_amount() is None:
             listentry.set_amount('NULL')
         else:
-            listentry.set_amount(listentry.get_retailer())
+            listentry.set_amount(listentry.get_amount())
 
         if listentry.get_buy_date() is None:
             listentry.set_buy_date('NULL')
