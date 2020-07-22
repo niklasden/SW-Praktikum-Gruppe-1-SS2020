@@ -14,26 +14,6 @@ import Button from '@material-ui/core/Button'
 import { Config } from '../../config';
 import { timeout } from '../../timeout'
 
-const styles = theme => ({
-	root: {
-		backgroundColor: '#fafafa', 
-		borderRadius: 5, 
-		padding: "5px",
-	},
-	formControl: {
-		borderRadius: 5,
-	},
-	box: {
-		backgroundColor: '#fafafa', 
-		borderRadius: 10,
-		verticalAlign: 'center'
-	}, 
-	CreateButton: {
-		justifyContent: 'center',
-		alignContent: 'center', 
-	},
-});
-
 /**
  * Renders the page to create  a article
  * 
@@ -69,7 +49,7 @@ class CreateArticlePage extends Component {
 		this.setState({ isSaving: true })
 
 		// TODO: remove
-		await timeout(1000)
+		await timeout(500)
 
 		let id = this.state.item
 		if (id === ''){
@@ -108,16 +88,16 @@ class CreateArticlePage extends Component {
 
 	async onClickDelete(){
 		this.setState({ isSaving: true })
-
-		await timeout(1000)
-		const article = {
+		timeout( async () => {
+			const article = {
 			id: parseInt(this.state.item), 
 			name: this.state.name, 
-			category: this.state.category
+			category: this.state.category		
 		}
 
 		const rInit = {
 			method: 'DELETE', 
+			credentials: 'include',
 			headers: {
 				'Content-Type': 'aplication/jason'
 			}, 
@@ -130,6 +110,7 @@ class CreateArticlePage extends Component {
 			this.showErrorSnackBar()
 		}
 		this.setState({ isSaving: false })
+		}, 1000)
 	}
 
 	showErrorSnackBar(){
@@ -173,7 +154,6 @@ class CreateArticlePage extends Component {
 				xs={12} 
 				style={{padding: "1em"}}
 			>
-
 				<Grid item xs={12}>
 					<TextInputBar 
 						icon="playlist_add" 
@@ -192,7 +172,6 @@ class CreateArticlePage extends Component {
 					alignItems="center"
 					style={{marginTop: "1em", paddingBottom: "1em", paddingLeft: "1em", border: '1px solid #bdbdbd', borderRadius: 10}}
 				>
-
 					<Grid item xs={1}>
 							<Icon style={{color: "#00BCD4", marginTop: "1em" }} fontSize="medium" >description</Icon>
 					</Grid>
@@ -214,7 +193,6 @@ class CreateArticlePage extends Component {
 							</Select>
 						</FormControl>
 					</Grid>
-
 				<Grid
 					container
 					xs ={11}
@@ -234,6 +212,7 @@ class CreateArticlePage extends Component {
 								<MainButton 
 									className={styles.CreateButton} 
 									onclick={this.onClickDelete.bind(this)}
+									disabled={this.state.id === ''}
 								>delete</MainButton>
 							</div>
 						</div>   
@@ -264,5 +243,25 @@ class CreateArticlePage extends Component {
 		)
 	}
 }; 
+
+const styles = theme => ({
+	root: {
+		backgroundColor: '#fafafa', 
+		borderRadius: 5, 
+		padding: "5px",
+	},
+	formControl: {
+		borderRadius: 5,
+	},
+	box: {
+		backgroundColor: '#fafafa', 
+		borderRadius: 10,
+		verticalAlign: 'center'
+	}, 
+	CreateButton: {
+		justifyContent: 'center',
+		alignContent: 'center', 
+	},
+});
   
 export default withRouter(withStyles(styles)(CreateArticlePage)); 

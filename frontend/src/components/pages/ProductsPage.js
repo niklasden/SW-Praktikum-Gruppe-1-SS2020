@@ -187,7 +187,7 @@ const articleIDIconMapper = {
   banana: 'banana',
   oranges: 'orange',
   grape: 'grape', 
-  chicken: 'chicken', 
+  //chicken: 'chicken', 
   steak: 'meat', 
   meat: 'meat', 
   fish: 'fish', 
