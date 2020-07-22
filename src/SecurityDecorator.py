@@ -12,7 +12,7 @@ def secured(function):
     firebase_request_adapter = requests.Request()
 
     def wrapper(*args, **kwargs): 
-        id_token = request.cookies.get("token")    #requests ist ein attribut der jeweiligen "Operationsklasse", und wird über die ABC resource vererbt (RestX)
+        id_token = request.cookies.get('token')    #requests ist ein attribut der jeweiligen "Operationsklasse", und wird über die ABC resource vererbt (RestX)
                                                    # der cookie ist dann halt teil der request 
         error_message = None
         claims = None 

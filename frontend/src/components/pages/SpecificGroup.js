@@ -134,11 +134,12 @@ class SpecificGroup extends Component {
       this.setState({error: e})
     }
   }
-  async deleteGroup(id) {
+  /*async deleteGroup(id) {
     this.setState({ isLoading: true })
     try{
     const rInit = {
-      method: 'DELETE'
+      method: 'DELETE',
+      credentials: 'include'
     }
     const resp = await fetch(Config.apiHost + '/Group/' + id, rInit)
     if(resp.ok){
@@ -161,7 +162,7 @@ class SpecificGroup extends Component {
     }
 
     this.setState({ isLoading: false })
-  }
+  }*/
   
   
   deleteMember(usr) {
@@ -392,7 +393,7 @@ class SpecificGroup extends Component {
     const handleClickOpenAddMShoppinglistDialog = () => {
       this.setState({openAddShoppinglistDialog:true});
   };
-  const handleClickCloseAddShoppinglistDialog = () => {
+   const handleClickCloseAddShoppinglistDialog = () => {
     this.setState({openAddShoppinglistDialog:false})};
 
     /*

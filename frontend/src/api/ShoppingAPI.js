@@ -118,7 +118,8 @@ export default class ShoppingAPI {
      */
     deleteGroup(id) {
         return this.#fetchAdvanced(this.#deleteGroupURL(id), {
-            method: 'DELETE'
+            method: 'DELETE',
+            credentials: 'include'
         })
         .then((responseJSON) => {
             let groupBOs = GroupBO.fromJSON(responseJSON)[0];

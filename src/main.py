@@ -22,7 +22,7 @@ import json
 
 
 app = Flask(__name__)
-CORS(app, resources=r'/shopping/*')
+CORS(app, resources=r'/shopping/*', supports_credentials=True)
 api = Api(app)
 
 
@@ -181,8 +181,10 @@ class MembershipGroupOperations(Resource):
 class UserGroupOperations(Resource):
     @shopping_v1.marshal_with(group)
     def get(self,userid):
+        print([i for i in request.cookies.items()])
         adm = ShoppingAdministration()
         return adm.get_all_user_groups(userid)
+
 
 
 @shopping_v1.route('/Group')
@@ -220,8 +222,9 @@ class GroupOperations(Resource):
         adm = ShoppingAdministration()
         return adm.get_group_by_id(id)
     
-    #@secured
+    @secured
     def delete(self,id):
+        print([i for i in request.cookies.items()])
         adm = ShoppingAdministration()
         grp = adm.get_group_by_id(id)
        
