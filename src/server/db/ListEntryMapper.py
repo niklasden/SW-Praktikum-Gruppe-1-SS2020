@@ -319,7 +319,7 @@ class ListEntryMapper(Mapper):
             unit = "'" + le.get_unit() + "'"
     
         if le.get_retailer() is None:
-            retailer = "NULL"
+            retailer = 'NULL'
         else:
             retailer =  le.get_retailer()
         
