@@ -60,6 +60,7 @@ class CreateRetailerPage extends Component {
 
       const rInit = {
         method: 'POST', 
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         }, 
@@ -85,9 +86,10 @@ class CreateRetailerPage extends Component {
         address: this.state.address
       }
   
-      const rInit = {
+      const rInit ={
         method: 'DELETE', 
-        headers: {
+        credentials: 'include',
+        headers: { 
           'Content-Type': 'application/json'
         }, 
         body: JSON.stringify(retailer)

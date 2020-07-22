@@ -75,7 +75,7 @@ class AddFavoriteArticle extends Component {
     }
     /*  Fetches the article information based on the ArticleID */
     async getArticles() {
-        const json = await fetch(Config.apiHost + "/Article");
+        const json = await fetch(Config.apiHost + "/Article", {credentials: 'include'});
         const res = await json.json();
         res.forEach(article => {
             if(article.id === this.state.currentArticleID) {
@@ -86,7 +86,7 @@ class AddFavoriteArticle extends Component {
     }
     /*  Fetches the current retailer basde on the RetailerID */
     async getRetailer() {
-        const json = await fetch(Config.apiHost + "/Retailer");
+        const json = await fetch(Config.apiHost + "/Retailer", {credentials: 'include'});
         const res = await json.json();
         res.forEach(retailer => {
             if(retailer.id === this.state.currentRetailerID) {
@@ -113,6 +113,7 @@ class AddFavoriteArticle extends Component {
             console.log(requestBody);
             const rInit = {
               method: 'POST', 
+              credentials: 'include',
               headers: {
                 'Content-Type': 'application/json'
               }, 

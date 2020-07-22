@@ -120,6 +120,7 @@ class App extends React.Component {
 			  const requestBody = JSON.stringify(rb)
 			  const rInit = {
 				method: 'POST', 
+				credentials: 'include',
 				headers: {
 				  'Content-Type': 'application/json'
 				}, 
@@ -173,7 +174,7 @@ class App extends React.Component {
 				// SECURITY NOTE: As cookies can easily be modified, only put the
 				// token (which is verified server-side) in a cookie; do not add other
 				// user information.
-				document.cookie = `token=${token}; path=/; domain=ikaufa.com`;
+				document.cookie = `token=${token}; path=/;`;
 			
 				// Set the user not before the token arrived 
 				this.setState({

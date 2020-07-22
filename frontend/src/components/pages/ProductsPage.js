@@ -120,7 +120,11 @@ class ProductsPage extends Component {
 
   setTimeout(async () => {
     try {
-      const res = await fetch(Config.apiHost + '/Article')
+      const init = {
+        method: 'GET',
+        credentials: 'include', 
+      }
+      const res = await fetch(Config.apiHost + '/Article', init);
       const json = await res.json()
 
       this.setState({

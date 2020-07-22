@@ -115,7 +115,7 @@ class CreateGroup extends Component {
     const fetchUser = async (email) => {
 			try {
 					
-				let response = await fetch(Config.apiHost + '/User/email/' + email );
+				let response = await fetch(Config.apiHost + '/User/email/' + email, {credentials: 'include'} );
 				let data = await response.json()
 				console.log(data);
 				if (data.name != null){
@@ -171,7 +171,8 @@ class CreateGroup extends Component {
 				}
 				const requestBody = JSON.stringify(rb)
 				const rInit = {
-					method: 'POST', 
+          method: 'POST', 
+          credentials: 'include',
 					headers: {
 						'Content-Type': 'application/json'
 					}, 
@@ -198,6 +199,7 @@ class CreateGroup extends Component {
           const requestBody = JSON.stringify(rb)
           const rInit = {
             method: 'POST', 
+            credentials: 'include',
             headers: {
               'Content-Type': 'application/json'
             }, 
@@ -229,6 +231,7 @@ class CreateGroup extends Component {
 
         const rInit = {
           method: 'POST', 
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json'
           }, 
