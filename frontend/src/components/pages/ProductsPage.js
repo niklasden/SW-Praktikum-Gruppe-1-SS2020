@@ -10,9 +10,6 @@ import Heading from '../layout/Heading';
 import { Config } from '../../config';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 
-
-
-
 const styles = theme => ({
     root: {
       flexGrow: 1,
@@ -110,8 +107,7 @@ class ProductsPage extends Component {
 
     error: null,
     currentGroupID: 0
-
-  }
+ }
 
   componentDidMount(){
     this.getProducts()
@@ -122,7 +118,6 @@ class ProductsPage extends Component {
       loadingInProgress: true, 
       loadingArticleError: null 
     })
-
 
   setTimeout(async () => {
     try {
