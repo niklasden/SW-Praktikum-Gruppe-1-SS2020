@@ -10,6 +10,7 @@ import {Config} from '../../config';
 import { withStyles } from '@material-ui/core/styles';
 import ShoppingSettings from '../../shoppingSettings';
 import BarChart from '../../components/layout/BarChart'
+import LineChart from '../layout/LineChart'
 
 /**
  * Displays the statistic page
@@ -149,7 +150,8 @@ class StatisticPage extends Component {
 				{error ?
 					<ContextErrorMessage error={error} contextErrorMsg={`Data could not be loaded. Check if database server is running.`} />
 				:
-				<Grid container style={{padding: '1em', marginBottom: 70}} ref={this.statRef}>
+					<Grid container style={{padding: '1em', marginBottom: 70}} ref={this.statRef}>
+						<LineChart />
 						<LoadingProgress show={dataLoading} />
 						<Heading>SELECT A GROUP</Heading>
 						<FormControl className={classes.formControl} >
