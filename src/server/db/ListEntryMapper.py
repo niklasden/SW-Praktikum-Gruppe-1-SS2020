@@ -202,7 +202,7 @@ class ListEntryMapper(Mapper):
         self._cnx.commit()
         cursor.close()
         return result
-    ""    
+    """    
     
     def find_by_date_of_purchase(self, date): 
         """
