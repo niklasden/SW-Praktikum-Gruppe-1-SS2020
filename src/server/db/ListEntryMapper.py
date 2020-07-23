@@ -173,6 +173,7 @@ class ListEntryMapper(Mapper):
         cursor.close()
         return result
 
+    """
     #can be deleted see row 210 redundant?
     def find_by_checkout(self, date):
         
@@ -201,7 +202,7 @@ class ListEntryMapper(Mapper):
         self._cnx.commit()
         cursor.close()
         return result
-        
+    ""    
     
     def find_by_date_of_purchase(self, date): 
         """
