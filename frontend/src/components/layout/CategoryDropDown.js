@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 /**
  * 
  * @author [Pascal Illg](https://github.com/pasillg)
+ * Displays an DropDown per category. For each category the individual ListEntrys are displayed in the DropDown
  * 
 */
 class CategoryDropDown extends Component {
@@ -28,6 +29,8 @@ class CategoryDropDown extends Component {
       </Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
+
+     {/* All items of the group are contained in this.props.useritems. The map function is used to check whether there are items of the respective * category in user items. If yes, a ListItemCheckbox is created for each item.  */}
         <Typography>
               {this.props.Useritems.map(element => {
               if(element.category === this.props.ArrCategory[this.props.item]){
