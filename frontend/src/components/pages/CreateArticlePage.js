@@ -88,7 +88,7 @@ class CreateArticlePage extends Component {
 
 	async onClickDelete(){
 		this.setState({ isSaving: true })
-		timeout( async () => {
+		await timeout(0)
 			const article = {
 			id: parseInt(this.state.item), 
 			name: this.state.name, 
@@ -110,7 +110,6 @@ class CreateArticlePage extends Component {
 			this.showErrorSnackBar()
 		}
 		this.setState({ isSaving: false })
-		}, 1000)
 	}
 
 	showErrorSnackBar(){
