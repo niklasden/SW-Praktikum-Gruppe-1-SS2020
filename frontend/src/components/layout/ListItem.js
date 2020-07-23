@@ -50,27 +50,42 @@ class ListItem extends Component {
     this.handleChangeUser = this.handleChangeUser.bind(this);
     
   }
+  /* set open to true */
   onClickItem(id) {
     this.setState({open : true});
   };
+
+  /* set open to false */
   onCloseItem() {
     this.setState({open : false});
   };
+
+  /* set anchorEl to null */
   handleClose(){
     this.setState({anchorEl:null});
   };
+
+  /* set open to false */
   PressButtonBack(){
     this.setState({open : false});
   };
+
+  /* set open to false */
   PressButtonConfirm(){
     this.setState({open : false});
   };
+
+  /* set unit to unit */
   handleChangeUnit(unit){
     this.setState({unit : unit });
   };
+
+   /* set amount to amount */
   handleChangeAmount(amount){
     this.setState({amount : amount});
   };
+
+  /* set user to user */
   handleChangeUser(user){
     this.setState({user : user});
   };
@@ -90,16 +105,19 @@ class ListItem extends Component {
         borderColor: (this.state.user !== null) ? '#00BCD4' : '#BDBDBD', function(){this.forceUpdate()} }}
     >
         <Grid item xs={2}>
-          <CustomIcon style={{marginLeft:15, marginTop:0}} iconName={this.state.item.name} category={this.state.item.category}></CustomIcon>
-          {/* <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 3}}>fastfood</Icon> */}
+         {/*  Displays the Icon of the Article */}
+          <CustomIcon style={{marginLeft:15, marginTop:0}} iconName={this.state.item.name}></CustomIcon>
         </Grid>
         <Grid item xs={5} style={{maxWidth:'100%'}} onClick={() => this.handleClick(this.state.item.id)} >
+          {/* Displays the name of the Article */}
           {this.props.item.name}
         </Grid>         
         <Grid item xs={3}>
+          {/*  Displays the amount and unit of the Article */}
         {this.state.amount !== null && this.state.unit !== 'None'  && this.state.amount+" "+this.state.unit}
         </Grid>
         <Grid item xs={2} onClick={() => this.props.onClickDeleteButton()} >
+          {/*  Displays an delete Icon */}
           <Icon style={{marginLeft:10, color: '#00BCD4', marginTop: 5}}>delete</Icon>
         </Grid>
         <EditListItem 

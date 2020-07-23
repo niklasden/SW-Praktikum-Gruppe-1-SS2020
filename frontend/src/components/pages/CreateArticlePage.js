@@ -14,28 +14,8 @@ import Button from '@material-ui/core/Button'
 import { Config } from '../../config';
 import { timeout } from '../../timeout'
 
-const styles = theme => ({
-	root: {
-		backgroundColor: '#fafafa', 
-		borderRadius: 5, 
-		padding: "5px",
-	},
-	formControl: {
-		borderRadius: 5,
-	},
-	box: {
-		backgroundColor: '#fafafa', 
-		borderRadius: 10,
-		verticalAlign: 'center'
-	}, 
-	CreateButton: {
-		justifyContent: 'center',
-		alignContent: 'center', 
-	},
-});
-
 /**
- * Renders the page to create  a article
+ * Renders the page to create an article.
  * 
  * @see ArticleEntry
  * 
@@ -44,11 +24,11 @@ const styles = theme => ({
  */
   
 class CreateArticlePage extends Component {
+	// Init the state
 	state = {
 		snackbarOpen: false, 
 		isSaving: false,
 		redirectToArticlePage: false,
-
 		id: 0, 
 		name: '', 
 		category: '',
@@ -65,17 +45,14 @@ class CreateArticlePage extends Component {
 		], 
 	}
 
+	/** Adds an article to the ProductsPage */
 	async onClickSave(){
 		this.setState({ isSaving: true })
-
-		// TODO: remove
-		await timeout(1000)
-
+		await timeout(500)
 		let id = this.state.item
 		if (id === ''){
 			id = 0
 		}
-
 		const article ={
 			id: id, 
 			name: this.state.name, 
@@ -84,9 +61,7 @@ class CreateArticlePage extends Component {
 			// to send it anyway so there is no marshall error
 			cd: '', 
 		}
-
 		const requestBody = JSON.stringify(article)
-
 		const rInit = {
 			method: 'POST',
 			credentials: 'include',
@@ -96,28 +71,26 @@ class CreateArticlePage extends Component {
 			body: requestBody
 		}
 		const resp = await fetch(Config.apiHost + '/Article', rInit)
-		
 		if(resp.ok){
 			this.props.history.push('/products')
 		} else {
 			this.showErrorSnackBar()
 		}
-
 		this.setState({ isSaving: false})
 	}
 
+	/** Deletes an article from the ProductPage */
 	async onClickDelete(){
 		this.setState({ isSaving: true })
-
-		await timeout(1000)
-		const article = {
+		await timeout(0)
+			const article = {
 			id: parseInt(this.state.item), 
 			name: this.state.name, 
-			category: this.state.category
+			category: this.state.category		
 		}
-
 		const rInit = {
 			method: 'DELETE', 
+			credentials: 'include',
 			headers: {
 				'Content-Type': 'aplication/jason'
 			}, 
@@ -139,12 +112,13 @@ class CreateArticlePage extends Component {
 		}, 2000)
 	}
 
-	componentDidMount(){
+ 	/** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
+  	componentDidMount(){
 		let name = ''
 		let category = ''
 		let id = ''
-		/* checks if there has been a article from the article page*/
-		/* if yes, it takes name and category from there*/
+		//checks if there has been an article from the article page
+		// if yes, it takes name and category from there
 		if (this.props.location.state !== undefined){
 			id = this.props.location.state.id
 			name = this.props.location.state.name
@@ -161,6 +135,7 @@ class CreateArticlePage extends Component {
 		})
 	}
 
+	/** Renders the component */
 	render(){ 
 		// if we created an article this will be true and we will be redirected to article page
 		if (this.state.redirectToArticlePage) {
@@ -173,7 +148,6 @@ class CreateArticlePage extends Component {
 				xs={12} 
 				style={{padding: "1em"}}
 			>
-
 				<Grid item xs={12}>
 					<TextInputBar 
 						icon="playlist_add" 
@@ -192,7 +166,6 @@ class CreateArticlePage extends Component {
 					alignItems="center"
 					style={{marginTop: "1em", paddingBottom: "1em", paddingLeft: "1em", border: '1px solid #bdbdbd', borderRadius: 10}}
 				>
-
 					<Grid item xs={1}>
 							<Icon style={{color: "#00BCD4", marginTop: "1em" }} fontSize="medium" >description</Icon>
 					</Grid>
@@ -214,7 +187,6 @@ class CreateArticlePage extends Component {
 							</Select>
 						</FormControl>
 					</Grid>
-
 				<Grid
 					container
 					xs ={11}
@@ -234,6 +206,7 @@ class CreateArticlePage extends Component {
 								<MainButton 
 									className={styles.CreateButton} 
 									onclick={this.onClickDelete.bind(this)}
+									disabled={this.state.id === ''}
 								>delete</MainButton>
 							</div>
 						</div>   
@@ -264,5 +237,26 @@ class CreateArticlePage extends Component {
 		)
 	}
 }; 
+
+/** Component specific styles */
+const styles = theme => ({
+	root: {
+		backgroundColor: '#fafafa', 
+		borderRadius: 5, 
+		padding: "5px",
+	},
+	formControl: {
+		borderRadius: 5,
+	},
+	box: {
+		backgroundColor: '#fafafa', 
+		borderRadius: 10,
+		verticalAlign: 'center'
+	}, 
+	CreateButton: {
+		justifyContent: 'center',
+		alignContent: 'center', 
+	},
+});
   
 export default withRouter(withStyles(styles)(CreateArticlePage)); 

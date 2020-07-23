@@ -6,35 +6,6 @@ import MaterialIconButton from '@material-ui/core/IconButton';
 import { withRouter } from "react-router-dom";
 import CustomIcon from "../layout/CustomIcon"
 
-const styles = theme => ({
-    root:{
-    backgroundColor: '#f2f2f2', 
-    borderRadius: 5,
-    fontFamily: "'Montserrat', sans-serif",
-    padding:'1px', 
-    width:'60px', 
-    height:'60px',
-    },
-    imageIcon:{
-      height: '100%'
-    },
-    iconRoot:{
-      textAlign: 'center'
-    },
-    icon: {
-      height:'100%',
-      width:'100%',
-      margin:'9px', 
-      marginTop: '22px',
-    },
-    itemName: {
-      fontSize: "12px", 
-      color: 'black',  
-      overflowWrap: "break-word", 
-      marginTop: '2px'
-
-    }
-})
 
 /**
  * Displays an article icon / button as designed in figma
@@ -50,19 +21,19 @@ const styles = theme => ({
     this.handleButtonRelease = this.handleButtonRelease.bind(this)
   }
 
+  /** Handels a longPress on the article button */
   handleButtonPress(){
     this.buttonPressTimer = setTimeout(() => this.props.history.push({pathname: '/create_article', state:{id: this.props.id, name: this.props.itemname, category: this.props.category}
     }), 1000)
   }
 
+  /** Handels the release of the article button */
   handleButtonRelease(){
     clearTimeout(this.buttonPressTimer);
   }
 
      render(){
         const classes = this.props.classes;
-        //const {history} = this.props;
-
         return(
             
       <Box 
@@ -80,19 +51,12 @@ const styles = theme => ({
         
         <MaterialIconButton 
           className={classes.root}
-          //style={{padding: '1px' , width:'60px', height:'60px' }}
         >
           <div className = {classes.icon}
-          //style={{height:'100%',width:'100%',margin:'9px', marginTop: '20px'}}
           >
-
-            <CustomIcon iconName ={this.props.iconName}></CustomIcon>
- 
-            <p className = {classes.itemName}
-            //style={{fontSize: "12px", color: 'black',  overflowWrap: "break-word", marginTop: '5px'}}
-            >
-            {this.props.itemname}</p>
-          
+            <CustomIcon iconName ={this.props.iconName}
+            ></CustomIcon>
+            <p className = {classes.itemName}>{this.props.itemname}</p>
           </div>
         </MaterialIconButton>
       </Box>
@@ -100,6 +64,38 @@ const styles = theme => ({
      }
 }
 
+/** Component specific styles */
+const styles = theme => ({
+  root:{
+  backgroundColor: '#f2f2f2', 
+  borderRadius: 5,
+  fontFamily: "'Montserrat', sans-serif",
+  padding:'1px', 
+  width:'60px', 
+  height:'60px',
+  },
+  imageIcon:{
+    height: '100%'
+  },
+  iconRoot:{
+    textAlign: 'center'
+  },
+  icon: {
+    height:'100%',
+    width:'100%',
+    margin:'9px', 
+    marginTop: '22px',
+  },
+  itemName: {
+    fontSize: "12px", 
+    color: 'black',  
+    overflowWrap: "break-word", 
+    marginTop: '2px'
+
+  }
+})
+
+/** PropTypes */
 Article.propTypes = {
   iconName: PropTypes.string.isRequired,
   itemname: PropTypes.string.isRequired,

@@ -10,7 +10,7 @@ import CircularProgress from '@material-ui/core/CircularProgress/CircularProgres
 import { timeout } from '../../timeout';
 
 /**
- * Displays the PersonalShoppingList as designed in Figma. All items to be purchased by a person are listed on the list and can * be ticked off the list. * Finally the user can complete the shopping. 
+ * Displays the PersonalShoppingList as designed in Figma. All items to be purchased by a person are listed on the list and can be ticked off the list. * Finally the user can complete the shopping. 
  * 
  * @author [Pascal Illg](https://github.com/pasillg)
  * 
@@ -22,7 +22,10 @@ const settings = ShoppingSettings.getSettings()
 export default class PersonalShoppingList extends Component {
 
   state={
+    /* In the array items are all list items stored which assigned to the specific user  */
     items: [],
+
+    /* In the array checkedItems the IDs of the list items are stored as soon as the checkbox is checked  */
     checkedItems:[],
     selectedRetailer : 'All',
     market : null,
@@ -31,11 +34,12 @@ export default class PersonalShoppingList extends Component {
     loaded: true,
     loadingInProgress: false,
     currentUserID: settings.getCurrentUserID(),
-    groupID: settings.getGroupID()
+    groupID: settings.getGroupID(),
 }
 
 /* 
-*???
+* Fetchs the items.As long as the fetch is made, the spinner is executed. But only the first time. 
+* After this the fetch is made, without executing the spinner. 
 */
 newItem = () => {
   if (this.state.loaded === true){
@@ -62,7 +66,7 @@ componentDidMount(){
 }
 
 /* 
-*set Timeout of 30000seconds
+*set Timeout of 30000ms. Every 30000ms the function newItem() is executed. 
 */
 async setTimeout(){
   while(true){
@@ -96,95 +100,95 @@ createUserItem(){
 }
 
 /* 
-*Returns an array with all Useritems that are unchecked  
+*Returns an array with all Useritems that are unchecked (checkbox is unchecked)  
 */
 getUncheckedArticles(){
-  let ArrUncheckedArticles = []
-  let Useritems = this.createUserItem()
+  let ArrUncheckedArticles = [];
+  let Useritems = this.createUserItem();
   Useritems.forEach(item => {
     if(this.state.checkedItems.includes(item.id) === false && (this.state.selectedRetailer === item.retailer || this.state.selectedRetailer === 'All')){
       ArrUncheckedArticles.push(item)
-    }
+    };
   })
-  return ArrUncheckedArticles
+  return ArrUncheckedArticles;
 };
 
 /* 
-*Returns an array with the categorys of all Useritems that are unchecked  
+*Returns an array with the categorys of all Useritems that are unchecked (checkbox is unchecked)  
 */
 getCategorys(){
-  let ArrCategory = []
-  let Useritems = this.getUncheckedArticles()
+  let ArrCategory = [];
+  let Useritems = this.getUncheckedArticles();
   Useritems.forEach(item => {
     if(!ArrCategory.includes(item.category)){
-      ArrCategory.push(item.category)
+      ArrCategory.push(item.category);
     }
   });
-  return ArrCategory
+  return ArrCategory;
 };
 
 /* 
-*Renders an array with all categories and the containend unchecked Useritems 
+*Renders an array with all categories and the containend unchecked Useritems (checkbox is unchecked)  
 */
 renderUncheckedArticles(){
-  let renderdArticles = []
+  let renderdArticles = [];
   let ArrCategory = this.getCategorys();
   let Useritems = this.getUncheckedArticles();
-  console.log('ArrCategory  ' + ArrCategory)
+  console.log('ArrCategory  ' + ArrCategory);
   for (let item in ArrCategory){
     renderdArticles.push( 
       <CategoryDropDown checkeditems={this.state.checkedItems} handleChange={this.handleChangeCheckbox.bind(this)} Useritems={Useritems} ArrCategory={ArrCategory} item={item}></CategoryDropDown>
-    )}
-  return renderdArticles
+    )};
+  return renderdArticles;
 };
 
 /* 
-*Returns an array with all Useritems that are checked  
+*Returns an array with all Useritems that are checked (checkbox is checked)  
 */
 getCheckedArticles(){
-  let ArrCheckedArticles = []
-  let Useritems = this.createUserItem()
+  let ArrCheckedArticles = [];
+  let Useritems = this.createUserItem();
   Useritems.forEach( item => {
     if(this.state.checkedItems.includes(item.id) === true && (this.state.selectedRetailer === item.retailer || this.state.selectedRetailer === 'All')){
-      ArrCheckedArticles.push(item)
+      ArrCheckedArticles.push(item);
     }
   })
-  return ArrCheckedArticles
+  return ArrCheckedArticles;
 };
 
 /* 
-*Returns an array with the categorys of all Useritems that are checked  
+*Returns an array with the categorys of all Useritems that are checked (checkbox is checked)  
 */
 getCheckedArticlesCategory(){
   let ArrCheckedArticlesCategory = [];
   let ArrCheckedArticles = this.getCheckedArticles();
   ArrCheckedArticles.forEach( item => {
     if(!ArrCheckedArticlesCategory.includes(item.category)){
-      ArrCheckedArticlesCategory.push(item.category)
+      ArrCheckedArticlesCategory.push(item.category);
     }
   })
-  return ArrCheckedArticlesCategory
+  return ArrCheckedArticlesCategory;
 };
 
 /* 
-*Renders an array with all categories and the containend checked Useritems 
+*Renders an array with all categories and the containend checked Useritems (checkbox is checked)  
 */
 renderCheckedCategoryArticles(){
-  let renderdArticles = []
+  let renderdArticles = [];
   let ArrCheckedArticles = this.getCheckedArticles();
   let ArrCheckedArticlesCategory = this.getCheckedArticlesCategory();
-  console.log(ArrCheckedArticles)
+  console.log(ArrCheckedArticles);
   for (let item in ArrCheckedArticlesCategory){
     renderdArticles.push( 
       <CategoryDropDown checkeditems={this.state.checkedItems} handleChange={this.handleChangeCheckbox.bind(this)} Useritems={ArrCheckedArticles} ArrCategory={ArrCheckedArticlesCategory} item={item}></CategoryDropDown>
     )}
-    console.log('checked'   + ArrCheckedArticlesCategory)
-    console.log('array'   + ArrCheckedArticles)
-  return renderdArticles
+    console.log('checked'   + ArrCheckedArticlesCategory);
+    console.log('array'   + ArrCheckedArticles);
+  return renderdArticles;
 };
 
 /* 
-*Renders the list of unchecked or checked Useritems 
+*Renders the Array of unchecked or checked Useritems 
 */
 renderMyShoppingList(){
   if (this.state.flag === 'unclicked'){
@@ -197,7 +201,7 @@ renderMyShoppingList(){
 };
 
 /* 
-*Renders the list of unchecked or checked Useritems 
+*Renders an Array of unchecked or checked Useritems 
 */
 renderReatailer(){
   let retailer = []
@@ -233,20 +237,23 @@ getArticleOfRetailer(){
 }
 
 /* 
-*
+* If the retailer is reset in the drop-down, this function is called and the state selectedRetailer is reset 
 */
 handleChangeRetailer = e =>{
   this.setState({selectedRetailer : e.target.value})
 }
 
 /* 
-*
+* If the checkbox will be set from unchecked to checked or from checked to unchecked, this function is called.
 */
 handleChangeCheckbox(id){
   let Items = this.createUserItem()
   console.log(Items)
   let checkedItems = this.state.checkedItems
 
+  /* 
+  * If the ID of the ListItem is in the array CheckedItems, the ID is deleted from the array Checkeditems.  
+  */
   if(checkedItems.includes(id)){
     checkedItems.forEach( (l,i) => {
       if (l === id){
@@ -255,6 +262,11 @@ handleChangeCheckbox(id){
       }
     }
   )}
+
+  /* 
+  *If the ID of the ListItem in which the status of the checkbox was reset is not in the array CheckedItems the ID is added to the array Checkeditems 
+  * The Array CheckedItems will be stored in the localStorage
+  */
   else {
     checkedItems.push(id)
   }
@@ -263,7 +275,7 @@ handleChangeCheckbox(id){
 }
 
 /* 
-*
+* The PopUp is opened in this function. If you click YES the function PurchaseCompleted() is executed. 
 */
 handlePopUp(){
   if(this.state.solved === true){
@@ -278,7 +290,8 @@ handlePopUp(){
 }
 
 /* 
-*
+* If you click Yes in the popup, this function is executed. A new ListEntryBO is created and the purchasing date is set. Checkeditem is "emptied" and 
+* the state is reset 
 */
 PurchaseCompleted(){
   let Arr = this.getCheckedArticles()
@@ -297,6 +310,7 @@ PurchaseCompleted(){
   this.setState({checkedItems : Arr})
   this.setState({solved : false})
 }
+
 
 render(){
 
