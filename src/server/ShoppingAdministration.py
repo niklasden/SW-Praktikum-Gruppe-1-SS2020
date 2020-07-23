@@ -204,10 +204,10 @@ class ShoppingAdministration (object):
             result = mapper.find_by_purchaser(purchaser)
             return result
     
-"""     def find_listentry_by_checkout(self, date):
+    def find_listentry_by_checkout(self, date):
         with ListEntryMapper() as mapper:
             result = mapper.find_by_checkout(date)
-            return result """
+            return result
     
     def find_listentry_by_date_of_purchase(self, date):
         with ListEntryMapper() as mapper:

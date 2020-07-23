@@ -162,11 +162,8 @@ class ListEntryMapper(Mapper):
         cursor.close()
         return result
 
-    """ def find_by_checkout(self, date):
-        """
-        Niklas check:bool - needs date format check on frontend
-        tbd
-        """
+    def find_by_checkout(self, date):
+        
         result = []
         cursor = self._cnx.cursor()
         cursor.execute("SELECT ID, Article_ID, Retailer_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought,creationdate from `Listentry` WHERE bought={}".format(date))
@@ -191,7 +188,7 @@ class ListEntryMapper(Mapper):
 
         self._cnx.commit()
         cursor.close()
-        return result """
+        return result
         
     
     def find_by_date_of_purchase(self, date): 
