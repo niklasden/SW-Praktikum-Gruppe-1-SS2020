@@ -38,23 +38,29 @@ class ListEntry(bo.BusinessObject):
     """
     def __init__(self):
         super().__init__()
-        self._article_id = ""
-        self._retailer_id = ""
-        self._shoppinglist_id = ""
-        self._user_id = ""
-        self._group_id = ""
-        self._amount = ""
-        self._unit = ""
-        self._bought = ""
-        self._name = ""
-        self._category = ""
-        self._retailer = ""
+        self._article_id = None
+        self._retailer_id = None
+        self._shoppinglist_id = None
+        self._user_id = None
+        self._group_id = None
+        self._amount = None
+        self._unit = None
+        self._bought = None
+        self._name = None
+        self._category = None
+        self._retailer = None
         self._creationdate = None
 
     def get_creationdate(self):
+        """
+        Niklas
+        """
         return self._creationdate
     
     def set_creationdate(self, cd):
+        """
+        Niklas
+        """
         self._creationdate = cd
 
     def get_article(self):

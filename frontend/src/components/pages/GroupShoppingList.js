@@ -32,7 +32,8 @@ export default class GroupShoppingList extends Component {
         selected_shoppinglist: [],
         loadingInProgress: false,
         loadingItemsError: null,
-        loadingShoppinglistsError: null
+        loadingShoppinglistsError: null,
+        currentGroupID: settingsobj.getGroupID(),
       }
     }
  
@@ -164,14 +165,12 @@ export default class GroupShoppingList extends Component {
       >
        
        <Grid item xs={12}  style={{marginTop: 10, marginBottom: 10}}>
-            <FormControl style={{width: '25ch', height: 35, marginBottom: 15, textAlign: 'center'}}>
+            <FormControl style={{width: '25ch', height: '10ch', marginBottom: 15, textAlign: 'center'}}>
               <InputLabel style={{left:'13%'}}>Select Shopping List</InputLabel>
-              
               <Select value={this.state.selected_shoppinglist} onChange={this.handleChangeShoppinglist.bind(this)}>
                 {this.state.shoppinglists.map((item, key) => 
                     <MenuItem value={item.id}>{item.name}</MenuItem> 
                 )}
-                
               </Select>
             </FormControl>
             <CircularLoadingProgress show={loadingInProgress} />
@@ -180,7 +179,12 @@ export default class GroupShoppingList extends Component {
       </Grid>
   
       <Grid item xs={12} style={{marginBottom: 75, width: '100%'}}>
-        {this.renderCategoryArticles()}
+      {(this.state.currentGroupID === 0) ? 
+              <div style={{marginTop:'20px', textAlign: 'center', fontWeight: 'bold'}}>
+                No group found!<br /> Switch to HomePage and select your active group!
+                </div>
+            : this.renderCategoryArticles()
+      }
       </Grid>
     </Grid>
     ) 
