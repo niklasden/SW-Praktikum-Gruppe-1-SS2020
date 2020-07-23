@@ -98,6 +98,7 @@ const icons = {
   lipstick: lipstickIcon,
   yoghurt: yoghurtIcon, 
   soap: soapIcon, 
+  spinach: vegetablesIcon,
 
   // category icons
   beverages: beveragesIcon,

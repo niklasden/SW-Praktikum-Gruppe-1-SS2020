@@ -60,7 +60,7 @@ const articleIDIconMapper = {
   donut: 'donut',
   chips: 'chips',
   popcorn: 'popcorn',
-  bombom: 'bomboms',
+  bomboms: 'bomboms',
   chocolate: 'chocolate',
   cake: 'cake',
   cookies: 'cookies',

@@ -13,7 +13,7 @@ class Retailer(bo.BusinessObject):
         the location of the retailer, can be an address or a description like: behind the big building etc.
     _id: str
         the unique id of the retailer
-    _creationdate: str
+    _creationdate: DateTime
         the date the object has been created
     """
 
@@ -21,7 +21,7 @@ class Retailer(bo.BusinessObject):
         super().__init__()
         self._name = ""
         self._location = ""
-        self._id = ""
+        """   self._id = "" """
         self._creationdate = None
 
     def get_creationdate(self):
@@ -38,21 +38,17 @@ class Retailer(bo.BusinessObject):
         :return: nothing
         """
         self._creationdate = creationdate
-
-    def get_id(self):
-        """
-        Getter for unique id of retailer
-        :return: integer of id
-        """
+    
+    
+    """ def get_id(self):
+            
         return self._id
 
     def set_id(self, id):
-        """"
-        Setter for unique id of retailer
-        :param: id: the id of the retailer
-        """
+            
         self._id = id
 
+    """
     def get_name(self):
         """
         Getter for retailer name
