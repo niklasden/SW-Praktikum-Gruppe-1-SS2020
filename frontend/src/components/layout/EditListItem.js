@@ -52,7 +52,7 @@ class EditListItem extends Component {
      this.getRetailerbyProps = this.getRetailerbyProps.bind(this);
   }
 
-  getRetailerbyProps = (retailer) => {
+  /* getRetailerbyProps = () => {
     var res = "";
     if (this.state.item.retailer !== null){
     this.props.retailer.forEach(item => {
@@ -62,7 +62,7 @@ class EditListItem extends Component {
       });
     } 
     return res
-  };
+  }; */
 
   componentDidMount(){
     console.log(this.state.item.retailer)
