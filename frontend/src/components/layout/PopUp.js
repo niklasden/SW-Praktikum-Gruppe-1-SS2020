@@ -8,6 +8,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import PropTypes from 'prop-types';
 
 /** 
+ * PopUp from material UI. This popup is used again and again in the app. 
+ * The name, title, open, and onClick are passed as props. 
  * 
  * @author [Pascal Illg](https://github.com/pasillg)
  * 
@@ -21,19 +23,27 @@ import PropTypes from 'prop-types';
         aria-labelledby="alert title"
         aria-describedby="description" 
       >
+      {/* The title of the popup is set here */}
       <DialogTitle id="alert title">{this.props.title}</DialogTitle>
       <DialogContent>
+
+      {/* The content of the popup is defined here  */}
         <DialogContentText id="description">
           {this.props.name}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
+
+        {/* Button Yes */}
         <Button onClick={this.props.clickYes} color="primary">
           YES
         </Button>
+
+       {/* Button NO */}
         <Button onClick={this.props.clickNo} color="primary" autoFocus>
           NO
         </Button>
+
       </DialogActions>
     </Dialog>
     )

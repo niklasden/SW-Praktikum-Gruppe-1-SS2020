@@ -11,24 +11,6 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 import {Link} from 'react-router-dom';
 
-const useStyles = (theme) => ({
-  root: {
-    flexGrow: 1,
-    bottom: 0,
-    position: 'fixed',
-    width: '100%',
-    alignItems: 'center',
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.primary.white,
-    marginTop: '60px'
-  },
-  actionItemStyle: {
-    '&$selected': {
-        color: "#000 !important"
-    },
-    color: '#d8d8d8'
-  }
-});
 
 /**
  * @author Niklas Denneler (https://github.com/niklasden)
@@ -36,10 +18,7 @@ const useStyles = (theme) => ({
  * Allows us to navigate the application, makes use of the ThemeProvider for styling.
  * Uses Material UI native BottomNavigationAction with passed components to render new pages
  * 
- * Current issues: 
- * could use a nicer Animation?
  */
-
 
 class BottomNavi extends React.Component {
     state = {
@@ -98,5 +77,24 @@ class BottomNavi extends React.Component {
     );
   } 
 }
+
+const useStyles = (theme) => ({
+  root: {
+    flexGrow: 1,
+    bottom: 0,
+    position: 'fixed',
+    width: '100%',
+    alignItems: 'center',
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.white,
+    marginTop: '60px'
+  },
+  actionItemStyle: {
+    '&$selected': {
+        color: "#000 !important"
+    },
+    color: '#d8d8d8'
+  }
+});
 export default withStyles(useStyles, { withTheme: true})(BottomNavi)
 

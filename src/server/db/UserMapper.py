@@ -4,7 +4,7 @@ from server.db.Mapper import Mapper
 
 class UserMapper(Mapper):
     """
-    BY Niklas and Julius  
+    Author: Niklas and Julius  
     Mapper for User Business Object 
 
     """
