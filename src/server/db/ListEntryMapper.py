@@ -4,7 +4,7 @@ import datetime
 
 class ListEntryMapper(Mapper):
     """
-    Mapper for ListEntry Data Structure
+    Mapper for ListEntry BusinessObject
     Author: Pascal & Niklas
     """
     def __init__(self): 
@@ -14,6 +14,9 @@ class ListEntryMapper(Mapper):
     def find_all(self):
         """
         Niklas
+        get all listentries from the database
+        :return: a list of listentry bos
+        
         """                    
         result = []
         cursor = self._cnx.cursor()
@@ -44,6 +47,8 @@ class ListEntryMapper(Mapper):
     def find_by_key(self, key):
         """
         Niklas key:int
+        gets the specific listentry with that specific from the database
+        :return: a single listentry bo
         """
         result = None
         cursor = self._cnx.cursor()
@@ -74,6 +79,8 @@ class ListEntryMapper(Mapper):
     def find_by_retailer(self, retailer):
         """
         Pascal retailer:Retailer
+        get a specific listentry by its retailer from the database
+        :return: a single listentry bo
         """
 
         result = []
@@ -104,6 +111,8 @@ class ListEntryMapper(Mapper):
     def find_by_article(self, article):
         """
         Niklas article:Article
+        get a list of listentries with that specific article id from the database
+        :return: a list of listentry bos
         """
         result = []
         cursor = self._cnx.cursor()
@@ -135,6 +144,8 @@ class ListEntryMapper(Mapper):
     def find_by_purchaser(self, purchaser):
         """
         Pascal purchaser:User
+        gets a list of listentry bos by the assigned user id from the database
+        :return: a list of listentry bos
         """
         result = []
         cursor = self._cnx.cursor()
@@ -162,10 +173,12 @@ class ListEntryMapper(Mapper):
         cursor.close()
         return result
 
+    #can be deleted see row 210 redundant?
     def find_by_checkout(self, date):
         """
-        Niklas check:bool - needs date format check on frontend
-        tbd
+        Niklas date: Date 
+        gets a list of listentries with that specific date from the database
+        :return: a list of listentry bos
         """
         result = []
         cursor = self._cnx.cursor()
@@ -227,6 +240,8 @@ class ListEntryMapper(Mapper):
     def insert(self, listentry):
         """
         Niklas le:ListEntry
+        inserts a listentry into the database
+        :return: a single listentry bo
         """
         cursor = self._cnx.cursor()
         cursor.execute("SELECT MAX(id) AS maxid FROM `Listentry`")
@@ -246,7 +261,7 @@ class ListEntryMapper(Mapper):
         if listentry.get_amount() is None:
             listentry.set_amount('NULL')
         else:
-            listentry.set_amount(listentry.get_retailer())
+            listentry.set_amount(listentry.get_amount())
 
         if listentry.get_buy_date() is None:
             listentry.set_buy_date('NULL')
@@ -286,6 +301,9 @@ class ListEntryMapper(Mapper):
         """
         Pascal le:ListEntry
         Niklas 
+        updates an existing listentry in the database
+        if it does not exist a new one is created
+        :return: a single listentry bo
         """
     
         le = ListEntry()
@@ -309,58 +327,59 @@ class ListEntryMapper(Mapper):
             le.set_buy_date(listentry.get_buy_date())
        
 
-        #Spaghetti here we come
-        #try:
-        cursor = self._cnx.cursor()
-    
-        if le.get_unit() is None:
-            unit = "NULL"
-        else:
-            unit = "'" + le.get_unit() + "'"
-    
-        if le.get_retailer() is None:
-            retailer = 'NULL'
-        else:
-            retailer =  le.get_retailer()
+        try:
+            cursor = self._cnx.cursor()
         
-        if le.get_amount() is None:
-            amount = 'NULL'
-        else:
-            amount = le.get_amount()
+            if le.get_unit() is None:
+                unit = "NULL"
+            else:
+                unit = "'" + le.get_unit() + "'"
         
-        if le.get_shoppinglist() is None:
-            shoppinglist = "NULL"
-        else:
-            shoppinglist =  le.get_shoppinglist()
-        
-        if le.get_user() is None:
-            user = 'NULL'
-        else:
-            user = le.get_user()
-        
-        if le.get_buy_date() is None:
-            buydate = 'NULL'
-        else:
-            date = datetime.date.today()
-            buydate = "'"+date.strftime("%Y/%m/%d")+"'"
+            if le.get_retailer() is None:
+                retailer = 'NULL'
+            else:
+                retailer =  le.get_retailer()
             
-        
-        command = """UPDATE Listentry SET Article_ID={0}, Retailer_ID={1}, Shoppinglist_ID={2}, User_ID={3}, Group_ID={4}, amount={5}, unit={6}, bought={7} WHERE ID={8}""".format(le.get_article(), retailer, shoppinglist, user, le.get_group(), amount, unit, buydate, le.get_id())
-        print(command)
+            if le.get_amount() is None:
+                amount = 'NULL'
+            else:
+                amount = le.get_amount()
             
-        cursor.execute(command)
-        self._cnx.commit()
-        cursor.close()
-        return listentry
+            if le.get_shoppinglist() is None:
+                shoppinglist = "NULL"
+            else:
+                shoppinglist =  le.get_shoppinglist()
+            
+            if le.get_user() is None:
+                user = 'NULL'
+            else:
+                user = le.get_user()
+            
+            if le.get_buy_date() is None:
+                buydate = 'NULL'
+            else:
+                date = datetime.date.today()
+                buydate = "'"+date.strftime("%Y/%m/%d")+"'"
+                
+            
+            command = """UPDATE Listentry SET Article_ID={0}, Retailer_ID={1}, Shoppinglist_ID={2}, User_ID={3}, Group_ID={4}, amount={5}, unit={6}, bought={7} WHERE ID={8}""".format(le.get_article(), retailer, shoppinglist, user, le.get_group(), amount, unit, buydate, le.get_id())
+            print(command)
+                
+            cursor.execute(command)
+            self._cnx.commit()
+            cursor.close()
+            return listentry
 
-        #except Exception as e:
-        #    print(str(e))
-        #    return "Error in update ListEntry ListEntryMapper: " + str(e)
+        except Exception as e:
+            print(str(e))
+            return "Error in update ListEntry ListEntryMapper: " + str(e)
            
 
     def delete(self, listentry):
         """
         Niklas le:ListEntry
+        delets a specific listentry  from the database
+        :return: a str which tells the frontend that the listentry was deleted
         """
         try:
             cursor = self._cnx.cursor()
@@ -378,6 +397,8 @@ class ListEntryMapper(Mapper):
     def get_personal_items_of_group(self, user_id, group_id):
         """
         Pascal
+        gets all assigned listentries from the database for a specific user id, group id combination
+        :return: a list of listentry bos
         """
         result = []
         cursor = self._cnx.cursor()
@@ -407,7 +428,9 @@ class ListEntryMapper(Mapper):
 
     def get_items_of_group(self, group_id, shoppinglist_id):
         """
-        Niklas - items are unassigned
+        Niklas - 
+        gets all listentries from the database for a specific group id, shoppinglist idcombination
+        :return: a list of listentry bos
         """
         result = []
         cursor = self._cnx.cursor()

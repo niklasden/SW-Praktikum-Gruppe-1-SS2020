@@ -24,13 +24,11 @@ const settingsobj = ShoppingSettings.getSettings()
  * @author [Niklas Denneler](https://github.com/niklasden): 
  * Renders a Settings Page, so the User can edit his personal details and delete his account
  * Most paramets can not be changed, because of the connection to Googles Firebase.
- * For this reason, there was a profile picture upload function implented, which is not enabled at the moment.
- * Setting up the DB side of things took more time, then I anticipated.
+ * For this reason, there was a profile picture upload function implemented, which is not enabled at the moment.
+ * Setting up the Backend/DB side of things took more time, then I anticipated.
  * 
  * ToDo:
- * 
  * More advanced error handling
- * 
  * 
  */
 class AccountsPage extends Component {
