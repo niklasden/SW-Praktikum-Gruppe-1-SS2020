@@ -21,6 +21,8 @@ import ShoppingSettings from '../../shoppingSettings'
 const settings = ShoppingSettings.getSettings()
 
 class ProductsPage extends Component {
+
+  //Init the state
   state = {
     searchValue: '',
     loadingInProgress: false, 
@@ -29,46 +31,46 @@ class ProductsPage extends Component {
     articles: [],
     shoppinglists: [],
     selected_shoppinglist: [], 
-    //error: null,
     currentGroupID: settings.getGroupID(),
- }
-
-  componentDidMount(){
-    this.getProducts()
   }
 
+  /** Fetches ArticleBOs */
   async getProducts(){
     this.setState({
       loadingInProgress: true, 
       loadingArticleError: null 
     })
+    setTimeout(async () => {
+      try {
+        const init = {
+          method: 'GET',
+          credentials: 'include', 
+        }
+        const res = await fetch(Config.apiHost + '/Article', init);
+        const json = await res.json()
 
-  setTimeout(async () => {
-    try {
-      const init = {
-        method: 'GET',
-        credentials: 'include', 
-      }
-      const res = await fetch(Config.apiHost + '/Article', init);
-      const json = await res.json()
+        this.setState({
+          loadingInProgress: false, 
+          loadingArticleError: null, 
+          articles: json, 
+        })
+      } catch (e) {
+        this.setState({
+          loadingInProgress: false, 
+          loadingArticleError: '', 
+        })
+      } 
+    }, 1000)
+  }
 
-      this.setState({
-        loadingInProgress: false, 
-        loadingArticleError: null, 
-        articles: json, 
-      })
-    } catch (e) {
-      this.setState({
-        loadingInProgress: false, 
-        loadingArticleError: '', 
-      })
-    } 
-  }, 1000)
-}
+  /** Lifecycle methods, which is called when the component gets inserted into the browsers DOM */
+  componentDidMount(){
+    this.getProducts()
+  }
 
+  /** Renders the Article Objects */
   renderArticles(){
-    /*reduce creates an array with all articles of the same category*/
-
+    //set the right icon to the article, in case of no individual icon it returns the specific category icon
     function getIconName(name, category){
       if (articleIDIconMapper[name] !== undefined){
         return articleIDIconMapper[name]
@@ -77,7 +79,7 @@ class ProductsPage extends Component {
       }
       return 'advertising'
     }
-
+    //reduce creates an array with all articles of the same category
     var categories = this.state.articles.reduce((itemsSoFar, {category, name, id}) => {
       if (!itemsSoFar[category]) itemsSoFar[category] = [];
       var iconName = getIconName(name, category)
@@ -85,9 +87,8 @@ class ProductsPage extends Component {
       return itemsSoFar; 
     }, {});
 
-    /* Checks if there is a Article equal to the search-value*/ 
+    //Checks if there is an article equal to the search-value 
     if(this.state.searchValue !== ''){
-      //Erst this.state.articles filtern und dann reducen?
       categories = this.state.articles.reduce((itemsSoFar, {category, name, id}) => {
         if (!itemsSoFar[category]) itemsSoFar[category] = [];
         var iconName = getIconName(name, category)
@@ -120,6 +121,7 @@ class ProductsPage extends Component {
       ));
   }
 
+  /** Renders the component */
   render(){
     const classes = this.props.classes
 
@@ -164,6 +166,7 @@ class ProductsPage extends Component {
   }
 }
 
+/** Component specific styles */
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -182,12 +185,12 @@ const styles = theme => ({
   }
 });
 
+ /** individual icons for the articles */
 const articleIDIconMapper = {
   apple: 'apple', 
   banana: 'banana',
   oranges: 'orange',
   grape: 'grape', 
-  //chicken: 'chicken', 
   steak: 'meat', 
   meat: 'meat', 
   fish: 'fish', 
@@ -225,8 +228,9 @@ const articleIDIconMapper = {
   ketchup: 'ketchup',
   lipstick: 'lipstick',
   soap: 'soap',
-}
+};
 
+/** Icons for the category */
 const categoryIconMapper = {
   vegetables: 'vegetables',
   "meat & fish": 'meatAndFish',

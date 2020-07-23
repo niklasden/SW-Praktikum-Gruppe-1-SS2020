@@ -15,7 +15,7 @@ import { Config } from '../../config';
 import { timeout } from '../../timeout'
 
 /**
- * Renders the page to create  a article
+ * Renders the page to create an article.
  * 
  * @see ArticleEntry
  * 
@@ -24,11 +24,11 @@ import { timeout } from '../../timeout'
  */
   
 class CreateArticlePage extends Component {
+	// Init the state
 	state = {
 		snackbarOpen: false, 
 		isSaving: false,
 		redirectToArticlePage: false,
-
 		id: 0, 
 		name: '', 
 		category: '',
@@ -45,17 +45,14 @@ class CreateArticlePage extends Component {
 		], 
 	}
 
+	/** Adds an article to the ProductsPage */
 	async onClickSave(){
 		this.setState({ isSaving: true })
-
-		// TODO: remove
 		await timeout(500)
-
 		let id = this.state.item
 		if (id === ''){
 			id = 0
 		}
-
 		const article ={
 			id: id, 
 			name: this.state.name, 
@@ -64,9 +61,7 @@ class CreateArticlePage extends Component {
 			// to send it anyway so there is no marshall error
 			cd: '', 
 		}
-
 		const requestBody = JSON.stringify(article)
-
 		const rInit = {
 			method: 'POST',
 			credentials: 'include',
@@ -76,16 +71,15 @@ class CreateArticlePage extends Component {
 			body: requestBody
 		}
 		const resp = await fetch(Config.apiHost + '/Article', rInit)
-		
 		if(resp.ok){
 			this.props.history.push('/products')
 		} else {
 			this.showErrorSnackBar()
 		}
-
 		this.setState({ isSaving: false})
 	}
 
+	/** Deletes an article from the ProductPage */
 	async onClickDelete(){
 		this.setState({ isSaving: true })
 		await timeout(0)
@@ -94,7 +88,6 @@ class CreateArticlePage extends Component {
 			name: this.state.name, 
 			category: this.state.category		
 		}
-
 		const rInit = {
 			method: 'DELETE', 
 			credentials: 'include',
@@ -119,12 +112,13 @@ class CreateArticlePage extends Component {
 		}, 2000)
 	}
 
-	componentDidMount(){
+ 	/** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
+  	componentDidMount(){
 		let name = ''
 		let category = ''
 		let id = ''
-		/* checks if there has been a article from the article page*/
-		/* if yes, it takes name and category from there*/
+		//checks if there has been an article from the article page
+		// if yes, it takes name and category from there
 		if (this.props.location.state !== undefined){
 			id = this.props.location.state.id
 			name = this.props.location.state.name
@@ -141,6 +135,7 @@ class CreateArticlePage extends Component {
 		})
 	}
 
+	/** Renders the component */
 	render(){ 
 		// if we created an article this will be true and we will be redirected to article page
 		if (this.state.redirectToArticlePage) {
@@ -243,6 +238,7 @@ class CreateArticlePage extends Component {
 	}
 }; 
 
+/** Component specific styles */
 const styles = theme => ({
 	root: {
 		backgroundColor: '#fafafa', 
