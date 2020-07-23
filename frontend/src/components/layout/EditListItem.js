@@ -49,7 +49,7 @@ class EditListItem extends Component {
       savingItemError: null,
     }
      this.saveItem = this.saveItem.bind(this); 
-     this.getRetailerbyProps = this.getRetailerbyProps.bind(this);
+    //this.getRetailerbyProps = this.getRetailerbyProps.bind(this); 
   }
 
   /* getRetailerbyProps = () => {
