@@ -1,7 +1,30 @@
 import React, { Component } from 'react'
 
+const colorArray = [
+	'#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
+	'#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
+	'#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A', 
+	'#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
+	'#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC', 
+	'#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
+	'#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680', 
+	'#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
+	'#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3', 
+	'#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'
+];
+			
+/**
+ * https://www.c-sharpcorner.com/UploadFile/18ddf7/html5-line-graph-using-canvas/
+ */
 export default class LineChart extends Component {
 	componentDidMount(){
+		let maxAmount = 0
+		this.props.options.forEach(el => {
+			if (el.amount > maxAmount){
+				maxAmount = el.amount
+			}
+		})
+
 		var myLineChart = new LineChartGenerator({  
 			canvasId: "myLineCanvas",  
 			minX: 0,
@@ -9,9 +32,14 @@ export default class LineChart extends Component {
 			maxX: 140,
 			maxY: 100,
 			unitsPerTickX: 10,
-			unitsPerTickY: 10
+			unitsPerTickY: maxAmount / 10,
+
+			minDate: this.props.minDate, 
+			maxDate: this.props.maxDate, 
+			options: this.props.options,
+			maxY: maxAmount
 		})
-	
+
 		var data = [
 			{ x: 0, y: 0 }, 
 			{ x: 20, y: 10 }, 
@@ -37,15 +65,34 @@ export default class LineChart extends Component {
 	
 		myLineChart.drawLine(data, "red", 3);  
 	}
-  
+	
+	renderArticles(){
+		const renderedArticles = []
+
+		this.props.options.forEach((el, i) => {
+			renderedArticles.push(
+				<div>
+					<text style={{color: colorArray[i], fontWeight: 'bold'}}>{el.article_name}</text>
+				</div>
+			)
+		})
+
+		return renderedArticles
+	}
+
 	render(){
+		console.log(this.props.options)
+
 		return (
-			<canvas 
-				id="myLineCanvas" 
-				width="600" 
-				height="300" 
-				// width={this.props.width}
-			/>
+			<>
+				<canvas 
+					id="myLineCanvas" 
+					width="600" 
+					height="300" 
+					// width={this.props.width}
+				/>
+				{this.renderArticles()}
+			</>
 		)
 	}
 }

@@ -190,7 +190,14 @@ class ShowStatisticPage extends Component {
                             />
                     </Grid>
                 </Grid>
-                <Statistic id="test-chart" group={parseInt(location[2])} retailer={this.state.selectedRetailer} category={this.state.selectedCategory} article={this.state.selectedArticle} startTime={this.state.selectedStartTime} endTime={this.state.selectedEndTime} />
+                <Statistic 
+                    id="test-chart" 
+                    group={parseInt(location[2])} 
+                    retailer={this.state.selectedRetailer} 
+                    category={this.state.selectedCategory} 
+                    article={this.state.selectedArticle} 
+                    startTime={this.state.selectedStartTime} 
+                    endTime={this.state.selectedEndTime} />
                 </>
                 }
             </Grid>

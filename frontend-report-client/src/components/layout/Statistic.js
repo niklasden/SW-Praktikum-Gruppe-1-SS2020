@@ -3,6 +3,7 @@ import { Grid } from '@material-ui/core';
 import CanvasJSReact from './statistic/canvasjs.react'
 import { withStyles } from '@material-ui/core/styles';
 import {Config} from '../../config';
+import LineChart from '../layout/LineChart'
 
 /**
  * Displays the timeline chat for the statistic page
@@ -114,7 +115,7 @@ isDateAfterTimeProp(date) {
           d.dataPoints = d.dataPoints.filter(dd => this.isDateBeforeTimeProp(dd.x) && this.isDateAfterTimeProp(dd.x));
         })
       }
-      console.log(newList)
+      // console.log(newList)
 
       return newList;
     }
@@ -140,7 +141,7 @@ isDateAfterTimeProp(date) {
         })
       })
 
-      console.log(customOptions)
+      // console.log(customOptions)
 
       return customOptions
     }
@@ -155,6 +156,11 @@ isDateAfterTimeProp(date) {
         chartItems.data.length > 0 ?
           <Grid item>
             <CanvasJSChart options = {this.getOptions()} className={classes.chart} />
+            <LineChart
+              minDate={this.props.startTime}
+              maxDate={this.props.endTime}
+              options={customOptions}
+            />
           </Grid>
         :
           <Grid item>
