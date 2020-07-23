@@ -42,6 +42,7 @@ class EditListItem extends Component {
       bought: this.props.item.bought,
       retailer: this.props.retailer,
       selected_user_id: null,
+      selected_retailer_id: null,
       changed_amount: null,
       selected_unit: null,
       savingInProgress: false,
@@ -51,7 +52,7 @@ class EditListItem extends Component {
      this.getRetailerbyProps = this.getRetailerbyProps.bind(this);
   }
 
-  getRetailerbyProps = () => {
+  getRetailerbyProps = (retailer) => {
     var res = "";
     if (this.state.item.retailer !== null){
     this.props.retailer.forEach(item => {
@@ -64,13 +65,13 @@ class EditListItem extends Component {
   };
 
   componentDidMount(){
-    /*console.log(this.getRetailerbyProps())*/
+    console.log(this.state.item.retailer)
 
     this.setState({
       selected_unit: this.state.item.unit,
       selected_amount: this.state.item.amount,
       selected_user_id: this.state.item.user_id,
-      selected_retailer_id: this.getRetailerbyProps(),
+      selected_retailer_id: this.state.item.retailer_id,
     });
 
   }
@@ -166,6 +167,7 @@ class EditListItem extends Component {
       <FormControl style={{width: '100%', height: 35, marginLeft: 10, marginBottom: 10}}>
                 <InputLabel>ASSIGN USER</InputLabel>
                 <Select defaultValue={this.state.selected_user_id} value={this.state.selected_user_id} onChange={this.handleChangeUser.bind(this)}>
+                  {console.log(this.state.selected_user_id)}
                   <MenuItem key={null} value={null}>null</MenuItem>
                 {this.props.user.map(item =>{
                     return <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
@@ -177,6 +179,7 @@ class EditListItem extends Component {
       <FormControl style={{width: '100%', height: 35, marginLeft: 10, marginBottom: 10}}>
                <InputLabel>ASSIGN RETAILER</InputLabel>
                <Select defaultValue={this.state.selected_retailer_id} value={this.state.selected_retailer_id} onChange={this.handleChangeRetailer.bind(this)}> 
+               {console.log(this.state.selected_retailer_id)}
                <MenuItem key={null} value={null}>null</MenuItem>
                {this.props.retailer.map(item =>{
                     return <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>

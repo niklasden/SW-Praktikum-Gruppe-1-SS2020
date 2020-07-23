@@ -53,7 +53,7 @@ const articleIDIconMapper = {
   cheese: 'cheese',
   eggs: 'egg',
   yoghurt: 'yoghurt',
-  noodle: 'noodles',
+  noodle: 'noodle',
   flour: 'flour',
   pizza: 'pizza',
   icecream: 'icecream',
