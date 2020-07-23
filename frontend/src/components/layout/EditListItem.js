@@ -52,7 +52,7 @@ class EditListItem extends Component {
      this.getRetailerbyProps = this.getRetailerbyProps.bind(this);
   }
 
-  getRetailerbyProps = (retailer) => {
+  /* getRetailerbyProps = () => {
     var res = "";
     if (this.state.item.retailer !== null){
     this.props.retailer.forEach(item => {
@@ -62,7 +62,7 @@ class EditListItem extends Component {
       });
     } 
     return res
-  };
+  }; */
 
   componentDidMount(){
     console.log(this.state.item.retailer)
@@ -143,6 +143,8 @@ class EditListItem extends Component {
       <CircularLoadingProgress show={savingInProgress} />
       <ContextErrorMessage error={savingItemError} contextErrorMsg={'Failed to save Item'} onReload={this.saveItem}/>
 
+      
+      {/* Creates a drop-down menu in which all units (kg, ml, g...) can be selected.  */}
       <Grid item xs={6} style={{paddingLeft: 25}}>
         <InputLabel>AMOUNT</InputLabel>
         <TextField onChange={this.handleChangeAmount.bind(this)} value={this.state.selected_amount}></TextField>
@@ -163,6 +165,9 @@ class EditListItem extends Component {
                 </Select>
       </FormControl>
       </Grid>
+
+      {/* Creates a drop-down menu in which all users can be selected. The listItem is assigned to the selected user in the drop-down menu.
+      The user can also be reassigned  */}
       <Grid item xs={6} style={{marginTop: 10}}>
       <FormControl style={{width: '100%', height: 35, marginLeft: 10, marginBottom: 10}}>
                 <InputLabel>ASSIGN USER</InputLabel>
@@ -175,6 +180,9 @@ class EditListItem extends Component {
                 </Select>
       </FormControl>
       </Grid>
+
+      {/* Creates a drop-down menu in which all retailers can be selected. The listItem is assigned to the selected retailer in the drop-down menu. 
+      The retailer can also be reassigned */}
       <Grid item xs={6} style={{marginTop: 10}}>
       <FormControl style={{width: '100%', height: 35, marginLeft: 10, marginBottom: 10}}>
                <InputLabel>ASSIGN RETAILER</InputLabel>
@@ -189,6 +197,7 @@ class EditListItem extends Component {
       </Grid>
       </Grid>
 
+      
       <DialogActions style={{justifyContent: "center"}}>
         <Button color="primary" onClick={() => this.saveItem()}>
           SAVE

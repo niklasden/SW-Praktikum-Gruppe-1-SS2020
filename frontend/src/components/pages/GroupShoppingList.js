@@ -167,6 +167,7 @@ export default class GroupShoppingList extends Component {
             <FormControl style={{width: '25ch', height: 35, marginBottom: 15, textAlign: 'center'}}>
               <InputLabel style={{left:'13%'}}>Select Shopping List</InputLabel>
               
+              
               <Select value={this.state.selected_shoppinglist} onChange={this.handleChangeShoppinglist.bind(this)}>
                 {this.state.shoppinglists.map((item, key) => 
                     <MenuItem value={item.id}>{item.name}</MenuItem> 
