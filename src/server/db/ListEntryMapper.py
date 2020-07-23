@@ -175,11 +175,7 @@ class ListEntryMapper(Mapper):
 
     #can be deleted see row 210 redundant?
     def find_by_checkout(self, date):
-        """
-        Niklas date: Date 
-        gets a list of listentries with that specific date from the database
-        :return: a list of listentry bos
-        """
+        
         result = []
         cursor = self._cnx.cursor()
         cursor.execute("SELECT ID, Article_ID, Retailer_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought,creationdate from `Listentry` WHERE bought={}".format(date))
