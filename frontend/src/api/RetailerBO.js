@@ -51,7 +51,7 @@ export default class RetailerBO extends BusinessObject {
                 result.push(retailer)
             })
         } else {
-            // Es handelt sich offenbar um ein singuläres Objekt
+            // Its a single object
             let retailer = retailers;
             Object.setPrototypeOf(retailer, RetailerBO.prototype)
             result.push(retailer)

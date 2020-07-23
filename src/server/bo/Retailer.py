@@ -13,7 +13,7 @@ class Retailer(bo.BusinessObject):
         the location of the retailer, can be an address or a description like: behind the big building etc.
     _id: str
         the unique id of the retailer
-    _creationdate: str
+    _creationdate: DateTime
         the date the object has been created
     """
 
