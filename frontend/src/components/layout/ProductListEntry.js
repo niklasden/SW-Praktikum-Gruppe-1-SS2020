@@ -5,11 +5,7 @@ import Article from '../layout/Article';
 import { withRouter } from "react-router-dom";
 import AddListItem from './AddListItem';
 
-const styles = theme => ({
-    article: {
-      padding: theme.spacing(0), 
-    }
- });
+
 
  /**
  * Renders a list of ArticleEntry objects
@@ -27,7 +23,8 @@ const styles = theme => ({
    
   constructor(props) {
     super(props);
-   
+    
+    // Init the state
     this.state = {
      item : this.props.item,
      name: this.props.item.name,
@@ -42,23 +39,34 @@ const styles = theme => ({
     this.PressButtonConfirm = this.PressButtonConfirm.bind(this);
   }
 
+  /** Handels the onClick event of the ButtonBase:
+   * Opens the PopUP of the AddListItem.js when an article is clicked */
   onClickItem(name) {
     this.setState({open : true})
   }
+
+  /** 
+   * Closes the PopUP of the AddListItem.js when an article is clicked */
   onCloseItem() {
     this.setState({open: false})
   }
+
+  /** Handles  */
   handleClose(){
     this.setState({anchorEl:null});
   };
+  
+  /** Handels the onClose event of the back button on the PopUp */
   PressButtonBack(){
     this.setState({open : false})
   }
+
+  /** Handles the onClick event of the AddListItem.js button */
   PressButtonConfirm(){
     this.setState({open : false})
   }
     
-
+  /** Renders the component */
   render(){
       const { classes } = this.props
 
@@ -71,7 +79,6 @@ const styles = theme => ({
             >
               <ButtonBase
                 onClick={() => {this.handleClick(this.state.item)}}
-      
                 >
                 <Article 
                 id = {this.props.id}
@@ -92,6 +99,13 @@ const styles = theme => ({
       )
   }
 }
+
+/** Component specific styles */
+const styles = theme => ({
+  article: {
+    padding: theme.spacing(0), 
+  }
+});
 
 
  export default withRouter(withStyles(styles)(ProductListEntry));

@@ -45,7 +45,7 @@ class ArticleMapper (Mapper):
     def find_by_name(self, name):
         """get all articles according to the article name. 
         :param name Name of the correspondeing article
-        :return a collection of article objects containing all articles with the desired name. 
+        :return A collection of article objects containing all articles with the desired name. 
         """
 
         result = []
@@ -72,7 +72,7 @@ class ArticleMapper (Mapper):
         """get an article with a given article ID. Since this is unique, exacly one object is returned. 
 
         :para key Primary key attribute (->DB)
-        :return article-object, that corresponds to the passed key, None if the DB tuple does not exist. 
+        :return Article-object, that corresponds to the passed key, None if the DB tuple does not exist. 
         """
 
         result = None
@@ -103,8 +103,8 @@ class ArticleMapper (Mapper):
         """Inserting an article object into the database.
         The primary key of the transferred object is also checked and corrected if necessary.  
 
-        :param article the object to be stored
-        :return the object already passed, but with a corrected ID if necessary 
+        :param article The object to be stored
+        :return The object already passed, but with a corrected ID if necessary 
         """
         cursor = self._cnx.cursor()
         cursor.execute("SELECT MAX(id) AS maxid FROM Article")
@@ -125,7 +125,7 @@ class ArticleMapper (Mapper):
 
     def update(self, article):
         """Repeated writing of an object to the database.  
-        :param article the object to be written to the DB. 
+        :param article The object to be written to the DB. 
         """
         cursor = self._cnx.cursor()
 
@@ -138,7 +138,7 @@ class ArticleMapper (Mapper):
 
     def delete(self, article):
         """Delete the data of an article object from the database. 
-        :param: article the "object" to be deleted from the DB. 
+        :param article The "object" to be deleted from the DB. 
         """
         try: 
             cursor = self._cnx.cursor()

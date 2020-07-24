@@ -8,32 +8,189 @@ import ProductListEntry from '../layout/ProductListEntry';
 import { Link } from 'react-router-dom';
 import Heading from '../layout/Heading';
 import { Config } from '../../config';
-import ContextErrorMessage from '../dialogs/ContextErrorMessage';
+import ShoppingSettings from '../../shoppingSettings'
 
-const styles = theme => ({
-    root: {
-      flexGrow: 1,
-      padding: theme.spacing(2),
-      marginBottom: 50
-    },
-    article: {
-      display: 'flex', 
-      justifyContent: 'center' 
-    },
-    loading: {
-      width: '100%'
-    }, 
-    favProducts: {
-      marginLeft: 10
+/**
+ * Renders a list of ArticleEntry objects
+ * 
+ * @see ProductListEntry
+ * 
+ * @author [Pia Schmid](https://github.com/PiaSchmid)
+ */
+
+const settings = ShoppingSettings.getSettings()
+
+class ProductsPage extends Component {
+
+  //Init the state
+  state = {
+    searchValue: '',
+    loadingInProgress: false, 
+    loadingArticlesError: null, 
+    addingArticleError: null, 
+    articles: [],
+    shoppinglists: [],
+    selected_shoppinglist: [], 
+    currentGroupID: settings.getGroupID(),
+  }
+
+  /** Fetches ArticleBOs */
+  async getProducts(){
+    this.setState({
+      loadingInProgress: true, 
+      loadingArticleError: null 
+    })
+    setTimeout(async () => {
+      try {
+        const init = {
+          method: 'GET',
+          credentials: 'include', 
+        }
+        const res = await fetch(Config.apiHost + '/Article', init);
+        const json = await res.json()
+
+        this.setState({
+          loadingInProgress: false, 
+          loadingArticleError: null, 
+          articles: json, 
+        })
+      } catch (e) {
+        this.setState({
+          loadingInProgress: false, 
+          loadingArticleError: '', 
+        })
+      } 
+    }, 1000)
+  }
+
+  /** Lifecycle methods, which is called when the component gets inserted into the browsers DOM */
+  componentDidMount(){
+    this.getProducts()
+  }
+
+  /** Renders the Article Objects */
+  renderArticles(){
+    //set the right icon to the article, in case of no individual icon it returns the specific category icon
+    function getIconName(name, category){
+      if (articleIDIconMapper[name] !== undefined){
+        return articleIDIconMapper[name]
+      } else if (categoryIconMapper[category] !== undefined){
+        return categoryIconMapper[category]
+      }
+      return 'advertising'
     }
- });
+    //reduce creates an array with all articles of the same category
+    var categories = this.state.articles.reduce((itemsSoFar, {category, name, id}) => {
+      if (!itemsSoFar[category]) itemsSoFar[category] = [];
+      var iconName = getIconName(name, category)
+      itemsSoFar[category].push({name, id, iconName});
+      return itemsSoFar; 
+    }, {});
 
+    //Checks if there is an article equal to the search-value 
+    if(this.state.searchValue !== ''){
+      categories = this.state.articles.reduce((itemsSoFar, {category, name, id}) => {
+        if (!itemsSoFar[category]) itemsSoFar[category] = [];
+        var iconName = getIconName(name, category)
+        if (name.toLowerCase().includes(this.state.searchValue.toLowerCase())) itemsSoFar[category].push({name, category,  id, iconName});
+        return itemsSoFar;
+      }, 
+      {});
+    }
+  
+   return Object.entries(categories).map(category => (
+        <div key={category[1].id}>
+
+          <Heading>{category[0]}</Heading>
+
+          <Grid container
+          direction ="row">
+           {category[1].map(item => (
+             <ProductListEntry
+             key={item.id}
+             item={item}
+             id={item.id}
+             category={category[0]}
+             name={item.name}
+             iconName={item.iconName}
+             style={{marginBottom:12}}
+             />
+           ))}
+           </Grid>
+        </div>
+      ));
+  }
+
+  /** Renders the component */
+  render(){
+    const classes = this.props.classes
+
+    return( 
+        <Grid container 
+        className={classes.root}
+        >
+          <Grid container 
+          spacing={1}
+          >
+            <Grid item xs={8}>
+              <TextInputBar placeholder="search..." icon="search" onChange={(elem) => this.setState({ searchValue: elem.target.value})}/>
+            </Grid>
+
+            <Grid item xs={4}>
+              <Link to="/create_article">
+                <IconButton icon='add' />
+              </Link>
+              <Link to="/favorite_products" className = {classes.favProducts}>
+                <IconButton icon='star'/>
+              </Link>
+            </Grid>
+          </Grid>
+          <div 
+          className= {classes.loading}
+          >
+            {(this.state.currentGroupID === 0) ? 
+              <div style={{marginTop:'20px'}}>
+                No group found!<br /> Switch to HomePage and select your active group!
+                </div>
+            :
+            this.state.loadingInProgress ?
+                <div className = {classes.article}>
+                  <CircularProgress size={25} style={{marginTop: 20}} />
+                </div> 
+              :  
+                this.renderArticles()
+              }
+          </div>
+        </Grid>
+    )
+  }
+}
+
+/** Component specific styles */
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    padding: theme.spacing(2),
+    marginBottom: 50
+  },
+  article: {
+    display: 'flex', 
+    justifyContent: 'center' 
+  },
+  loading: {
+    width: '100%'
+  }, 
+  favProducts: {
+    marginLeft: 10
+  }
+});
+
+ /** individual icons for the articles */
 const articleIDIconMapper = {
   apple: 'apple', 
   banana: 'banana',
   oranges: 'orange',
   grape: 'grape', 
-  chicken: 'chicken', 
   steak: 'meat', 
   meat: 'meat', 
   fish: 'fish', 
@@ -60,7 +217,7 @@ const articleIDIconMapper = {
   donut: 'donut',
   chips: 'chips',
   popcorn: 'popcorn',
-  bomboms: 'bomboms',
+  bombom: 'bomboms',
   chocolate: 'chocolate',
   cake: 'cake',
   cookies: 'cookies',
@@ -71,8 +228,9 @@ const articleIDIconMapper = {
   ketchup: 'ketchup',
   lipstick: 'lipstick',
   soap: 'soap',
-}
+};
 
+/** Icons for the category */
 const categoryIconMapper = {
   vegetables: 'vegetables',
   "meat & fish": 'meatAndFish',
@@ -83,162 +241,6 @@ const categoryIconMapper = {
   "milk & cheese": 'milkAndEggs', 
   cosmetic: 'cosmetics', 
   "convenience & frozen products": 'convenience'
-}
-
-
-/**
- * Renders a list of ArticleEntry objects
- * 
- * @see ProductListEntry
- * 
- * @author [Pia Schmid](https://github.com/PiaSchmid)
- */
-
-
-class ProductsPage extends Component {
-  state = {
-    searchValue: '',
-    loadingInProgress: false, 
-    loadingArticlesError: null, 
-    addingArticleError: null, 
-    articles: [],
-    shoppinglists: [],
-    selected_shoppinglist: [], 
-
-    error: null,
-    currentGroupID: 0
- }
-
-  componentDidMount(){
-    this.getProducts()
-  }
-
-  async getProducts(){
-    this.setState({
-      loadingInProgress: true, 
-      loadingArticleError: null 
-    })
-
-  setTimeout(async () => {
-    try {
-      const init = {
-        method: 'GET',
-        credentials: 'include', 
-      }
-      const res = await fetch(Config.apiHost + '/Article', init);
-      const json = await res.json()
-
-      this.setState({
-        loadingInProgress: false, 
-        loadingArticleError: null, 
-        articles: json, 
-      })
-    } catch (e) {
-      this.setState({
-        loadingInProgress: false, 
-        loadingArticleError: '', 
-      })
-    } 
-  }, 1000)
-}
-
-  renderArticles(){
-    /*reduce creates an array with all articles of the same category*/
-
-    function getIconName(name, category){
-      if (articleIDIconMapper[name] !== undefined){
-        return articleIDIconMapper[name]
-      } else if (categoryIconMapper[category] !== undefined){
-        return categoryIconMapper[category]
-      }
-      return 'advertising'
-    }
-
-    var categories = this.state.articles.reduce((itemsSoFar, {category, name, id}) => {
-      if (!itemsSoFar[category]) itemsSoFar[category] = [];
-      var iconName = getIconName(name, category)
-      itemsSoFar[category].push({name, id, iconName});
-      return itemsSoFar; 
-    }, {});
-
-    /* Checks if there is a Article equal to the search-value*/ 
-    if(this.state.searchValue !== ''){
-      //Erst this.state.articles filtern und dann reducen?
-      categories = this.state.articles.reduce((itemsSoFar, {category, name, id}) => {
-        if (!itemsSoFar[category]) itemsSoFar[category] = [];
-        var iconName = getIconName(name, category)
-        if (name.toLowerCase().includes(this.state.searchValue.toLowerCase())) itemsSoFar[category].push({name, category,  id, iconName});
-        return itemsSoFar;
-      }, 
-      {});
-    }
-  
-   return Object.entries(categories).map(category => (
-        <div key={category[1].id}>
-
-          <Heading>{category[0]}</Heading>
-
-          <Grid container
-          direction ="row">
-           {category[1].map(item => (
-
-             <ProductListEntry
-             key={item.id}
-             item={item}
-             id={item.id}
-             category={category[0]}
-             name={item.name}
-             iconName={item.iconName}
-             style={{marginBottom:12}}
-             />
-
-           ))}
-           </Grid>
-
-        </div>
-      ));
-  }
-
-  render(){
-    const classes = this.props.classes
-    const {error, loadingInProgress} = this.state;
-
-
-    return( 
-
-        <Grid container 
-        className={classes.root}
-        >
-          <Grid container 
-          spacing={1}
-          >
-            <Grid item xs={8}>
-              <TextInputBar placeholder="search..." icon="search" onChange={(elem) => this.setState({ searchValue: elem.target.value})}/>
-            </Grid>
-
-            <Grid item xs={4}>
-              <Link to="/create_article">
-                <IconButton icon='add' />
-              </Link>
-              <Link to="/favorite_products" className = {classes.favProducts}>
-                <IconButton icon='star'/>
-              </Link>
-            </Grid>
-          </Grid>
-          <div 
-          className= {classes.loading}
-          >
-            {this.state.loadingInProgress ?
-                <div className = {classes.article}>
-                  <CircularProgress size={25} />
-                </div>
-              :  
-                this.renderArticles()
-              }
-          </div>
-        </Grid>
-    )
-  }
 }
 
 export default withStyles(styles)(ProductsPage);
