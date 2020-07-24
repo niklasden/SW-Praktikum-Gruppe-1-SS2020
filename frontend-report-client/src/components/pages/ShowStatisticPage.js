@@ -17,7 +17,6 @@ import {Config} from '../../config';
  * @author [Kevin Eberhardt](https://github.com/kevin-eberhardt)
  * 
  */
-
 const styles = theme => ({
     formControl: {
       margin: theme.spacing(1),
@@ -28,7 +27,7 @@ const styles = theme => ({
 /* Initialize start- and end-date of the selection */
 const initStartDate = new Date();
 const initStartDateMonth = initStartDate.getMonth() < 10 ? "0" + (initStartDate.getMonth() + 1) : (initStartDate.getMonth() + 1);
-const initStartDateDay = "01";
+const initStartDateDay = "04";
 const initStartDateFullDate = initStartDate.getFullYear() + "-" + initStartDateMonth + "-" + initStartDateDay;
 
 const initEndDate = new Date(initStartDate.setDate(initStartDate.getDate() + 7));

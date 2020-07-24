@@ -17,7 +17,7 @@ const colorArray = [
  * https://www.c-sharpcorner.com/UploadFile/18ddf7/html5-line-graph-using-canvas/
  */
 export default class LineChart extends Component {
-	componentDidMount(){
+	componentDidUpdate(){
 		let maxAmount = 0
 		this.props.options.forEach(el => {
 			if (el.amount > maxAmount){
@@ -25,18 +25,28 @@ export default class LineChart extends Component {
 			}
 		})
 
+		const maxDate = new Date(this.props.maxDate)
+		const minDate = new Date(this.props.minDate)
+		
+		const maxNumberDates = (maxDate.getTime() - minDate.getTime()) / (1000 * 3600 * 24)
+		console.log(maxNumberDates)
+
 		var myLineChart = new LineChartGenerator({  
 			canvasId: "myLineCanvas",  
 			minX: 0,
 			minY: 0,
 			maxX: 140,
 			maxY: 100,
-			unitsPerTickX: 10,
+			unitsPerTickX: 1,
 			unitsPerTickY: maxAmount / 10,
 
-			minDate: this.props.minDate, 
-			maxDate: this.props.maxDate, 
+			minDate: minDate, 
+			maxDate: maxDate, 
+
+			minDateDay: 0, 
+
 			options: this.props.options,
+			maxX: maxNumberDates, 
 			maxY: maxAmount
 		})
 
@@ -68,13 +78,20 @@ export default class LineChart extends Component {
 	
 	renderArticles(){
 		const renderedArticles = []
+		const colorMaps = {}
+		let nextColor = 0
 
 		this.props.options.forEach((el, i) => {
-			renderedArticles.push(
-				<div>
-					<text style={{color: colorArray[i], fontWeight: 'bold'}}>{el.article_name}</text>
-				</div>
-			)
+			if (colorMaps[el.article_name] == undefined){
+				colorMaps[el.article_name] = colorArray[nextColor]
+				nextColor += 1
+
+				renderedArticles.push(
+					<div>
+						<text style={{color: colorMaps[el.article_name], fontWeight: 'bold'}}>{el.article_name}</text>
+					</div>
+				)
+			}
 		})
 
 		return renderedArticles
@@ -99,13 +116,18 @@ export default class LineChart extends Component {
 
 function LineChartGenerator(con) {  
   // user defined properties  
-  this.canvas = document.getElementById(con.canvasId)
+	this.canvas = document.getElementById(con.canvasId)
   this.minX = con.minX
   this.minY = con.minY
   this.maxX = con.maxX
   this.maxY = con.maxY
   this.unitsPerTickX = con.unitsPerTickX
   this.unitsPerTickY = con.unitsPerTickY
+
+	this.minDate = con.minDate
+	this.maxDate = con.maxDate
+
+	this.minDateDay = con.minDateDay
 
   // constants  
   this.padding = 10
@@ -117,7 +139,8 @@ function LineChartGenerator(con) {
   this.fontHeight = 12
 
   // relationships       
-  this.context = this.canvas.getContext("2d")
+	this.context = this.canvas.getContext("2d")
+	this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
   this.rangeX = this.maxX - this.minY
   this.rangeY = this.maxY - this.minY
   this.numXTicks = Math.round(this.rangeX / this.unitsPerTickX)
@@ -155,7 +178,7 @@ LineChartGenerator.prototype.drawXAxis = function(){
   context.stroke()
 
   // draw tick marks  
-  for (var n = 0; n < this.numXTicks; n++){  
+  for (var n = 0; n < this.numXTicks; n++){ 
 		context.beginPath()
 		context.moveTo((n + 1) * this.width / this.numXTicks + this.x, this.y + this.height)
 		context.lineTo((n + 1) * this.width / this.numXTicks + this.x, this.y + this.height - this.tickSize)
@@ -168,10 +191,16 @@ LineChartGenerator.prototype.drawXAxis = function(){
   context.textAlign = "center"
   context.textBaseline = "middle"
 
-  for (var n = 0; n < this.numXTicks; n++) {  
+	console.log(this.minDate.getDate())
+	console.log(this.numXTicks)
+	console.log(this.maxX)
+
+  // for (var n = 0; n < this.numXTicks; n++) {  
+	for (var n = this.minDate.getDate(); n < this.numXTicks + this.minDate.getDate(); n++){
+
 		var label = Math.round((n + 1) * this.maxX / this.numXTicks)
 		context.save()
-		context.translate((n + 1) * this.width / this.numXTicks + this.x, this.y + this.height + this.padding)
+		context.translate((n - this.minDate.getDate() + 1) * this.width / this.numXTicks + this.x, this.y + this.height + this.padding)
 		context.fillText(label, 0, 0)
 		context.restore()
   }  
