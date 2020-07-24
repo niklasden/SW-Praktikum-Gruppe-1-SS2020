@@ -659,6 +659,22 @@ class testListEntry(Resource):
         result = adm.find_listentry_by_purchaser(purchaser)
         return result
 
+@shopping_v1.route('/Listentry')
+@shopping_v1.response(500, 'Server side error occured')
+class ShoppingListOperations(Resource):
+    @secured
+    def delete(self):
+        """Delete an specific Listentry 
+
+
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        idl = request.args.get('id')
+        adm = ShoppingAdministration()
+        Listentry = adm.find_listentry_by_key(idl)
+        adm.delete_listentry(Listentry)
+        return '', 200
+
 @shopping_v1.route('/Listentry/insert')
 @shopping_v1.response(500, 'If an server sided error occures')
 #@shopping_v1.param('obj', "Listentry object id")
