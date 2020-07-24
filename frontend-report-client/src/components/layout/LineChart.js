@@ -50,30 +50,59 @@ export default class LineChart extends Component {
 			maxY: maxAmount
 		})
 
-		var data = [
-			{ x: 0, y: 0 }, 
-			{ x: 20, y: 10 }, 
-			{ x: 40, y: 15 }, 
-			{ x: 60, y: 40 }, 
-			{ x: 80, y: 60 }, 
-			{ x: 100, y: 50 }, 
-			{ x: 120, y: 85 }, 
-			{ x: 140, y: 100 },
-		]  
+		// color maps is used to set a different color for each article id
+		const colorMaps = {}
+		let nextColor = 0
+
+		this.props.options.forEach((el, i) => {
+			if (colorMaps[el.article_id] == undefined){
+				colorMaps[el.article_id] = colorArray[nextColor]
+				nextColor += 1
+			}
+		})
+		console.log(colorMaps)
+
+		// we form a data dict here, so that we get one data object per article including its data points
+		var dataDict = {}
+		this.props.options.forEach(el => {
+			if (dataDict[el.article_id] == undefined){
+				dataDict[el.article_id] = []
+			} 
+			dataDict[el.article_id].push({
+				x: el.date.getDate() - minDate.getDate(),
+				y: el.amount, 
+			})
+		})
+
+		// we draw one line for each article
+		for (var key in dataDict){
+			myLineChart.drawLine(dataDict[key], colorMaps[key], 3)
+		}
+
+		// var data = [
+		// 	{ x: 0, y: 0 }, 
+		// 	{ x: 20, y: 10 }, 
+		// 	{ x: 40, y: 15 }, 
+		// 	{ x: 60, y: 40 }, 
+		// 	{ x: 80, y: 60 }, 
+		// 	{ x: 100, y: 50 }, 
+		// 	{ x: 120, y: 85 }, 
+		// 	{ x: 140, y: 100 },
+		// ]  
 	
-		myLineChart.drawLine(data, "blue", 3);  
+		// myLineChart.drawLine(data, "blue", 3);  
 	
-		var data = [
-			{ x: 20, y: 85 }, 
-			{ x: 40, y: 75 }, 
-			{ x: 60, y: 75 }, 
-			{ x: 80, y: 45 }, 
-			{ x: 100, y: 65 }, 
-			{ x: 120, y: 40 }, 
-			{ x: 140, y: 35 },
-		]  
+		// var data = [
+		// 	{ x: 20, y: 85 }, 
+		// 	{ x: 40, y: 75 }, 
+		// 	{ x: 60, y: 75 }, 
+		// 	{ x: 80, y: 45 }, 
+		// 	{ x: 100, y: 65 }, 
+		// 	{ x: 120, y: 40 }, 
+		// 	{ x: 140, y: 35 },
+		// ]  
 	
-		myLineChart.drawLine(data, "red", 3);  
+		// myLineChart.drawLine(data, "red", 3);  
 	}
 	
 	renderArticles(){
@@ -195,10 +224,45 @@ LineChartGenerator.prototype.drawXAxis = function(){
 	console.log(this.numXTicks)
 	console.log(this.maxX)
 
+	const monthNumberDays = {
+		1: 31, 
+		2: 28, 
+		3: 31, 
+		4: 30, 
+		5: 31, 
+		6: 30,  
+		7: 31, 
+		8: 31, 
+		9: 30, 
+		10: 31, 
+		11: 30, 
+		12: 31, 
+	}
+
   // for (var n = 0; n < this.numXTicks; n++) {  
 	for (var n = this.minDate.getDate(); n < this.numXTicks + this.minDate.getDate(); n++){
+		var label = ""
+		if (n % 3 == 0){
+			let dayIndex = Math.round((n + 1) * this.maxX / this.numXTicks)
+			let month = this.minDate.getMonth()
 
-		var label = Math.round((n + 1) * this.maxX / this.numXTicks) + "."
+			// this confusing function is used to get the month and date 
+			// calculated from the minDate day of month and the index n the for function is
+			// providing
+			while(((dayIndex - monthNumberDays[month + 1]) / monthNumberDays[month]) > 0){
+				dayIndex = dayIndex - monthNumberDays[month + 1]
+				if (dayIndex == 0){
+					dayIndex = 1
+				}
+				month = month + 1
+				if (month == 13){
+					month = 1
+				}
+			}
+
+			var label = (dayIndex) + "." + (month + 1) + "."
+
+		}
 		context.save()
 		context.translate((n - this.minDate.getDate() + 1) * this.width / this.numXTicks + this.x, this.y + this.height + this.padding)
 		context.fillText(label, 0, 0)
