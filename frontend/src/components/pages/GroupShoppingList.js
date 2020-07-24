@@ -135,6 +135,7 @@ export default class GroupShoppingList extends Component {
           if(Items[element].id === newItem.id){
             Items.splice(element, 1)
             this.setState({items : Items})
+
             ShoppingAPI.getAPI().deleteItem(id).catch(e => console.log(e))
           }
         }

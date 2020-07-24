@@ -43,7 +43,7 @@ export default class ShoppingAPI {
     #insertListEntryURL = () => `${this.#baseServerURL}/Listentry/insert`;
     #updateListEntryURL = () => `${this.#baseServerURL}/Listentry/update`;
     #personalItemsURL = (user_id, group_id) => `${this.#baseServerURL}/Listentry/get_personal_items_of_group?group_id=` + group_id + `&user_id=` + user_id;
-    #deleteListEntryURL = (id) => '${this.#baseServerURL}/'
+    #deleteListEntryURL = (id) => `${this.#baseServerURL}/Listentry?id=` + id
         
     //Retailer URLs
     #getRetailersURL = () => `${this.#baseServerURL}/Retailer`;
@@ -241,6 +241,29 @@ export default class ShoppingAPI {
             })
         })
     }
+
+
+    /**
+     * Returns a Promise, which resolves to an specific ListEntryBO.
+     * This promise will be the ListEntry that was deleted.
+     * @param {Number} id for which ListEntry should be deleted
+     * @public
+     */
+
+    deleteItem(id) {
+        return this.#fetchAdvanced(this.#deleteListEntryURL(id), {
+            method: 'DELETE',
+            credentials: 'include',
+        })
+        .then((responseJSON) => {
+            let ListEntryBO = ListEntryBO.fromJSON(responseJSON)[0];
+            return new Promise(function (resolve) {
+                resolve(ListEntryBO);
+            })
+        })
+    }
+
+
 
      /**
      * Returns a Promise, which resolves to an Array of userBOs
