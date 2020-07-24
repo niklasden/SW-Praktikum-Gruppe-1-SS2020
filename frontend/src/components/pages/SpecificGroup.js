@@ -461,7 +461,7 @@ class SpecificGroup extends Component {
           defaultValue= {settingsobj.onlySettingsGetSettingsGroupName()}
           helperText=""
         />
-        <ExpansionPanel style={{border:"1px solid #5a5a5a", margin:4}}>
+        <ExpansionPanel style={{border:"1px solid #5a5a5a", margin:4, borderRadius:5}}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} >
             <Typography className={classes.heading}>Members</Typography>
           </ExpansionPanelSummary>
@@ -474,7 +474,7 @@ class SpecificGroup extends Component {
             </Grid>
           </ExpansionPanelDetails>
         </ExpansionPanel>
-        <ExpansionPanel style={{border:"1px solid #5a5a5a", margin:4}}>
+        <ExpansionPanel style={{border:"1px solid #5a5a5a", margin:4, borderRadius:5}}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} >
             <Typography className={classes.heading}>Shoppinglists</Typography>
           </ExpansionPanelSummary>
