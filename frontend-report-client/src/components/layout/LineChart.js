@@ -198,7 +198,7 @@ LineChartGenerator.prototype.drawXAxis = function(){
   // for (var n = 0; n < this.numXTicks; n++) {  
 	for (var n = this.minDate.getDate(); n < this.numXTicks + this.minDate.getDate(); n++){
 
-		var label = Math.round((n + 1) * this.maxX / this.numXTicks)
+		var label = Math.round((n + 1) * this.maxX / this.numXTicks) + "."
 		context.save()
 		context.translate((n - this.minDate.getDate() + 1) * this.width / this.numXTicks + this.x, this.y + this.height + this.padding)
 		context.fillText(label, 0, 0)
