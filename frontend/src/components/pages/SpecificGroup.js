@@ -179,7 +179,6 @@ class SpecificGroup extends Component {
           credentials: 'include',
         }
         let response = await fetch(Config.apiHost + '/shoppinglist/?group_id=' + settingsobj.onlySettingsGetSettingsGroupID(), test);
-        console.log(response);
         let data = await response.json();
         this.setState({shoppinglists: data});
     }
@@ -327,7 +326,6 @@ class SpecificGroup extends Component {
 
   renderGroupMembers(){
     const GroupMembers = []
-    console.log(this.state.groupmembers);
     this.state.groupmembers.forEach( elem => {   
       GroupMembers.push(
         <GroupMember onclick={ this.deleteMember.bind(this, elem)} key={elem.id} imgsrc={elem.imgsrc} membername={elem.name}></GroupMember>
