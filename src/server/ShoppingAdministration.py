@@ -80,28 +80,34 @@ class ShoppingAdministration (object):
     # Retailer
     # Chris
     def get_retailer_by_name(self, name):
+        # returns all Retailers with this name
         with RetailerMapper() as mapper:
             res = mapper.find_by_name(name)
             return res
 
     def get_retailer_by_id(self, id):
+        """ returns a retailer with this unique id"""
         with RetailerMapper() as mapper:
             res = mapper.find_by_key(id)
             return res
 
     def create_retailer(self, retailer):
+       """  creates an retailer  """
         with RetailerMapper() as mapper:
             return mapper.insert(retailer)
 
     def save_retailer(self, retailer):
+        """  updates the retailer  """
         with RetailerMapper() as mapper:
             mapper.update(retailer)
 
     def delete_retailer(self, retailer):
+        """  delets an retailer """
         with RetailerMapper() as mapper:
             mapper.delete(retailer)
 
     def get_all_retailers(self):
+        """  returns all existing retailers  """
         with RetailerMapper() as mapper:
             res = mapper.find_all()
             return res
@@ -175,94 +181,105 @@ class ShoppingAdministration (object):
 
     #ListEntry Pascal & Niklas:
     def get_all_listentries(self):
+        """ returns all existing Listentrys """ 
         with ListEntryMapper() as mapper:
             result = mapper.find_all()
             return result
 
     def find_listentry_by_name(self, name):
+        """ return the Listentry with an specific article name """
         with ListEntryMapper() as mapper:
             result = mapper.find_by_name()
             return result
 
     def find_listentry_by_key(self, key):
+        """ returns an listentry with the passed id  """
         with ListEntryMapper() as mapper:
             result = mapper.find_by_key(key)
             return result
     
     def find_listentry_by_retailer(self, retailer):
+        """ returns an listentry with the passed retailer id  """
         with ListEntryMapper() as mapper:
             result = mapper.find_by_retailer(retailer)
             return result
     
     def find_listentry_by_article(self, article):
+        """ returns an listentry with the passed article id  """
         with ListEntryMapper() as mapper:
             result = mapper.find_by_article(article)
             return result
     
     def find_listentry_by_purchaser(self, purchaser):
+        """ returns an listentry with the passed purchaser id  """
         with ListEntryMapper() as mapper:
             result = mapper.find_by_purchaser(purchaser)
             return result
     
-    # def find_listentry_by_checkout(self, date):
-    #     with ListEntryMapper() as mapper:
-    #         result = mapper.find_by_checkout(date)
-    #         return result
-    
     def find_listentry_by_date_of_purchase(self, date):
+        """ returns all listentrys which were bought on this date """
         with ListEntryMapper() as mapper:
             result = mapper.find_by_date_of_purchase(date)
             return result
     
     def get_personal_items_of_group(self, group_id, user_id):
+        """ returns all listentrys which are assigned to the specific user_id and gropu_id """
         with ListEntryMapper() as mapper:
             result = mapper.get_personal_items_of_group(group_id, user_id)
             return result
     
-    #noch nicht fertig
     def insert_listentry(self, listentry):
+        """ creates an new listentry """
         with ListEntryMapper() as mapper:
             result = mapper.insert(listentry)
             return result
     
     def update_listentry(self, listentry):
+        """ update an exisiting listentry """
         with ListEntryMapper() as mapper:
             result = mapper.update(listentry)
             return result
     
     def delete_listentry(self, listentry):
+        """ delete an exisiting listentry """
         with ListEntryMapper() as mapper:
             result = mapper.delete(listentry)
             return result
     
     def get_items_of_group(self, group_id, shoppinglist_id):
+        """ returns all listentrys which are assigned to a specific group id and shoppinglist id """
         with ListEntryMapper() as mapper:
             result = mapper.get_items_of_group(group_id, shoppinglist_id)
             return result
             
     #Report Kevin
     def get_report_entries(self, group_id = 1):
+         """  returns all reportentrie with the given group id"""
         with ReportGenerator() as generator:
             result = generator.get_report(group_id)
             return result
 
     def get_top3Articles(self, group_id = 1):
+         """  returns the top 3 articles """
         with ReportGenerator() as generator:
             result = generator.get_top3_retailer(group_id)
             return result
     #Article:
     #Pia
     def get_all_article(self):
+        """ returns all existing articles """
         with ArticleMapper() as mapper:
             result = mapper.find_all()
             return result
 
     def get_article_by_id(self, id):
+        """ returns article with given id"""
         with ArticleMapper() as mapper:
             result = mapper.find_by_key(id)
             return result
 
     def get_article_by_name(self, name):
+        """ returns article with given name"""
         with ArticleMapper() as mapper:
             result = mapper.find_by_name(name)
             return result
@@ -278,16 +295,19 @@ class ShoppingAdministration (object):
     '''
 
     def delete_article(self, article):
+        """ deletes an article"""
         with ArticleMapper() as mapper:
             result = mapper.delete(article)
             return result
 
     def save_article(self, article):
+        """ updates an article"""
         with ArticleMapper() as mapper:
             return mapper.update(article)
 
 
     def create_article(self, article):
+        """ creates an article"""
         with ArticleMapper() as mapper:
             return mapper.insert(article)
 
@@ -295,10 +315,12 @@ class ShoppingAdministration (object):
     # membership
 
     def create_membership(self,uid,gid):
+        """ creates an membership """
         with GroupMapper() as mapper:
             return mapper.createMembership(uid,gid)
 
     def delete_membership(self,uid,gid, outercall=False):
+        """ deletes an memberhship """
         with GroupMapper() as mapper:
             a = mapper.deleteMembership(uid,gid)
             if outercall == False:
@@ -309,6 +331,7 @@ class ShoppingAdministration (object):
             return a
     
     def get_users_by_groupid(self,gid):
+        """ returns all users of a group """
         with GroupMapper() as mapper :
             userids = mapper.get_users_by_gid(gid)
             result = []
@@ -321,6 +344,7 @@ class ShoppingAdministration (object):
 
     # ShoppingList Chris/Julius
     def get_shoppinglists_by_group_id(self, group_id):
+         """  returns all shoppinglists with the given group id """
         with ShoppingListMapper() as mapper:
             return mapper.find_all_by_group_id(group_id)
 
@@ -343,32 +367,39 @@ class ShoppingAdministration (object):
    
 
     def insert_shoppinglist(self, shopping_list):
+        """ creates a new shoppingslist  """
         with ShoppingListMapper() as mapper:
             return mapper.insert(shopping_list)
 
     def update_shoppinglist(self, shopping_list):
+        """ update a existing shoppinglist """
         with ShoppingListMapper() as mapper:
             return mapper.update(shopping_list)
 
     def get_shoppinglist_by_id(self, list_id):
+       """  returns the shoppinglist with the given id  """
         with ShoppingListMapper() as mapper: 
             return mapper.find_by_key(list_id)
 
     def get_shoppinglists(self):
+        """ returns all shoppinglists """
         with ShoppingListMapper() as mapper: 
             return mapper.find_latest()
 
 
 #FavoriteArticle 
     def get_all_FavoriteArticles(self):
+        """ returns all exisiting favorite articels """
         with fam() as mapper:
             return mapper.find_all()
 
     def get_FavoriteArticle_by_id(self,id):
+       """  returns all existing favorite articels with the given id """
         with fam() as mapper:
             return mapper.find_by_key(id)
             
     def get_FavoriteArticles_by_groupid(self,gid):
+         """  returns all existing favorite articels with the given group id """
         with fam() as mapper:
             return mapper.find_by_group(gid)
     
@@ -383,5 +414,6 @@ class ShoppingAdministration (object):
             return mapper.update(fa)
     
     def delete_FavoriteArticle(self,fa):
+         """  delets an existing favorite articel with the given id """
         with fam() as mapper:
             return mapper.delete(fa)
