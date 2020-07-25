@@ -153,6 +153,7 @@ isDateAfterTimeProp(date) {
               minDate={this.props.startTime}
               maxDate={this.props.endTime}
               options={customOptions}
+              width={this.props.width}
             />
           </Grid>
         :

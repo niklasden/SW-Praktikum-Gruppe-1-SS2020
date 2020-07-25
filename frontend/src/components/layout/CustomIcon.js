@@ -75,7 +75,7 @@ const icons = {
   cake: cakeIcon,
   cookies: cokkiesIcon,
   flour: flourIcon,
-  saltpepper: saltpepperIcon,
+  "salt & pepper": saltpepperIcon,
   basil: basilIcon,
   chilli: chilliIcon,
   garlic: garlicIcon,
