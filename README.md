@@ -60,10 +60,9 @@ This codes is tested under python version 3.7 <br>
 All code is located under /src. <br>
 To run the application on your own device, clone the repo. <br>
 Install the requirements inside requirements.txt & run the application by launching main.py <br>
-You need to be inside the src folder to run the backend. <br>
-
 
 ```
+cd /src
 pip install -r requirements.txt     
 python main.py    
 ```
