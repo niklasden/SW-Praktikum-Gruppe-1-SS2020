@@ -19,10 +19,10 @@ class Retailer(bo.BusinessObject):
 
     def __init__(self):
         super().__init__()
-        self._name = ""
-        self._location = ""
-        """   self._id = "" """
-        self._creationdate = None
+        self._name = "" # name of the Retailer
+        self._location = "" # location of the retailer
+        """   self._id = "" """ 
+        self._creationdate = None # creation date of the retailer
 
     def get_creationdate(self):
         """

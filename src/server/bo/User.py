@@ -16,11 +16,11 @@ class User (bo.BusinessObject):
     """
     def __init__(self):
         super().__init__()
-        self._name = ""
-        self._email = "" 
-        self._firebase_id = "" 
-        self._creationdate = None 
-        self._location = ""
+        self._name = "" #name of the user
+        self._email = ""  #email of the user
+        self._firebase_id = "" #firebase ID of the user 
+        self._creationdate = None  #creationdate of the user
+        self._location = "" #location of the user
     
     def randomize(self):
         """
