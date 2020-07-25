@@ -243,7 +243,7 @@ const articleIDIconMapper = {
   chocolate: 'chocolate',
   cake: 'cake',
   cookies: 'cookies',
-  "salt & pepper": 'saltpepper',
+  "salt & pepper": 'salt & pepper',
   basil: 'basil',
   chilli: 'chilli',
   garlic: 'garlic',
