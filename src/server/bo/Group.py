@@ -13,9 +13,9 @@ class Group(bo.BusinessObject):
     """
     def __init__(self, g_name="Group_name",desc = "", creationdate=""):
         super().__init__()
-        self.description = desc
-        self.name = g_name
-        self.creationdate = creationdate
+        self.description = desc # description of the group
+        self.name = g_name # name of the group
+        self.creationdate = creationdate # creation date of the group
        
 
     def set_description(self,d):

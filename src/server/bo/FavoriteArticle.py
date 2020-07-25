@@ -13,11 +13,11 @@ class FavoriteArticle(bo.BusinessObject):
     """
     def __init__(self):
         super().__init__()
-        self.Group_ID = 0
-        self.Article_ID= 0
-        self.amount = 0
-        self.unit = ""
-        self.Retailer_ID = 0
+        self.Group_ID = 0 # Foreign key relationship to the ID of the group
+        self.Article_ID= 0 # Foreign key relationship to the ID of the article
+        self.amount = 0 # amount of the article 
+        self.unit = "" #unit of the article 
+        self.Retailer_ID = 0 # Foreign key relationship to the ID of the retailer
         self.creationdate = None #set directly in command with NOW() operator 
        
     def get_Group_ID(self):
