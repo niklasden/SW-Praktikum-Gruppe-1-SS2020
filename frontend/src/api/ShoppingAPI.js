@@ -20,7 +20,7 @@ export default class ShoppingAPI {
     static #api = null;
 
     //PY Backend
-    #baseServerURL = 'http://localhost:5000/shopping'; //was port 8081
+    #baseServerURL = 'http://localhost:5000/shopping'; 
    
 
     // Articles URLs
