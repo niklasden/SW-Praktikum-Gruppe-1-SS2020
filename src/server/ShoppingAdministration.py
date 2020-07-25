@@ -100,6 +100,7 @@ class ShoppingAdministration (object):
         """  updates the retailer  """
         with RetailerMapper() as mapper:
             mapper.update(retailer)
+            return "retailer saved"
 
     def delete_retailer(self, retailer):
         """  delets an retailer """
