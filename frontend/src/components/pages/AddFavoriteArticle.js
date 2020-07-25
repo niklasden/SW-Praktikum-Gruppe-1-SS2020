@@ -81,7 +81,6 @@ class AddFavoriteArticle extends Component {
     async saveFavArticle() {
         try{
             const groupID = await settingsobj.onlySettingsGetSettingsGroupID();
-            console.log(groupID);
             const rb = {
                 id: 0,
                 group_id: parseInt(this.state.currentGroupID),
@@ -92,7 +91,6 @@ class AddFavoriteArticle extends Component {
                 creationdate: "2020-07-16T08:32:04.104Z"
             }
             const requestBody = JSON.stringify(rb)
-            console.log(requestBody);
             const rInit = {
               method: 'POST', 
               credentials: 'include',
