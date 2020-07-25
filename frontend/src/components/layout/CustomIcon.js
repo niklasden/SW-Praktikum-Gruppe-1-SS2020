@@ -60,7 +60,7 @@ const icons = {
   apple: appleIcon,
   milk: milkIcon, 
   bread: breadIcon,
-  beermug: beermugIcon,
+  beer: beermugIcon,
   orangejuice: orangejuiceIcon,
   tea: teaIcon,
   wine: wineIcon,
@@ -75,7 +75,7 @@ const icons = {
   cake: cakeIcon,
   cookies: cokkiesIcon,
   flour: flourIcon,
-  saltpepper: saltpepperIcon,
+  "salt & pepper": saltpepperIcon,
   basil: basilIcon,
   chilli: chilliIcon,
   garlic: garlicIcon,
@@ -133,8 +133,11 @@ class CustomIcon extends Component {
       }
       else {
         icon = this.props.category
-      }     
+      }
     }
+    else {
+      icon = this.props.category
+    }    
 
     let dimension = 20
     if (this.props.width !== undefined){

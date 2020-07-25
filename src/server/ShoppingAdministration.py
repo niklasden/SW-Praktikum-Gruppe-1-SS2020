@@ -6,6 +6,7 @@ from .db.ArticleMapper import ArticleMapper
 from .bo.Group import Group
 from .bo.ListEntry import ListEntry
 from .bo.FavoriteArticle import FavoriteArticle
+from .bo.ShoppingList import ShoppingList
 #from .db.UserMapper import UserMapper ..
 from .db.UserMapper import UserMapper
 from .db.RetailerMapper import RetailerMapper
@@ -180,11 +181,25 @@ class ShoppingAdministration (object):
     
     def create_group(self,name,description,creationdate):
         """creates a group with given parameters and inserts it into db"""
+        
         group = Group(name,description,creationdate)
         group.set_id(1)
 
         with GroupMapper() as mapper:
-            return mapper.insert(group)
+            g = mapper.insert(group)
+            
+            """create default shoppinglist for group"""
+            ls = ShoppingList()
+            ls.set_group_id(g.get_id())
+            ls.set_name("standard shopping list")
+            ls.set_id(1)
+            self.insert_shoppinglist(ls)
+
+            return g
+
+        
+        
+
 
     #ListEntry Pascal & Niklas:
     def get_all_listentries(self):
@@ -254,9 +269,15 @@ class ShoppingAdministration (object):
             return result
     
     def get_items_of_group(self, group_id, shoppinglist_id):
-        """ returns all listentrys which are assigned to a specific group id and shoppinglist id """
+        """ returns all listentrys which are assigned to a specific group id and shoppinglist id and not bought"""
         with ListEntryMapper() as mapper:
             result = mapper.get_items_of_group(group_id, shoppinglist_id)
+            return result
+
+    def get_all_items_of_group(self,group_id, shoppinglist_id):
+        """ returns all listentrys which are assigned to a specific group id and shoppinglist id. including bought ones"""
+        with ListEntryMapper() as mapper:
+            result = mapper.get_all_items_of_group(group_id,shoppinglist_id)
             return result
             
     #Report Kevin
@@ -360,11 +381,12 @@ class ShoppingAdministration (object):
         with ShoppingListMapper() as mapper:
             
             #delete all listentries in Shoppinglist
-            listentries = self.get_items_of_group(shopping_list.get_group_id(),shopping_list.get_id())
+            listentries = self.get_all_items_of_group(shopping_list.get_group_id(),shopping_list.get_id())
+            
             try:
                 for i in listentries:
                     self.delete_listentry(i)
-                
+                    
                 #delete shopping list
                 return mapper.delete(shopping_list)
             
