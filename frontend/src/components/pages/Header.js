@@ -24,7 +24,7 @@ function Header(props){
 	let title = ''
 	const path = location.pathname
 
-	if (path === '/index.html' && user){
+	if (path === '/home' && user && settings.currentGroupName === ""){
 		title = 'Hi ' + user.displayName
 	} else if (settings.currentGroupName === ""){
 		title = 'No Group selected'
