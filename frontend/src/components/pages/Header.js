@@ -26,7 +26,7 @@ function Header(props){
 
 	if (path === '/index.html' && user){
 		title = 'Hi ' + user.displayName
-	} else if (settings.currentGroupName == ""){
+	} else if (settings.currentGroupName === ""){
 		title = 'No Group selected'
   } else {
     title = settings.currentGroupName

@@ -1,4 +1,3 @@
-
 import ArticleBO from './ArticleBO';
 import GroupBO from './GroupBO';
 import ListEntryBO from './ListEntryBO';
@@ -256,9 +255,9 @@ export default class ShoppingAPI {
             credentials: 'include',
         })
         .then((responseJSON) => {
-            let ListEntryBO = ListEntryBO.fromJSON(responseJSON)[0];
+            let listentry = ListEntryBO.fromJSON(responseJSON)[0];
             return new Promise(function (resolve) {
-                resolve(ListEntryBO);
+                resolve(listentry);
             })
         })
     }

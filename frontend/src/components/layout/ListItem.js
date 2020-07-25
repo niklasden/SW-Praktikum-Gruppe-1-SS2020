@@ -5,7 +5,6 @@ import { withStyles } from "@material-ui/styles";
 import { Grid } from "@material-ui/core";
 import EditListItem from './EditListItem';
 import CustomIcon from './CustomIcon';
-import ListEntry from './ListEntry';
 
 /**
  * Displays an list item as designed in figma
