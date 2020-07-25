@@ -5,6 +5,34 @@ import Typography from '@material-ui/core/Typography';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
+/**
+ * Displays an header button as designed in figma
+ * 
+ * @author [Kevin Eberhardt](https://github.com/kevin-eberhardt)
+ * 
+ */
+class HeaderButton extends Component {
+    render(){
+      const { classes } = this.props;
+      return (
+        <Grid container className={classes.root} alignItems="center">
+            <Grid item xs={4} className={classes.iconsItem} style={{borderRight: '2px solid #ccc'}}>
+              <div className={classes.button1}>
+                <FormatListBulletedIcon />
+              </div>
+              <div className={classes.button2}>
+                <ShoppingCartIcon />
+              </div>
+            </Grid>
+            <Grid item xs={8} className={classes.item}>
+              <Typography variant="h5" className={classes.heading}>iKaufa</Typography>
+              <Typography variant="h6" className={classes.subHeading}>plana - kaufa</Typography>
+            </Grid>
+        </Grid>
+      );
+    }
+}
+
 const styles = theme => ({
   root: {
     backgroundColor: '#00BCD4',
@@ -64,32 +92,4 @@ const styles = theme => ({
     display: 'flex'
   },
 });
-/**
- * Displays an header button as designed in figma
- * 
- * @author [Kevin Eberhardt](https://github.com/kevin-eberhardt)
- * 
- */
-class HeaderButton extends Component {
-    render(){
-      const { classes } = this.props;
-      return (
-        <Grid container className={classes.root} alignItems="center">
-            <Grid item xs={4} className={classes.iconsItem} style={{borderRight: '2px solid #ccc'}}>
-              <div className={classes.button1}>
-                <FormatListBulletedIcon />
-              </div>
-              <div className={classes.button2}>
-                <ShoppingCartIcon />
-              </div>
-            </Grid>
-            <Grid item xs={8} className={classes.item}>
-              <Typography variant="h5" className={classes.heading}>iKaufa</Typography>
-              <Typography variant="h6" className={classes.subHeading}>plana - kaufa</Typography>
-            </Grid>
-        </Grid>
-      );
-    }
-}
-
 export default withStyles(styles)(HeaderButton);

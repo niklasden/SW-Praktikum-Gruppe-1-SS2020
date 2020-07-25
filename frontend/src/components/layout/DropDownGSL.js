@@ -19,15 +19,16 @@ const settingsobj = ShoppingSettings.getSettings()
 */
 class DropDownGSL extends Component {
   state = {
-    user:[],
+    user:[], 
     retailer: [],
   }
  
+  /*on click the state is set new*/
   handleClick(event){
     this.setState({anchorEl: event.currentTarget});
   }
 
-  
+  /*feteches the groupmember of the group*/
   fetchGroupMembers = () => {
     ShoppingAPI.getAPI().getUsers(settingsobj.getGroupID()).then(userBOs => {
       this.setState({
@@ -39,6 +40,7 @@ class DropDownGSL extends Component {
     )
   }
  
+  /*feteches the retailers of the group*/
   fetchRetailers = () => {
     ShoppingAPI.getAPI().getRetailers(settingsobj.getGroupID()).then(retailerBOs => {
       this.setState({

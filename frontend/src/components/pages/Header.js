@@ -11,17 +11,6 @@ import ShoppingSettings from '../../../src/shoppingSettings';
 
 const settings = ShoppingSettings.getSettings()
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-      flexGrow: 1,
-      width: '100%',
-      marginBottom: '65px'
-    },
-    title: {
-      textAlign: 'left'
-    }
-  }));
-
 /**
  * Header
  * 
@@ -35,9 +24,9 @@ function Header(props){
 	let title = ''
 	const path = location.pathname
 
-	if (path === '/index.html' && user){
+	if (path === '/home' && user && settings.currentGroupName === ""){
 		title = 'Hi ' + user.displayName
-	} else if (settings.currentGroupName == ""){
+	} else if (settings.currentGroupName === ""){
 		title = 'No Group selected'
   } else {
     title = settings.currentGroupName
@@ -66,4 +55,16 @@ function Header(props){
     </div>
   );
 }
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    width: '100%',
+    marginBottom: '65px'
+  },
+  title: {
+    textAlign: 'left'
+  }
+}));
+
 export default Header;

@@ -42,7 +42,7 @@ bo = api.model('BusinessObject',{
 })
 
 """
-Business Objects: Group, ListEntry t.b.f
+Business Objects: Group, ListEntry, user, retailer, report, article, shoppinglist and favourite articles 
 """
 group = api.inherit('Group',bo, {
     'name': fields.String(attribute='name',description="A groups name"),
@@ -73,7 +73,7 @@ listentry = api.inherit('ListEntry',bo, {
     'amount': fields.String(attribute='_amount',description="Amount of item to be bought"),
     'unit': fields.String(attribute='_unit', description="Unit of item"),
     'retailer_id': fields.Integer(attribute='_retailer_id', description='Retailer ID which the ListEntry is assigned to'),
-    'bought': fields.DateTime(attribute='_bought',description="Date when the article was bought"),
+    'bought': fields.String(attribute='_bought',description="Date when the article was bought"),
     'name': fields.String(attribute='_name',description="Name of the article"),
     'category': fields.String(attribute='_category',description="Category of the article"),
     'retailer': fields.String(attribute='_retailer',description="Retailer where the items/articles were bought"),
@@ -125,6 +125,9 @@ class MembershipOperations(Resource):
     """
     @secured
     def post(self):
+        """
+        Creates an new membership object.
+        """
         
         userid = api.payload["User_ID"]
         groupid = api.payload["Group_ID"]
@@ -135,7 +138,6 @@ class MembershipOperations(Resource):
 @shopping_v1.route('/membership/del')    #2. route becuase we cant use delete http method becuase there are no membership ids (otherwise we could use membership/id with delete method )
 @shopping_v1.response(500,'If an server sided error occures')
 class MembershipOperations(Resource):
-
     """
     payload has to look like:
     
@@ -146,6 +148,11 @@ class MembershipOperations(Resource):
     """
     @secured
     def post(self):
+        """
+        Deletes an specific Group object.
+
+        The object is determined by query parameteres user_id and group_id.
+        """
         try:
             adm = ShoppingAdministration()
             adm.delete_membership(api.payload["User_ID"],api.payload["Group_ID"])
@@ -160,6 +167,11 @@ class MembershipGroupOperations(Resource):
     @shopping_v1.marshal_list_with(user)
     #@secured
     def get(self,groupid):
+        """
+        Gets an specific membership object.
+
+        The object is determined by the ``group_id`` in the URI.
+        """
         adm = ShoppingAdministration()
         return adm.get_users_by_groupid(groupid)
 
@@ -170,6 +182,11 @@ class UserGroupOperations(Resource):
     @shopping_v1.marshal_with(group)
     #@secured
     def get(self,userid):
+        """
+        Gets an specific Group object.
+
+        The object is determined by the ``user_id`` in the URI.
+        """
         adm = ShoppingAdministration()
         return adm.get_all_user_groups(userid)
 
@@ -179,6 +196,9 @@ class GroupListOperations(Resource):
     @shopping_v1.marshal_with(group)
     @secured
     def get(self):
+        """
+        Gets all Group object.
+        """
         adm = ShoppingAdministration()
         return adm.get_all_groups()
     
@@ -186,6 +206,9 @@ class GroupListOperations(Resource):
     @shopping_v1.expect(group)
     @secured
     def post(self):
+        """
+        Creates an new group object.
+        """
         adm = ShoppingAdministration()
         try:
             proposal = Group.from_dict(api.payload)
@@ -205,11 +228,21 @@ class GroupOperations(Resource):
     @shopping_v1.marshal_with(group)
     @secured
     def get(self,id):
+        """
+        Gets an specific Group object.
+
+        The object is determined by the ``id`` in the URI.
+        """
         adm = ShoppingAdministration()
         return adm.get_group_by_id(id)
     
     @secured
     def delete(self,id):
+        """
+        Deletes an specific Group object.
+
+        The object is determined by the ``id`` in the URI.
+        """
         adm = ShoppingAdministration()
         grp = adm.get_group_by_id(id)
        
@@ -220,6 +253,11 @@ class GroupOperations(Resource):
     @shopping_v1.expect(group,validate=True)
     @secured
     def put(self,id):
+        """
+        Updates an specific Group object.
+
+        The object is determined by the ``id`` in the URI.
+        """
         adm = ShoppingAdministration()
         c = Group.from_dict(api.payload)
         if c is not None: 
@@ -235,6 +273,9 @@ class RetailerListOperations(Resource):
     @shopping_v1.marshal_list_with(retailer)
     @secured
     def get(self):
+        """
+        Gets all Retailer objects.
+        """
         adm = ShoppingAdministration()
         result_find_all = adm.get_all_retailers()
         return result_find_all
@@ -243,6 +284,9 @@ class RetailerListOperations(Resource):
     @shopping_v1.expect(retailer, validate=True)
     @secured
     def post(self):
+        """
+        Creates an new Retailer object.
+        """
         adm = ShoppingAdministration()
         try:
             proposal = Retailer.from_dict(api.payload)
@@ -269,10 +313,12 @@ class RetailerListOperations(Resource):
 class RetailerOperations(Resource):
     @secured
     def delete(self, id):
-        """Löschen eines bestimmten Retailer-Objekts.
-
-        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
         """
+        Deletes an specific Retailer object.
+
+        The object is determined by the ``id`` in the URI.
+        """
+
         adm = ShoppingAdministration()
         cust = adm.get_retailer_by_id(id)
         adm.delete_retailer(cust)
@@ -285,6 +331,11 @@ class RetailerOperations(Resource):
 class testReportGenerator(Resource):
     @testing.marshal_with(report)
     def get(self, id):
+        """
+        Gets an report object.
+
+        The object is determined by the ``id`` in the URI.
+        """
         adm = ShoppingAdministration()
         result = adm.get_report_entries(id)
         return result
@@ -298,6 +349,9 @@ class UserListOperations(Resource):
     @shopping_v1.marshal_list_with(user)
     #@secured can not be secured due to fetch function inside App.js
     def get(self):
+        """
+        Returns all User objects.
+        """
         adm = ShoppingAdministration() 
         result_find_all = adm.get_all_user()
         return result_find_all
@@ -308,7 +362,7 @@ class UserListOperations(Resource):
     def post(self):
         adm = ShoppingAdministration()
         """ try:
- """
+        """
         proposal = User.from_dict(api.payload)
         if proposal is not None:
             d = adm.insert_user(proposal)
@@ -330,6 +384,11 @@ class testReportGenerator(Resource):
     @shopping_v1.marshal_with(report)
     @secured
     def get(self, id):
+        """
+        Gets an specific report object.
+
+        The object is determined by the ``id`` in the URI.
+        """
         adm = ShoppingAdministration()
         result = adm.get_report_entries(id)
         return result
@@ -345,17 +404,29 @@ class testTop3Articles(Resource):
         adm = ShoppingAdministration()
         result = adm.get_top3Articles(id)
         return result
+
+        
 @shopping_v1.route('/User/<int:id>')
 @shopping_v1.response(500,"If an server sided error occures")
 class UserIDOperations(Resource):
     @shopping_v1.marshal_with(user)
     @secured
     def get(self,id):
+        """
+        Gets an specific user object.
+
+        The object is determined by the ``id`` in the URI.
+        """
         adm = ShoppingAdministration()
         return adm.get_user_by_id(id)
     
     @secured
     def delete(self,id):
+        """
+        Deletes an specific user object.
+
+        The object is determined by the ``id`` in the URI.
+        """
         adm = ShoppingAdministration()
         usr = adm.get_user_by_id(id)
         adm.delete_user(usr)
@@ -366,6 +437,11 @@ class UserIDOperations(Resource):
     @shopping_v1.expect(user,validate=True)
     @secured
     def put(self,id):
+        """
+        Updates an specific user object.
+
+        The object is determined by the ``id`` in the URI.
+        """
         adm = ShoppingAdministration()
         c = User.from_dict(api.payload)
         
@@ -383,6 +459,11 @@ class UserIDOperations(Resource):
     @shopping_v1.marshal_list_with(user)
     @secured
     def get(self,name):
+        """
+        Gets an specific user object.
+
+        The object is determined by the ``name`` in the URI.
+        """
         adm = ShoppingAdministration()
         usr = adm.get_user_by_name(name)
         return usr
@@ -393,9 +474,15 @@ class UserIDOperations(Resource):
 class UserIDOperations(Resource): 
     @shopping_v1.marshal_list_with(user)
     def get(self,firebaseid):
+        """
+        Gets an specific User object.
+
+        The object is determined by the ``firebaseid`` in the URI.
+        """
         adm = ShoppingAdministration()
         usr = adm.get_user_by_firebase_id(firebaseid)
         return usr
+
 
 @shopping_v1.route('/User/email/<string:email>')
 @shopping_v1.response(500,"If an server sided error occures")
@@ -403,9 +490,16 @@ class UserIDOperations(Resource):
     @shopping_v1.marshal_list_with(user)
     @secured
     def get(self,email):
+        """
+        Gets an specific user object.
+
+        The object is determined by the ``email`` in the URI.
+        """
         adm = ShoppingAdministration()
         usr = adm.get_user_by_email(email)
         return usr
+
+
 
 #Article
 @shopping_v1.route('/Article')
@@ -440,6 +534,7 @@ class ArticleOperations(Resource):
         else:
             return "",500  
 
+
 @shopping_v1.route('/Article/<int:id>')
 @shopping_v1.response(500, 'If an server sided error occures')
 @shopping_v1.param('id', "Article object id")
@@ -447,15 +542,26 @@ class ArticleOperations(Resource):
     @shopping_v1.marshal_with(article)
     @secured
     def get(self, id):
+        """
+        Gets an specific Article object.
+
+        The object is determined by the ``id`` in the URI.
+        """
         adm = ShoppingAdministration()
         return adm.get_article_by_id(id)
 
     @secured
     def delete(self, id):
+        """
+        Deletes an specific Article object.
+
+        The object is determined by the ``id`` in the URI.
+        """
         adm = ShoppingAdministration()
         ar = adm.get_article_by_id(id)
         adm.delete_article(ar)
         return 'deleted', 200
+
 
 @shopping_v1.route('/Article/<string:name>')
 @shopping_v1.response(500, 'If an server sided error occures')
@@ -464,8 +570,15 @@ class ArticleOperations(Resource):
     @shopping_v1.marshal_with(article)
     @secured
     def get(self, name):
+        """
+        Gets an specific Article object.
+
+        The object is determined by the ``name`` in the URI.
+        """
         adm = ShoppingAdministration()
         return adm.get_article_by_name(name)
+
+
 
 # @Author: Christopher Böhm
 @shopping_v1.route('/shoppinglist/')
@@ -475,6 +588,11 @@ class ShoppingListOperations(Resource):
     @shopping_v1.param('group_id', 'ID of group to get')
     @secured
     def get(self):
+        """
+        Gets an specific ShoppingList object.
+
+        The object is determined by the query parameter group_id.
+        """
         group_id = request.args.get('group_id')
         adm = ShoppingAdministration()
         return adm.get_shoppinglists_by_group_id(group_id)
@@ -483,6 +601,9 @@ class ShoppingListOperations(Resource):
     @shopping_v1.expect(shoppingList, validate=True)
     @secured
     def post(self):
+        """
+        Creates an new shoppinglist object.
+        """
         adm = ShoppingAdministration()
         proposal = ShoppingList.from_dict(api.payload)
 
@@ -496,6 +617,9 @@ class ShoppingListOperations(Resource):
     @shopping_v1.expect(shoppingList, validate=True)
     @secured
     def put(self):
+        """
+        Update an specific shoppinglist object.
+        """
         adm = ShoppingAdministration()
         proposal = ShoppingList.from_dict(api.payload)
 
@@ -505,20 +629,25 @@ class ShoppingListOperations(Resource):
         else:
             return "", 500
 
+
 # @Author: Christopher Boehm
 @shopping_v1.route('/shoppinglist/<int:id>')
 @shopping_v1.response(500, 'Server side error occured')
 class ShoppingListOperations(Resource):
     @secured
     def delete(self, id):
-        """Löschen eines bestimmten Retailer-Objekts.
-
-        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
         """
+        Deletes an specific ShoppingList object.
+
+        The object is determined by the ``id`` in the URI.
+        """
+
         adm = ShoppingAdministration()
         slist = adm.get_shoppinglist_by_id(id)
         adm.delete_shoppinglist(slist)
         return '', 200
+
+
 @shopping_v1.route('/shoppinglist/all')
 @shopping_v1.response(500, 'Server side error occured')
 class ShoppingListOperations(Resource):
@@ -531,14 +660,17 @@ class ShoppingListOperations(Resource):
         return slist
 
 
-#FavoriteArticle:
 
+#FavoriteArticle:
 @shopping_v1.route('/favoriteArticle')
 @shopping_v1.response(500,'Server side error occured')
 class FavoriteArticleListOperations(Resource):
     @secured
     @shopping_v1.marshal_with(favoriteArticle)
     def get(self):
+        """
+        Gets an specific favoriteArticle object.
+        """
         adm = ShoppingAdministration()
         return adm.get_all_FavoriteArticles()
 
@@ -546,6 +678,9 @@ class FavoriteArticleListOperations(Resource):
     @shopping_v1.marshal_with(favoriteArticle)
     @shopping_v1.expect(favoriteArticle, validate=True)
     def post(self):
+        """
+        creates an new specific group object or updates an exisiting group object. 
+        """
         adm = ShoppingAdministration()
         try:
             print(str(api.payload))
@@ -575,7 +710,7 @@ class FavoriteArticleListOperations(Resource):
         except Exception as e:
             print(str(e))
             return str(e), 500
-    
+
 
 @shopping_v1.route('/favoriteArticle/groupid/<int:id>')
 @shopping_v1.response(500,'Server side error occured')
@@ -584,8 +719,15 @@ class FavoriteArticleGroupOperations(Resource):
     @secured
     @shopping_v1.marshal_with(favoriteArticle)
     def get(self,id):
+        """
+        Gets an specific FavoriteArticle object.
+
+        The object is determined by the ``group_id`` in the URI.
+        """
+
         adm = ShoppingAdministration()
         return adm.get_FavoriteArticles_by_groupid(id)
+
 
 @shopping_v1.route('/favoriteArticle/id/<int:id>')
 @shopping_v1.response(500,'Server side error occured')
@@ -594,26 +736,47 @@ class FavoriteArticleOperations(Resource):
     @secured
     @shopping_v1.marshal_with(favoriteArticle)
     def get(self,id):
+        """
+        Gets an specific FavoriteArticle object.
+
+        The object is determined by the ``id`` in the URI.
+        """
+
         adm = ShoppingAdministration()
         return adm.get_FavoriteArticle_by_id(id)
 
     @secured
     @shopping_v1.marshal_with(favoriteArticle)
     def delete(self,id):
+        """
+        Deletes an specific FavoriteArticle object.
+
+        The object is determined by the ``id`` in the URI.
+        """
         adm = ShoppingAdministration()
         fa = adm.get_FavoriteArticle_by_id(id)
         adm.delete_FavoriteArticle(fa)
 
+
+
 #ListEntry
+#author Niklas Denneler, Pascal Illg
 @shopping_v1.route('/Listentry/allListEntry')
 @shopping_v1.response(500, 'If an server sided error occures')
 class testListEntry(Resource):
     @shopping_v1.marshal_with(listentry)
     @secured
     def get(self):
+        """
+        Read out all the listentry objects.
+        
+        If no listentry objects are available, an empty sequence is returned.
+        """
+
         adm = ShoppingAdministration()
         result = adm.get_all_listentries()
         return result
+
 
 @shopping_v1.route('/Listentry/byKey/<int:key>')
 @shopping_v1.response(500, 'If an server sided error occures')
@@ -622,9 +785,15 @@ class testListEntry(Resource):
     @shopping_v1.marshal_with(listentry)
     @secured
     def get(self, key):
+        """
+        Gets an specific ListEntry object.
+
+        The object is determined by the ``id`` in the URI.
+        """
         adm = ShoppingAdministration()
         result = adm.find_listentry_by_key(key)
         return result
+
 
 @shopping_v1.route('/Listentry/find_by_retailer/<int:retailer>')
 @shopping_v1.response(500, 'Mach me so hamme kein stress')
@@ -632,10 +801,17 @@ class testListEntry(Resource):
 class testListEntry(Resource):
     @shopping_v1.marshal_with(listentry)
     @secured
-    def get(self, retailer):
+    def get(self, retailer): 
+        """
+        Gets an specific ListEntry object.
+
+        The object is determined by the ``retailer_id`` in the URI.
+        """
+
         adm = ShoppingAdministration()
         result = adm.find_listentry_by_retailer(retailer)
         return result
+
 
 @shopping_v1.route('/Listentry/find_by_date/<int:user>')
 @shopping_v1.response(500, 'If an server sided error occures')
@@ -644,9 +820,16 @@ class testListEntry(Resource):
     @shopping_v1.marshal_with(listentry)
     @secured
     def get(self, user):
+        """
+        Gets an specific ListEntry object.
+
+        The object is determined by the ``user_id`` in the URI.
+        """
+
         adm = ShoppingAdministration()
         result = adm.find_listentry_by_purchaser(user)
         return result
+
 
 @shopping_v1.route('/Listentry/find_by_purchaser/ <int:purchaser>')
 @shopping_v1.response(500, 'Mach me so hamme kein stress')
@@ -655,25 +838,32 @@ class testListEntry(Resource):
     @shopping_v1.marshal_list_with(listentry)
     @secured
     def get(self, purchaser):
+        """
+        Gets an specific ListEntry object.
+
+        The object is determined by the ``purchaser_id`` in the URI.
+        """
+
         adm = ShoppingAdministration()
         result = adm.find_listentry_by_purchaser(purchaser)
         return result
+
 
 @shopping_v1.route('/Listentry')
 @shopping_v1.response(500, 'Server side error occured')
 class ShoppingListOperations(Resource):
     @secured
     def delete(self):
-        """Delete an specific Listentry 
+        """
+        Delete an specific Listentry 
 
-
-        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
         """
         idl = request.args.get('id')
         adm = ShoppingAdministration()
         Listentry = adm.find_listentry_by_key(idl)
         adm.delete_listentry(Listentry)
         return '', 200
+
 
 @shopping_v1.route('/Listentry/insert')
 @shopping_v1.response(500, 'If an server sided error occures')
@@ -682,6 +872,10 @@ class testListEntry(Resource):
     @shopping_v1.marshal_with(listentry, skip_none=True)
     @secured
     def post(self):
+        """
+        Creates an specific ListEntry object.
+
+        """
         adm = ShoppingAdministration()
         proposal = ListEntry.from_dict(api.payload)
       
@@ -703,6 +897,7 @@ class testListEntry(Resource):
         else:
             return "", 500
 
+
 @shopping_v1.route('/Listentry/get_personal_items_of_group')
 @shopping_v1.response(500, 'If an server sided error occures')
 @shopping_v1.param('user_id', "User_ID")
@@ -711,11 +906,18 @@ class testListEntry(Resource):
     @shopping_v1.marshal_list_with(listentry)
     @secured
     def get(self):
+        """
+        Gets an specific ListEntry object.
+
+        The object is determined by the query parameters group_id and user_id.
+        """
+
         user_id = request.args.get('user_id')
         group_id = request.args.get('group_id')
         adm = ShoppingAdministration()
         return adm.get_personal_items_of_group(user_id, group_id)
-        
+
+
 @shopping_v1.route('/Listentry/get_items_of_group')
 @shopping_v1.response(500, 'If an server sided error occures')
 @shopping_v1.param('group_id', "Group_ID")
@@ -724,6 +926,12 @@ class testListEntry(Resource):
     @shopping_v1.marshal_with(listentry)
     @secured
     def get(self):
+        """
+        Gets an specific ListEntry object.
+
+        The object is determined by the query parameters group_id and shoppinglist_id.
+        """
+
         group_id = request.args.get('group_id')
         shoppinglist_id = request.args.get('shoppinglist_id')
         adm = ShoppingAdministration()
@@ -739,6 +947,11 @@ class testListEntry(Resource):
     @shopping_v1.expect(listentry)
     @secured
     def post(self):
+        """
+        updates an exisiting ListEntry object.
+
+        """
+        
         adm = ShoppingAdministration()
         proposal = ListEntry.from_dict(api.payload)
         print(proposal)
@@ -763,6 +976,8 @@ class testListEntry(Resource):
             return res, 200
         else:
             return "", 500
+
+
 
 # TESTING AREA:
 @testing.route('/testSecured')
@@ -792,10 +1007,21 @@ class testGroupOperations(Resource):
     @testing.marshal_with(group)
     #@secured
     def get(self,id):
+        """
+        Gets an specific ListEntry object.
+
+        The object is determined by the ``id`` in the URI.
+        """
         adm = ShoppingAdministration()
         return adm.get_group_by_id(id)
 
     def delete(self,id):
+        """
+        deletes an specific ListEntry object.
+
+        The object is determined by the ``id`` in the URI.
+        """
+
         adm = ShoppingAdministration()
         gr = adm.get_group_by_id(id)
         adm.delete_group(gr)

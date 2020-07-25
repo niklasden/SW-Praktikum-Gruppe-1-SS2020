@@ -34,7 +34,7 @@ import AddListItem from './AddListItem';
     }
 
     this.handleClick = this.onClickItem.bind(this);
-    this.handleClose = this.handleClose.bind(this);
+    //this.handleClose = this.handleClose.bind(this);
     this.PressButtonBack = this.PressButtonBack.bind(this);
     this.PressButtonConfirm = this.PressButtonConfirm.bind(this);
   }
@@ -51,10 +51,10 @@ import AddListItem from './AddListItem';
     this.setState({open: false})
   }
 
-  /** Handles  */
+  /** Sets anchorEl to null 
   handleClose(){
     this.setState({anchorEl:null});
-  };
+  }; */
   
   /** Handels the onClose event of the back button on the PopUp */
   PressButtonBack(){
@@ -106,6 +106,5 @@ const styles = theme => ({
     padding: theme.spacing(0), 
   }
 });
-
 
  export default withRouter(withStyles(styles)(ProductListEntry));

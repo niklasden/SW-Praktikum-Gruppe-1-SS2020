@@ -12,36 +12,6 @@ import { CircularProgress } from '@material-ui/core'
 import { timeout } from '../../timeout'
 import ErrorSnackbar from '../../components/layout/ErrorSnackbar';
 
-const styles = theme => ({
-  root: {
-    backgroundColor: '#fafafa', 
-    borderRadius: 5, 
-  },
-  rootTwo: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    overflow: 'hidden',
-    backgroundColor: theme.palette.background.paper,
-    margin:10,
-    marginTop:30,
-  },
-  gridList: {
-    flexWrap: 'nowrap',
-    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-    transform: 'translateZ(0)',
-  },
-  title: {
-    color:'#ffffff' /*theme.palette.primary.light-blue*/
-  },
-  titleBar: {
-    background: 'linear-gradient(to top, rgba(0,188,212,1) 100%, rgba(0,188,212,0.3) 70%, rgba(0,88,212,0) 100%)',
-    borderRadius: 5,
-  },
-});
-   
-const settingsobj = ShoppingSettings.getSettings()
-
 /**
  * Displays all Groups specific for one user in a gridlist for the homepage
  * @author [Kevin Eberhardt]
@@ -103,7 +73,7 @@ class GroupsGridList extends Component {
               <GridListTile key={GroupIcon}>
                 <img src={GroupIcon} alt={tile.name} />
                        
-                <Link to="/GroupShoppingList" onClick={() => {settingsobj.setGroupID(tile.id);settingsobj.setGroupName(tile.name)}} aria-label={`info about ${tile.title}`} className={classes.icon}>
+                <Link onClick={() => {settingsobj.setGroupID(tile.id);settingsobj.setGroupName(tile.name)}} aria-label={`info about ${tile.title}`} className={classes.icon}>
                   <GridListTileBar 
                     title={ tile.name}
                     classes={{
@@ -136,5 +106,35 @@ class GroupsGridList extends Component {
     )
   }
 }
+
+const styles = theme => ({
+  root: {
+    backgroundColor: '#fafafa', 
+    borderRadius: 5, 
+  },
+  rootTwo: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    overflow: 'hidden',
+    backgroundColor: theme.palette.background.paper,
+    margin:10,
+    marginTop:30,
+  },
+  gridList: {
+    flexWrap: 'nowrap',
+    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+    transform: 'translateZ(0)',
+  },
+  title: {
+    color:'#ffffff' /*theme.palette.primary.light-blue*/
+  },
+  titleBar: {
+    background: 'linear-gradient(to top, rgba(0,188,212,1) 100%, rgba(0,188,212,0.3) 70%, rgba(0,88,212,0) 100%)',
+    borderRadius: 5,
+  },
+});
+   
+const settingsobj = ShoppingSettings.getSettings()
 
 export default withStyles(styles)(GroupsGridList);

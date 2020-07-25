@@ -4,18 +4,6 @@ import { withStyles, ButtonBase } from '@material-ui/core';
 import FavoriteArticle from '../layout/FavoriteArticle';
 import { withRouter } from "react-router-dom";
 
-
-
-const styles = theme => ({
-    root: {
-      flexGrow: 1,
-      padding: theme.spacing(2),
-    },
-    article: {
-      padding: theme.spacing(0), 
-    }
- });
-
  /**
  * Renders a list of Favorite Articles
  * 
@@ -41,5 +29,17 @@ const styles = theme => ({
       )
   }
 }
+
+
+
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    padding: theme.spacing(2),
+  },
+  article: {
+    padding: theme.spacing(0), 
+  }
+});
 
  export default withRouter(withStyles(styles)(FavoriteArticlesListEntry));

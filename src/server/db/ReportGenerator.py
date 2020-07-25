@@ -28,7 +28,10 @@ class ReportGenerator(Mapper):
     def get_report(self, group_id):
         """
         Author: Kevin Eberhardt
-        """
+        get all essential items to create a report
+        :return: a list of groups with  articles, retailers, top_articles and top_retailers
+        
+        """        
         result = []
         retailers = []
         articles = []
@@ -68,7 +71,7 @@ class ReportGenerator(Mapper):
     def get_top_3_articles(self, group_id):
         """
         Author: Christopher Böhm
-        :return:^   
+        :return: top 3 articles each group
         """
         result = []
         cursor = self._cnx.cursor()
@@ -103,6 +106,10 @@ class ReportGenerator(Mapper):
             return result
 
     def get_top3_retailer(self, group_id):
+        """
+        Author: Christopher Böhm
+        :return: top 3 retailers each group
+        """
         result = []
         cursor = self._cnx.cursor()
         statement = "SELECT r.ID, r.name, r.location, amount, bought FROM dev_shoppingproject.Listentry as l INNER JOIN dev_shoppingproject.Retailer as r ON l.Retailer_ID = r.ID  WHERE l.Group_ID = {0} GROUP BY r.ID, r.name, r.location ORDER BY amount DESC LIMIT 3;".format(group_id)
@@ -117,8 +124,3 @@ class ReportGenerator(Mapper):
             cursor.close()
             print(result)
             return result
-
-    # können gelöscht werden
-    def get_top3_products(self, group_id):
-        pass
-

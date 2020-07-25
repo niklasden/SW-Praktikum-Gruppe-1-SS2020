@@ -13,20 +13,6 @@ import TextField from '@material-ui/core/TextField';
 import MainButton from '../layout/MainButton';
 import Heading from '../layout/Heading';
 import { Link } from 'react-router-dom';
-
-const styles = theme => ({
-    root: {},
-    control: {
-        margin: theme.spacing(1),
-        minWidth: 120,
-        width: '90%'
-      },
-      button: {
-          minWidth: 200,
-      }
-});
-
-
 /**
  * Page to edit the favorite articles
  * 
@@ -298,4 +284,19 @@ class EditFavoriteArticle extends Component {
         )
     }
 }
+
+const styles = theme => ({
+    root: {},
+    control: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+        width: '90%'
+      },
+      button: {
+          minWidth: 200,
+      }
+});
+
+
+
 export default withRouter(withStyles(styles)(EditFavoriteArticle)); 
