@@ -67,8 +67,6 @@ class EditListItem extends Component {
   }; */
 
   componentDidMount(){
-    console.log(this.state.item.retailer)
-
     this.setState({
       selected_unit: this.state.item.unit,
       selected_amount: this.state.item.amount,

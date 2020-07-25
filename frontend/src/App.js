@@ -29,7 +29,6 @@ import LoadingProgress from './components/dialogs/LoadingProgress';
 import ContextErrorMessage from './components/dialogs/ContextErrorMessage';
 import AboutPage from './components/pages/AboutPage';
 import { HomePage } from './components/pages/HomePage';
-import { UsersPage } from './components/pages/UsersPage';
 import ProductsPage from './components/pages/ProductsPage';
 import GroupShoppingList from './components/pages/GroupShoppingList';
 import SettingsPage from './components/pages/SettingsPage';
@@ -251,7 +250,6 @@ class App extends React.Component {
 								{
 									// Is a user signed in?
 									// geändert von chris, um im dev prozess den signin zu umgehen, muss wieder 
-									// TODO: muss wieder in currentUser umbenannt werden
 									// Is a user signed in?
 									currentUser && currentUserID ?  //currentUserID for context 
 								
@@ -262,9 +260,6 @@ class App extends React.Component {
 													<Route path="/about">
 														<AboutPage />
 													</Route>
-													<Route path="/users">
-														<UsersPage />
-													</Route> 
 													<Route path="/products">
 														<ProductsPage />
 													</Route>

@@ -27,9 +27,6 @@ const settingsobj = ShoppingSettings.getSettings()
  * For this reason, there was a profile picture upload function implemented, which is not enabled at the moment.
  * Setting up the Backend/DB side of things took more time, then I anticipated.
  * 
- * ToDo:
- * More advanced error handling
- * 
  */
 class AccountsPage extends Component {
 	constructor(props) {
@@ -222,7 +219,7 @@ class AccountsPage extends Component {
 								</Grid>
 							</div>
 						</Grid>
-						<Grid item xs={12}>
+						<Grid item xs={12} style={{marginBottom: 115}}>
 							{/* Not implemented as you cant change anything for a user  <MainButton variant="contained" onclick={() => { alert('Account saved') }}>Save Changes</MainButton> */}
 							<MainButton variant="contained" onclick={this.handleOpenDeleteConfirmation}>Delete Account</MainButton>
 						</Grid>

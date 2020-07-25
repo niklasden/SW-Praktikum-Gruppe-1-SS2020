@@ -92,6 +92,7 @@ const icons = {
   steak: meatIcon, 
   meat: meatIcon, 
   fish: fishIcon, 
+  salmon: fishIcon,
   cheese: cheeseIcon, 
   egg: eggIcon, 
   noodle: noodlesIcon, 

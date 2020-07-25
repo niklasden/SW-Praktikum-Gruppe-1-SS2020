@@ -148,8 +148,7 @@ class EditFavoriteArticle extends Component {
             } 
             const resp = await fetch(Config.apiHost + '/favoriteArticle', rInit)
             if(resp.ok){
-                console.log(resp);
-            }else {
+            } else {
                 console.log(resp);
             }
         }catch(e) {

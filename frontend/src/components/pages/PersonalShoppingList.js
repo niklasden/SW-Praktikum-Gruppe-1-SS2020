@@ -41,7 +41,7 @@ export default class PersonalShoppingList extends Component {
 * Fetchs the items.As long as the fetch is made, the spinner is executed. But only the first time. 
 * After this the fetch is made, without executing the spinner. 
 */
-newItem = () => {
+getNewItem = () => {
   if (this.state.loaded === true){
     this.setState({loadingInProgress : true})
       ShoppingAPI.getAPI().personalItems(this.state.currentUserID, this.state.groupID)
@@ -70,7 +70,7 @@ componentDidMount(){
 */
 async setTimeout(){
   while(true){
-    this.newItem()
+    this.getNewItem()
     this.getItemsFromLocalStorage() 
     await timeout(30000)
   }
@@ -309,6 +309,9 @@ PurchaseCompleted(){
   Arr = []
   this.setState({checkedItems : Arr})
   this.setState({solved : false})
+  this.getNewItem()
+  this.renderMyShoppingList()
+
 }
 
 

@@ -12,13 +12,6 @@ import { withRouter } from "react-router";
 import { Redirect } from 'react-router';
 import { Config } from '../../config';
 
-const styles = theme => ({
-  root: {
-    backgroundColor: '#fafafa', 
-    borderRadius: 5, 
-  },
-})
-
 /**
  * Renders the page to create, edit or delete a retailer
  * 
@@ -153,7 +146,7 @@ class CreateRetailerPage extends Component {
           />
         </div>      
           <MultilineTextInput 
-            placeholder='Ort des Einzelhändlers' 
+            placeholder='Location of the retailer' 
             style={{margin: 12, marginTop: 0}}  
             value={this.state.address}
             onChange={(e) => this.setState({address: e.target.value})}
@@ -161,7 +154,7 @@ class CreateRetailerPage extends Component {
 
           <div style={{margin: 24}}>
             <Icon size='small'>info</Icon>
-            <text>Beim Ort kann es sich um eine Adresse oder um eine zusätzliche Bezeichnung handeln, hauptsache du und die Mitglieder deiner Gruppe wissen, was damit gemeint ist</text>
+            <text>The location does not necessarily have to be an address</text>
           </div>
 
           <Grid
@@ -172,12 +165,12 @@ class CreateRetailerPage extends Component {
           >
             <Grid item>
               <div style={{display: 'flex', flexDirection: 'row'}}>
-                <MainButton onclick={this.onClickSave.bind(this)}>Speichern</MainButton>
+                <MainButton onclick={this.onClickSave.bind(this)}>Save</MainButton>
                 <div style={{marginLeft: 12}}>
                   <MainButton 
                     onclick={this.onClickDelete.bind(this)}
                     disabled={this.state.id === ''}
-                  >Löschen</MainButton>
+                  >Delete</MainButton>
                 </div>
               </div>
   
@@ -210,5 +203,12 @@ class CreateRetailerPage extends Component {
     )
   }
 } 
+
+const styles = theme => ({
+  root: {
+    backgroundColor: '#fafafa', 
+    borderRadius: 5, 
+  },
+})
 
 export default withRouter(withStyles(styles)(CreateRetailerPage));

@@ -187,8 +187,6 @@ class ShoppingListMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
-# TODO: remove
-""""
     def find_latest(self):
         cursor = self._cnx.cursor()
         result = []
@@ -200,14 +198,13 @@ class ShoppingListMapper(Mapper):
             for id in tuples:
                 result.append(id)
         except IndexError:
-            if tuples of cursor.fetchall() is empty we will get IndexError. In this case
-            we didn't find the object with the key in database, result will be none then
+            #if tuples of cursor.fetchall() is empty we will get IndexError. In this case
+            #we didn't find the object with the key in database, result will be none then
             
             result = None
         self._cnx.commit()
         cursor.close()
         return result
-"""
 
 if (__name__ == "__main__"):
     with ShoppingListMapper() as mapper:
