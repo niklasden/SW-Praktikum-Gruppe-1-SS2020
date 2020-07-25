@@ -159,7 +159,7 @@ class App extends React.Component {
 	/** Handles firebase usres logged in state changes  */
 	handleAuthStateChange = user => {
 
-		console.log("handleAuthStateChange ausgeführt")
+		// console.log("handleAuthStateChange ausgeführt")
 		if (user) {
 			this.setState({
 				authLoading: true
@@ -213,7 +213,6 @@ class App extends React.Component {
 		});
 		const provider = new firebase.auth.GoogleAuthProvider();
 		try {
-			console.log("hello")
 			await firebase.auth().signInWithRedirect(provider);
 			console.log("redirect successfull")
 		} catch (e){
