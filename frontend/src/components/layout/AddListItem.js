@@ -28,45 +28,46 @@ const settingsobj = ShoppingSettings.getSettings()
 class AddListItem extends Component {
   constructor(props) {
     super(props);
+
     // Inits the state    
     this.state = {
-        selected_shoppinglist: null,
-        selected_user_id: null, 
-        selected_retailer_id: null,
-        amount: 1, 
-        unit: null,
+      selected_shoppinglist: null,
+      selected_user_id: null, 
+      selected_retailer_id: null,
+      amount: "1", 
+      unit: null,
 
-        shoppinglists: [],
-        users:[],
-        retailers: [], 
-        units: [
-          {id: 'g', name: 'g'},
-          {id: 'kg', name: 'kg'},
-          {id: 'l', name: 'l'},
-          {id: 'ml', name: 'ml'},
-          {id: 'Stk.', name: 'Stk.'},
-          {id: 'Pkg.', name: 'Pkg.'},
-        ],
+      shoppinglists: [],
+      users:[],
+      retailers: [], 
+      units: [
+        {id: 'g', name: 'g'},
+        {id: 'kg', name: 'kg'},
+        {id: 'l', name: 'l'},
+        {id: 'ml', name: 'ml'},
+        {id: 'Stk.', name: 'Stk.'},
+        {id: 'Pkg.', name: 'Pkg.'},
+      ],
 
-        isloading: false,
+      isloading: false,
     }
-     this.saveItem = this.saveItem.bind(this); 
+      this.saveItem = this.saveItem.bind(this); 
   }
 
   /** Fetches ShoppinglistBOs for the current group */
   async fetchShoppinglists() {
-      this.setState({isloading: true})
-      let response = await fetch(Config.apiHost + '/shoppinglist/?group_id=' +settingsobj.getGroupID(), {credentials: 'include'})
-      let data = await response.json()
-      this.setState({shoppinglists: data, isloading:false})
+    this.setState({isloading: true})
+    let response = await fetch(Config.apiHost + '/shoppinglist/?group_id=' +settingsobj.getGroupID(), {credentials: 'include'})
+    let data = await response.json()
+    this.setState({shoppinglists: data, isloading:false})
   }; 
 
   /** Fetches RetailerBOs */
   async fetchRetailers(){
-      this.setState({isloading: true})
-      let response = await fetch(Config.apiHost+'/Retailer', {credentials: 'include'})
-      let data = await response.json()
-      this.setState({retailers:data, isloading:false})
+		this.setState({isloading: true})
+		let response = await fetch(Config.apiHost+'/Retailer', {credentials: 'include'})
+		let data = await response.json()
+		this.setState({retailers:data, isloading:false})
   }
 
   /** Fetches UserBOs of the current group */
@@ -76,8 +77,8 @@ class AddListItem extends Component {
         users: userBOs
       })
     }).catch(e => 
-        console.log(e)
-      );
+			console.log(e)
+		);
   }
 
   /** Sets the Unit of the ListEntry */
@@ -97,9 +98,9 @@ class AddListItem extends Component {
   
   /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount(){
-      this.fetchShoppinglists();
-      this.fetchRetailers();
-      this.fetchGroupMembers();
+		this.fetchShoppinglists();
+		this.fetchRetailers();
+		this.fetchGroupMembers();
   }
  
   /** Insert a new ListentyBO */
@@ -134,7 +135,7 @@ class AddListItem extends Component {
       selected_shoppinglist: null,
       selected_user_id: null, 
       selected_retailer_id: null,
-      amount: 1, 
+      amount: "1", 
       unit: null,
     })
   }
@@ -148,42 +149,43 @@ class AddListItem extends Component {
       <DialogTitle id="alert title" style={{textAlign: "center"}}>{"add "+this.props.item.name}</DialogTitle>
       <DialogContent>
 
-        <Grid container
-        direction='row'
-        justify='center'
-        alignItems= 'center'
-        spacing={4}
-        className={classes.popUp}
+				<Grid 
+					container
+					direction='row'
+					justify='center'
+					alignItems= 'center'
+					spacing={4}
+					className={classes.popUp}
         >
           <Grid item xs={12} >
             <FormControl
-            className={classes.formControl} 
+            	className={classes.formControl} 
             >
               <InputLabel>SHOPPING LIST</InputLabel>
-                <Select  
-                  onChange={(e) => this.setState({selected_shoppinglist: e.target.value})}
-                  value={this.state.selected_shoppinglist}
-                  >
-                    {this.state.isloading ?
-                      <div style={{display: 'flex', justifyContent: 'center'}}>                 
-                        <CircularProgress size={25}/>               
-                      </div>
-                      :
-                      this.state.shoppinglists.map((item, key) => 
-                        <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
-                    )}
-                </Select>
+							<Select  
+								onChange={(e) => this.setState({selected_shoppinglist: e.target.value})}
+								value={this.state.selected_shoppinglist}
+							>
+								{this.state.isloading ?
+									<div style={{display: 'flex', justifyContent: 'center'}}>                 
+										<CircularProgress size={25}/>               
+									</div>
+									:
+									this.state.shoppinglists.map((item, key) => 
+										<MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
+								)}
+							</Select>
             </FormControl>
           </Grid>
 
           <Grid item xs={12} >
             <FormControl
-            className={classes.formControl} 
+            	className={classes.formControl} 
             >
               <InputLabel>RETAILER</InputLabel>
                 <Select
-                onChange={(e) => this.setState({selected_retailer_id: e.target.value})}
-                value={this.state.selected_retailer_id}
+									onChange={(e) => this.setState({selected_retailer_id: e.target.value})}
+									value={this.state.selected_retailer_id}
                 >
                   {this.state.isloading ?
                     <div style={{display: 'flex', justifyContent: 'center'}}>                 
@@ -199,12 +201,12 @@ class AddListItem extends Component {
 
           <Grid item xs={12} >
             <FormControl
-            className={classes.formControl} 
+            	className={classes.formControl} 
             >
               <InputLabel>USER</InputLabel>
                 <Select  
-                onChange={(e) => this.setState({selected_user_id: e.target.value})}
-                value={this.state.selected_user_id}
+                	onChange={(e) => this.setState({selected_user_id: e.target.value})}
+                	value={this.state.selected_user_id}
                 >
                   {this.state.isloading ?
                     <div style={{display: 'flex', justifyContent: 'center'}}>                 
@@ -219,33 +221,35 @@ class AddListItem extends Component {
           </Grid>
 
           <Grid container xs={12}
-          justify = 'center'
-          alignItems= 'center'
-          style={{paddingTop:10, paddingBottom:10}}
-          spacing={4}
+						justify = 'center'
+						alignItems= 'center'
+						style={{paddingTop:10, paddingBottom:10}}
+						spacing={4}
           >
             <Grid item xs={6} 
-            style={{paddingLeft:25}}
-            justify='center'
-            alignItems= 'center'
+							style={{paddingLeft:25}}
+							justify='center'
+							alignItems= 'center'
             >
-                <TextField 
-                label="AMOUT"
-                onChange={this.setAmount.bind(this)} 
-                value={this.state.amount}>
-                </TextField>
+							<TextField 
+								label="AMOUT"
+								onChange={this.setAmount.bind(this)} 
+								value={this.state.amount}>
+							</TextField>
             </Grid>
 
-            <Grid item xs={6}
-            style={{paddingRight:35}}
-            justify='center'
-            alignItems= 'center'
+						<Grid 
+							item xs={6}
+							style={{paddingRight:35}}
+							justify='center'
+							alignItems= 'center'
             >
               <FormControl style={{width: '100%'}}>
                 <InputLabel>UNIT</InputLabel>
                 <Select 
-                onChange={(e) => this.setState({unit: e.target.value})}
-                value = {this.state.unit}>
+									onChange={(e) => this.setState({unit: e.target.value})}
+									value = {this.state.unit}
+								>
                   {
                     this.state.units.map((element) => {
                       return <MenuItem value = {element.id}>{element.name}</MenuItem>
@@ -280,8 +284,8 @@ const styles = theme => ({
     marginBottom: 10
   },
   popUp: {
-      width: '300px', 
-      fontSize: '15px',      
+		width: '300px', 
+		fontSize: '15px',      
   }
 });
 
