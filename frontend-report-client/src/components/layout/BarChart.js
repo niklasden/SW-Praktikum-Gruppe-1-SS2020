@@ -8,8 +8,13 @@ import { withStyles } from '@material-ui/styles';
  * 
  */
 class BarChart extends Component {
-  componentDidMount() {
-    const canvas = this.refs.canvas
+	constructor(props){
+		super(props)
+		this.canvasRef = React.createRef()
+	}
+
+	componentDidMount() {
+    const canvas = this.canvasRef.current
     canvas.height = 300;
     canvas.width = this.props.width
     // const ctx = canvas.getContext("2d")
@@ -17,7 +22,25 @@ class BarChart extends Component {
 
     var myBarchart = new BarChartGenerator({
 			canvas:canvas,
-			title:"Vinyl records",
+			title:"Bar chart",
+			padding:10,
+			gridColor:"#eeeeee",
+			data: this.props.data,
+			colors:["#a55ca5","#67b6c7", "#bccd7a","#eb9743"]
+		});
+    myBarchart.draw();
+  }
+
+  componentDidUpdate() {
+    const canvas = this.canvasRef.current
+    canvas.height = 300;
+    canvas.width = this.props.width
+    // const ctx = canvas.getContext("2d")
+    // const img = this.refs.image
+
+    var myBarchart = new BarChartGenerator({
+			canvas:canvas,
+			title:"Bar chart",
 			padding:10,
 			gridColor:"#eeeeee",
 			data: this.props.data,
@@ -29,7 +52,7 @@ class BarChart extends Component {
   render(){
     return(
       <>
-        <canvas ref="canvas" className={styles.root}></canvas>
+        <canvas ref={this.canvasRef} className={styles.root}></canvas>
         {/* <legend for="canvas"></legend> */}
       </>
     )
@@ -116,62 +139,65 @@ var BarChartGenerator = function(options){
   this.BarChartGenerator = options;
   this.canvas = options.canvas;
   this.ctx = this.canvas.getContext("2d");
-  this.colors = options.colors;
+	this.colors = options.colors;
+	
+	this.ctx.clearRect(0, 0, options.canvas.width, options.canvas.height);
+
   this.draw = function(){
 		if(options) {
 			var maxValue = 0;
-		// find highest value of data
-		// for (var categ in options.data){
-		// 	maxValue = Math.max(maxValue,options.data[categ]);
-		// }
+			// find highest value of data
+			// for (var categ in options.data){
+			// 	maxValue = Math.max(maxValue,options.data[categ]);
+			// }
 
-		options.data.forEach(el => {
-			maxValue = Math.max(maxValue, el.value)
-		})
+			options.data.forEach(el => {
+				maxValue = Math.max(maxValue, el.value)
+			})
 
 
-		var canvasActualHeight = this.canvas.height - options.padding * 2;
-		var canvasActualWidth = this.canvas.width - options.padding * 2;
+			var canvasActualHeight = this.canvas.height - options.padding * 2;
+			var canvasActualWidth = this.canvas.width - options.padding * 2;
 
-		//drawing the grid lines
-		var gridValue = 0;
-		while (gridValue <= maxValue){
-			var gridY = (canvasActualHeight - 10) * (1 - gridValue/maxValue) + options.padding;
-			drawLine(
-				this.ctx,
-				0,
-				gridY,
-				this.canvas.width,
-				gridY,
-				options.gridColor
-			);
+			//drawing the grid lines
+			var gridValue = 0;
+			while (gridValue <= maxValue){
+				var gridY = (canvasActualHeight - 10) * (1 - gridValue/maxValue) + options.padding;
+				drawLine(
+					this.ctx,
+					0,
+					gridY,
+					this.canvas.width,
+					gridY,
+					options.gridColor
+				);
 
-			drawText(this.ctx, 0, gridY, "" + gridValue)
+				drawText(this.ctx, 0, gridY, "" + gridValue)
 
-			gridValue += Math.round(maxValue / 5)
-		}
+				gridValue += Math.round(maxValue / 5)
+			}
 
-		//drawing the bars
-		var barIndex = 0;
-		var numberOfBars = options.data.length;
-		var barSize = (canvasActualWidth)/numberOfBars;
+			//drawing the bars
+			var barIndex = 0;
+			var numberOfBars = options.data.length;
+			var barSize = (canvasActualWidth)/numberOfBars;
 
-		options.data.forEach((el) => {
-			var val = el.value;
-			var barHeight = Math.round( (canvasActualHeight - 10) * val/maxValue);
-			drawBar(
-				this.ctx,
-				options.padding + barIndex * barSize + 20,
-				this.canvas.height - barHeight - options.padding - 10,
-				barSize,
-				barHeight,
-				this.colors[barIndex%this.colors.length]
-			);
+			options.data.forEach((el) => {
+				var val = el.value;
+				var barHeight = Math.round( (canvasActualHeight - 10) * val/maxValue);
+				drawBar(
+					this.ctx,
+					options.padding + barIndex * barSize + 20,
+					this.canvas.height - barHeight - options.padding - 10,
+					barSize,
+					barHeight,
+					this.colors[barIndex%this.colors.length]
+				);
 
-			barIndex++;
-			drawText(this.ctx, barIndex * barSize - barSize + 30, this.canvas.height - 10, "" + el.title + " (" + el.value + ")")
+				barIndex++;
+				drawText(this.ctx, barIndex * barSize - barSize + 30, this.canvas.height - 10, "" + el.title + " (" + el.value + ")")
 
-		}) 
+			}) 
 		}
   }
 }

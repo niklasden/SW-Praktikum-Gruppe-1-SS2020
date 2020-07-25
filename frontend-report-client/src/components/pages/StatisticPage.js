@@ -49,6 +49,7 @@ class StatisticPage extends Component {
 		this.fetchTopProducts(event.target.value);
 		this.fetchTopRetailers(event.target.value);
 	}
+
 	/* Method to check, if user exists in database */
 	async fetchCurrentUserDBID() {
 		const res = await fetch(Config.apiHost + "/User/firebaseid/" + this.props.currentUser.uid);
@@ -107,10 +108,11 @@ class StatisticPage extends Component {
 				}
 			})
 			this.setState({retailers: topRetailersList})
-		}catch(exception) {
+		} catch(exception) {
 			this.setState({error: exception});
 		}
 	}
+	
 	/* Lifecycle method */
 	componentDidMount() {
 		this.setState({
@@ -149,7 +151,7 @@ class StatisticPage extends Component {
 				{error ?
 					<ContextErrorMessage error={error} contextErrorMsg={`Data could not be loaded. Check if database server is running.`} />
 				:
-				<Grid container style={{padding: '1em', marginBottom: 70}} ref={this.statRef}>
+					<Grid container style={{padding: '1em', marginBottom: 70}} ref={this.statRef}>
 						<LoadingProgress show={dataLoading} />
 						<Heading>SELECT A GROUP</Heading>
 						<FormControl className={classes.formControl} >

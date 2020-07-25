@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import { Grid } from '@material-ui/core';
-import CanvasJSReact from './statistic/canvasjs.react'
 import { withStyles } from '@material-ui/core/styles';
 import {Config} from '../../config';
+import LineChart from '../layout/LineChart'
 
 /**
  * Displays the timeline chat for the statistic page
@@ -10,15 +10,6 @@ import {Config} from '../../config';
  * @author [Kevin Eberhardt](https://github.com/kevin-eberhardt)
  * 
  */
-
-var CanvasJSChart = CanvasJSReact.CanvasJSChart;
-const styles = theme => ({
-  chart: {
-    position: 'relative',
-    maxWidth: '75%'
-  }
-});
-
 class Statistic extends Component {
   state = {
     time: this.props.time,
@@ -27,8 +18,9 @@ class Statistic extends Component {
       data: []
     },
   }
-  /*
-  Method to fetch all bought products
+
+  /**
+    Method to fetch all bought products
   */
   async getBoughtProducts() {
     try {
@@ -57,12 +49,12 @@ class Statistic extends Component {
           newItem.dataPoints.sort((a, b) => b.x - a.x);
           productList.push(newItem);
           articleIDs.push(newItem.id);
-        }else { // else if the item already exists or is fetched, add the incoming data to the existing item 
+        } else { // else if the item already exists or is fetched, add the incoming data to the existing item 
           var includedItem = productList.find(productItem => productItem.id === item.id);
           includedItem.dataPoints.forEach(dP => {
             if (Date.parse(dP.x) === Date.parse(item.bought)) {
               dP.y += item.amount;
-            }else {
+            } else {
               includedItem.dataPoints.push(
                 {
                   x: new Date(item.bought),
@@ -86,6 +78,7 @@ class Statistic extends Component {
   isDateBeforeTimeProp(date) {
     return date.valueOf() <= new Date(this.props.endTime).valueOf();
 }
+
 isDateAfterTimeProp(date) {
   return date.valueOf() >= new Date(this.props.startTime).valueOf();
 }
@@ -114,16 +107,53 @@ isDateAfterTimeProp(date) {
           d.dataPoints = d.dataPoints.filter(dd => this.isDateBeforeTimeProp(dd.x) && this.isDateAfterTimeProp(dd.x));
         })
       }
+      // console.log(newList)
+
       return newList;
     }
+
+    // we need the elements in another format as we switched from canvas js to a custom solution
+    getCustomizedOptions(){
+      const options = this.getOptions().data
+      const customOptions = []
+
+      const newCustomOption = (article_id, article_name, amount, date) => {
+        return {
+          article_id,
+          article_name, 
+          amount,
+          date
+        }
+      }
+
+      options.forEach((el, i) => {
+        el.dataPoints.forEach(dataPoint => {
+          let coption = newCustomOption(el.id, el.name, dataPoint.y, dataPoint.x)
+          customOptions.push(coption)
+        })
+      })
+
+      // console.log(customOptions)
+
+      return customOptions
+    }
+
     /* Renders the component */
     render() {
       const classes = this.props.classes;
-      const chartItems = this.getOptions();
+      const chartItems = this.getOptions()
+      const customOptions = this.getCustomizedOptions();
+
       return (
         chartItems.data.length > 0 ?
           <Grid item>
-            <CanvasJSChart options = {this.getOptions()} className={classes.chart} />
+            {/* this is the old chart using canvas js */}
+            {/* <CanvasJSChart options = {this.getOptions()} className={classes.chart} /> */}
+            <LineChart
+              minDate={this.props.startTime}
+              maxDate={this.props.endTime}
+              options={customOptions}
+            />
           </Grid>
         :
           <Grid item>
@@ -132,4 +162,12 @@ isDateAfterTimeProp(date) {
       )
     }
 }
+
+const styles = theme => ({
+  chart: {
+    position: 'relative',
+    maxWidth: '75%'
+  }
+});
+
 export default (withStyles)(styles)(Statistic);
