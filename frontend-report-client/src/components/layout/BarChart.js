@@ -8,8 +8,13 @@ import { withStyles } from '@material-ui/styles';
  * 
  */
 class BarChart extends Component {
-  componentDidUpdate() {
-    const canvas = this.refs.canvas
+	constructor(props){
+		super(props)
+		this.canvasRef = React.createRef()
+	}
+
+	componentDidMount() {
+    const canvas = this.canvasRef.current
     canvas.height = 300;
     canvas.width = this.props.width
     // const ctx = canvas.getContext("2d")
@@ -17,7 +22,25 @@ class BarChart extends Component {
 
     var myBarchart = new BarChartGenerator({
 			canvas:canvas,
-			title:"Vinyl records",
+			title:"Bar chart",
+			padding:10,
+			gridColor:"#eeeeee",
+			data: this.props.data,
+			colors:["#a55ca5","#67b6c7", "#bccd7a","#eb9743"]
+		});
+    myBarchart.draw();
+  }
+
+  componentDidUpdate() {
+    const canvas = this.canvasRef.current
+    canvas.height = 300;
+    canvas.width = this.props.width
+    // const ctx = canvas.getContext("2d")
+    // const img = this.refs.image
+
+    var myBarchart = new BarChartGenerator({
+			canvas:canvas,
+			title:"Bar chart",
 			padding:10,
 			gridColor:"#eeeeee",
 			data: this.props.data,
@@ -29,7 +52,7 @@ class BarChart extends Component {
   render(){
     return(
       <>
-        <canvas ref="canvas" className={styles.root}></canvas>
+        <canvas ref={this.canvasRef} className={styles.root}></canvas>
         {/* <legend for="canvas"></legend> */}
       </>
     )
@@ -116,7 +139,10 @@ var BarChartGenerator = function(options){
   this.BarChartGenerator = options;
   this.canvas = options.canvas;
   this.ctx = this.canvas.getContext("2d");
-  this.colors = options.colors;
+	this.colors = options.colors;
+	
+	this.ctx.clearRect(0, 0, options.canvas.width, options.canvas.height);
+
   this.draw = function(){
 		if(options) {
 			var maxValue = 0;

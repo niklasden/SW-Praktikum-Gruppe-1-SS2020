@@ -155,7 +155,8 @@ isDateAfterTimeProp(date) {
       return (
         chartItems.data.length > 0 ?
           <Grid item>
-            <CanvasJSChart options = {this.getOptions()} className={classes.chart} />
+            {/* this is the old chart using canvas js */}
+            {/* <CanvasJSChart options = {this.getOptions()} className={classes.chart} /> */}
             <LineChart
               minDate={this.props.startTime}
               maxDate={this.props.endTime}
