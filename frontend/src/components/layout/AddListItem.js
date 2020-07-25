@@ -30,9 +30,6 @@ class AddListItem extends Component {
     super(props);
     // Inits the state    
     this.state = {
-        item: this.props.item, 
-        article_id: this.props.item.id,
-        category: this.props.item.category,
         selected_shoppinglist: null,
         selected_user_id: null, 
         selected_retailer_id: null,
@@ -107,9 +104,9 @@ class AddListItem extends Component {
  
   /** Insert a new ListentyBO */
   saveItem = () => {   
-    let insertedItem = Object.assign(new ListEntryBO(), this.state.item);
+    let insertedItem = Object.assign(new ListEntryBO(), this.props.item);
     //Insert the parameters of the new ListEnty
-    insertedItem.setArticleid(this.state.article_id);
+    insertedItem.setArticleid(this.props.item.id);
     insertedItem.setShoppinglistid(this.state.selected_shoppinglist);
     insertedItem.setRetailer(null);
     insertedItem.setRetailerid(this.state.selected_retailer_id);
@@ -124,9 +121,22 @@ class AddListItem extends Component {
     
     //Sends new ListEntry Object to the API, in case of Error it logs it
     ShoppingAPI.getAPI().insertListEntry(insertedItem).then(() => {
-      console.log(insertedItem); 
+      // console.log(insertedItem); 
       this.props.PressButtonConfirm()
+
+      this.resetState()
     }).catch(e => console.log(e))
+  }
+
+  /** reset state after saving item */
+  resetState(){
+    this.setState({
+      selected_shoppinglist: null,
+      selected_user_id: null, 
+      selected_retailer_id: null,
+      amount: null, 
+      unit: null,
+    })
   }
 
   /** Renders the component */
@@ -135,7 +145,7 @@ class AddListItem extends Component {
 
     return (
     <Dialog open={this.props.open} aria-labelledby="alert title" aria-describedby="description"> 
-      <DialogTitle id="alert title" style={{textAlign: "center"}}>{"add "+this.state.item.name}</DialogTitle>
+      <DialogTitle id="alert title" style={{textAlign: "center"}}>{"add "+this.props.item.name}</DialogTitle>
       <DialogContent>
 
         <Grid container
