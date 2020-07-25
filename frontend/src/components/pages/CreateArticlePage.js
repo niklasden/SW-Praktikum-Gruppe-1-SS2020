@@ -48,13 +48,11 @@ class CreateArticlePage extends Component {
 	/** Adds an article to the ProductsPage */
 	async onClickSave(){
 		this.setState({ isSaving: true })
-		await timeout(500)
 		let id = this.state.item
 		if ((id === '') && (this.state.name !== '') && (this.state.category !== '')){
 			id = 0
-		} else {
-			this.showErrorSnackBar()
-		}
+		} 
+		
 		const article ={
 			id: id, 
 			name: this.state.name, 
@@ -209,7 +207,7 @@ class CreateArticlePage extends Component {
 									className={styles.CreateButton} 
 									onclick={this.onClickDelete.bind(this)}
 									disabled={this.state.id === ''}
-								>delete</MainButton>
+								>cancel</MainButton>
 							</div>
 						</div>   
 

@@ -33,12 +33,6 @@ const settingsObject = ShoppingSettings.getSettings()
  * @author [Niklas Denneler](https://github.com/niklasden)
  * Renders a Page which allows the User to create a new group and opens a modal to add/delete members via their e-mail.
  * 
- * 
- * ToDo: Outline around Icon
- *       Avatar Image from Google, instead of hardcoded
- *       Error Handling for when user not found.
- *       Error Handling for when the group name already exists.
- * 
  * @author [Julius Jacobitz](https://github.com/JuliusJacobitz)
  * 
  * 

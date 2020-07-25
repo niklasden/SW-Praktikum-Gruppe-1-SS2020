@@ -376,7 +376,6 @@ class UserListOperations(Resource):
             return str(e) """
         
 
-# TODO: uppercase report
 @shopping_v1.route('/report/<int:id>')
 @shopping_v1.response(500,'If an server sided error occures')
 @shopping_v1.param('id', 'Group objects id')
@@ -393,7 +392,6 @@ class testReportGenerator(Resource):
         result = adm.get_report_entries(id)
         return result
 
-# TODO: uppercase report
 
 @shopping_v1.route('/report/top3Retailer/<int:id>')
 @shopping_v1.response(500,'If an server sided error occures')

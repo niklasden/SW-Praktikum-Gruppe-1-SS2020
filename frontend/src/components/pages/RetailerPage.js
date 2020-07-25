@@ -28,7 +28,6 @@ export class RetailerPage extends Component {
   }
 
   /** Fetches RetailerBOs for the current group */
-  // TODO: add group selection to retailers
   async getRetailers(){
     this.setState({
       loadingInProgress: true, 

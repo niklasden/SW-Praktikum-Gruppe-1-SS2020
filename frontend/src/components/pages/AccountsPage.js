@@ -27,9 +27,6 @@ const settingsobj = ShoppingSettings.getSettings()
  * For this reason, there was a profile picture upload function implemented, which is not enabled at the moment.
  * Setting up the Backend/DB side of things took more time, then I anticipated.
  * 
- * ToDo:
- * More advanced error handling
- * 
  */
 class AccountsPage extends Component {
 	constructor(props) {

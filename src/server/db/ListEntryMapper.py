@@ -256,6 +256,26 @@ class ListEntryMapper(Mapper):
             cursor.execute(command)
             self._cnx.commit()
             cursor.close()
+
+            # we need to revert our changes to the listentry to avoid erros when marshalling
+            if listentry.get_retailer() == 'NULL':
+                listentry.set_retailer(None)
+
+            if listentry.get_amount() == 'NULL':
+                listentry.set_amount(None)
+
+            if listentry.get_buy_date() == 'NULL':
+                listentry.set_buy_date(None)
+
+            if listentry.get_user() == 'NULL':
+                listentry.set_user(None)
+
+            if listentry.get_group() == 'NULL':
+                listentry.set_group(None)
+
+            if listentry.get_unit() == 'NULL':
+                listentry.set_unit(None)
+
             return listentry
 
         except Exception as e:

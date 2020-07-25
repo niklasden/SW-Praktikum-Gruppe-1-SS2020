@@ -135,36 +135,6 @@ class SpecificGroup extends Component {
       this.setState({error: e})
     }
   }
-  /*async deleteGroup(id) {
-    this.setState({ isLoading: true })
-    try{
-    const rInit = {
-      method: 'DELETE',
-      credentials: 'include'
-    }
-    const resp = await fetch(Config.apiHost + '/Group/' + id, rInit)
-    if(resp.ok){
-      this.setState({GRsolved : false})
-      this.props.history.push('/Groups')
-      alert("group and all memberships deleted")
-    } else {
-     alert("Fehler !")
-    }
-  } catch(e){alert(e)}
-    this.setState({
-      groupItemss: this.state.groupItemss.filter(elem => elem.id !== id)       
-     // request to db! > delete Group      
-    })
-  
-    if(settingsobj.onlySettingsGetSettingsGroupID() === id){
-      settingsobj.onlySettingsSetSettingsGroupID(0)
-      settingsobj.onlySettingsSetSettingsGroupName("")
-      
-    }
-
-    this.setState({ isLoading: false })
-  }*/
-  
   
   deleteMember(usr) {
     //array kopieren, element löschen, neues array als state setzen
@@ -209,7 +179,6 @@ class SpecificGroup extends Component {
           credentials: 'include',
         }
         let response = await fetch(Config.apiHost + '/shoppinglist/?group_id=' + settingsobj.onlySettingsGetSettingsGroupID(), test);
-        console.log(response);
         let data = await response.json();
         this.setState({shoppinglists: data});
     }
@@ -275,11 +244,10 @@ class SpecificGroup extends Component {
 
   async addShoppingList(event) {
     this.setState({ isLoading: true })
-    var latestShoppinglistID = await this.getAllShoppingLists();
     var newShoppinglistName = this.state.newShoppinglistName;
       try{
           const rb = {
-            id: latestShoppinglistID,
+            id: 0,
             name: newShoppinglistName,
             group_id: settingsobj.onlySettingsGetSettingsGroupID(),
             creationdate: "2020-03-20T14:30:43"
@@ -358,7 +326,6 @@ class SpecificGroup extends Component {
 
   renderGroupMembers(){
     const GroupMembers = []
-    console.log(this.state.groupmembers);
     this.state.groupmembers.forEach( elem => {   
       GroupMembers.push(
         <GroupMember onclick={ this.deleteMember.bind(this, elem)} key={elem.id} imgsrc={elem.imgsrc} membername={elem.name}></GroupMember>
@@ -406,48 +373,6 @@ class SpecificGroup extends Component {
    const handleClickCloseAddShoppinglistDialog = () => {
     this.setState({openAddShoppinglistDialog:false})};
 
-    /*
-    const fetchspecificUser = async () => {
-      try {
-          let response = await fetch(`http://localhost:8081/api/shoppa/groupmembers/$email`);
-          let data = await response.json()
-          this.setState({groupmembers: this.state.groupmembers.concat(data)})
-          
-      }
-      catch (error) {
-          console.log(error)
-      }
-    };
-    */
-  /* 
-    const fetchspecificUser = async (email) => {
-      try {
-          
-          let response = await fetch(Config.apiHost + '/User/email/' + email );
-          let data = await response.json()
-          if (data.name != null){
-            const a = UserExistCheck()
-            console.log(a)
-            
-            /* if(UserExistCheck(data.id) == false)
-            {
-              this.setState({groupmembers: this.state.groupmembers.concat(data)})
-              this.setState({newgroupmembers: this.state.newgroupmembers.concat(data)})
-            }
-            }
-          else{
-            alert("No user with this email!")
-            
-          } 
-         
-      }
-      catch (error) {
-          console.log(error)
-          alert(error)
-      }
-      
-  }; 
-  */
     return (
       <div className={classes.accordion}>
         {error ? 
