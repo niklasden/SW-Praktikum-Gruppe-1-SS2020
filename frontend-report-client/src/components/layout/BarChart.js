@@ -8,7 +8,7 @@ import { withStyles } from '@material-ui/styles';
  * 
  */
 class BarChart extends Component {
-  componentDidMount() {
+  componentDidUpdate() {
     const canvas = this.refs.canvas
     canvas.height = 300;
     canvas.width = this.props.width
