@@ -46,6 +46,7 @@ getNewItem = () => {
     this.setState({loadingInProgress : true})
       ShoppingAPI.getAPI().personalItems(this.state.currentUserID, this.state.groupID)
       .then(items => {
+        console.log(items)
         this.setState({items : items, loadingInProgress : false})
       })
       .catch(e => {
@@ -208,7 +209,7 @@ renderReatailer(){
       retailer.push(item.retailer)
     }
   })
-return retailer
+  return retailer
 }
 
 onClickList(){
@@ -285,22 +286,29 @@ handlePopUp(){
 * If you click Yes in the popup, this function is executed. A new ListEntryBO is created and the purchasing date is set. Checkeditem is "emptied" and 
 * the state is reset 
 */
-PurchaseCompleted(){
+async PurchaseCompleted(){
   let Arr = this.getCheckedArticles()
   
-  Arr.forEach( item => {
+  Arr.forEach( async (item) => {
     let updatedItem = Object.assign(new ListEntryBO(), item);
     updatedItem.setBought("tbs");
     updatedItem.setRetailerid(null)
 
-    ShoppingAPI.getAPI().updateListEntry(updatedItem).catch(e => console.log(e))
-  } )
+    /* console.log(updatedItem) */
+
+    try {
+      await ShoppingAPI.getAPI().updateListEntry(updatedItem)  
+    } catch (e){
+      console.log(e) 
+    } 
+  })
 
   Arr = []
   this.setState({checkedItems : Arr})
-  this.setState({solved : false})
-  this.getNewItem()
-  this.renderMyShoppingList()
+  this.setState({solved : false, loaded: true, loadingInProgress: true})
+  await timeout(1000)
+  this.getNewItem()    
+  // this.renderMyShoppingList()
 
 }
 
