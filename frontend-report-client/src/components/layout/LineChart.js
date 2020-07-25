@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 
+// color array used to get a color for any item in line chart
 const colorArray = [
 	'#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
 	'#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
@@ -14,10 +15,21 @@ const colorArray = [
 ];
 			
 /**
- * https://www.c-sharpcorner.com/UploadFile/18ddf7/html5-line-graph-using-canvas/
+ * Bar Chart, creation heavily influenced by https://www.c-sharpcorner.com/UploadFile/18ddf7/html5-line-graph-using-canvas/
+ * 
+ * @author [Christopher Böhm](https://github.com/christopherboehm1)
+ * 
  */
 export default class LineChart extends Component {
+	componentDidMount(){
+		this.drawLineChart()
+	}
+	
 	componentDidUpdate(){
+		this.drawLineChart()
+	}
+	
+	drawLineChart(){
 		let maxAmount = 0
 		this.props.options.forEach(el => {
 			if (el.amount > maxAmount){
@@ -29,7 +41,6 @@ export default class LineChart extends Component {
 		const minDate = new Date(this.props.minDate)
 		
 		const maxNumberDates = (maxDate.getTime() - minDate.getTime()) / (1000 * 3600 * 24)
-		console.log(maxNumberDates)
 
 		var myLineChart = new LineChartGenerator({  
 			canvasId: "myLineCanvas",  
@@ -58,7 +69,6 @@ export default class LineChart extends Component {
 				nextColor += 1
 			}
 		})
-		console.log(colorMaps)
 
 		// we form a data dict here, so that we get one data object per article including its data points
 		var dataDict = {}
@@ -77,7 +87,7 @@ export default class LineChart extends Component {
 			myLineChart.drawLine(dataDict[key], colorMaps[key], 3)
 		}
 	}
-	
+
 	renderArticles(){
 		const renderedArticles = []
 		const colorMaps = {}
@@ -106,9 +116,9 @@ export default class LineChart extends Component {
 			<>
 				<canvas 
 					id="myLineCanvas" 
-					width="600" 
+					// width="600" 
 					height="300" 
-					// width={this.props.width}
+					width={this.props.width}
 				/>
 				{this.renderArticles()}
 			</>
@@ -147,7 +157,7 @@ function LineChartGenerator(con) {
   this.rangeY = this.maxY - this.minY
   this.numXTicks = Math.round(this.rangeX / this.unitsPerTickX)
   this.numYTicks = Math.round(this.rangeY / this.unitsPerTickY)
-  this.x = this.getLongestValueWidth() + this.padding * 2
+	this.x = this.getLongestValueWidth() + this.padding * 2
   this.y = this.padding * 2
   this.width = this.canvas.width - this.x - this.padding * 2
   this.height = this.canvas.height - this.y - this.padding - this.fontHeight
@@ -163,7 +173,8 @@ LineChartGenerator.prototype.getLongestValueWidth = function(){
   this.context.font = this.font
   var longestValueWidth = 0
   for (var n = 0; n <= this.numYTicks; n++) {  
-		var value = this.maxY - (n * this.unitsPerTickY)
+		// var value = this.maxY - (n * this.unitsPerTickY)
+		var value = Math.round(this.maxY - n * this.maxY / this.numYTicks)
 		longestValueWidth = Math.max(longestValueWidth, this.context.measureText(value).width)
   }  
   return longestValueWidth

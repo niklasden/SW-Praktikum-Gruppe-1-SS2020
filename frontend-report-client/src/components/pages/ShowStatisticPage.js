@@ -49,6 +49,10 @@ class ShowStatisticPage extends Component {
 		this.handleChangeRetailer = this.handleChangeRetailer.bind(this);
 		this.handleChangeStartTime = this.handleChangeStartTime.bind(this);
 		this.handleChangeEndTime = this.handleChangeEndTime.bind(this);
+
+		// we need this to get statistics page width to render the 
+		// charts accordingly
+		this.statRef = React.createRef()
 	}
 
 	/* Change state when category has changed */
@@ -131,7 +135,7 @@ class ShowStatisticPage extends Component {
 		const { error } = this.state;
 		const location = window.location.pathname.split("/", 3); // get the group id out of the URL
 		return (
-			<Grid container style={{padding: '1em'}}>
+			<Grid container style={{padding: '1em'}} ref={this.statRef}>
 				{ error ?
 					<Grid item xs={12}>
 						<ContextErrorMessage error={error} contextErrorMsg={`Data could not be loaded. Check if database server is running.`} />
@@ -193,15 +197,18 @@ class ShowStatisticPage extends Component {
 								/>
 							</Grid>
 						</Grid>
-						<Statistic 
-							id="test-chart" 
-							group={parseInt(location[2])} 
-							retailer={this.state.selectedRetailer} 
-							category={this.state.selectedCategory} 
-							article={this.state.selectedArticle} 
-							startTime={this.state.selectedStartTime} 
-							endTime={this.state.selectedEndTime} 
-						/>
+						{ (this.statRef.current !== null) &&
+							<Statistic 
+								id="test-chart" 
+								group={parseInt(location[2])} 
+								retailer={this.state.selectedRetailer} 
+								category={this.state.selectedCategory} 
+								article={this.state.selectedArticle} 
+								startTime={this.state.selectedStartTime} 
+								endTime={this.state.selectedEndTime} 
+								width={this.statRef.current.offsetWidth - 50}
+							/>
+						}
 					</>
 				}
 			</Grid>

@@ -33,7 +33,7 @@ class AddListItem extends Component {
         selected_shoppinglist: null,
         selected_user_id: null, 
         selected_retailer_id: null,
-        amount: null, 
+        amount: 1, 
         unit: null,
 
         shoppinglists: [],
@@ -134,7 +134,7 @@ class AddListItem extends Component {
       selected_shoppinglist: null,
       selected_user_id: null, 
       selected_retailer_id: null,
-      amount: null, 
+      amount: 1, 
       unit: null,
     })
   }
