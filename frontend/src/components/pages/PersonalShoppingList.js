@@ -363,7 +363,7 @@ render(){
           justify= 'flex-end'
           > 
             <IconButton style={{marginLeft: 10}} size='small' icon='list' onclick={() => this.setState({flag : 'unclicked'})}></IconButton> 
-            <IconButton style={{marginLeft: 10}} size='small' icon='euro' onclick={() => this.setState({flag : 'clicked'})}></IconButton> 
+            <IconButton style={{marginLeft: 10}} size='small' icon='shopping_cart' onclick={() => this.setState({flag : 'clicked'})}></IconButton> 
             <IconButton style={{marginLeft: 10, marginRight: 10}} size='small' icon='done' onclick={() => this.setState({ solved : true })}></IconButton> 
           </Grid>
       </Grid>
