@@ -29,12 +29,10 @@ import AddListItem from './AddListItem';
      item : this.props.item,
      name: this.props.item.name,
      category: this.props.category, 
-     anchorEl: null, 
      open: false
     }
 
     this.handleClick = this.onClickItem.bind(this);
-    //this.handleClose = this.handleClose.bind(this);
     this.PressButtonBack = this.PressButtonBack.bind(this);
     this.PressButtonConfirm = this.PressButtonConfirm.bind(this);
   }
@@ -45,16 +43,10 @@ import AddListItem from './AddListItem';
     this.setState({open : true})
   }
 
-  /** 
-   * Closes the PopUP of the AddListItem.js when an article is clicked */
+  /** Closes the PopUP of the AddListItem.js when an article is clicked */
   onCloseItem() {
     this.setState({open: false})
   }
-
-  /** Sets anchorEl to null 
-  handleClose(){
-    this.setState({anchorEl:null});
-  }; */
   
   /** Handels the onClose event of the back button on the PopUp */
   PressButtonBack(){
