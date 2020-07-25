@@ -5,21 +5,14 @@ import { withStyles } from '@material-ui/core/styles';
 import {Config} from '../../config';
 import LineChart from '../layout/LineChart'
 
+var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+
 /**
  * Displays the timeline chat for the statistic page
  * 
  * @author [Kevin Eberhardt](https://github.com/kevin-eberhardt)
  * 
  */
-
-var CanvasJSChart = CanvasJSReact.CanvasJSChart;
-const styles = theme => ({
-  chart: {
-    position: 'relative',
-    maxWidth: '75%'
-  }
-});
-
 class Statistic extends Component {
   state = {
     time: this.props.time,
@@ -170,4 +163,12 @@ isDateAfterTimeProp(date) {
       )
     }
 }
+
+const styles = theme => ({
+  chart: {
+    position: 'relative',
+    maxWidth: '75%'
+  }
+});
+
 export default (withStyles)(styles)(Statistic);
