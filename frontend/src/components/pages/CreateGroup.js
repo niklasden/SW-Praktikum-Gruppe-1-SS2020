@@ -112,32 +112,6 @@ class CreateGroup extends Component {
 			}
     };
 
-    /** 
-    async deleteGroup(id) {
-      try{
-      const rInit = {
-        method: 'DELETE'
-      }
-      const resp = await fetch(Config.apiHost + '/Group/' + id, rInit)
-      if(resp.ok){
-        this.props.history.push('/Groups')
-      } else {
-       alert("Fehler !")
-      }
-    }catch(e){alert(e)}
-      this.setState({
-              groupItemss: this.state.groupItemss.filter(elem => elem.id !== id)       
-       // request to db! > delete Group      
-     })
-    
-     if(settingsobj.onlySettingsGetSettingsGroupID() == id){
-        settingsobj.onlySettingsSetSettingsGroupID("")
-        settingsobj.onlySettingsSetSettingsGroupName("")
-    }
-    }
-
-    */
-
     const clear = () => {
       this.setState({inputval: '', fetchuser: '',groupnameval:''})
     }

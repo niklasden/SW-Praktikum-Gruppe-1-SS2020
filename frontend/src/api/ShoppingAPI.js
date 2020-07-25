@@ -177,7 +177,6 @@ export default class ShoppingAPI {
      * @public
      */
     insertListEntry(listentryBO) {
-        console.log(listentryBO)
         return this.#fetchAdvanced(this.#insertListEntryURL(), {
             method: 'POST',
             credentials: 'include',
