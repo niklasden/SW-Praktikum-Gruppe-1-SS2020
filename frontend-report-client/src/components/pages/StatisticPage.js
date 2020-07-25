@@ -70,6 +70,7 @@ class StatisticPage extends Component {
 			this.fetchTopRetailers(json[0].id);
 			this.setState({dataLoading: false});
 		}catch(exception) {
+			console.log("error")
 			this.setState({error: exception})
 		}
 	}
@@ -121,7 +122,6 @@ class StatisticPage extends Component {
 		if(settingsOptions.currentUserID !== 0) {
 			this.fetchGroups();
 		}
-
 	}
 
 	/* Renders the component */
@@ -140,6 +140,8 @@ class StatisticPage extends Component {
 				value: d.number_bought
 			})
 		})
+		console.log(productsChartData)
+
 		const { error, dataLoading } = this.state;
 		const classes = this.props.classes;
 		if(settingsOptions.getCurrentUserID() !== 0 && i === 0) {

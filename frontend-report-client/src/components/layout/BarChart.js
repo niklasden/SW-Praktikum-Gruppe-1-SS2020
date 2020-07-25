@@ -20,7 +20,7 @@ class BarChart extends Component {
     // const ctx = canvas.getContext("2d")
     // const img = this.refs.image
 
-    var myBarchart = new BarChartGenerator({
+		var myBarchart = new BarChartGenerator({
 			canvas:canvas,
 			title:"Bar chart",
 			padding:10,
@@ -28,7 +28,8 @@ class BarChart extends Component {
 			data: this.props.data,
 			colors:["#a55ca5","#67b6c7", "#bccd7a","#eb9743"]
 		});
-    myBarchart.draw();
+
+		myBarchart.draw();
   }
 
   componentDidUpdate() {
@@ -38,7 +39,7 @@ class BarChart extends Component {
     // const ctx = canvas.getContext("2d")
     // const img = this.refs.image
 
-    var myBarchart = new BarChartGenerator({
+		var myBarchart = new BarChartGenerator({
 			canvas:canvas,
 			title:"Bar chart",
 			padding:10,
@@ -46,7 +47,7 @@ class BarChart extends Component {
 			data: this.props.data,
 			colors:["#a55ca5","#67b6c7", "#bccd7a","#eb9743"]
 		});
-    myBarchart.draw();
+		myBarchart.draw()
   }
 
   render(){
@@ -147,14 +148,9 @@ var BarChartGenerator = function(options){
 		if(options) {
 			var maxValue = 0;
 			// find highest value of data
-			// for (var categ in options.data){
-			// 	maxValue = Math.max(maxValue,options.data[categ]);
-			// }
-
 			options.data.forEach(el => {
-				maxValue = Math.max(maxValue, el.value)
+				maxValue = Math.max(maxValue, el.value) + 1
 			})
-
 
 			var canvasActualHeight = this.canvas.height - options.padding * 2;
 			var canvasActualWidth = this.canvas.width - options.padding * 2;
@@ -196,7 +192,6 @@ var BarChartGenerator = function(options){
 
 				barIndex++;
 				drawText(this.ctx, barIndex * barSize - barSize + 30, this.canvas.height - 10, "" + el.title + " (" + el.value + ")")
-
 			}) 
 		}
   }
