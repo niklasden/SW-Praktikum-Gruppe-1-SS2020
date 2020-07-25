@@ -7,7 +7,7 @@ class BusinessObject(ABC):
     """
    
     def __init__(self):
-        self._id = 0  
+        self._id = 0  #the unique identification number of the instance of this class
 
     def get_id(self):
         """Auslesen der ID."""

@@ -42,7 +42,7 @@ bo = api.model('BusinessObject',{
 })
 
 """
-Business Objects: Group, ListEntry t.b.f
+Business Objects: Group, ListEntry, user, retailer, report, article, shoppinglist and favourite articles 
 """
 group = api.inherit('Group',bo, {
     'name': fields.String(attribute='name',description="A groups name"),
@@ -604,16 +604,27 @@ class FavoriteArticleOperations(Resource):
         fa = adm.get_FavoriteArticle_by_id(id)
         adm.delete_FavoriteArticle(fa)
 
+
+
 #ListEntry
+#author Niklas Denneler, Pascal Illg
 @shopping_v1.route('/Listentry/allListEntry')
 @shopping_v1.response(500, 'If an server sided error occures')
 class testListEntry(Resource):
     @shopping_v1.marshal_with(listentry)
     @secured
     def get(self):
+        """
+        Read out all the listentry objects.
+        
+        If no listentry objects are available, an empty sequence is returned.
+        """
+
         adm = ShoppingAdministration()
         result = adm.get_all_listentries()
         return result
+
+
 
 @shopping_v1.route('/Listentry/byKey/<int:key>')
 @shopping_v1.response(500, 'If an server sided error occures')
@@ -622,9 +633,16 @@ class testListEntry(Resource):
     @shopping_v1.marshal_with(listentry)
     @secured
     def get(self, key):
+        """
+        Gets an specific ListEntry object.
+
+        The object is determined by the ``id`` in the URI.
+        """
         adm = ShoppingAdministration()
         result = adm.find_listentry_by_key(key)
         return result
+
+
 
 @shopping_v1.route('/Listentry/find_by_retailer/<int:retailer>')
 @shopping_v1.response(500, 'Mach me so hamme kein stress')
@@ -632,10 +650,18 @@ class testListEntry(Resource):
 class testListEntry(Resource):
     @shopping_v1.marshal_with(listentry)
     @secured
-    def get(self, retailer):
+    def get(self, retailer): 
+        """
+        Gets an specific ListEntry object.
+
+        The object is determined by the ``retailer_id`` in the URI.
+        """
+
         adm = ShoppingAdministration()
         result = adm.find_listentry_by_retailer(retailer)
         return result
+
+
 
 @shopping_v1.route('/Listentry/find_by_date/<int:user>')
 @shopping_v1.response(500, 'If an server sided error occures')
@@ -644,9 +670,17 @@ class testListEntry(Resource):
     @shopping_v1.marshal_with(listentry)
     @secured
     def get(self, user):
+        """
+        Gets an specific ListEntry object.
+
+        The object is determined by the ``user_id`` in the URI.
+        """
+
         adm = ShoppingAdministration()
         result = adm.find_listentry_by_purchaser(user)
         return result
+
+
 
 @shopping_v1.route('/Listentry/find_by_purchaser/ <int:purchaser>')
 @shopping_v1.response(500, 'Mach me so hamme kein stress')
@@ -655,9 +689,17 @@ class testListEntry(Resource):
     @shopping_v1.marshal_list_with(listentry)
     @secured
     def get(self, purchaser):
+        """
+        Gets an specific ListEntry object.
+
+        The object is determined by the ``purchaser_id`` in the URI.
+        """
+
         adm = ShoppingAdministration()
         result = adm.find_listentry_by_purchaser(purchaser)
         return result
+
+
 
 @shopping_v1.route('/Listentry')
 @shopping_v1.response(500, 'Server side error occured')
@@ -666,14 +708,14 @@ class ShoppingListOperations(Resource):
     def delete(self):
         """Delete an specific Listentry 
 
-
-        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
         """
         idl = request.args.get('id')
         adm = ShoppingAdministration()
         Listentry = adm.find_listentry_by_key(idl)
         adm.delete_listentry(Listentry)
         return '', 200
+
+
 
 @shopping_v1.route('/Listentry/insert')
 @shopping_v1.response(500, 'If an server sided error occures')
@@ -682,6 +724,10 @@ class testListEntry(Resource):
     @shopping_v1.marshal_with(listentry, skip_none=True)
     @secured
     def post(self):
+        """
+        Creates an specific ListEntry object.
+
+        """
         adm = ShoppingAdministration()
         proposal = ListEntry.from_dict(api.payload)
       
@@ -703,6 +749,9 @@ class testListEntry(Resource):
         else:
             return "", 500
 
+
+
+
 @shopping_v1.route('/Listentry/get_personal_items_of_group')
 @shopping_v1.response(500, 'If an server sided error occures')
 @shopping_v1.param('user_id', "User_ID")
@@ -711,11 +760,19 @@ class testListEntry(Resource):
     @shopping_v1.marshal_list_with(listentry)
     @secured
     def get(self):
+        """
+        Gets an specific ListEntry object.
+
+        The object is determined by the query parameters group_id and user_id.
+        """
+
         user_id = request.args.get('user_id')
         group_id = request.args.get('group_id')
         adm = ShoppingAdministration()
         return adm.get_personal_items_of_group(user_id, group_id)
-        
+
+
+
 @shopping_v1.route('/Listentry/get_items_of_group')
 @shopping_v1.response(500, 'If an server sided error occures')
 @shopping_v1.param('group_id', "Group_ID")
@@ -724,11 +781,18 @@ class testListEntry(Resource):
     @shopping_v1.marshal_with(listentry)
     @secured
     def get(self):
+        """
+        Gets an specific ListEntry object.
+
+        The object is determined by the query parameters group_id and shoppinglist_id.
+        """
+
         group_id = request.args.get('group_id')
         shoppinglist_id = request.args.get('shoppinglist_id')
         adm = ShoppingAdministration()
         result = adm.get_items_of_group(group_id, shoppinglist_id)
         return result
+
 
 
 @shopping_v1.route('/Listentry/update')
@@ -739,6 +803,11 @@ class testListEntry(Resource):
     @shopping_v1.expect(listentry)
     @secured
     def post(self):
+        """
+        updates an exisiting ListEntry object.
+
+        """
+        
         adm = ShoppingAdministration()
         proposal = ListEntry.from_dict(api.payload)
         print(proposal)
@@ -763,6 +832,8 @@ class testListEntry(Resource):
             return res, 200
         else:
             return "", 500
+
+
 
 # TESTING AREA:
 @testing.route('/testSecured')

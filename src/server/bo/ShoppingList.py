@@ -18,10 +18,10 @@ class ShoppingList(bo.BusinessObject):
 
     def __init__(self):
         super().__init__()
-        self._name = ""
-        self._id = ""
-        self._group_id = ""
-        self._creationdate = ""
+        self._name = "" #name of the shoppinglist 
+        self._id = "" #id of the shoppinglist 
+        self._group_id = "" #Foreign key relationship to the ID of the group
+        self._creationdate = "" #creation date of the shoppinglist 
 
     def get_group_id(self):
         """
