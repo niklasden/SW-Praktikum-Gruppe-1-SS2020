@@ -92,7 +92,7 @@ class ShoppingAdministration (object):
             return res
 
     def create_retailer(self, retailer):
-       """  creates an retailer  """
+        """  creates an retailer  """
         with RetailerMapper() as mapper:
             return mapper.insert(retailer)
 
@@ -108,11 +108,10 @@ class ShoppingAdministration (object):
                 #for every ListEntry in db, sets retailer to null 
                 with ListEntryMapper() as lemapper:
                     lemapper.set_retailer_to_null(retailer)
-
             except Exception as e:
                 print(str(e))
             
-            mapper.delete(retailer)
+        mapper.delete(retailer)
 
     def get_all_retailers(self):
         """  returns all existing retailers  """
@@ -262,13 +261,13 @@ class ShoppingAdministration (object):
             
     #Report Kevin
     def get_report_entries(self, group_id = 1):
-         """  returns all reportentrie with the given group id"""
+        """  returns all reportentrie with the given group id"""
         with ReportGenerator() as generator:
             result = generator.get_report(group_id)
             return result
 
     def get_top3Articles(self, group_id = 1):
-         """  returns the top 3 articles """
+        """  returns the top 3 articles """
         with ReportGenerator() as generator:
             result = generator.get_top3_retailer(group_id)
             return result
@@ -352,7 +351,7 @@ class ShoppingAdministration (object):
 
     # ShoppingList Chris/Julius
     def get_shoppinglists_by_group_id(self, group_id):
-         """  returns all shoppinglists with the given group id """
+        """  returns all shoppinglists with the given group id """
         with ShoppingListMapper() as mapper:
             return mapper.find_all_by_group_id(group_id)
 
@@ -385,7 +384,7 @@ class ShoppingAdministration (object):
             return mapper.update(shopping_list)
 
     def get_shoppinglist_by_id(self, list_id):
-       """  returns the shoppinglist with the given id  """
+        """  returns the shoppinglist with the given id  """
         with ShoppingListMapper() as mapper: 
             return mapper.find_by_key(list_id)
 
@@ -402,12 +401,12 @@ class ShoppingAdministration (object):
             return mapper.find_all()
 
     def get_FavoriteArticle_by_id(self,id):
-       """  returns all existing favorite articels with the given id """
+        """  returns all existing favorite articels with the given id """
         with fam() as mapper:
             return mapper.find_by_key(id)
             
     def get_FavoriteArticles_by_groupid(self,gid):
-         """  returns all existing favorite articels with the given group id """
+        """  returns all existing favorite articels with the given group id """
         with fam() as mapper:
             return mapper.find_by_group(gid)
     
@@ -422,6 +421,6 @@ class ShoppingAdministration (object):
             return mapper.update(fa)
     
     def delete_FavoriteArticle(self,fa):
-         """  delets an existing favorite articel with the given id """
+        """  delets an existing favorite articel with the given id """
         with fam() as mapper:
             return mapper.delete(fa)
