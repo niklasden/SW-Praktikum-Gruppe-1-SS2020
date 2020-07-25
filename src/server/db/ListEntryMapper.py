@@ -456,6 +456,21 @@ class ListEntryMapper(Mapper):
 
         return result
 
+    def set_retailer_to_null(self,retailer):
+        """
+        Julius
+        for every listentry where retailer = given retailer -> set it back to null. Used in "ShoppingAdministration.delete_listentry" 
+        """
+        try:
+            cursor = self._cnx.cursor()
+            statement = "UPDATE dev_shoppingproject.Listentry SET Retailer_ID = NULL WHERE Retailer_ID = {}".format(retailer.get_id())
+            cursor.execute(statement)
+
+            self._cnx.commit()
+            cursor.close()
+            return "set to null"
+        except Exception as e:
+            return str(e)
 
 """
 for test purposes only
