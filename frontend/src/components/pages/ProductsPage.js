@@ -223,7 +223,7 @@ const articleIDIconMapper = {
   tea: 'tea', 
   milk: 'milk', 
   cread: 'bread', 
-  beer: 'beermug', 
+  beermug: 'beermug', 
   "orange juice": 'orangejuice', 
   wine: 'wine', 
   cola: 'cola', 

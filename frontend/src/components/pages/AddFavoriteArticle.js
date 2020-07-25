@@ -55,6 +55,7 @@ class AddFavoriteArticle extends Component {
     }
     /*  Fetches the article information based on the ArticleID */
     async getArticles() {
+        this.setState({isLoading: true})
         const json = await fetch(Config.apiHost + "/Article", {credentials: 'include'});
         const res = await json.json();
         res.forEach(article => {
@@ -74,6 +75,7 @@ class AddFavoriteArticle extends Component {
             }
         })
         this.setState({retailer: res})
+        this.setState({isLoading: false})
     }
     /* Saves the article */
     async saveFavArticle() {
@@ -111,10 +113,8 @@ class AddFavoriteArticle extends Component {
     }
     /* Lifecycle method, gets called when component was rendered */
     async componentDidMount() {
-        this.setState({isLoading: true})
         await this.getArticles();
         await this.getRetailer();
-        this.setState({isLoading: false})
     }
     /* Renders the component */
     render() {
