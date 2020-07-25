@@ -50,8 +50,10 @@ class CreateArticlePage extends Component {
 		this.setState({ isSaving: true })
 		await timeout(500)
 		let id = this.state.item
-		if (id === ''){
+		if ((id === '') && (this.state.name !== '') && (this.state.category !== '')){
 			id = 0
+		} else {
+			this.showErrorSnackBar()
 		}
 		const article ={
 			id: id, 

@@ -49,10 +49,12 @@ class EditListItem extends Component {
       savingItemError: null,
     }
      this.saveItem = this.saveItem.bind(this); 
-    //this.getRetailerbyProps = this.getRetailerbyProps.bind(this); 
+    /*  this.getRetailerbyProps = this.getRetailerbyProps.bind(this); */
   }
 
-  /* getRetailerbyProps = () => {
+
+  /* Function is not needed at the moment, was implemented to get the Retailer name
+   getRetailerbyProps = () => {
     var res = "";
     if (this.state.item.retailer !== null){
     this.props.retailer.forEach(item => {
@@ -203,7 +205,7 @@ class EditListItem extends Component {
           SAVE
         </Button>
         <Button onClick={this.props.PressButtonBack} color="primary" autoFocus>
-          BACK
+          CANCEL
         </Button>
       </DialogActions>
       </DialogContent>
