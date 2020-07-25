@@ -32,8 +32,6 @@ class GroupsGridList extends Component {
   /**We have to fetch specific groups with user parameter */
   async fetchGroups(){
     this.setState({ isLoadingGroups: true })
-    // TODO: remove timeout
-    await timeout(1000)
     try {
       if(this.props.currentUserID !== 0 || this.props.currentUserID !== null) {
         const res = await fetch(Config.apiHost + '/Group/Usergroup/'+ this.props.currentUserID, {credentials: 'include'})
