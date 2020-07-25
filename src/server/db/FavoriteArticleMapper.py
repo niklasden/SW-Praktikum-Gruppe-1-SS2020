@@ -165,3 +165,20 @@ class FavoriteArticleMapper(Mapper):
             return "Error in delete FavArticle FavoriteArticleMapper: " + str(e)
 
     
+    def set_retailer_to_null(self,retailer):
+        """
+        Julius
+        for every favorite article where retailer = given retailer -> set it back to null. 
+        """
+        try:
+            cursor = self._cnx.cursor()
+            statement = "UPDATE FavoriteArticle SET Retailer_ID = NULL WHERE Retailer_ID = {}".format(retailer.get_id())
+            cursor.execute(statement)
+
+            self._cnx.commit()
+            cursor.close()
+            return "set to null"
+        except Exception as e:
+            return str(e)
+
+    

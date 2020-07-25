@@ -38,7 +38,6 @@ class CreateRetailerPage extends Component {
       if (id === ""){
         id = 0
       } 
-      console.log('id: ' + id)
 
       const retailer = {
         id: id, 
@@ -46,11 +45,7 @@ class CreateRetailerPage extends Component {
         location: this.state.address
       }
 
-      console.log(retailer)
-  
       const requestBody = JSON.stringify(retailer)
-      console.log(requestBody)
-
       const rInit = {
         method: 'POST', 
         credentials: 'include',

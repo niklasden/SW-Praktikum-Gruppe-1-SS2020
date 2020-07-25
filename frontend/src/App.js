@@ -103,7 +103,6 @@ class App extends React.Component {
 	async addUser(firebaseUser) {
 		var users = await this.getAllUsers();   //to prevent security issues: create route in backend to check if email exists :) 
 		if(users.find(user => user.email === firebaseUser.email) === undefined) {
-			// console.log("User noch nicht in der DB vorhanden, erstelle Neuen.");
 			var latestUserID = await this.getLatestUserID();
 			this.setState({authLoading:true})
 			try{
@@ -127,15 +126,10 @@ class App extends React.Component {
 			  if(resp.ok)  {
 				await window.location.reload()
 				this.setState({authLoading:false})
-				//   console.log("User", rb, "erstellt");
-			  }else {
-				//   console.log("User", rb, "konnte nicht erstellt werden")
 			  }
 		  }catch(e) {
 		  this.setState({error: e})
 		  }
-		}else {
-			// console.log("User bereits in der DB vorhanden", firebaseUser);
 		}
 	  }
 	  
@@ -144,7 +138,6 @@ class App extends React.Component {
 		const res = await json.json();
 		settingsOptions.setCurrentUserID(res.id)
 		this.setState({currentUserID:res.id})
-		//console.log("here" + this.state.currentUserID)
 	}
   /** 
 	 * Create an error boundary for this app and recieve all errors from below the component tree.
@@ -159,7 +152,6 @@ class App extends React.Component {
 	/** Handles firebase usres logged in state changes  */
 	handleAuthStateChange = user => {
 
-		// console.log("handleAuthStateChange ausgeführt")
 		if (user) {
 			this.setState({
 				authLoading: true
@@ -183,7 +175,6 @@ class App extends React.Component {
 				if(this.state.currentUserID === null) {
 					this.addUser(user);
 				}else {
-					// console.log(this.state.currentUserID);
 				}
 			}).catch(e => {
 				this.setState({
@@ -215,7 +206,7 @@ class App extends React.Component {
 		try {
 			await firebase.auth().signInWithRedirect(provider);
 		} catch (e){
-			// console.log(e)
+			console.log(e);
 		}
 	}
 

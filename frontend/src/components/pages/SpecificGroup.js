@@ -190,7 +190,6 @@ class SpecificGroup extends Component {
     try{
       let response = await fetch(Config.apiHost + '/User/email/' + this.state.newMemberName, {credentials: 'include'});
       let newUser = await response.json() 
-      console.log("NEWUSER?", newUser);
       if((newUser && newUser.id)) {
         if(this.state.groupmembers.find(gmember => gmember.id === newUser.id)) {
           alert("User bereits in der Gruppe");
