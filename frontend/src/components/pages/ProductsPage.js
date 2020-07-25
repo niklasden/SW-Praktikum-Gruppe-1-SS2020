@@ -40,27 +40,26 @@ class ProductsPage extends Component {
       loadingInProgress: true, 
       loadingArticleError: null 
     })
-    setTimeout(async () => {
-      try {
-        const init = {
-          method: 'GET',
-          credentials: 'include', 
-        }
-        const res = await fetch(Config.apiHost + '/Article', init);
-        const json = await res.json()
 
-        this.setState({
-          loadingInProgress: false, 
-          loadingArticleError: null, 
-          articles: json, 
-        })
-      } catch (e) {
-        this.setState({
-          loadingInProgress: false, 
-          loadingArticleError: '', 
-        })
-      } 
-    }, 1000)
+    try {
+      const init = {
+        method: 'GET',
+        credentials: 'include', 
+      }
+      const res = await fetch(Config.apiHost + '/Article', init);
+      const json = await res.json()
+
+      this.setState({
+        loadingInProgress: false, 
+        loadingArticleError: null, 
+        articles: json, 
+      })
+    } catch (e) {
+      this.setState({
+        loadingInProgress: false, 
+        loadingArticleError: '', 
+      })
+    } 
   }
 
   /** Lifecycle methods, which is called when the component gets inserted into the browsers DOM */
@@ -99,26 +98,27 @@ class ProductsPage extends Component {
     }
   
    return Object.entries(categories).map(category => (
-        <div key={category[1].id}>
+      <div key={category[1].id}>
 
-          <Heading>{category[0]}</Heading>
+        <Heading>{category[0]}</Heading>
 
-          <Grid container
-          direction ="row">
-           {category[1].map(item => (
-             <ProductListEntry
-             key={item.id}
-             item={item}
-             id={item.id}
-             category={category[0]}
-             name={item.name}
-             iconName={item.iconName}
-             style={{marginBottom:12}}
-             />
-           ))}
-           </Grid>
-        </div>
-      ));
+        <Grid container
+          direction ="row"
+        >
+          {category[1].map(item => (
+            <ProductListEntry
+            key={item.id}
+            item={item}
+            id={item.id}
+            category={category[0]}
+            name={item.name}
+            iconName={item.iconName}
+            style={{marginBottom:12}}
+            />
+          ))}
+        </Grid>
+      </div>
+    ));
   }
 
   /** Renders the component */

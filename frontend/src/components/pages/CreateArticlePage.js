@@ -48,13 +48,11 @@ class CreateArticlePage extends Component {
 	/** Adds an article to the ProductsPage */
 	async onClickSave(){
 		this.setState({ isSaving: true })
-		await timeout(500)
 		let id = this.state.item
 		if ((id === '') && (this.state.name !== '') && (this.state.category !== '')){
 			id = 0
-		} else {
-			this.showErrorSnackBar()
-		}
+		} 
+		
 		const article ={
 			id: id, 
 			name: this.state.name, 

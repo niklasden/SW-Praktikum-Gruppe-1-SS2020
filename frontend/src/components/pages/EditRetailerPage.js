@@ -12,13 +12,6 @@ import { withRouter } from "react-router";
 import { Redirect } from 'react-router';
 import { Config } from '../../config';
 
-const styles = theme => ({
-  root: {
-    backgroundColor: '#fafafa', 
-    borderRadius: 5, 
-  },
-})
-
 /**
  * Renders the page to create, edit or delete a retailer
  * 
@@ -210,5 +203,12 @@ class CreateRetailerPage extends Component {
     )
   }
 } 
+
+const styles = theme => ({
+  root: {
+    backgroundColor: '#fafafa', 
+    borderRadius: 5, 
+  },
+})
 
 export default withRouter(withStyles(styles)(CreateRetailerPage));
