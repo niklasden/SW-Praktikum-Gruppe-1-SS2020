@@ -252,7 +252,7 @@ class AddListItem extends Component {
             SAVE
           </Button>
           <Button onClick={this.props.PressButtonBack} color="primary" autoFocus>
-            BACK
+            CANCEL
           </Button>
         </DialogActions>
       </DialogContent>
