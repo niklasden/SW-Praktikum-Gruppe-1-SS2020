@@ -70,8 +70,6 @@ class ProductsPage extends Component {
   }
 
   changeCurrentItem(item){
-    console.log(item)
-
     this.setState({
       currentItem: item,
       changeItemOpen: true, 
@@ -117,7 +115,7 @@ class ProductsPage extends Component {
         <Grid container
           direction ="row"
         >
-          {category[1].map(item => (
+          {category[1].sort((a, b) => (a.name > b.name) ? 1 : -1).map(item => (
             <ProductListEntry
               key={item.id}
               item={item}

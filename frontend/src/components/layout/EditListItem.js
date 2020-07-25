@@ -110,8 +110,6 @@ class EditListItem extends Component {
     updatedItem.setBought(this.state.bought);
     updatedItem.setRetailer(this.state.selected_retailer);
 
-    console.log(updatedItem)
- 
     //Sends updated ListEntry Object to the API, in case of Error it logs it
     ShoppingAPI.getAPI().updateListEntry(updatedItem).then(() => {
           this.setState({

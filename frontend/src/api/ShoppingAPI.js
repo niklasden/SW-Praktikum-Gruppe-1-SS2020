@@ -20,7 +20,7 @@ export default class ShoppingAPI {
     static #api = null;
 
     //PY Backend
-    #baseServerURL = 'http://backend.ikaufa.com/shopping'; //was port 8081
+    #baseServerURL = 'http://backend.ikaufa.com/shopping'; 
    
 
     // Articles URLs

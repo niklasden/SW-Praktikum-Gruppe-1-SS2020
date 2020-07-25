@@ -46,6 +46,7 @@ getNewItem = () => {
     this.setState({loadingInProgress : true})
       ShoppingAPI.getAPI().personalItems(this.state.currentUserID, this.state.groupID)
       .then(items => {
+        console.log(items)
         this.setState({items : items, loadingInProgress : false})
       })
       .catch(e => {
@@ -180,8 +181,6 @@ renderCheckedCategoryArticles(){
     renderdArticles.push( 
       <CategoryDropDown checkeditems={this.state.checkedItems} handleChange={this.handleChangeCheckbox.bind(this)} Useritems={ArrCheckedArticles} ArrCategory={ArrCheckedArticlesCategory} item={item}></CategoryDropDown>
     )}
-    /* console.log('checked'   + ArrCheckedArticlesCategory);
-    console.log('array'   + ArrCheckedArticles); */
   return renderdArticles;
 };
 
@@ -209,9 +208,8 @@ renderReatailer(){
     if(!retailer.includes(item.retailer)) {
       retailer.push(item.retailer)
     }
-  /*   console.log(retailer) */
   })
-return retailer
+  return retailer
 }
 
 onClickList(){
@@ -230,7 +228,6 @@ getArticleOfRetailer(){
       ArrSelectedRetailer.push(item)
     }
   })
-  /* console.log('ListeÄ ' + ArrSelectedRetailer) */
   return ArrSelectedRetailer
 }
 
@@ -246,7 +243,6 @@ handleChangeRetailer = e =>{
 */
 handleChangeCheckbox(id){
   let Items = this.createUserItem()
-  /* console.log(Items) */
   let checkedItems = this.state.checkedItems
 
   /* 
@@ -256,7 +252,6 @@ handleChangeCheckbox(id){
     checkedItems.forEach( (l,i) => {
       if (l === id){
         checkedItems.splice(i, 1)
-        /* console.log("drin") */
       }
     }
   )}
@@ -291,24 +286,29 @@ handlePopUp(){
 * If you click Yes in the popup, this function is executed. A new ListEntryBO is created and the purchasing date is set. Checkeditem is "emptied" and 
 * the state is reset 
 */
-PurchaseCompleted(){
+async PurchaseCompleted(){
   let Arr = this.getCheckedArticles()
   
-  Arr.forEach( item => {
+  Arr.forEach( async (item) => {
     let updatedItem = Object.assign(new ListEntryBO(), item);
     updatedItem.setBought("tbs");
-    updatedItem.setRetailerid(null)
+    updatedItem.setRetailerid("random-string")
 
     /* console.log(updatedItem) */
 
-    ShoppingAPI.getAPI().updateListEntry(updatedItem).catch(e => console.log(e))
-  } )
+    try {
+      await ShoppingAPI.getAPI().updateListEntry(updatedItem)  
+    } catch (e){
+      console.log(e) 
+    } 
+  })
 
   Arr = []
   this.setState({checkedItems : Arr})
-  this.setState({solved : false})
-  this.getNewItem()
-  this.renderMyShoppingList()
+  this.setState({solved : false, loaded: true, loadingInProgress: true})
+  await timeout(1000)
+  this.getNewItem()    
+  // this.renderMyShoppingList()
 
 }
 

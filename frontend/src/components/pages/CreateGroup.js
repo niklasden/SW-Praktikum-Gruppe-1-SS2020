@@ -97,7 +97,6 @@ class CreateGroup extends Component {
 					
 				let response = await fetch(Config.apiHost + '/User/email/' + email, {credentials: 'include'} );
 				let data = await response.json()
-				console.log(data);
 				if (data.name != null){
 					if(UserExistCheck(data.id) === false){
 						this.setState({groupMembers: this.state.groupMembers.concat(data)})
@@ -107,7 +106,6 @@ class CreateGroup extends Component {
 				}
 			}
 			catch (error) {
-				console.log(error)
 				alert(error)
 			}
     };
@@ -132,10 +130,7 @@ class CreateGroup extends Component {
 					}, 
 					body: requestBody
 				} 
-				const resp = await fetch(Config.apiHost + '/membership', rInit)
-				if(resp.ok){
-					console.log(resp)
-				}
+				await fetch(Config.apiHost + '/membership', rInit)
 			}
 			catch (error){
 				console.log(error)
@@ -160,11 +155,8 @@ class CreateGroup extends Component {
             body: requestBody
           } 
           
-          const resp = await fetch(Config.apiHost + '/membership', rInit)
-          if(resp.ok){
-            console.log(resp)}
+          await fetch(Config.apiHost + '/membership', rInit)
         })
-
       }catch (error){
         console.log(error)
       }
@@ -181,7 +173,6 @@ class CreateGroup extends Component {
           creationdate: "2020-03-20T14:30:43"
         }
         const requestBody = JSON.stringify(group)
-        console.log(requestBody)
 
         const rInit = {
           method: 'POST', 
@@ -196,7 +187,6 @@ class CreateGroup extends Component {
         if(resp.ok){
           try{
             var respjson = await resp.json()
-            //console.log(respjson.id)
             saveMembershipForCurrentUser(respjson.id)
             saveMemberships(respjson.id)
 
@@ -215,17 +205,6 @@ class CreateGroup extends Component {
 				console.log(error)
       } 
     }
-    
-    console.log(groupMembers);
- /*
-   const saveGroup = () => {
-     alert();
-      let newGroup = new GroupBO(this.state.groupnameval, "no description defined in frontend")
-      ShoppingAPI.getAPI().saveGroup(newGroup).then(
-        this.props.history.push('/settings')
-      ).catch(e =>
-        alert(e))
-  }; */
     
     return (
         <Container maxWidth="sm" style={{justifyContent: 'center'}}>

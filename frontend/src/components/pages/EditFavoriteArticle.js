@@ -137,7 +137,6 @@ class EditFavoriteArticle extends Component {
                 creationdate: "2020-07-16T08:32:04.104Z"
             }
             const requestBody = JSON.stringify(rb)
-            console.log(requestBody);
             const rInit = {
               method: 'POST', 
               credentials: 'include',
@@ -146,11 +145,7 @@ class EditFavoriteArticle extends Component {
               }, 
               body: requestBody
             } 
-            const resp = await fetch(Config.apiHost + '/favoriteArticle', rInit)
-            if(resp.ok){
-            } else {
-                console.log(resp);
-            }
+            await fetch(Config.apiHost + '/favoriteArticle', rInit)
         }catch(e) {
         this.setState({error: e})
         }
@@ -168,7 +163,6 @@ class EditFavoriteArticle extends Component {
                 creationdate: "2020-07-16T08:32:04.104Z"
             }
             const requestBody = JSON.stringify(rb)
-            console.log(requestBody);
             const rInit = {
               method: 'POST', 
               credentials: 'include',

@@ -31,9 +31,8 @@ Hochschule der Medien - Modul Software Praktikum (335138b) - Gruppe 1 - Sommerse
 # Frontend - React ⚛️
 All code is located under /frontend. <br>
 As advised per the project requirements we used React & Material-UI.<br>
-Testing for the frontend is done via the fake-http-backend, until our "real" backend is finished.<br>
 To run it install the packages inside the package.json, via your package manager of choice and run it.<br>
-NodeJS comes with the Node Package Manager, which will install all missing dependenciesf from the package.json file<br>
+NodeJS comes with the Node Package Manager, which will install all missing dependencies from the package.json file<br>
 
 ```
 cd /frontend 
@@ -42,11 +41,14 @@ npm start
 ```
 
 # Fake-HTTP-Backend - Just for development purposes
+Testing for the frontend was done via the fake-http-backend.<br>
+This is only useful for the development purposes.
 Files are located inside /http-fake-backend.
 Install via your favourite package manager and run it afterwads.
 It will expose a temporary HTTP Backend @ http://localhost:8081
 To change the config see config.js.
 To change add new routes / change current routes see the python-mockbackend-config.js inside under /server/api/
+
 
 ```
 cd /frontend/http-fake-backend
@@ -55,10 +57,11 @@ npm start
 ```
 
 # Backend - Python / Flask
-We advise you to set up a python virtual enviorment, to keep python clean. <br>
+We advise you to set up a [python virtual envoirnment](https://docs.python.org/3.7/tutorial/venv.html), to keep python clean. <br>
 This codes is tested under python version 3.7 <br>
 All code is located under /src. <br>
 To run the application on your own device, clone the repo. <br>
+Activate your virtual envoirnment, via the activate script.
 Install the requirements inside requirements.txt & run the application by launching main.py <br>
 
 ```
@@ -90,6 +93,7 @@ Depending on the configuration you chose, you need to update the connection stri
 
 # Deployment - Google Cloud Plattform
 Our live version is hosted using the Google App Engine.
+For the deployment the routes need to be changed from localhost to the deployment url. (inside ShoppingAPI.js / config.js)
 [http://ikaufa.com](http://ikaufa.com)
 
 ## Deployment on Google Cloud - Backend
@@ -132,6 +136,6 @@ This allows us to deploy changes to the services individually and we make use of
 Using the dispatch.yaml we redirected routing to the services on a subdomain level.<br>
 This results in the following 3 URLs:<br>
 
-[http://www.ikaufa.com](http://ikaufa.com) (hosts main frontend)<br>
-[http://www.backend.ikaufa.com](http://backend.ikaufa.com) (hosts backend)<br>
-[http://www.report.ikaufa.com](http://report.ikaufa.com) (hosts report client)<br>
+[http://ikaufa.com](http://ikaufa.com) (hosts main frontend)<br>
+[http://backend.ikaufa.com](http://backend.ikaufa.com) (hosts backend)<br>
+[http://report.ikaufa.com](http://report.ikaufa.com) (hosts report client)<br>
