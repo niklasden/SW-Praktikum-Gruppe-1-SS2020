@@ -21,7 +21,6 @@ import {
 } from '@material-ui/core';
 import MainButton from '../layout/MainButton';
 import IconButton from '../layout/IconButton';
-import avatar from '../img/avatar.jpg';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import { Config } from '../../config';
 import { withRouter } from "react-router";
@@ -313,7 +312,7 @@ class CreateGroup extends Component {
                             <ListItem key={item} style={{marginTop: '5px'}}>
                             <ListItemAvatar>
                                 <Avatar>
-                                <Avatar alt="Sabine Mustermann" src={avatar}/>
+                                <Avatar alt="Sabine Mustermann"/>
                                 </Avatar>
                             </ListItemAvatar>
                             <ListItemText
