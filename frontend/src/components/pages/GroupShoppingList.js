@@ -37,7 +37,7 @@ export default class GroupShoppingList extends Component {
       }
     }
  
-
+  /* feteches the exisiting shoppinglists of the group */
   fetchShoppinglists = () => {
     ShoppingAPI.getAPI().getShoppinglistofGroup(settingsobj.getGroupID()).then(shoppinglistBOs => {
       this.setState({
@@ -62,6 +62,7 @@ export default class GroupShoppingList extends Component {
     
   }
 
+  /* feteches all items */
   fetchItems = () => {
     this.setState({items : []});
     ShoppingAPI.getAPI().getItemsofGroup(settingsobj.getGroupID(), settingsobj.getCurrentShoppinglist()).then(listentryBOs => {
