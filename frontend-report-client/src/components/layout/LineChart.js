@@ -35,8 +35,6 @@ export default class LineChart extends Component {
 			canvasId: "myLineCanvas",  
 			minX: 0,
 			minY: 0,
-			maxX: 140,
-			maxY: 100,
 			unitsPerTickX: 1,
 			unitsPerTickY: maxAmount / 10,
 
@@ -55,7 +53,7 @@ export default class LineChart extends Component {
 		let nextColor = 0
 
 		this.props.options.forEach((el, i) => {
-			if (colorMaps[el.article_id] == undefined){
+			if (colorMaps[el.article_id] === undefined){
 				colorMaps[el.article_id] = colorArray[nextColor]
 				nextColor += 1
 			}
@@ -65,7 +63,7 @@ export default class LineChart extends Component {
 		// we form a data dict here, so that we get one data object per article including its data points
 		var dataDict = {}
 		this.props.options.forEach(el => {
-			if (dataDict[el.article_id] == undefined){
+			if (dataDict[el.article_id] === undefined){
 				dataDict[el.article_id] = []
 			} 
 			dataDict[el.article_id].push({
@@ -78,31 +76,6 @@ export default class LineChart extends Component {
 		for (var key in dataDict){
 			myLineChart.drawLine(dataDict[key], colorMaps[key], 3)
 		}
-
-		// var data = [
-		// 	{ x: 0, y: 0 }, 
-		// 	{ x: 20, y: 10 }, 
-		// 	{ x: 40, y: 15 }, 
-		// 	{ x: 60, y: 40 }, 
-		// 	{ x: 80, y: 60 }, 
-		// 	{ x: 100, y: 50 }, 
-		// 	{ x: 120, y: 85 }, 
-		// 	{ x: 140, y: 100 },
-		// ]  
-	
-		// myLineChart.drawLine(data, "blue", 3);  
-	
-		// var data = [
-		// 	{ x: 20, y: 85 }, 
-		// 	{ x: 40, y: 75 }, 
-		// 	{ x: 60, y: 75 }, 
-		// 	{ x: 80, y: 45 }, 
-		// 	{ x: 100, y: 65 }, 
-		// 	{ x: 120, y: 40 }, 
-		// 	{ x: 140, y: 35 },
-		// ]  
-	
-		// myLineChart.drawLine(data, "red", 3);  
 	}
 	
 	renderArticles(){
@@ -111,7 +84,7 @@ export default class LineChart extends Component {
 		let nextColor = 0
 
 		this.props.options.forEach((el, i) => {
-			if (colorMaps[el.article_name] == undefined){
+			if (colorMaps[el.article_name] === undefined){
 				colorMaps[el.article_name] = colorArray[nextColor]
 				nextColor += 1
 
@@ -242,7 +215,7 @@ LineChartGenerator.prototype.drawXAxis = function(){
   // for (var n = 0; n < this.numXTicks; n++) {  
 	for (var n = this.minDate.getDate(); n < this.numXTicks + this.minDate.getDate(); n++){
 		var label = ""
-		if (n % 3 == 0){
+		if (n % 3 === 0){
 			let dayIndex = Math.round((n + 1) * this.maxX / this.numXTicks)
 			let month = this.minDate.getMonth()
 
@@ -251,16 +224,16 @@ LineChartGenerator.prototype.drawXAxis = function(){
 			// providing
 			while(((dayIndex - monthNumberDays[month + 1]) / monthNumberDays[month]) > 0){
 				dayIndex = dayIndex - monthNumberDays[month + 1]
-				if (dayIndex == 0){
+				if (dayIndex === 0){
 					dayIndex = 1
 				}
 				month = month + 1
-				if (month == 13){
+				if (month === 13){
 					month = 1
 				}
 			}
 
-			var label = (dayIndex) + "." + (month + 1) + "."
+			label = (dayIndex) + "." + (month + 1) + "."
 
 		}
 		context.save()

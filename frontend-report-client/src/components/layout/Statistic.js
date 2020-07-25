@@ -18,8 +18,9 @@ class Statistic extends Component {
       data: []
     },
   }
-  /*
-  Method to fetch all bought products
+
+  /**
+    Method to fetch all bought products
   */
   async getBoughtProducts() {
     try {
@@ -48,12 +49,12 @@ class Statistic extends Component {
           newItem.dataPoints.sort((a, b) => b.x - a.x);
           productList.push(newItem);
           articleIDs.push(newItem.id);
-        }else { // else if the item already exists or is fetched, add the incoming data to the existing item 
+        } else { // else if the item already exists or is fetched, add the incoming data to the existing item 
           var includedItem = productList.find(productItem => productItem.id === item.id);
           includedItem.dataPoints.forEach(dP => {
             if (Date.parse(dP.x) === Date.parse(item.bought)) {
               dP.y += item.amount;
-            }else {
+            } else {
               includedItem.dataPoints.push(
                 {
                   x: new Date(item.bought),
@@ -77,6 +78,7 @@ class Statistic extends Component {
   isDateBeforeTimeProp(date) {
     return date.valueOf() <= new Date(this.props.endTime).valueOf();
 }
+
 isDateAfterTimeProp(date) {
   return date.valueOf() >= new Date(this.props.startTime).valueOf();
 }

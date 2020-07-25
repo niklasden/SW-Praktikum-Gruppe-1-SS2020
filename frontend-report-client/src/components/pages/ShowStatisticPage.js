@@ -31,6 +31,7 @@ const initEndDateFullDate = initEndDate.getFullYear() + "-" + initEndDateMonth +
 class ShowStatisticPage extends Component {
 	constructor(props) {
 		super(props);
+		
 		this.state = {
 			retailer: [],
 			products: [],
@@ -42,6 +43,7 @@ class ShowStatisticPage extends Component {
 			error: null,
 			group: null
 		}
+
 		this.handleChangeArticle = this.handleChangeArticle.bind(this);
 		this.handleChangeCategory = this.handleChangeCategory.bind(this);
 		this.handleChangeRetailer = this.handleChangeRetailer.bind(this);
