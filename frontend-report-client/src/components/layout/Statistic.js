@@ -1,11 +1,8 @@
 import React, {Component} from 'react';
 import { Grid } from '@material-ui/core';
-import CanvasJSReact from './statistic/canvasjs.react'
 import { withStyles } from '@material-ui/core/styles';
 import {Config} from '../../config';
 import LineChart from '../layout/LineChart'
-
-var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 /**
  * Displays the timeline chat for the statistic page

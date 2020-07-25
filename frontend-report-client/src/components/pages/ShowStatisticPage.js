@@ -87,7 +87,7 @@ class ShowStatisticPage extends Component {
 				}
 			})
 			this.setState({products: productList})
-		}catch(exception) {
+		} catch(exception) {
 			this.setState({error: exception})
 		}
 	}
