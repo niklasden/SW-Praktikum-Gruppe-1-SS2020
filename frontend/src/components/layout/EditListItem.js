@@ -172,7 +172,6 @@ class EditListItem extends Component {
       <FormControl style={{width: '100%', height: 35, marginLeft: 10, marginBottom: 10}}>
                 <InputLabel>ASSIGN USER</InputLabel>
                 <Select defaultValue={this.state.selected_user_id} value={this.state.selected_user_id} onChange={this.handleChangeUser.bind(this)}>
-                  {console.log(this.state.selected_user_id)}
                   <MenuItem key={null} value={null}>null</MenuItem>
                 {this.props.user.map(item =>{
                     return <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
@@ -187,7 +186,6 @@ class EditListItem extends Component {
       <FormControl style={{width: '100%', height: 35, marginLeft: 10, marginBottom: 10}}>
                <InputLabel>ASSIGN RETAILER</InputLabel>
                <Select defaultValue={this.state.selected_retailer_id} value={this.state.selected_retailer_id} onChange={this.handleChangeRetailer.bind(this)}> 
-               {console.log(this.state.selected_retailer_id)}
                <MenuItem key={null} value={null}>null</MenuItem>
                {this.props.retailer.map(item =>{
                     return <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>

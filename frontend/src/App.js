@@ -183,7 +183,7 @@ class App extends React.Component {
 				if(this.state.currentUserID === null) {
 					this.addUser(user);
 				}else {
-					console.log(this.state.currentUserID);
+					// console.log(this.state.currentUserID);
 				}
 			}).catch(e => {
 				this.setState({
@@ -214,10 +214,8 @@ class App extends React.Component {
 		const provider = new firebase.auth.GoogleAuthProvider();
 		try {
 			await firebase.auth().signInWithRedirect(provider);
-			console.log("redirect successfull")
 		} catch (e){
-			console.log("Error")
-			console.log(e)
+			// console.log(e)
 		}
 	}
 
@@ -230,7 +228,7 @@ class App extends React.Component {
 	componentDidMount() {
 		firebase.initializeApp(this.#firebaseConfig);
 		firebase.auth().languageCode = 'en';
-		firebase.auth().onAuthStateChanged(this.handleAuthStateChange, () => console.log("Error signing in"));
+		firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
 	}
 	
     render(){
