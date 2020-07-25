@@ -6,7 +6,6 @@ import MaterialIconButton from '@material-ui/core/IconButton';
 import { withRouter } from "react-router-dom";
 import CustomIcon from "../layout/CustomIcon"
 
-
 /**
  * Displays an article icon / button as designed in figma
  * 
@@ -35,31 +34,29 @@ import CustomIcon from "../layout/CustomIcon"
      render(){
         const classes = this.props.classes;
         return(
-            
-      <Box 
-        border={1} 
-        borderColor='#e0e0e0'
-        borderRadius={5}
-        style={{display: 'inline-block', margin: '3px', fontFamily: "'Montserrat', sans-serif"}}
+          <Box 
+            border={1} 
+            borderColor='#e0e0e0'
+            borderRadius={5}
+            style={{display: 'inline-block', margin: '3px', fontFamily: "'Montserrat', sans-serif"}}
 
-        onTouchStart={this.handleButtonPress} 
-        onTouchEnd={this.handleButtonRelease} 
-        onMouseDown={this.handleButtonPress} 
-        onMouseUp={this.handleButtonRelease} 
-        onMouseLeave={this.handleButtonRelease}
-      >
-        
-        <MaterialIconButton 
-          className={classes.root}
-        >
-          <div className = {classes.icon}
+            onTouchStart={this.handleButtonPress} 
+            onTouchEnd={this.handleButtonRelease} 
+            onMouseDown={this.handleButtonPress} 
+            onMouseUp={this.handleButtonRelease} 
+            onMouseLeave={this.handleButtonRelease}
           >
-            <CustomIcon iconName ={this.props.iconName}
-            ></CustomIcon>
-            <p className = {classes.itemName}>{this.props.itemname}</p>
-          </div>
-        </MaterialIconButton>
-      </Box>
+            <MaterialIconButton 
+              className={classes.root}
+            >
+              <div className = {classes.icon}
+              >
+                <CustomIcon iconName ={this.props.iconName}
+                ></CustomIcon>
+                <p className = {classes.itemName}>{this.props.itemname}</p>
+              </div>
+            </MaterialIconButton>
+          </Box>
         ) 
      }
 }
@@ -102,4 +99,4 @@ Article.propTypes = {
   category: PropTypes.string.isRequired, 
 }
 
- export default withRouter(withStyles(styles)(Article));
+export default withRouter(withStyles(styles)(Article));

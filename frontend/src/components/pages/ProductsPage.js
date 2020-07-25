@@ -9,6 +9,9 @@ import { Link } from 'react-router-dom';
 import Heading from '../layout/Heading';
 import { Config } from '../../config';
 import ShoppingSettings from '../../shoppingSettings'
+import AddListItem from '../layout/AddListItem';
+
+const settings = ShoppingSettings.getSettings()
 
 /**
  * Renders a list of ArticleEntry objects
@@ -17,11 +20,7 @@ import ShoppingSettings from '../../shoppingSettings'
  * 
  * @author [Pia Schmid](https://github.com/PiaSchmid)
  */
-
-const settings = ShoppingSettings.getSettings()
-
 class ProductsPage extends Component {
-
   //Init the state
   state = {
     searchValue: '',
@@ -32,6 +31,9 @@ class ProductsPage extends Component {
     shoppinglists: [],
     selected_shoppinglist: [], 
     currentGroupID: settings.getGroupID(),
+
+    currentItem: null,
+    changeItemOpen: false, 
   }
 
   /** Fetches ArticleBOs */
@@ -67,6 +69,15 @@ class ProductsPage extends Component {
     this.getProducts()
   }
 
+  changeCurrentItem(item){
+    console.log(item)
+
+    this.setState({
+      currentItem: item,
+      changeItemOpen: true, 
+    })
+  }
+
   /** Renders the Article Objects */
   renderArticles(){
     //set the right icon to the article, in case of no individual icon it returns the specific category icon
@@ -78,6 +89,7 @@ class ProductsPage extends Component {
       }
       return 'advertising'
     }
+
     //reduce creates an array with all articles of the same category
     var categories = this.state.articles.reduce((itemsSoFar, {category, name, id}) => {
       if (!itemsSoFar[category]) itemsSoFar[category] = [];
@@ -107,13 +119,14 @@ class ProductsPage extends Component {
         >
           {category[1].map(item => (
             <ProductListEntry
-            key={item.id}
-            item={item}
-            id={item.id}
-            category={category[0]}
-            name={item.name}
-            iconName={item.iconName}
-            style={{marginBottom:12}}
+              key={item.id}
+              item={item}
+              id={item.id}
+              category={category[0]}
+              name={item.name}
+              iconName={item.iconName}
+              style={{marginBottom:12}}
+              changeCurrentItem={this.changeCurrentItem.bind(this)}
             />
           ))}
         </Grid>
@@ -127,7 +140,7 @@ class ProductsPage extends Component {
 
     return( 
         <Grid container 
-        className={classes.root}
+          className={classes.root}
         >
           <Grid container 
           spacing={1}
@@ -146,21 +159,29 @@ class ProductsPage extends Component {
             </Grid>
           </Grid>
           <div 
-          className= {classes.loading}
+            className= {classes.loading}
           >
             {(this.state.currentGroupID === 0) ? 
               <div style={{marginTop:'20px'}}>
                 No group found!<br /> Switch to HomePage and select your active group!
-                </div>
+              </div>
             :
-            this.state.loadingInProgress ?
+              this.state.loadingInProgress ?
                 <div className = {classes.article}>
                   <CircularProgress size={25} style={{marginTop: 20}} />
                 </div> 
               :  
                 this.renderArticles()
-              }
+            }
           </div>
+          {this.state.currentItem !== null &&
+            <AddListItem
+              open={this.state.changeItemOpen}
+              item={this.state.currentItem}
+              PressButtonBack={() => this.setState({changeItemOpen: false})}
+              PressButtonConfirm={() => this.setState({changeItemOpen: false})}
+            />
+          }
         </Grid>
     )
   }
