@@ -105,7 +105,7 @@ class ListItem extends Component {
     >
         <Grid item xs={2}>
          {/*  Displays the Icon of the Article */}
-          <CustomIcon style={{marginLeft:15, marginTop:0}} iconName={this.state.item.name}></CustomIcon>
+          <CustomIcon style={{marginLeft:15, marginTop:0}} category={this.state.item.category} iconName={this.state.item.name}></CustomIcon>
         </Grid>
         <Grid item xs={5} style={{maxWidth:'100%'}} onClick={() => this.handleClick(this.state.item.id)} >
           {/* Displays the name of the Article */}
@@ -123,7 +123,7 @@ class ListItem extends Component {
           open={this.state.open} 
           item={this.props.item}
           user={this.props.user} 
-          retailer={this.props.retailer} 
+          retailer={this.props.retailer}
           PressButtonBack={() => this.PressButtonBack()}
           PressButtonConfirm={() => this.PressButtonConfirm()}
           onUnitChange={(unit) => this.handleChangeUnit(unit)}
