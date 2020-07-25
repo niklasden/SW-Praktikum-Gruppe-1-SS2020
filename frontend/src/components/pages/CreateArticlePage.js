@@ -207,7 +207,7 @@ class CreateArticlePage extends Component {
 									className={styles.CreateButton} 
 									onclick={this.onClickDelete.bind(this)}
 									disabled={this.state.id === ''}
-								>cancel</MainButton>
+								>delete</MainButton>
 							</div>
 						</div>   
 
