@@ -17,9 +17,9 @@ class Article (bo.BusinessObject):
 
     def __init__(self):
         super().__init__()
-        self._name = "" 
-        self._category = None
-        self._creationdate = None
+        self._name = "" # name of the article 
+        self._category = None # category of the article 
+        self._creationdate = None # creation date of the article 
 
     def get_creationdate(self):
         """
