@@ -304,10 +304,10 @@ class App extends React.Component {
 													<Route path="/creategroup">
 														<CreateGroup/>
 													</Route>
-													<Route path="/specificGroup">
+													<Route path="/specificgroup">
 														<SpecificGroup></SpecificGroup>
 													</Route>
-													<Route path="/allGroups">
+													<Route path="/allgroups">
 														<Groups></Groups>	
 													</Route>
 													<Route path="/settings-accounts">
