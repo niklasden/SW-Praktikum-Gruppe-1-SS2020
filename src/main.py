@@ -138,7 +138,6 @@ class MembershipOperations(Resource):
 @shopping_v1.route('/membership/del')    #2. route becuase we cant use delete http method becuase there are no membership ids (otherwise we could use membership/id with delete method )
 @shopping_v1.response(500,'If an server sided error occures')
 class MembershipOperations(Resource):
-
     """
     payload has to look like:
     
