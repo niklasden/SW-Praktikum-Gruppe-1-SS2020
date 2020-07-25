@@ -109,7 +109,7 @@ class ListItem extends Component {
           {this.props.item.name}
         </Grid>         
         <Grid item xs={3}>
-          {/*  Displays the amount and unit of the Article */}
+          {/*  Displays the amount and unit of the Article, if no unit is provided, amount is not displayed */}
         {this.state.amount !== null && this.state.unit !== 'None'  && this.state.amount+" "+this.state.unit}
         </Grid>
         <Grid item xs={2} onClick={() => this.props.onClickDeleteButton()} >
