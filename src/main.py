@@ -642,8 +642,7 @@ class ShoppingListOperations(Resource):
 
         adm = ShoppingAdministration()
         slist = adm.get_shoppinglist_by_id(id)
-        adm.delete_shoppinglist(slist)
-        return '', 200
+        return  adm.delete_shoppinglist(slist), 200
 
 
 @shopping_v1.route('/shoppinglist/all')

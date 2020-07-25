@@ -269,9 +269,15 @@ class ShoppingAdministration (object):
             return result
     
     def get_items_of_group(self, group_id, shoppinglist_id):
-        """ returns all listentrys which are assigned to a specific group id and shoppinglist id """
+        """ returns all listentrys which are assigned to a specific group id and shoppinglist id and not bought"""
         with ListEntryMapper() as mapper:
             result = mapper.get_items_of_group(group_id, shoppinglist_id)
+            return result
+
+    def get_all_items_of_group(self,group_id, shoppinglist_id):
+        """ returns all listentrys which are assigned to a specific group id and shoppinglist id. including bought ones"""
+        with ListEntryMapper() as mapper:
+            result = mapper.get_all_items_of_group(group_id,shoppinglist_id)
             return result
             
     #Report Kevin
@@ -375,11 +381,12 @@ class ShoppingAdministration (object):
         with ShoppingListMapper() as mapper:
             
             #delete all listentries in Shoppinglist
-            listentries = self.get_items_of_group(shopping_list.get_group_id(),shopping_list.get_id())
+            listentries = self.get_all_items_of_group(shopping_list.get_group_id(),shopping_list.get_id())
+            
             try:
                 for i in listentries:
                     self.delete_listentry(i)
-                
+                    
                 #delete shopping list
                 return mapper.delete(shopping_list)
             

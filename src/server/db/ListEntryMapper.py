@@ -87,7 +87,7 @@ class ListEntryMapper(Mapper):
         cursor = self._cnx.cursor()
         cursor.execute("SELECT ID, Article_ID, Retailer_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought,creationdate from `Listentry` WHERE Retailer_ID={}".format(retailer))
         tuples = cursor.fetchall()
-        print(tuples)
+        
         try: 
             for (id, article_id, retailer_id, shoppinglist_id, user_id, group_id, amount, bought,cd) in tuples:
                 le = ListEntry()
@@ -349,7 +349,7 @@ class ListEntryMapper(Mapper):
                 
             
             command = """UPDATE Listentry SET Article_ID={0}, Retailer_ID={1}, Shoppinglist_ID={2}, User_ID={3}, Group_ID={4}, amount={5}, unit={6}, bought={7} WHERE ID={8}""".format(le.get_article(), retailer, shoppinglist, user, le.get_group(), amount, unit, buydate, le.get_id())
-            print(command)
+
                 
             cursor.execute(command)
             self._cnx.commit()
@@ -421,6 +421,39 @@ class ListEntryMapper(Mapper):
         result = []
         cursor = self._cnx.cursor()
         statement = "SELECT Listentry.ID, Article.name as 'name', Category.name as 'category', Listentry.amount, Listentry.unit, Listentry.Retailer_ID, Listentry.Shoppinglist_ID as 'shoppinglist_id', Listentry.User_ID as 'user_id', Retailer.name as 'retailer', Listentry.Group_ID as 'group_id', Listentry.Article_ID as 'article_id' FROM Listentry LEFT JOIN Retailer ON Listentry.Retailer_ID = Retailer.ID LEFT JOIN Article ON Listentry.Article_ID = Article.ID LEFT JOIN Category ON Article.CategoryID = Category.ID WHERE (Group_ID={0} AND Shoppinglist_ID={1} AND (bought is NULL))".format(group_id, shoppinglist_id)
+
+        cursor.execute(statement)
+        tuples = cursor.fetchall()
+        
+        for (id, name, category, amount, unit,retailer_id, shoppinglist_id, user_id, retailer, group_id, article_id) in tuples:
+            listentry = ListEntry()
+            listentry.set_id(id)
+            listentry.set_name(name)
+            listentry.set_category(category)
+            listentry.set_amount(amount) 
+            listentry.set_unit(unit)
+            listentry.set_retailer_id(retailer_id)
+            listentry.set_shoppinglist(shoppinglist_id)
+            listentry.set_purchaser(user_id)
+            listentry.set_retailer(retailer)
+            listentry.set_group(group_id)
+            listentry.set_article(article_id)
+            result.append(listentry)
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+    
+    def get_all_items_of_group(self, group_id, shoppinglist_id):
+        """
+        Julius - 
+        returns all listentries where group_id and shoppinglist_id are like params
+        similar too "get_items_of_group" but includes bought items
+        """
+        result = []
+        cursor = self._cnx.cursor()
+        statement = "SELECT Listentry.ID, Article.name as 'name', Category.name as 'category', Listentry.amount, Listentry.unit, Listentry.Retailer_ID, Listentry.Shoppinglist_ID as 'shoppinglist_id', Listentry.User_ID as 'user_id', Retailer.name as 'retailer', Listentry.Group_ID as 'group_id', Listentry.Article_ID as 'article_id' FROM Listentry LEFT JOIN Retailer ON Listentry.Retailer_ID = Retailer.ID LEFT JOIN Article ON Listentry.Article_ID = Article.ID LEFT JOIN Category ON Article.CategoryID = Category.ID WHERE (Group_ID={0} AND Shoppinglist_ID={1})".format(group_id, shoppinglist_id)
 
         cursor.execute(statement)
         tuples = cursor.fetchall()

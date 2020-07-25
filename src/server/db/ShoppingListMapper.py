@@ -181,17 +181,18 @@ class ShoppingListMapper(Mapper):
         cursor = self._cnx.cursor()
 
         command = "DELETE FROM Shoppinglist WHERE ID={}".format(shopping_list.get_id())
-        # print(command)
+        
         cursor.execute(command)
 
         self._cnx.commit()
         cursor.close()
+        return "deleted shoppinglist"
 
     def find_latest(self):
         cursor = self._cnx.cursor()
         result = []
         command = "SELECT MAX(id) FROM Shoppinglist"
-        # print(command)
+        
         cursor.execute(command)
         tuples = cursor.fetchall()
         try:
