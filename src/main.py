@@ -68,12 +68,12 @@ retailer = api.inherit('Retailer',bo,{
 listentry = api.inherit('ListEntry',bo, {
     'article_id': fields.Integer(attribute='_article_id',description="Article ID of a listentry"),
     'shoppinglist_id': fields.Integer(attribute='_shoppinglist_id',description="Corresponding Shopping List ID of a listentry"),
-    'user_id': fields.String(attribute='_user_id',description="User ID which the ListEntry is assigned to"),
+    'user_id': fields.Integer(attribute='_user_id',description="User ID which the ListEntry is assigned to"),
     'group_id': fields.Integer(attribute='_group_id',description="Group ID in which the ListEntry belongs to"),
     'amount': fields.String(attribute='_amount',description="Amount of item to be bought"),
     'unit': fields.String(attribute='_unit', description="Unit of item"),
-    'retailer_id': fields.String(attribute='_retailer_id', description='Retailer ID which the ListEntry is assigned to'),
-    'bought': fields.String(attribute='_bought',description="Date when the article was bought"),
+    'retailer_id': fields.Integer(attribute='_retailer_id', description='Retailer ID which the ListEntry is assigned to'),
+    'bought': fields.DateTime(attribute='_bought',description="Date when the article was bought"),
     'name': fields.String(attribute='_name',description="Name of the article"),
     'category': fields.String(attribute='_category',description="Category of the article"),
     'retailer': fields.String(attribute='_retailer',description="Retailer where the items/articles were bought"),
@@ -658,6 +658,22 @@ class testListEntry(Resource):
         adm = ShoppingAdministration()
         result = adm.find_listentry_by_purchaser(purchaser)
         return result
+
+@shopping_v1.route('/Listentry')
+@shopping_v1.response(500, 'Server side error occured')
+class ShoppingListOperations(Resource):
+    @secured
+    def delete(self):
+        """Delete an specific Listentry 
+
+
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        idl = request.args.get('id')
+        adm = ShoppingAdministration()
+        Listentry = adm.find_listentry_by_key(idl)
+        adm.delete_listentry(Listentry)
+        return '', 200
 
 @shopping_v1.route('/Listentry/insert')
 @shopping_v1.response(500, 'If an server sided error occures')
