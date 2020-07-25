@@ -74,7 +74,6 @@ class AccountsPage extends Component {
 			  /*loadingInProgress: false,
 			  loadingError: null*/
 			})
-			/*console.log(user);*/
 			this.splitName(user[0].name);
 			}).catch(e =>
 			  this.setState({ // Reset state with error from catch 

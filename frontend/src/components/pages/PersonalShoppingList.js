@@ -180,8 +180,6 @@ renderCheckedCategoryArticles(){
     renderdArticles.push( 
       <CategoryDropDown checkeditems={this.state.checkedItems} handleChange={this.handleChangeCheckbox.bind(this)} Useritems={ArrCheckedArticles} ArrCategory={ArrCheckedArticlesCategory} item={item}></CategoryDropDown>
     )}
-    /* console.log('checked'   + ArrCheckedArticlesCategory);
-    console.log('array'   + ArrCheckedArticles); */
   return renderdArticles;
 };
 
@@ -209,7 +207,6 @@ renderReatailer(){
     if(!retailer.includes(item.retailer)) {
       retailer.push(item.retailer)
     }
-  /*   console.log(retailer) */
   })
 return retailer
 }
@@ -230,7 +227,6 @@ getArticleOfRetailer(){
       ArrSelectedRetailer.push(item)
     }
   })
-  /* console.log('ListeÄ ' + ArrSelectedRetailer) */
   return ArrSelectedRetailer
 }
 
@@ -246,7 +242,6 @@ handleChangeRetailer = e =>{
 */
 handleChangeCheckbox(id){
   let Items = this.createUserItem()
-  /* console.log(Items) */
   let checkedItems = this.state.checkedItems
 
   /* 
@@ -256,7 +251,6 @@ handleChangeCheckbox(id){
     checkedItems.forEach( (l,i) => {
       if (l === id){
         checkedItems.splice(i, 1)
-        /* console.log("drin") */
       }
     }
   )}
@@ -298,8 +292,6 @@ PurchaseCompleted(){
     let updatedItem = Object.assign(new ListEntryBO(), item);
     updatedItem.setBought("tbs");
     updatedItem.setRetailerid(null)
-
-    /* console.log(updatedItem) */
 
     ShoppingAPI.getAPI().updateListEntry(updatedItem).catch(e => console.log(e))
   } )

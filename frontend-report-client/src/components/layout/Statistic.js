@@ -107,8 +107,6 @@ isDateAfterTimeProp(date) {
           d.dataPoints = d.dataPoints.filter(dd => this.isDateBeforeTimeProp(dd.x) && this.isDateAfterTimeProp(dd.x));
         })
       }
-      // console.log(newList)
-
       return newList;
     }
 
@@ -132,8 +130,6 @@ isDateAfterTimeProp(date) {
           customOptions.push(coption)
         })
       })
-
-      // console.log(customOptions)
 
       return customOptions
     }

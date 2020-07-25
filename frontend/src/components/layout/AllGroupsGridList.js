@@ -45,7 +45,6 @@ class GroupsGridList extends Component {
       }
     } 
     catch (e){
-      console.log(e)
       this.setState({ loadingError: 'Error while connecting to server' })
     }
 

@@ -70,8 +70,6 @@ class ProductsPage extends Component {
   }
 
   changeCurrentItem(item){
-    console.log(item)
-
     this.setState({
       currentItem: item,
       changeItemOpen: true, 

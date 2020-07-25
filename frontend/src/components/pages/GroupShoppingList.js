@@ -45,7 +45,6 @@ export default class GroupShoppingList extends Component {
         loadingInProgress: false,
         loadingShoppinglistsError: null, 
       })
-      /* console.log(shoppingslistBOs); */
     }).catch(e => 
       this.setState({
         shoppinglists: [],
@@ -72,7 +71,6 @@ export default class GroupShoppingList extends Component {
         loadingInProgress: false,
         loadingItemsError: null,  
       })
-      /*console.log(listentryBOs);*/
     }).catch(e => 
         this.setState({
           items: [],
