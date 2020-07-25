@@ -292,7 +292,7 @@ async PurchaseCompleted(){
   Arr.forEach( async (item) => {
     let updatedItem = Object.assign(new ListEntryBO(), item);
     updatedItem.setBought("tbs");
-    updatedItem.setRetailerid(null)
+    updatedItem.setRetailerid("random-string")
 
     /* console.log(updatedItem) */
 
