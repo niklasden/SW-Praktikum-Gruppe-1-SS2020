@@ -6,9 +6,9 @@ class Report(bo.BusinessObject):
     """
     def __init__(self, report_group, report_retailer, report_listentries):
         super().__init__()
-        self._report_group = report_group
-        self._report_retailer = report_retailer
-        self._report_listentries = report_listentries
+        self._report_group = report_group #name of the group
+        self._report_retailer = report_retailer #retailer 
+        self._report_listentries = report_listentries #
         self._top_articles = []
         self._top_retailers = []
 
