@@ -135,7 +135,7 @@ class ShowStatisticPage extends Component {
 		const { error } = this.state;
 		const location = window.location.pathname.split("/", 3); // get the group id out of the URL
 		return (
-			<Grid container style={{padding: '1em'}} ref={this.statRef}>
+			<Grid container style={{padding: '1em', marginBottom: 70}} ref={this.statRef}>
 				{ error ?
 					<Grid item xs={12}>
 						<ContextErrorMessage error={error} contextErrorMsg={`Data could not be loaded. Check if database server is running.`} />
