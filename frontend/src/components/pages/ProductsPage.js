@@ -216,6 +216,7 @@ const articleIDIconMapper = {
   icecream: 'icecream',
   donut: 'donut',
   chips: 'chips',
+  salmon: 'fish',
   popcorn: 'popcorn',
   bombom: 'bomboms',
   chocolate: 'chocolate',
