@@ -55,7 +55,7 @@ class StatisticItem extends Component {
  
 const styles = theme => ({
 	item: {
-		backgroundColor: '##f2f2f2'
+		backgroundColor: '#f2f2f2'
 	}
 })
 
