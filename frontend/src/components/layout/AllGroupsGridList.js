@@ -73,7 +73,7 @@ class GroupsGridList extends Component {
               <GridListTile key={GroupIcon}>
                 <img src={GroupIcon} alt={tile.name} />
                        
-                <Link to="/GroupShoppingList" onClick={() => {settingsobj.setGroupID(tile.id);settingsobj.setGroupName(tile.name)}} aria-label={`info about ${tile.title}`} className={classes.icon}>
+                <Link onClick={() => {settingsobj.setGroupID(tile.id);settingsobj.setGroupName(tile.name)}} aria-label={`info about ${tile.title}`} className={classes.icon}>
                   <GridListTileBar 
                     title={ tile.name}
                     classes={{

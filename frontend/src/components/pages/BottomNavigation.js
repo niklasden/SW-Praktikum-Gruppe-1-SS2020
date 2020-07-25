@@ -21,18 +21,18 @@ import {Link} from 'react-router-dom';
  */
 
 class BottomNavi extends React.Component {
-    state = {
+  constructor(props){
+    super(props)
+    this.changeValue = this.changeValue.bind(this)
+   
+  this.state = {
       value: '0'
     }
-
+  }
     changeValue(e, newValue) {
       this.setState({value: newValue});
     }
     
-    constructor(props){
-      super(props)
-      this.changeValue = this.changeValue.bind(this)
-    }   
   render(){
     const { classes } = this.props;
     return (
@@ -52,7 +52,7 @@ class BottomNavi extends React.Component {
             className={classes.actionItemStyle} 
             component={Link} 
             icon={<PeopleAltIcon />} 
-            to="/GroupShoppingList"
+            to="/groupshoppinglist"
           />
           <BottomNavigationAction 
             className={classes.actionItemStyle} 
@@ -64,7 +64,7 @@ class BottomNavi extends React.Component {
             className={classes.actionItemStyle} 
             component={Link} 
             icon={<ListIcon />} 
-            to="/PersonalShoppingList"
+            to="/personalshoppinglist"
           />
           <BottomNavigationAction 
             className={classes.actionItemStyle} 

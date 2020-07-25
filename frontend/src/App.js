@@ -70,15 +70,13 @@ class App extends React.Component {
         
     // Init an empty state
     this.state = {
-	  	currentUser: null,
+	  currentUser: null,
       appError: null,
       authError: null,
 	  authLoading: false,
 	  isNavHidden: false,
 	  currentUserID: null,
-	  isloaded:false,
-	
-	  
+	  isloaded:false,	  
 	};
 	this.fetchCurrentUserID = this.fetchCurrentUserID.bind(this);
 	}
@@ -241,16 +239,8 @@ class App extends React.Component {
 		//const userr = { name: this.state.currentUser.displayName, id:this.state.currentUserID } //hier muss dann die id übergeben werden .. 
 		document.title = 'iKaufa';
 		const { currentUser,currentUserID, appError, authError, authLoading } = this.state;
-		//console.log(this.state.currentUser, this.state.currentUserID)
-		//const ID = this.state.currentUserID
-		//Context set init values 
-		
-		
 		return (
-			
-				
 				<ThemeProvider theme={Theme}>
-					
 					<div>
 						{/* Global CSS reset and browser normalization. CssBaseline kickstarts an elegant, consistent, and simple baseline to build upon. */}
 						<CssBaseline />
@@ -299,19 +289,19 @@ class App extends React.Component {
 													<Route path="/specificgroup">
 														<SpecificGroup/>
 													</Route>
-													<Route path="/Groups">
+													<Route path="/groups">
 														<Groups></Groups>
 													</Route>
-													<Route path="/GroupShoppingList">
+													<Route path="/groupshoppinglist">
 														<GroupShoppingList/>
 													</Route> 
 													<Route path="/settings">
 														<SettingsPage/>
 													</Route>
-													<Route path="/PersonalShoppingList">
+													<Route path="/personalshoppinglist">
 														<PersonalShoppingList/>
 													</Route>  
-													<Route path="/createGroup">
+													<Route path="/creategroup">
 														<CreateGroup/>
 													</Route>
 													<Route path="/specificGroup">
@@ -326,7 +316,6 @@ class App extends React.Component {
 													<Route path='/report' component={() => { window.location = 'http://report.ikaufa.com/'; return null;} }/>
 													{/* this must always be the last route */}
 													<Route path="/">
-													
 														<HomePage currentUserID={this.state.currentUserID} />
 													</Route>
 												</Switch>
@@ -335,7 +324,7 @@ class App extends React.Component {
 										:
 										// else show the sign in page
 										<>
-											<Redirect to='/index.html' />
+											<Redirect to='/home' />
 											<SignIn onSignIn={this.handleSignIn} />
 										</>
 									}
