@@ -90,9 +90,6 @@ class ListItem extends Component {
   };
 
   render() {
-    console.log(this.state.item)
-    console.log(this.state.user)
-    console.log(this.state.amount)
     return (
     <Grid 
       container
