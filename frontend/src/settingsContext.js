@@ -24,7 +24,6 @@ class SettingsContextProvider extends Component {
 
 
     render(){
-        console.log(this.state.user)
         return ( 
             <SettingsContext.Provider value={{...this.state, setUser: this.setUser,setCurrentGroupID: this.setCurrentGroupID}}>
                 {this.props.children}
