@@ -112,7 +112,7 @@ export default class GroupShoppingList extends Component {
   for (let item in ArrCategory){
     renderdArticles.push(
       <DropDownGSL 
-      key={ArrCategory[0]}
+        key={ArrCategory[0]}
         onClickDeleteButton={this.onClickDelete.bind(this)} 
         ArrCategory={ArrCategory} 
         item={item}
