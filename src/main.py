@@ -73,7 +73,7 @@ listentry = api.inherit('ListEntry',bo, {
     'amount': fields.String(attribute='_amount',description="Amount of item to be bought"),
     'unit': fields.String(attribute='_unit', description="Unit of item"),
     'retailer_id': fields.Integer(attribute='_retailer_id', description='Retailer ID which the ListEntry is assigned to'),
-    'bought': fields.DateTime(attribute='_bought',description="Date when the article was bought"),
+    'bought': fields.String(attribute='_bought',description="Date when the article was bought"),
     'name': fields.String(attribute='_name',description="Name of the article"),
     'category': fields.String(attribute='_category',description="Category of the article"),
     'retailer': fields.String(attribute='_retailer',description="Retailer where the items/articles were bought"),

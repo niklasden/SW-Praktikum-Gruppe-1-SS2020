@@ -432,7 +432,7 @@ class ListEntryMapper(Mapper):
         """
         try:
             cursor = self._cnx.cursor()
-            statement = "UPDATE dev_shoppingproject.Listentry SET Retailer_ID = NULL WHERE Retailer_ID = {}".format(retailer.get_id())
+            statement = "UPDATE Listentry SET Retailer_ID = NULL WHERE Retailer_ID = {}".format(retailer.get_id())
             cursor.execute(statement)
 
             self._cnx.commit()

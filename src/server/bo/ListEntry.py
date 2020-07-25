@@ -250,6 +250,7 @@ class ListEntry(bo.BusinessObject):
         obj.set_amount(dictionary["amount"])
         obj.set_unit(dictionary["unit"])
         obj.set_buy_date(dictionary["bought"])
+        obj.set_buy_date(None)
         obj.set_name(dictionary["name"])
         obj.set_category(dictionary["category"])
 

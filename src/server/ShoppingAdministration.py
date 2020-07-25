@@ -103,15 +103,14 @@ class ShoppingAdministration (object):
 
     def delete_retailer(self, retailer):
         """  delets an retailer """
+        try:
+            #for every ListEntry in db, sets retailer to null 
+            with ListEntryMapper() as lemapper:
+                lemapper.set_retailer_to_null(retailer)
+        except Exception as e:
+            print(str(e))
         with RetailerMapper() as mapper:
-            try:
-                #for every ListEntry in db, sets retailer to null 
-                with ListEntryMapper() as lemapper:
-                    lemapper.set_retailer_to_null(retailer)
-            except Exception as e:
-                print(str(e))
-            
-        mapper.delete(retailer)
+            mapper.delete(retailer)
 
     def get_all_retailers(self):
         """  returns all existing retailers  """
