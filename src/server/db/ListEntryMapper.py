@@ -172,37 +172,6 @@ class ListEntryMapper(Mapper):
         self._cnx.commit()
         cursor.close()
         return result
-
-    """
-    #can be deleted see row 210 redundant?
-    def find_by_checkout(self, date):
-        
-        result = []
-        cursor = self._cnx.cursor()
-        cursor.execute("SELECT ID, Article_ID, Retailer_ID, Shoppinglist_ID, User_ID, Group_ID, amount, bought,creationdate from `Listentry` WHERE bought={}".format(date))
-        tuples = cursor.fetchall()
-        print(tuples)
-        try:
-            for (id, article_id, retailer_id, shoppinglist_id, user_id, group_id, amount, bought,cd) in tuples:
-                le = ListEntry()
-                le.set_id(id)
-                le.set_article(article_id)
-                le.set_retailer(retailer_id)
-                le.set_shoppinglist(shoppinglist_id)
-                le.set_user(user_id)
-                le.set_group(group_id)
-                le.set_amount(amount)
-                le.set_buy_date(bought)
-                le.set_creationdate(cd)
-                result.append(le), 
-                print(result)
-        except IndexError:
-                result = None
-
-        self._cnx.commit()
-        cursor.close()
-        return result
-    """    
     
     def find_by_date_of_purchase(self, date): 
         """
@@ -456,6 +425,21 @@ class ListEntryMapper(Mapper):
 
         return result
 
+    def set_retailer_to_null(self,retailer):
+        """
+        Julius
+        for every listentry where retailer = given retailer -> set it back to null. Used in "ShoppingAdministration.delete_listentry" 
+        """
+        try:
+            cursor = self._cnx.cursor()
+            statement = "UPDATE Listentry SET Retailer_ID = NULL WHERE Retailer_ID = {}".format(retailer.get_id())
+            cursor.execute(statement)
+
+            self._cnx.commit()
+            cursor.close()
+            return "set to null"
+        except Exception as e:
+            return str(e)
 
 """
 for test purposes only

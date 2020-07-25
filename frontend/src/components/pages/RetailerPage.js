@@ -32,18 +32,18 @@ export class RetailerPage extends Component {
   async getRetailers(){
     this.setState({
       loadingInProgress: true, 
-      loadingRetailersError: null 
+      loadingRetailersError: null,
     })
 
     await timeout(500)
     try {
-      const res = await fetch(Config.apiHost + '/Retailer', {credentials: 'include'})
-      const json = await res.json()
+      const res = await fetch(Config.apiHost + '/Retailer', {credentials: 'include'});
+      const json = await res.json();
 
       this.setState({
         loadingInProgress: false, 
         loadingRetailersError: null, 
-        retailers: json
+        retailers: json,
       })
     } catch (e){
       this.setState({
@@ -54,7 +54,7 @@ export class RetailerPage extends Component {
   }
 
   renderRetailers(){
-    let retailers = this.state.retailers
+    let retailers = this.state.retailers;
     if(this.state.searchValue !== ''){
       retailers = retailers.filter((retailer) => retailer.name.toLowerCase().includes(this.state.searchValue.toLowerCase()))
     }

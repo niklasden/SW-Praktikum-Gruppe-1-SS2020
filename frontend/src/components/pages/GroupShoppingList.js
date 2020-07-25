@@ -63,7 +63,7 @@ export default class GroupShoppingList extends Component {
   }
 
   fetchItems = () => {
-    this.setState({items : []})
+    this.setState({items : []});
     ShoppingAPI.getAPI().getItemsofGroup(settingsobj.getGroupID(), settingsobj.getCurrentShoppinglist()).then(listentryBOs => {
       // Set new state when AccountBOs have been fetched
       this.setState({  
@@ -76,13 +76,13 @@ export default class GroupShoppingList extends Component {
         this.setState({
           items: [],
           loadingInProgress: false,
-          loadingItemsError: e 
+          loadingItemsError: e,
         })
       );
       //set loading to true
       this.setState({
         loadingInProgress: true,
-        loadingItemsError: null
+        loadingItemsError: null,
       });
     };
     
@@ -94,7 +94,7 @@ export default class GroupShoppingList extends Component {
    * returns all category in which an article is available
    */
   getCategorys(){
-    let ArrCategory = []
+    let ArrCategory = [];
     this.state.items.map(item => {
       if(!ArrCategory.includes(item.category)){
         ArrCategory.push(item.category)
@@ -108,7 +108,7 @@ export default class GroupShoppingList extends Component {
   * renders all articles per category
   */ 
  renderCategoryArticles(){
-  let renderdArticles = []
+  let renderdArticles = [];
   let ArrCategory = this.getCategorys();
   for (let item in ArrCategory){
     renderdArticles.push(
