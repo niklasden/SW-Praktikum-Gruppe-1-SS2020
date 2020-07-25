@@ -297,7 +297,7 @@ class ListEntryMapper(Mapper):
 
         if listentry.get_article() != "" and listentry.get_article() is not None:
             le.set_article(listentry.get_article())
-        if listentry.get_retailer() != "" or listentry.get_retailer() is not None:
+        if (listentry.get_retailer() != "" or listentry.get_retailer() is not None) and listentry.get_retailer() != "random-string":
             le.set_retailer(listentry.get_retailer())
         if listentry.get_shoppinglist() != "" and listentry.get_shoppinglist() is not None:
             le.set_shoppinglist(listentry.get_shoppinglist())
@@ -309,9 +309,8 @@ class ListEntryMapper(Mapper):
             le.set_amount(listentry.get_amount())
         if listentry.get_unit() != "" or listentry.get_unit() is not None:
             le.set_unit(listentry.get_unit())
-        if listentry.get_buy_date() != "" and listentry.get_buy_date() is not None:
+        if (listentry.get_buy_date() != "" and listentry.get_buy_date() is not None) and listentry.get_retailer() != "random-string":
             le.set_buy_date(listentry.get_buy_date())
-       
 
         try:
             cursor = self._cnx.cursor()
@@ -341,7 +340,7 @@ class ListEntryMapper(Mapper):
             else:
                 user = le.get_user()
             
-            if le.get_buy_date() is None:
+            if le.get_buy_date() is None and listentry.get_buy_date() != "random-string":
                 buydate = 'NULL'
             else:
                 date = datetime.date.today()
@@ -349,7 +348,7 @@ class ListEntryMapper(Mapper):
                 
             
             command = """UPDATE Listentry SET Article_ID={0}, Retailer_ID={1}, Shoppinglist_ID={2}, User_ID={3}, Group_ID={4}, amount={5}, unit={6}, bought={7} WHERE ID={8}""".format(le.get_article(), retailer, shoppinglist, user, le.get_group(), amount, unit, buydate, le.get_id())
-
+            print(command)
                 
             cursor.execute(command)
             self._cnx.commit()

@@ -288,23 +288,21 @@ handlePopUp(){
 */
 async PurchaseCompleted(){
   let Arr = this.getCheckedArticles()
-  
-  Arr.forEach( async (item) => {
+  console.log(Arr)
+
+  Arr.forEach( (item) => {
     let updatedItem = Object.assign(new ListEntryBO(), item);
-    updatedItem.setBought("tbs");
+    updatedItem.setBought("random-string");
     updatedItem.setRetailerid("random-string")
 
     /* console.log(updatedItem) */
 
-    try {
-      await ShoppingAPI.getAPI().updateListEntry(updatedItem)  
-    } catch (e){
-      console.log(e) 
-    } 
+    ShoppingAPI.getAPI().updateListEntry(updatedItem).catch(e => console.log(e)) 
   })
 
   Arr = []
   this.setState({checkedItems : Arr})
+  // this.setState({solved: false})
   this.setState({solved : false, loaded: true, loadingInProgress: true})
   await timeout(1000)
   this.getNewItem()    
