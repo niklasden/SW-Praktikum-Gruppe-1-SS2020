@@ -38,18 +38,18 @@ class ListEntry(bo.BusinessObject):
     """
     def __init__(self):
         super().__init__()
-        self._article_id = None
-        self._retailer_id = None
-        self._shoppinglist_id = None
-        self._user_id = None
-        self._group_id = None
-        self._amount = None
-        self._unit = None
-        self._bought = None
-        self._name = None
-        self._category = None
-        self._retailer = None
-        self._creationdate = None
+        self._article_id = None # Foreign key relationship to the ID of the article
+        self._retailer_id = None # Foreign key relationship to the ID of the retailer
+        self._shoppinglist_id = None # Foreign key relationship to the ID of the shoppinglist
+        self._user_id = None # Foreign key relationship to the ID of the user
+        self._group_id = None # Foreign key relationship to the ID of the group
+        self._amount = None # Amount of the article 
+        self._unit = None # Unit of the article 
+        self._bought = None # date on which the article was purchased
+        self._name = None # Foreign key relationship to the name of the article
+        self._category = None # Foreign key relationship to the category of the article
+        self._retailer = None #Foreign key relationship to the name of the retailer
+        self._creationdate = None # creation date of the ListEntry 
 
     def get_creationdate(self):
         """
