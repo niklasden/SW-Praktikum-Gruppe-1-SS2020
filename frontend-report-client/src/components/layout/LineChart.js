@@ -110,8 +110,6 @@ export default class LineChart extends Component {
 	}
 
 	render(){
-		console.log(this.props.options)
-
 		return (
 			<>
 				<canvas 
@@ -203,10 +201,6 @@ LineChartGenerator.prototype.drawXAxis = function(){
   context.fillStyle = "black"
   context.textAlign = "center"
   context.textBaseline = "middle"
-
-	console.log(this.minDate.getDate())
-	console.log(this.numXTicks)
-	console.log(this.maxX)
 
 	const monthNumberDays = {
 		1: 31, 
