@@ -79,7 +79,7 @@ class ReportGenerator(Mapper):
             SELECT Article.ID, Article.name, Article.CategoryID, SUM(Listentry.amount), Listentry.Group_ID AS number  FROM dev_shoppingproject.Listentry
             LEFT JOIN dev_shoppingproject.Article
             ON Listentry.Article_ID=Article.ID
-            WHERE Listentry.Group_ID={0}
+            WHERE Listentry.Group_ID={0} AND Listentry.bought is not null
             GROUP BY Article.ID
             ORDER BY number DESC
             LIMIT 3
@@ -112,7 +112,7 @@ class ReportGenerator(Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        statement = "SELECT r.ID, r.name, r.location, amount, bought FROM dev_shoppingproject.Listentry as l INNER JOIN dev_shoppingproject.Retailer as r ON l.Retailer_ID = r.ID  WHERE l.Group_ID = {0} GROUP BY r.ID, r.name, r.location ORDER BY amount DESC LIMIT 3;".format(group_id)
+        statement = "SELECT r.ID, r.name, r.location, amount, bought FROM dev_shoppingproject.Listentry as l INNER JOIN dev_shoppingproject.Retailer as r ON l.Retailer_ID = r.ID  WHERE l.Group_ID = {0}  AND l.bought is not null GROUP BY r.ID, r.name, r.location ORDER BY amount DESC LIMIT 3;".format(group_id)
         cursor.execute(statement)
         tuples = cursor.fetchall()
         try:
