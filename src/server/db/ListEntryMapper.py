@@ -297,7 +297,7 @@ class ListEntryMapper(Mapper):
 
         if listentry.get_article() != "" and listentry.get_article() is not None:
             le.set_article(listentry.get_article())
-        if listentry.get_retailer() != "" and listentry.get_retailer() is not None:
+        if listentry.get_retailer() != "" or listentry.get_retailer() is not None:
             le.set_retailer(listentry.get_retailer())
         if listentry.get_shoppinglist() != "" and listentry.get_shoppinglist() is not None:
             le.set_shoppinglist(listentry.get_shoppinglist())
