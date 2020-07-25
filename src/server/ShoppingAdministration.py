@@ -6,6 +6,7 @@ from .db.ArticleMapper import ArticleMapper
 from .bo.Group import Group
 from .bo.ListEntry import ListEntry
 from .bo.FavoriteArticle import FavoriteArticle
+from .bo.ShoppingList import ShoppingList
 #from .db.UserMapper import UserMapper ..
 from .db.UserMapper import UserMapper
 from .db.RetailerMapper import RetailerMapper
@@ -180,11 +181,25 @@ class ShoppingAdministration (object):
     
     def create_group(self,name,description,creationdate):
         """creates a group with given parameters and inserts it into db"""
+        
         group = Group(name,description,creationdate)
         group.set_id(1)
 
         with GroupMapper() as mapper:
-            return mapper.insert(group)
+            g = mapper.insert(group)
+            
+            """create default shoppinglist for group"""
+            ls = ShoppingList()
+            ls.set_group_id(g.get_id())
+            ls.set_name("standard shopping list")
+            ls.set_id(1)
+            self.insert_shoppinglist(ls)
+
+            return g
+
+        
+        
+
 
     #ListEntry Pascal & Niklas:
     def get_all_listentries(self):
