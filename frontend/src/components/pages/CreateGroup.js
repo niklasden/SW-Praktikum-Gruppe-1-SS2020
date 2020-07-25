@@ -21,27 +21,13 @@ import {
 } from '@material-ui/core';
 import MainButton from '../layout/MainButton';
 import IconButton from '../layout/IconButton';
-import avatar from '../img/avatar.jpg';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import { Config } from '../../config';
 import { withRouter } from "react-router";
-import ShoppingSettings from '../../shoppingSettings'
+import ShoppingSettings from '../../shoppingSettings';
 
 const settingsObject = ShoppingSettings.getSettings()
 
-const useStyles = (theme) => ({
-  root: {
-  },
-  icon: {
-		fontSize: 48,
-  },
-  CreateButton: {
-		justifyContent: 'left'
-  },
-  title: {
-		fontWeight: "bold"
-  }
-});
 
 /**
  * @author [Niklas Denneler](https://github.com/niklasden)
@@ -326,7 +312,7 @@ class CreateGroup extends Component {
                             <ListItem key={item} style={{marginTop: '5px'}}>
                             <ListItemAvatar>
                                 <Avatar>
-                                <Avatar alt="Sabine Mustermann" src={avatar}/>
+                                <Avatar alt="Sabine Mustermann"/>
                                 </Avatar>
                             </ListItemAvatar>
                             <ListItemText
@@ -354,6 +340,20 @@ class CreateGroup extends Component {
 CreateGroup.propTypes = {
   icon: PropTypes.string,
 }
+
+const useStyles = (theme) => ({
+  root: {
+  },
+  icon: {
+		fontSize: 48,
+  },
+  CreateButton: {
+		justifyContent: 'left'
+  },
+  title: {
+		fontWeight: "bold"
+  }
+});
 
 //export default withStyles(useStyles, {withTheme: true})(CreateGroup);
 export default withRouter(withStyles(useStyles, {withTheme: true})(CreateGroup));

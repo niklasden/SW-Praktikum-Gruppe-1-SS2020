@@ -4,9 +4,12 @@ import AppBar from '@material-ui/core/AppBar';
 import Grid from '@material-ui/core/Grid';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Menu from './Menu'
+import Menu from './Menu';
 import ProfileDropDown from '../dialogs/ProfileDropDown';
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom';
+import ShoppingSettings from '../../../src/shoppingSettings';
+
+const settings = ShoppingSettings.getSettings()
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,14 +32,16 @@ function Header(props){
   const classes = useStyles();
   const { user } = props;
   let location = useLocation();
-	let title = 'SW-Praktikum'
+	let title = ''
 	const path = location.pathname
 
 	if (path === '/index.html' && user){
 		title = 'Hi ' + user.displayName
-	} else if (path === '/GroupShoppingList'){
-		title = 'Group'
-	}
+	} else if (settings.currentGroupName == ""){
+		title = 'No Group selected'
+  } else {
+    title = settings.currentGroupName
+  }
 
   return (
     <div className={classes.root}>

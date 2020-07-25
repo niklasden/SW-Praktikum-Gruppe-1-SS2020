@@ -16,7 +16,7 @@ export default class ShoppinglistBO extends BusinessObject {
         this.id = i
         this.groupid = g;   
         this.creationdate = cd
-   }
+    }
 
     setName(n) {
         this.name = n

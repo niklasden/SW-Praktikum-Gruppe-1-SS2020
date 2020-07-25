@@ -49,6 +49,7 @@ class StatisticPage extends Component {
 		this.fetchTopProducts(event.target.value);
 		this.fetchTopRetailers(event.target.value);
 	}
+
 	/* Method to check, if user exists in database */
 	async fetchCurrentUserDBID() {
 		const res = await fetch(Config.apiHost + "/User/firebaseid/" + this.props.currentUser.uid);
@@ -78,6 +79,7 @@ class StatisticPage extends Component {
 			var topArticlesList = [], articleIDs = [], i = 1;
 			const res = await fetch(Config.apiHost + "/report/" + group_id);
 			const json = await res.json();
+			json.top_articles.sort((a, b) => (a.number_bought > b.number_bought) ? -1 : 1)
 			json.top_articles.forEach(article => {
 				if(!articleIDs.includes(article.article_id)) {
 					article.rank = i;
@@ -106,10 +108,11 @@ class StatisticPage extends Component {
 				}
 			})
 			this.setState({retailers: topRetailersList})
-		}catch(exception) {
+		} catch(exception) {
 			this.setState({error: exception});
 		}
 	}
+	
 	/* Lifecycle method */
 	componentDidMount() {
 		this.setState({
@@ -148,18 +151,18 @@ class StatisticPage extends Component {
 				{error ?
 					<ContextErrorMessage error={error} contextErrorMsg={`Data could not be loaded. Check if database server is running.`} />
 				:
-				<Grid container style={{padding: '1em', marginBottom: 70}} ref={this.statRef}>
+					<Grid container style={{padding: '1em', marginBottom: 70}} ref={this.statRef}>
 						<LoadingProgress show={dataLoading} />
-						<Heading>GRUPPE AUSWÄHLEN</Heading>
+						<Heading>SELECT A GROUP</Heading>
 						<FormControl className={classes.formControl} >
-								<InputLabel>Gruppe</InputLabel>
+								<InputLabel>Group</InputLabel>
 								<Select value={this.state.selectedGroup} onChange={this.handleChangeGroup} onLoad={this.handleChangeGroup}>
 									{this.state.groups.map(g=> (
 										<MenuItem key={g.id} value={g.id}>{g.name}</MenuItem>
 									))}
 								</Select>
 						</FormControl>
-						<Heading>MEISTBESUCHTE EINZELHÄNDLER</Heading>
+						<Heading>MOST VISITED RETAILERS</Heading>
 						<Grid align='center'>
 							{( (this.statRef.current !== null) && (retailerChartData.length !== 0)) &&
 								<BarChart 
@@ -169,12 +172,12 @@ class StatisticPage extends Component {
 								/>
 							}
 						</Grid>
-						<Grid item xs={12} container spacing={1}>
+						<Grid container spacing={1}>
 							{this.state.retailers.map(retailer => {
 									return <StatisticItem retailer key={retailer.retailer_id} number={retailer.rank} name={retailer.retailer_name} amount={retailer.amount} />
 							})}
 						</Grid>
-						<Heading>MEISTGEKAUFTE ARTIKEL</Heading>
+						<Heading>MOST BOUGHT ARTICLES</Heading>
 						<Grid align='center'>
 							{ ((this.statRef.current !== null) && (productsChartData.length !== 0)) &&
 								<BarChart 
@@ -184,15 +187,16 @@ class StatisticPage extends Component {
 								/>
 							}
 						</Grid>
-						<Grid item xs={12} container spacing={1}>
+						<Grid container spacing={1}>
 							{this.state.products.map(article => {
 								return <StatisticItem article key={article.article_id} number={article.rank} name={article.article_name} amount={article.number_bought} />
 							})}
 						</Grid>
-						
+						<Grid container alignContent="center" justify="center" direction="row">
 						<Link to={`./show/${this.state.selectedGroup}`}>
-							<MainButton>STATISTIK ANZEIGEN</MainButton>
+							<MainButton>Show statistic</MainButton>
 						</Link>
+						</Grid>
 					</Grid>
 				}
 			</>

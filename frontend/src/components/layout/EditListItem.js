@@ -42,16 +42,19 @@ class EditListItem extends Component {
       bought: this.props.item.bought,
       retailer: this.props.retailer,
       selected_user_id: null,
+      selected_retailer_id: null,
       changed_amount: null,
       selected_unit: null,
       savingInProgress: false,
       savingItemError: null,
     }
      this.saveItem = this.saveItem.bind(this); 
-     this.getRetailerbyProps = this.getRetailerbyProps.bind(this);
+    /*  this.getRetailerbyProps = this.getRetailerbyProps.bind(this); */
   }
 
-  getRetailerbyProps = () => {
+
+  /* Function is not needed at the moment, was implemented to get the Retailer name
+   getRetailerbyProps = () => {
     var res = "";
     if (this.state.item.retailer !== null){
     this.props.retailer.forEach(item => {
@@ -61,16 +64,16 @@ class EditListItem extends Component {
       });
     } 
     return res
-  };
+  }; */
 
   componentDidMount(){
-    /*console.log(this.getRetailerbyProps())*/
+    console.log(this.state.item.retailer)
 
     this.setState({
       selected_unit: this.state.item.unit,
       selected_amount: this.state.item.amount,
       selected_user_id: this.state.item.user_id,
-      selected_retailer_id: this.getRetailerbyProps(),
+      selected_retailer_id: this.state.item.retailer_id,
     });
 
   }
@@ -82,6 +85,7 @@ class EditListItem extends Component {
 
   handleChangeUser(v) {
     this.setState({selected_user_id: v.target.value});
+    this.props.onUserChange(v.target.value)
   }
 
   handleChangeRetailer(v) {
@@ -141,6 +145,8 @@ class EditListItem extends Component {
       <CircularLoadingProgress show={savingInProgress} />
       <ContextErrorMessage error={savingItemError} contextErrorMsg={'Failed to save Item'} onReload={this.saveItem}/>
 
+      
+      {/* Creates a drop-down menu in which all units (kg, ml, g...) can be selected.  */}
       <Grid item xs={6} style={{paddingLeft: 25}}>
         <InputLabel>AMOUNT</InputLabel>
         <TextField onChange={this.handleChangeAmount.bind(this)} value={this.state.selected_amount}></TextField>
@@ -161,20 +167,30 @@ class EditListItem extends Component {
                 </Select>
       </FormControl>
       </Grid>
+
+      {/* Creates a drop-down menu in which all users can be selected. The listItem is assigned to the selected user in the drop-down menu.
+      The user can also be reassigned  */}
       <Grid item xs={6} style={{marginTop: 10}}>
       <FormControl style={{width: '100%', height: 35, marginLeft: 10, marginBottom: 10}}>
                 <InputLabel>ASSIGN USER</InputLabel>
                 <Select defaultValue={this.state.selected_user_id} value={this.state.selected_user_id} onChange={this.handleChangeUser.bind(this)}>
+                  {console.log(this.state.selected_user_id)}
+                  <MenuItem key={null} value={null}>null</MenuItem>
                 {this.props.user.map(item =>{
                     return <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
                   })}
                 </Select>
       </FormControl>
       </Grid>
+
+      {/* Creates a drop-down menu in which all retailers can be selected. The listItem is assigned to the selected retailer in the drop-down menu. 
+      The retailer can also be reassigned */}
       <Grid item xs={6} style={{marginTop: 10}}>
       <FormControl style={{width: '100%', height: 35, marginLeft: 10, marginBottom: 10}}>
-                <InputLabel>ASSIGN RETAILER</InputLabel>
+               <InputLabel>ASSIGN RETAILER</InputLabel>
                <Select defaultValue={this.state.selected_retailer_id} value={this.state.selected_retailer_id} onChange={this.handleChangeRetailer.bind(this)}> 
+               {console.log(this.state.selected_retailer_id)}
+               <MenuItem key={null} value={null}>null</MenuItem>
                {this.props.retailer.map(item =>{
                     return <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>
                   })}
@@ -183,12 +199,13 @@ class EditListItem extends Component {
       </Grid>
       </Grid>
 
+      
       <DialogActions style={{justifyContent: "center"}}>
         <Button color="primary" onClick={() => this.saveItem()}>
           SAVE
         </Button>
         <Button onClick={this.props.PressButtonBack} color="primary" autoFocus>
-          BACK
+          CANCEL
         </Button>
       </DialogActions>
       </DialogContent>
@@ -205,6 +222,7 @@ EditListItem.propTypes = {
   PressButtonConfirm: PropTypes.func,
   onAmountChange: PropTypes.func,
   onUnitChange: PropTypes.func,
+  onUserChange: PropTypes.func,
   retailer: PropTypes.array,
   user: PropTypes.array,
   fetchItems: PropTypes.func

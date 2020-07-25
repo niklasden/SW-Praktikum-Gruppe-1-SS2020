@@ -6,36 +6,62 @@ class ListEntry(bo.BusinessObject):
     author: Pascal & Niklas
     @passer Teilweise sind die Methoden nicht mit dennen im Klassendiagramm konsistent, das müssen wir noch erweitern
     Außerdem müssen wir uns bei amount irgendwas einfallen lassen, wird dort einfach eine Zahl gespeichert, dann brauchen wir noch ein Spalte für die Einheit
+    ID attribute needs to be removed
     
-    ToDo: Kommentieren, Klassendiagramm aktualisieren, Spalte "Einheit/Unit" hinzufügen?
+    ToDo: Klassendiagramm aktualisieren
+    Attributes
+    ----------
+    _article_id: int
+        the id of the corresponding article object
+    _retailer_id: int
+        the id of the assigned retailer
+    _shoppinglist_id: int
+        the id of the assigned shoppinglist
+    _user_id: int
+        the unique id of assiged user (which is supposed to buy the article)
+    _group_id: int 
+        the unique id of the assigned group
+    _amount: str
+        the amount which should be bought of a specific article
+    _unit: str
+        the unit in which the product is measured
+    _bought: Date
+        the date when the article was bought
+    _name: str
+        the name of the article which the user wants to buy
+    _category: str
+        the category which an article is assigned to.
+    _retailer: str
+        the retailer which the article is supposed to be bought at
+    _creationdate: DateTime
+        the date the object has been created
     """
     def __init__(self):
         super().__init__()
-        self._id = ""
-        self._article_id = ""
-        self._retailer_id = ""
-        self._shoppinglist_id = ""
-        self._user_id = ""
-        self._group_id = ""
-        self._amount = ""
-        self._unit = ""
-        self._bought = ""
-        self._name = ""
-        self._category = ""
-        self._retailer = ""
+        self._article_id = None
+        self._retailer_id = None
+        self._shoppinglist_id = None
+        self._user_id = None
+        self._group_id = None
+        self._amount = None
+        self._unit = None
+        self._bought = None
+        self._name = None
+        self._category = None
+        self._retailer = None
         self._creationdate = None
 
     def get_creationdate(self):
+        """
+        Niklas
+        """
         return self._creationdate
     
     def set_creationdate(self, cd):
+        """
+        Niklas
+        """
         self._creationdate = cd
-
-    def get_id(self):
-        return self._id
-    #this needs some more thinking
-    def set_id(self, id):
-        self._id = id
 
     def get_article(self):
         """

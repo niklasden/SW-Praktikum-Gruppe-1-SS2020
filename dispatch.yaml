@@ -1,5 +1,5 @@
 # @author [Niklas Denneler](https://github.com/niklasden)
-#This file handles all the traffic routing for our "microservice" architecture
+#This file handles all the traffic routing for our "micro service" architecture
 #Unfortunately the default service can not be deleted inside Google App Engine. 
 dispatch:
     # Send all statistic traffic to the seperate client for report client.

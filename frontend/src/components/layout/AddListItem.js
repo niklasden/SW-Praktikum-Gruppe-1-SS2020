@@ -19,22 +19,8 @@ import CircularProgress from '@material-ui/core/CircularProgress/CircularProgres
 
 const settingsobj = ShoppingSettings.getSettings()
 
-const styles = theme => ({
-  formControl: {
-    width: '90%', 
-    height: 20, 
-    marginLeft: 10, 
-    marginRight:10, 
-    marginBottom: 10
-  },
-  popUp: {
-      width: '300px', 
-      fontSize: '15px',      
-  }
-});
-
 /**
- * Displays an PopUp. 
+ * Displays a PopUp. 
  * 
  * @author [Pia Schmid](https://github.com/PiaSchmid)
  * 
@@ -42,7 +28,7 @@ const styles = theme => ({
 class AddListItem extends Component {
   constructor(props) {
     super(props);
-    
+    // Inits the state    
     this.state = {
         item: this.props.item, 
         article_id: this.props.item.id,
@@ -58,6 +44,7 @@ class AddListItem extends Component {
         retailers: [], 
         units: [
           {id: 'g', name: 'g'},
+          {id: 'kg', name: 'kg'},
           {id: 'l', name: 'l'},
           {id: 'ml', name: 'ml'},
           {id: 'Stk.', name: 'Stk.'},
@@ -69,13 +56,15 @@ class AddListItem extends Component {
      this.saveItem = this.saveItem.bind(this); 
   }
 
-   async fetchShoppinglists() {
-       this.setState({isloading: true})
-       let response = await fetch(Config.apiHost + '/shoppinglist/?group_id=' +settingsobj.getGroupID(), {credentials: 'include'})
-       let data = await response.json()
-       this.setState({shoppinglists: data, isloading:false})
+  /** Fetches ShoppinglistBOs for the current group */
+  async fetchShoppinglists() {
+      this.setState({isloading: true})
+      let response = await fetch(Config.apiHost + '/shoppinglist/?group_id=' +settingsobj.getGroupID(), {credentials: 'include'})
+      let data = await response.json()
+      this.setState({shoppinglists: data, isloading:false})
   }; 
 
+  /** Fetches RetailerBOs */
   async fetchRetailers(){
       this.setState({isloading: true})
       let response = await fetch(Config.apiHost+'/Retailer', {credentials: 'include'})
@@ -83,6 +72,7 @@ class AddListItem extends Component {
       this.setState({retailers:data, isloading:false})
   }
 
+  /** Fetches UserBOs of the current group */
   fetchGroupMembers = () => {
     ShoppingAPI.getAPI().getUsers(settingsobj.getGroupID()).then(userBOs => {
       this.setState({
@@ -93,22 +83,30 @@ class AddListItem extends Component {
       );
   }
 
+  /** Sets the Unit of the ListEntry */
   setUnit(v) {
     this.setState({unit: v.target.value});
   }
+
+  /** Sets the User of the ListEntry */
   setUser(v) {
     this.setState({selected_user_id: v.target.value});
   }
+
+  /** Sets the amount of the ListEntry*/
   setAmount(v) {
     this.setState({amount: v.target.value})
   }
+  
+  /** Lifecycle method, which is called when the component gets inserted into the browsers DOM */
   componentDidMount(){
       this.fetchShoppinglists();
       this.fetchRetailers();
       this.fetchGroupMembers();
   }
-    
-  saveItem = () => {
+ 
+  /** Insert a new ListentyBO */
+  saveItem = () => {   
     let insertedItem = Object.assign(new ListEntryBO(), this.state.item);
     //Insert the parameters of the new ListEnty
     insertedItem.setArticleid(this.state.article_id);
@@ -125,16 +123,17 @@ class AddListItem extends Component {
     insertedItem.setCategory(null);
     
     //Sends new ListEntry Object to the API, in case of Error it logs it
-    ShoppingAPI.getAPI().insertListEntry(insertedItem).then(() => {console.log(insertedItem); this.props.PressButtonConfirm()}).catch(e => console.log(e))
+    ShoppingAPI.getAPI().insertListEntry(insertedItem).then(() => {
+      console.log(insertedItem); 
+      this.props.PressButtonConfirm()
+    }).catch(e => console.log(e))
   }
 
-  
+  /** Renders the component */
   render() {
-
     const  classes  = this.props.classes
 
     return (
-
     <Dialog open={this.props.open} aria-labelledby="alert title" aria-describedby="description"> 
       <DialogTitle id="alert title" style={{textAlign: "center"}}>{"add "+this.state.item.name}</DialogTitle>
       <DialogContent>
@@ -253,7 +252,7 @@ class AddListItem extends Component {
             SAVE
           </Button>
           <Button onClick={this.props.PressButtonBack} color="primary" autoFocus>
-            BACK
+            CANCEL
           </Button>
         </DialogActions>
       </DialogContent>
@@ -261,6 +260,22 @@ class AddListItem extends Component {
     )
 }}
 
+/** Component specific styles */
+const styles = theme => ({
+  formControl: {
+    width: '90%', 
+    height: 20, 
+    marginLeft: 10, 
+    marginRight:10, 
+    marginBottom: 10
+  },
+  popUp: {
+      width: '300px', 
+      fontSize: '15px',      
+  }
+});
+
+/** PropTypes */
 AddListItem.propTypes = {
   onChange: PropTypes.func,
   PressButtonBack: PropTypes.func,

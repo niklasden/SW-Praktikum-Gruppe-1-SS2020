@@ -32,63 +32,67 @@ export default class GroupShoppingList extends Component {
         selected_shoppinglist: [],
         loadingInProgress: false,
         loadingItemsError: null,
-        loadingShoppinglistsError: null
+        loadingShoppinglistsError: null,
+        currentGroupID: settingsobj.getGroupID(),
       }
     }
  
 
-    fetchShoppinglists = () => {
-      ShoppingAPI.getAPI().getShoppinglistofGroup(settingsobj.getGroupID()).then(shoppinglistBOs => {
-        this.setState({
-          shoppinglists: shoppinglistBOs,
-          loadingInProgress: false,
-          loadingShoppinglistsError: null, 
-        })
-        /* console.log(shoppingslistBOs); */
-      }).catch(e => 
-        this.setState({
-          shoppinglists: [],
-          loadingInProgress: false,
-          loadingShoppinglistsError: e 
-        })  
-      );
-      
-      // set loading to true
+  fetchShoppinglists = () => {
+    ShoppingAPI.getAPI().getShoppinglistofGroup(settingsobj.getGroupID()).then(shoppinglistBOs => {
       this.setState({
-        loadingInProgress: true,
-        loadingShoppinglistsError: null
-      });
-      
-    }
-
-    fetchItems = () => {
-      this.setState({items : []})
-      ShoppingAPI.getAPI().getItemsofGroup(settingsobj.getGroupID(), settingsobj.getCurrentShoppinglist()).then(listentryBOs => {
-        // Set new state when AccountBOs have been fetched
-        this.setState({  
-          items: listentryBOs, 
-          loadingInProgress: false,
-          loadingItemsError: null,  
-        })
-        /*console.log(listentryBOs);*/
-      }).catch(e => 
-          this.setState({
-            items: [],
-            loadingInProgress: false,
-            loadingItemsError: e 
-          })
-        );
-        //set loading to true
-        this.setState({
-          loadingInProgress: true,
-          loadingItemsError: null
-        });
-      };
-  
-  componentDidMount() {
-    this.fetchShoppinglists();
+        shoppinglists: shoppinglistBOs,
+        loadingInProgress: false,
+        loadingShoppinglistsError: null, 
+      })
+      /* console.log(shoppingslistBOs); */
+    }).catch(e => 
+      this.setState({
+        shoppinglists: [],
+        loadingInProgress: false,
+        loadingShoppinglistsError: e 
+      })  
+    );
+    
+    // set loading to true
+    this.setState({
+      loadingInProgress: true,
+      loadingShoppinglistsError: null
+    });
+    
   }
 
+  fetchItems = () => {
+    this.setState({items : []})
+    ShoppingAPI.getAPI().getItemsofGroup(settingsobj.getGroupID(), settingsobj.getCurrentShoppinglist()).then(listentryBOs => {
+      // Set new state when AccountBOs have been fetched
+      this.setState({  
+        items: listentryBOs, 
+        loadingInProgress: false,
+        loadingItemsError: null,  
+      })
+      /*console.log(listentryBOs);*/
+    }).catch(e => 
+        this.setState({
+          items: [],
+          loadingInProgress: false,
+          loadingItemsError: e 
+        })
+      );
+      //set loading to true
+      this.setState({
+        loadingInProgress: true,
+        loadingItemsError: null
+      });
+    };
+    
+    componentDidMount() {
+      this.fetchShoppinglists();
+    }
+
+   /*
+   * returns all category in which an article is available
+   */
   getCategorys(){
     let ArrCategory = []
     this.state.items.map(item => {
@@ -100,6 +104,9 @@ export default class GroupShoppingList extends Component {
     return ArrCategory
   }  
  
+  /*
+  * renders all articles per category
+  */ 
  renderCategoryArticles(){
   let renderdArticles = []
   let ArrCategory = this.getCategorys();
@@ -115,8 +122,11 @@ export default class GroupShoppingList extends Component {
         />
     )}
   return renderdArticles
-};
+  };
 
+  /*
+  * renders all articles per category
+  */ 
   onClickDelete(id){
     let Items = [...this.state.items]
     Items.map( item => {
@@ -126,13 +136,18 @@ export default class GroupShoppingList extends Component {
           if(Items[element].id === newItem.id){
             Items.splice(element, 1)
             this.setState({items : Items})
+
+            ShoppingAPI.getAPI().deleteItem(id).catch(e => console.log(e))
           }
         }
       }
       return null
     })
   }
-  
+
+  /*
+  * resets the retailer, user, amount, unit or purchaser
+  */ 
   handleChangeShoppinglist(v){
     this.setState({selected_shoppinglist: v.target.value});
     settingsobj.setCurrentShoppinglist(v.target.value);
@@ -152,14 +167,12 @@ export default class GroupShoppingList extends Component {
       >
        
        <Grid item xs={12}  style={{marginTop: 10, marginBottom: 10}}>
-            <FormControl style={{width: '25ch', height: 35, marginBottom: 15, textAlign: 'center'}}>
+            <FormControl style={{width: '25ch', height: '10ch', marginBottom: 15, textAlign: 'center'}}>
               <InputLabel style={{left:'13%'}}>Select Shopping List</InputLabel>
-              
               <Select value={this.state.selected_shoppinglist} onChange={this.handleChangeShoppinglist.bind(this)}>
                 {this.state.shoppinglists.map((item, key) => 
                     <MenuItem value={item.id}>{item.name}</MenuItem> 
                 )}
-                
               </Select>
             </FormControl>
             <CircularLoadingProgress show={loadingInProgress} />
@@ -168,7 +181,12 @@ export default class GroupShoppingList extends Component {
       </Grid>
   
       <Grid item xs={12} style={{marginBottom: 75, width: '100%'}}>
-        {this.renderCategoryArticles()}
+      {(this.state.currentGroupID === 0) ? 
+              <div style={{marginTop:'20px', textAlign: 'center', fontWeight: 'bold'}}>
+                No group found!<br /> Switch to HomePage and select your active group!
+                </div>
+            : this.renderCategoryArticles()
+      }
       </Grid>
     </Grid>
     ) 
