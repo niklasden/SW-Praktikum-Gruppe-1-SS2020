@@ -48,7 +48,6 @@ class Groups extends Component {
     this.deleteGroup = this.deleteGroup.bind(this);
   }
 
-  // TODO: remove, it is in specific group now
   deleteGroup = (id) => {
     ShoppingAPI.getAPI().deleteGroup(id).then(groupBOs => {
       this.props.history.push('/Groups')
@@ -90,38 +89,6 @@ class Groups extends Component {
     settingsobj.onlySettingsSetSettingsGroupName("")
   };
 
-  // TODO: remove 
-  renderGroupsBackup(){
-    const Groups=[];
-    
-    this.state.groupItems.forEach( elem => {
-      Groups.push(
-        <Grid item xs={6}>
-          {/* Now by clicking on a group we set the settingsgroupid @Julius here we need a parameter to fetch the right group, all groups a user is part of, then specific group hes clicking on */}
-          <Grid
-            container
-            direction="column"
-            justify="center"
-            alignItems="center"
-            style={{marginTop:20}}
-          >
-            <Link 
-              to="" 
-              onClick={ () => {settingsobj.onlySettingsSetSettingsGroupID(elem.id); settingsobj.onlySettingsSetSettingsGroupName(elem.name)}}
-              style={{ textDecoration: 'none' }}
-            >
-              <GroupButton key={elem.id} groupname={elem.name}></GroupButton>
-            </Link>
-            <IconButton  aria-label="delete" className={this.props.classes.margin} style={{padding:0}}>
-              <DeleteIcon onClick={() => this.deleteGroup(elem.id)}  />
-            </IconButton>
-          </Grid>
-        </Grid>
-      )
-    })
-    return Groups
-  } 
-
   renderGroups(){
     const groups = []
 
@@ -143,29 +110,6 @@ class Groups extends Component {
     })
 
     return groups
-  }
-      
-  // TODO: remove
-  render1(){
-    const { classes } = this.props;
-    const { loadingInProgress, loadingError } = this.state;
-    return (
-      <>
-        <Grid container spacing={3} >
-          <div>
-            {this.renderGroupsBackup()}
-          </div>
-          
-          <Grid item xs={12}>
-            <Link to='/createGroup' className={classes.button}>
-              <MainButton className={classes.CreateButton}>Create Group</MainButton>
-            </Link>
-          </Grid> 
-        </Grid>
-        <LoadingProgress show={loadingInProgress}/>
-        <ContextErrorMessage error={loadingError} contextErrorMsg={'The list of alll groups could not be loaded'} onReload={this.getGroups} />
-      </>  
-    )
   }
 
   render(){

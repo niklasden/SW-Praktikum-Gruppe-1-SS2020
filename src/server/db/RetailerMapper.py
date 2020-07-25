@@ -10,7 +10,6 @@ class RetailerMapper (Mapper):
     def __init__(self):
         super().__init__()
 
-    # TODO: only get group specific retailers
     def find_all(self):
         """Get all retailers from database
 
@@ -34,7 +33,6 @@ class RetailerMapper (Mapper):
 
         return result
 
-    # TODO: only get group specific retailers
     def find_by_name(self, name):
         """
         Search for a collection of retailers in database by provided retailer name
@@ -93,33 +91,6 @@ class RetailerMapper (Mapper):
         cursor.close()
 
         return result
-
-    # TODO: remove
-    """def find_by_location(self, location):
-        
-        
-        
-        :param location: Addresse des Einzelhändlers
-        :return: A collection of Retailer-Objects, which contains all Retailers
-        
-        result = []
-        cursor = self._cnx.cursor()
-        command = "SELECT id, name, location,creationdate FROM Retailer WHERE location LIKE '{}' ORDER BY name".format(location)
-        cursor.execute(command)
-        tuples = cursor.fetchall()
-
-        for (id, name, location,cd) in tuples:
-            retailer = Retailer()
-            retailer.set_id(id)
-            retailer.set_name(name)
-            retailer.set_location(location)
-            retailer.set_creationdate(cd)
-            result.append(retailer)
-
-        self._cnx.commit()
-        cursor.close()
-
-        return result"""
 
     def insert(self, retailer):
         """
