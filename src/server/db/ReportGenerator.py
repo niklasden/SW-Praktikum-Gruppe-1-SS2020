@@ -33,7 +33,8 @@ class ReportGenerator(Mapper):
         retailers = []
         articles = []
         cursor = self._cnx.cursor()
-        statement = "SELECT r.id as 'Retailer ID', r.name as 'Retailer Name', r.location as 'Retailer Location',  s.name as 'Shoppinglist Name', u.name as 'Username', g.name as 'Group Name', l.amount as 'Amount', l.bought as 'Bought', a.ID as 'Article ID', a.name as 'Article Name', a.CategoryID FROM dev_shoppingproject.Listentry as l INNER JOIN dev_shoppingproject.Article as a ON l.Article_ID = a.ID INNER JOIN dev_shoppingproject.Retailer as r ON l.Retailer_ID = r.ID INNER JOIN dev_shoppingproject.Shoppinglist as s ON l.Shoppinglist_ID = s.ID INNER JOIN dev_shoppingproject.User as u ON l.User_ID = u.ID INNER JOIN dev_shoppingproject.Group as g ON l.Group_ID = g.ID WHERE l.Group_ID = {0}".format(group_id)
+        statement = "SELECT r.id as 'Retailer ID', r.name as 'Retailer Name', r.location as 'Retailer Location',  s.name as 'Shoppinglist Name', u.name as 'Username', g.name as 'Group Name', l.amount as 'Amount', l.bought as 'Bought', a.ID as 'Article ID', a.name as 'Article Name', a.CategoryID FROM dev_shoppingproject.Listentry as l INNER JOIN dev_shoppingproject.Article as a ON l.Article_ID = a.ID INNER JOIN dev_shoppingproject.Retailer as r ON l.Retailer_ID = r.ID INNER JOIN dev_shoppingproject.Shoppinglist as s ON l.Shoppinglist_ID = s.ID INNER JOIN dev_shoppingproject.User as u ON l.User_ID = u.ID INNER JOIN dev_shoppingproject.Group as g ON l.Group_ID = g.ID WHERE l.Group_ID = {0} AND l.bought is not null".format(group_id)
+
         cursor.execute(statement)
         tuples = cursor.fetchall()
         # in case there is an error in try block we send back empty report
