@@ -157,7 +157,7 @@ function LineChartGenerator(con) {
   this.rangeY = this.maxY - this.minY
   this.numXTicks = Math.round(this.rangeX / this.unitsPerTickX)
   this.numYTicks = Math.round(this.rangeY / this.unitsPerTickY)
-  this.x = this.getLongestValueWidth() + this.padding * 2
+	this.x = this.getLongestValueWidth() + this.padding * 2
   this.y = this.padding * 2
   this.width = this.canvas.width - this.x - this.padding * 2
   this.height = this.canvas.height - this.y - this.padding - this.fontHeight
@@ -173,7 +173,8 @@ LineChartGenerator.prototype.getLongestValueWidth = function(){
   this.context.font = this.font
   var longestValueWidth = 0
   for (var n = 0; n <= this.numYTicks; n++) {  
-		var value = this.maxY - (n * this.unitsPerTickY)
+		// var value = this.maxY - (n * this.unitsPerTickY)
+		var value = Math.round(this.maxY - n * this.maxY / this.numYTicks)
 		longestValueWidth = Math.max(longestValueWidth, this.context.measureText(value).width)
   }  
   return longestValueWidth
