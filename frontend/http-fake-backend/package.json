@@ -50,6 +50,6 @@
     "lab": "^14.3.2",
     "nodemon": "^1.15.0",
     "nsp": "^3.2.1",
-    "standard-version": "^4.3.0"
+    "standard-version": "^8.0.1"
   }
 }
